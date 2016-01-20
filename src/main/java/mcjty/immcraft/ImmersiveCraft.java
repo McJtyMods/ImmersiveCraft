@@ -8,6 +8,7 @@ import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
+import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -62,6 +63,8 @@ public class ImmersiveCraft {
 
     public static class CommonProxy {
         public void preInit(FMLPreInitializationEvent e) {
+            PacketHandler.registerMessages("immcraft");
+
             ConfigSetup.preInit(e);
             ModBlocks.init();
             ModItems.init();
