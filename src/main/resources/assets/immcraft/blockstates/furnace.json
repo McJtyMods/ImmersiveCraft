@@ -6,9 +6,9 @@
     "model": "immcraft:furnace.obj"
 //    "model": "forge:multi-layer",
 //    "custom": {
-//      "base": "gaia:furnace#staticmodel",
-//      "Solid": "gaia:furnace#staticmodel",
-//      "Cutout": "gaia:furnace#cutout"
+//      "base": "immcraft:furnace#staticmodel",
+//      "Solid": "immcraft:furnace#staticmodel",
+//      "Cutout": "immcraft:furnace#cutout"
 //    }
   },
   "variants": {

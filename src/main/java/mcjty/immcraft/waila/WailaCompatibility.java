@@ -22,7 +22,7 @@ public class WailaCompatibility implements IWailaDataProvider {
 
     public static void registerWaila() {
         if(Loader.isModLoaded("Waila")) {
-            FMLInterModComms.sendMessage("Waila", "register", "mcjty.gaia.waila.WailaCompatibility.load");
+            FMLInterModComms.sendMessage("Waila", "register", "mcjty.immcraft.waila.WailaCompatibility.load");
         }
     }
 
