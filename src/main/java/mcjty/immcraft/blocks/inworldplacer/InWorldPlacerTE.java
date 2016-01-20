@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.inworldplacer;
 
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
+import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
@@ -31,5 +32,10 @@ public class InWorldPlacerTE extends GenericInventoryTE {
         }
         // Self destruct
         worldObj.setBlockToAir(getPos());
+    }
+
+    @Override
+    public double getMaxRenderDistanceSquared() {
+        return GeneralConfiguration.maxRenderDistanceSquared;
     }
 }
