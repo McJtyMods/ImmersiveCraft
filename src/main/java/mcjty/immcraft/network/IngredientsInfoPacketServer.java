@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.network;
+package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.varia.BlockPosTools;

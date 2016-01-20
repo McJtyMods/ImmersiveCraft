@@ -13,8 +13,8 @@ public class KeyBindings {
     public static KeyBinding keyPrevItem;
 
     public static void init() {
-        keyNextItem = new KeyBinding("key.nextitem", Keyboard.KEY_LBRACKET, "key.categories.gaia");
-        keyPrevItem = new KeyBinding("key.previtem", Keyboard.KEY_RBRACKET, "key.categories.gaia");
+        keyNextItem = new KeyBinding("key.nextitem", Keyboard.KEY_LBRACKET, "key.categories.immcraft");
+        keyPrevItem = new KeyBinding("key.previtem", Keyboard.KEY_RBRACKET, "key.categories.immcraft");
         ClientRegistry.registerKeyBinding(keyNextItem);
         ClientRegistry.registerKeyBinding(keyPrevItem);
     }

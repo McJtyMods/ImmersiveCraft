@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.network;
+package mcjty.immcraft.network;
 
 
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;

@@ -1,6 +1,8 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
+import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.rendering.HandleTESR;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -10,6 +12,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,10 +22,17 @@ import java.util.Random;
 public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
 
     public InWorldPlacerBlock() {
-        super(Material.ground, "inWorldPlacer", InWorldPlacerTE.class);
+        super(Material.ground, "in_world_placer", InWorldPlacerTE.class);
         setHardness(0.0f);
         setStepSound(soundTypeWood);
         setBlockBounds(0, 0, 0, 1, .1f, 1);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void initModel() {
+        super.initModel();
+        ClientRegistry.bindTileEntitySpecialRenderer(InWorldPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldPlacerBlock));
     }
 
     @Override

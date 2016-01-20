@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.network;
+package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.entity.EntityPlayerSP;
