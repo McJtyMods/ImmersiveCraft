@@ -2,10 +2,12 @@ package mcjty.immcraft;
 
 
 import mcjty.immcraft.blocks.ModBlocks;
+import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ClientForgeEventHandlers;
 import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
+import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -59,17 +61,19 @@ public class ImmersiveCraft {
 
     public static class CommonProxy {
         public void preInit(FMLPreInitializationEvent e) {
-            // Initialization of blocks and items typically goes here:
+            ConfigSetup.preInit(e);
             ModBlocks.init();
 //            ModItems.init();
+            WorldGen.init();
         }
 
         public void init(FMLInitializationEvent e) {
             MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+            ModBlocks.initCrafting();
         }
 
         public void postInit(FMLPostInitializationEvent e) {
-
+            ConfigSetup.postInit();
         }
     }
 

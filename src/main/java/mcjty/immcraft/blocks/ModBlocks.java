@@ -3,6 +3,10 @@ package mcjty.immcraft.blocks;
 import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerBlock;
+import mcjty.immcraft.config.GeneralConfiguration;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,6 +32,12 @@ public class ModBlocks {
         sticksBlock = new SticksBlock();
 //        chestBlock = new ChestBlock();
 //        cupboardBlock = new CupboardBlock();
+    }
+
+    public static void initCrafting() {
+        if (GeneralConfiguration.rockRecipe) {
+            GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.rockBlock, 9), new ItemStack(Blocks.cobblestone));
+        }
     }
 
     @SideOnly(Side.CLIENT)
