@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+    },
+    "model": "immcraft:workbenchLeft.obj"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": { "gui": {"scale": 1}}
+    }],
+    "facing": {
+      "south": {},
+      "north": {"y": 180},
+      "east": {"y": 270},
+      "west": {"y": 90}
+    }
+  }
+
+}

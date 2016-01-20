@@ -6,6 +6,8 @@ import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
 import mcjty.immcraft.blocks.furnace.FurnaceBlock;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerBlock;
+import mcjty.immcraft.blocks.workbench.WorkbenchBlock;
+import mcjty.immcraft.blocks.workbench.WorkbenchSecondaryBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,8 +17,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModBlocks {
     public static FurnaceBlock furnaceBlock;
-//    public static WorkbenchBlock workbenchBlock;
-//    public static WorkbenchSecondaryBlock workbenchSecondaryBlock;
+    public static WorkbenchBlock workbenchBlock;
+    public static WorkbenchSecondaryBlock workbenchSecondaryBlock;
     public static InWorldPlacerBlock inWorldPlacerBlock;
 
     public static RockBlock rockBlock;
@@ -28,8 +30,8 @@ public class ModBlocks {
     public static void init() {
         furnaceBlock = new FurnaceBlock();
 
-//        workbenchBlock = new WorkbenchBlock();
-//        workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
+        workbenchBlock = new WorkbenchBlock();
+        workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
         inWorldPlacerBlock = new InWorldPlacerBlock();
 
         rockBlock = new RockBlock();
@@ -51,6 +53,8 @@ public class ModBlocks {
         rockBlock.initModel();
         sticksBlock.initModel();
         chestBlock.initModel();
+        workbenchBlock.initModel();
+        workbenchSecondaryBlock.initModel();
 //        cupboardBlock.initModel();
     }
 }
