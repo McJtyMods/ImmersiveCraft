@@ -1,0 +1,21 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+    },
+    "model": "immcraft:chest.obj"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": { "gui": {"scale": 1}}
+    }],
+    "facing": {
+      "north": {},
+      "south": {"y": 180},
+      "west": {"y": 270},
+      "east": {"y": 90}
+    }
+  }
+
+}

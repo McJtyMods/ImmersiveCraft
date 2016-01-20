@@ -1,5 +1,7 @@
 package mcjty.immcraft.blocks;
 
+import mcjty.immcraft.blocks.chest.ChestBlock;
+import mcjty.immcraft.blocks.chest.CupboardBlock;
 import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerBlock;
@@ -18,8 +20,8 @@ public class ModBlocks {
 
     public static RockBlock rockBlock;
     public static SticksBlock sticksBlock;
-//    public static ChestBlock chestBlock;
-//    public static CupboardBlock cupboardBlock;
+    public static ChestBlock chestBlock;
+    public static CupboardBlock cupboardBlock;
 
 
     public static void init() {
@@ -30,8 +32,8 @@ public class ModBlocks {
 
         rockBlock = new RockBlock();
         sticksBlock = new SticksBlock();
-//        chestBlock = new ChestBlock();
-//        cupboardBlock = new CupboardBlock();
+        chestBlock = new ChestBlock();
+        cupboardBlock = new CupboardBlock();
     }
 
     public static void initCrafting() {
@@ -45,5 +47,7 @@ public class ModBlocks {
         inWorldPlacerBlock.initModel();
         rockBlock.initModel();
         sticksBlock.initModel();
+        chestBlock.initModel();
+        cupboardBlock.initModel();
     }
 }
