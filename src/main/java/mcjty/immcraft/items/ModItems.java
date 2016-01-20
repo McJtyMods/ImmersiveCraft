@@ -19,5 +19,7 @@ public class ModItems {
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
+        chisel.initModel();
+        saw.initModel();
     }
 }
