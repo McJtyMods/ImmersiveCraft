@@ -27,8 +27,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     public static final int SLOT_TOOL = 0;
 
     private Schema[] baseSchemas = new Schema[] {
-            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 3)),
-            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 1)),
+            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.stick, 3), new ItemStack(ModBlocks.rockBlock, 2)),
+            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 2)),
             new Schema("flint & steel", new ItemStack(Items.flint_and_steel), new ItemStack(Items.flint, 1), new ItemStack(ModBlocks.rockBlock, 1)),
             new Schema("pickaxe", new ItemStack(Items.stone_pickaxe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3)),
             new Schema("axe", new ItemStack(Items.stone_axe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3))
@@ -43,7 +43,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     private Schema[] chiselSchemas = new Schema[] {
             new Schema("furnace", new ItemStack(ModBlocks.furnaceBlock), new ItemStack(Blocks.cobblestone, 8)),
 //            new Schema("tank", new ItemStack(ModBlocks.tankBlock), new ItemStack(Blocks.cobblestone, 5)),
-            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.planks, 6))
+            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.planks, 8))
     };
 
     private int currentSchema = 0;

@@ -42,8 +42,11 @@ public class ModBlocks {
 
     public static void initCrafting() {
         if (GeneralConfiguration.rockRecipe) {
-            GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.rockBlock, 9), new ItemStack(Blocks.cobblestone));
+            GameRegistry.addShapelessRecipe(new ItemStack(rockBlock, 9), new ItemStack(Blocks.cobblestone));
         }
+
+        GameRegistry.addShapedRecipe(new ItemStack(furnaceBlock), "ccc", "crc", "ccc", 'c', Blocks.cobblestone, 'r', rockBlock);
+        GameRegistry.addShapedRecipe(new ItemStack(chestBlock), "ccc", "crc", "ccc", 'c', Blocks.planks, 'r', rockBlock);
     }
 
     @SideOnly(Side.CLIENT)
