@@ -1,0 +1,46 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+    },
+    "model": "immcraft:furnace.obj"
+//    "model": "forge:multi-layer",
+//    "custom": {
+//      "base": "gaia:furnace#staticmodel",
+//      "Solid": "gaia:furnace#staticmodel",
+//      "Cutout": "gaia:furnace#cutout"
+//    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": { }
+    }],
+
+    "staticmodel": [ { "model": "immcraft:furnace.obj" } ],
+    "cutout": [ { "model": "fire_nsew_main" } ],
+
+    "facing": {
+      "south": {},
+      "north": {"y": 180},
+      "east": {"y": 270},
+      "west": {"y": 90}
+    },
+    "burning": {
+      "false": {},
+      "true": {
+//        "submodel": {
+//          "f1": { "model": "fire_nsew_main" },
+//          "f2": { "model": "fire_nsewu1_main" },
+//          "f3": { "model": "fire_nsew_alt" },
+//          "f4": { "model": "fire_nsewu1_alt" },
+//          "f1": { "model": "fire_nsew_flip_main" },
+//          "f2": { "model": "fire_nsewu1_flip_main" },
+//          "f3": { "model": "fire_nsew_alt_flip" },
+//          "f4": { "model": "fire_nsewu1_alt_flip" }
+//        }
+      }
+    }
+  }
+
+}

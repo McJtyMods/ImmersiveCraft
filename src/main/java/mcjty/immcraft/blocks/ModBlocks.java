@@ -4,6 +4,7 @@ import mcjty.immcraft.blocks.chest.ChestBlock;
 import mcjty.immcraft.blocks.chest.CupboardBlock;
 import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
+import mcjty.immcraft.blocks.furnace.FurnaceBlock;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.init.Blocks;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModBlocks {
-//    public static FurnaceBlock furnaceBlock;
+    public static FurnaceBlock furnaceBlock;
 //    public static WorkbenchBlock workbenchBlock;
 //    public static WorkbenchSecondaryBlock workbenchSecondaryBlock;
     public static InWorldPlacerBlock inWorldPlacerBlock;
@@ -25,7 +26,7 @@ public class ModBlocks {
 
 
     public static void init() {
-//        furnaceBlock = new FurnaceBlock();
+        furnaceBlock = new FurnaceBlock();
 //        workbenchBlock = new WorkbenchBlock();
 //        workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
         inWorldPlacerBlock = new InWorldPlacerBlock();
@@ -44,6 +45,7 @@ public class ModBlocks {
 
     @SideOnly(Side.CLIENT)
     public static void initModels() {
+        furnaceBlock.initModel();
         inWorldPlacerBlock.initModel();
         rockBlock.initModel();
         sticksBlock.initModel();
