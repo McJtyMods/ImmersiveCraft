@@ -46,6 +46,12 @@ dependencies {
     deobfCompile "mezz.jei:jei_1.8.9:2.21.0.98"
 }
 
+jar {
+    manifest {
+        attributes 'FMLAT': 'immcraft_at.cfg'
+    }
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
