@@ -52,6 +52,11 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     }
 
     @Override
+    public int getRenderType() {
+        return 2;
+    }
+
+    @Override
     public boolean isOpaqueCube() {
         return false;
     }
