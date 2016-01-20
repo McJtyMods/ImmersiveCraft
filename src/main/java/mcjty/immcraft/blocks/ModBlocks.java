@@ -27,6 +27,7 @@ public class ModBlocks {
 
     public static void init() {
         furnaceBlock = new FurnaceBlock();
+
 //        workbenchBlock = new WorkbenchBlock();
 //        workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
         inWorldPlacerBlock = new InWorldPlacerBlock();
@@ -34,7 +35,7 @@ public class ModBlocks {
         rockBlock = new RockBlock();
         sticksBlock = new SticksBlock();
         chestBlock = new ChestBlock();
-        cupboardBlock = new CupboardBlock();
+//        cupboardBlock = new CupboardBlock();
     }
 
     public static void initCrafting() {
@@ -50,6 +51,6 @@ public class ModBlocks {
         rockBlock.initModel();
         sticksBlock.initModel();
         chestBlock.initModel();
-        cupboardBlock.initModel();
+//        cupboardBlock.initModel();
     }
 }

@@ -33,7 +33,7 @@ public class CupboardTESR extends HandleTESR<CupboardTE> {
         super(ModBlocks.cupboardBlock);
 
         try {
-            lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "obj/cupboardLid.obj"));
+            lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "block/cupboardLid.obj"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
