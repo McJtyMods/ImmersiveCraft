@@ -1,6 +1,6 @@
 {
-  "parent": "builtin/entity"
-//  "textures": {
-//    "particle": "immcraft:blocks/machineSide"
-//  }
+  "parent": "builtin/entity",
+  "textures": {
+    "particle": "immcraft:blocks/machineSide"
+  }
 }

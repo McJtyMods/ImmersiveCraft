@@ -1,11 +1,15 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "immcraft:in_world_placer"
+    "textures": {
+    },
+    "model": "immcraft:rock.obj"
   },
   "variants": {
     "normal": [{}],
-    "inventory": [{}],
+    "inventory": [{
+      "transform": { "gui": {"scale": 2, "translation": [0,0.2,0]}}
+    }],
     "facing": {
       "north": {},
       "south": {"y": 180},
@@ -13,4 +17,5 @@
       "east": {"y": 90}
     }
   }
+
 }

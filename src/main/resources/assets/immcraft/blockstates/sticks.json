@@ -1,0 +1,42 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+    },
+    "model": "immcraft:sticks.obj"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": { "gui": {"scale": 1}}
+    }],
+    "facing": {
+      "north": {},
+      "south": {"y": 180},
+      "west": {"y": 270},
+      "east": {"y": 90}
+    },
+    "amount": {
+      "single": {"model": "immcraft:sticks1.obj"},
+      "double": {"model": "immcraft:sticks2.obj"},
+      "tripple": {"model": "immcraft:sticks3.obj"},
+      "all": {"model": "immcraft:sticks.obj"}
+    },
+    "burning": {
+      "false": {},
+      "true": {
+        "submodel": {
+          "f1": { "model": "fire_nsew_main" },
+          "f2": { "model": "fire_nsewu1_main" },
+          "f3": { "model": "fire_nsew_alt" },
+          "f4": { "model": "fire_nsewu1_alt" },
+          "f1": { "model": "fire_nsew_flip_main" },
+          "f2": { "model": "fire_nsewu1_flip_main" },
+          "f3": { "model": "fire_nsew_alt_flip" },
+          "f4": { "model": "fire_nsewu1_alt_flip" }
+        }
+      }
+    }
+  }
+
+}
