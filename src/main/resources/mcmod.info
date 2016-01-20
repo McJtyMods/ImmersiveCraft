@@ -1,0 +1,15 @@
+[
+{
+  "modid": "immcraft",
+  "name": "Immersive Craft",
+  "description": "Immersive Craft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["McJty"],
+  "credits": "McJty",
+  "logoFile": "",
+  "screenshots": []
+}
+]
