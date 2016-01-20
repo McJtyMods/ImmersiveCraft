@@ -4,6 +4,8 @@ package mcjty.immcraft.rendering;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
+import mcjty.immcraft.config.GeneralConfiguration;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -39,6 +41,11 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
     }
 
     protected void renderHandles(T tileEntity) {
+        double distanceSq = Minecraft.getMinecraft().thePlayer.getDistanceSq(tileEntity.getPos());
+        if (distanceSq > GeneralConfiguration.maxRenderDistanceSquared) {
+            return;
+        }
+
         bindTexture(TextureMap.locationBlocksTexture);
         IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(tileEntity, block);
         BlockRenderHelper.renderInterfaceHandles(tileEntity, selectedHandle, textOffset);
