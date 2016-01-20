@@ -7,6 +7,7 @@ import mcjty.immcraft.events.ClientForgeEventHandlers;
 import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
+import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -63,13 +64,14 @@ public class ImmersiveCraft {
         public void preInit(FMLPreInitializationEvent e) {
             ConfigSetup.preInit(e);
             ModBlocks.init();
-//            ModItems.init();
+            ModItems.init();
             WorldGen.init();
         }
 
         public void init(FMLInitializationEvent e) {
             MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
             ModBlocks.initCrafting();
+            ModItems.initCrafting();
         }
 
         public void postInit(FMLPostInitializationEvent e) {
@@ -86,9 +88,8 @@ public class ImmersiveCraft {
             MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
             OBJLoader.instance.addDomain(MODID);
 
-            // Typically initialization of models and such goes here:
             ModBlocks.initModels();
-//            ModItems.initModels();
+            ModItems.initModels();
         }
 
         @Override

@@ -6,6 +6,7 @@ import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.handles.CraftingInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
+import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.NBTHelper;
@@ -26,8 +27,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     public static final int SLOT_TOOL = 0;
 
     private Schema[] baseSchemas = new Schema[] {
-//            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 3)),
-//            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 1)),
+            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 3)),
+            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 1)),
             new Schema("flint & steel", new ItemStack(Items.flint_and_steel), new ItemStack(Items.flint, 1), new ItemStack(ModBlocks.rockBlock, 1)),
             new Schema("pickaxe", new ItemStack(Items.stone_pickaxe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3)),
             new Schema("axe", new ItemStack(Items.stone_axe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3))
@@ -50,10 +51,9 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     public WorkbenchSecondaryTE() {
         super(1);
         addInterfaceHandle(new InputInterfaceHandle()
-                .slot(SLOT_TOOL).side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3(.23, 1 + 0.1, -.35)));
-
-//                .input(new ItemStack(ModItems.chisel))
-//                .input(new ItemStack(ModItems.saw)));
+                .slot(SLOT_TOOL).side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3(.23, 1 + 0.1, -.35))
+                .input(new ItemStack(ModItems.chisel))
+                .input(new ItemStack(ModItems.saw)));
         addInterfaceHandle(new CraftingInterfaceHandle().side(EnumFacing.UP).bounds(0, .25f, .5f, .75f).renderOffset(new Vec3(-.23, 1 + 0.23, 0)));
     }
 
@@ -108,10 +108,10 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
         ItemStack tool = inventoryHelper.getStackInSlot(SLOT_TOOL);
         if (tool == null) {
             return baseSchemas;
-//        } else if (tool.getItem() == ModItems.chisel) {
-//            return chiselSchemas;
-//        } else if (tool.getItem() == ModItems.saw) {
-//            return sawSchemas;
+        } else if (tool.getItem() == ModItems.chisel) {
+            return chiselSchemas;
+        } else if (tool.getItem() == ModItems.saw) {
+            return sawSchemas;
         } else {
             return baseSchemas;
         }
