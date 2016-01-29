@@ -37,7 +37,7 @@ public class ModBlocks {
         rockBlock = new RockBlock();
         sticksBlock = new SticksBlock();
         chestBlock = new ChestBlock();
-//        cupboardBlock = new CupboardBlock();
+        cupboardBlock = new CupboardBlock();
     }
 
     public static void initCrafting() {
@@ -47,6 +47,7 @@ public class ModBlocks {
 
         GameRegistry.addShapedRecipe(new ItemStack(furnaceBlock), "ccc", "crc", "ccc", 'c', Blocks.cobblestone, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(chestBlock), "ccc", "crc", "ccc", 'c', Blocks.planks, 'r', rockBlock);
+        GameRegistry.addShapedRecipe(new ItemStack(cupboardBlock), "ccc", "ccc", "crc", 'c', Blocks.planks, 'r', rockBlock);
     }
 
     @SideOnly(Side.CLIENT)
@@ -58,6 +59,6 @@ public class ModBlocks {
         chestBlock.initModel();
         workbenchBlock.initModel();
         workbenchSecondaryBlock.initModel();
-//        cupboardBlock.initModel();
+        cupboardBlock.initModel();
     }
 }
