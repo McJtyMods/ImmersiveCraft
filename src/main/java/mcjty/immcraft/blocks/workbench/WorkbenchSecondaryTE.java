@@ -43,7 +43,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     private Schema[] chiselSchemas = new Schema[] {
             new Schema("furnace", new ItemStack(ModBlocks.furnaceBlock), new ItemStack(Blocks.cobblestone, 8)),
 //            new Schema("tank", new ItemStack(ModBlocks.tankBlock), new ItemStack(Blocks.cobblestone, 5)),
-            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.planks, 8))
+            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.planks, 8)),
+            new Schema("cupboard", new ItemStack(ModBlocks.cupboardBlock), new ItemStack(Blocks.planks, 8))
     };
 
     private int currentSchema = 0;

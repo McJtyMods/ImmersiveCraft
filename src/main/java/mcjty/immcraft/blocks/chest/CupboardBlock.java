@@ -4,6 +4,7 @@ import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
@@ -15,11 +16,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
 
     public CupboardBlock() {
-        super(Material.iron, "cupboard", CupboardTE.class);
+        super(Material.wood, "cupboard", CupboardTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeMetal);
-        setHarvestLevel("pickaxe", 0);
-        setBlockBounds(0, 0, .5f, 1, 1, 1);
+        setStepSound(soundTypeWood);
+        setHarvestLevel("axe", 0);
+        setBlockBounds(0, 0, 0, 1, 1, .5f);
     }
 
     @SideOnly(Side.CLIENT)
@@ -36,7 +37,57 @@ public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
     }
 
     @Override
+    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+        return false;
+    }
+
+    /**
+     * Updates the blocks bounds based on its current state. Args: world, x, y, z
+     */
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
+        IBlockState state = world.getBlockState(pos);
+        EnumFacing facing = state.getValue(FACING_HORIZ);
+        switch (facing) {
+            case NORTH:
+                setBlockBounds(0, 0, .5f, 1, 1, 1);
+                break;
+            case SOUTH:
+                setBlockBounds(0, 0, 0, 1, 1, .5f);
+                break;
+            case WEST:
+                setBlockBounds(.5f, 0, 0, 1, 1, 1);
+                break;
+            case EAST:
+                setBlockBounds(0, 0, 0, .5f, 1, 1);
+                break;
+            case DOWN:
+            case UP:
+            default:
+                break;
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
+        this.setBlockBoundsBasedOnState(world, pos);
+        return super.getSelectedBoundingBox(world, pos);
+    }
+
+
+    @Override
     public boolean isBlockNormalCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
         return false;
     }
 

@@ -20,7 +20,7 @@ public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSeconda
         super(Material.wood, "workbench_sec", WorkbenchSecondaryTE.class);
         setHardness(1.0f);
         setStepSound(soundTypeWood);
-        setHarvestLevel("pickaxe", 0);
+        setHarvestLevel("axe", 0);
     }
 
     @SideOnly(Side.CLIENT)

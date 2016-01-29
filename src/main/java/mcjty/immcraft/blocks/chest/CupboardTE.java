@@ -32,8 +32,8 @@ public class CupboardTE extends GenericInventoryTE {
             for (int x = 0 ; x < 4 ; x++) {
                 addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.SOUTH).
                         bounds(.04f + boundsdx * x, .04f + boundsdy * y, .04f + boundsdx * (x + 1), .04f + boundsdy * (y + 1)).
-                        renderOffset(new Vec3(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.30)).
-                        scale(.45f));
+                        renderOffset(new Vec3(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.10)).
+                        scale(.60f));
             }
         }
     }

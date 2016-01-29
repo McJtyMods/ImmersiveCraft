@@ -22,7 +22,7 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
         super(Material.wood, "workbench", WorkbenchTE.class);
         setHardness(1.0f);
         setStepSound(soundTypeWood);
-        setHarvestLevel("pickaxe", 0);
+        setHarvestLevel("axe", 0);
     }
 
     @SideOnly(Side.CLIENT)

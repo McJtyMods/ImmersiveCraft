@@ -26,8 +26,8 @@ import java.io.IOException;
 @SideOnly(Side.CLIENT)
 public class CupboardTESR extends HandleTESR<CupboardTE> {
 
-    protected IModel lidModel;
-    protected IBakedModel bakedLidModel;
+    private IModel lidModel;
+    private IBakedModel bakedLidModel;
 
     public CupboardTESR() {
         super(ModBlocks.cupboardBlock);
@@ -57,7 +57,8 @@ public class CupboardTESR extends HandleTESR<CupboardTE> {
 
     @Override
     protected void renderExtra(CupboardTE tileEntity) {
-        GL11.glTranslatef(.5f, 0, 0);
+        GlStateManager.pushMatrix();
+        GL11.glTranslatef(.5f, 1, 0);
         GL11.glRotated(-tileEntity.getOpening() * 1.2, 0, 1, 0);
         if (tileEntity.isOpen() && tileEntity.getOpening() > -60) {
             tileEntity.setOpening(tileEntity.getOpening() - 3);
@@ -71,8 +72,7 @@ public class CupboardTESR extends HandleTESR<CupboardTE> {
             }
         }
 
-        // To fix the lighting at the underside of the lid we render it one block higher but offset so it ends up one block lower again
-        GlStateManager.translate(-tileEntity.getPos().getX(), -tileEntity.getPos().getY() - 1, -tileEntity.getPos().getZ());
+        GlStateManager.translate(-tileEntity.getPos().getX(), -tileEntity.getPos().getY(), -tileEntity.getPos().getZ());
         RenderHelper.disableStandardItemLighting();
         this.bindTexture(TextureMap.locationBlocksTexture);
         if (Minecraft.isAmbientOcclusionEnabled()) {
@@ -85,8 +85,8 @@ public class CupboardTESR extends HandleTESR<CupboardTE> {
         Tessellator tessellator = Tessellator.getInstance();
         tessellator.getWorldRenderer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
         Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, getBakedLidModel(), world.getBlockState(tileEntity.getPos()),
-                                                                                                  tileEntity.getPos().up(),       // To fix chest lid lighting on the underside
-                                                                                                  Tessellator.getInstance().getWorldRenderer());
+                tileEntity.getPos(),
+                Tessellator.getInstance().getWorldRenderer());
         tessellator.draw();
 
         RenderHelper.enableStandardItemLighting();

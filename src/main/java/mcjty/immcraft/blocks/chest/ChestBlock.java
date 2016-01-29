@@ -15,10 +15,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ChestBlock extends GenericBlockWithTE<ChestTE> {
 
     public ChestBlock() {
-        super(Material.iron, "chest", ChestTE.class);
+        super(Material.wood, "chest", ChestTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeMetal);
-        setHarvestLevel("pickaxe", 0);
+        setStepSound(soundTypeWood);
+        setHarvestLevel("axe", 0);
         setBlockBounds(0, 0, 0, 1, .90f, 1);
     }
 
@@ -47,6 +47,16 @@ public class ChestBlock extends GenericBlockWithTE<ChestTE> {
 
     @Override
     public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
         return false;
     }
 
