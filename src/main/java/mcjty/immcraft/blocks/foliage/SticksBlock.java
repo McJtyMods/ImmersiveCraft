@@ -112,7 +112,8 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public int getLightValue(IBlockAccess world, BlockPos pos) {
-        if (getTE(world, pos).getBurnTime() > 0) {
+        SticksTE te = getTE(world, pos);
+        if (te != null && te.getBurnTime() > 0) {
             return 14;
         } else {
             return 0;
