@@ -24,11 +24,13 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true)
+@Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
+        version = ImmersiveCraft.VERSION)
 public class ImmersiveCraft {
 
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
+    public static final String VERSION = "1.0.0";
 
     @SidedProxy
     public static CommonProxy proxy;
