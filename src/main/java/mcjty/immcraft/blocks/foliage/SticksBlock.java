@@ -177,12 +177,13 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
                                     j2 /= 2;
                                 }
 
+
                                 if (j2 > 0 && random.nextInt(l1) <= j2 && (!world.isRaining() ||
-                                        !world.canLightningStrike(new BlockPos(i1, k1, j1))) &&
-                                        !world.canLightningStrike(new BlockPos(i1 - 1, k1, z)) &&
-                                        !world.canLightningStrike(new BlockPos(i1 + 1, k1, j1)) &&
-                                        !world.canLightningStrike(new BlockPos(i1, k1, j1 - 1)) &&
-                                        !world.canLightningStrike(new BlockPos(i1, k1, j1 + 1))) {
+                                        !world.isRainingAt(new BlockPos(i1, k1, j1))) &&
+                                        !world.isRainingAt(new BlockPos(i1 - 1, k1, z)) &&
+                                        !world.isRainingAt(new BlockPos(i1 + 1, k1, j1)) &&
+                                        !world.isRainingAt(new BlockPos(i1, k1, j1 - 1)) &&
+                                        !world.isRainingAt(new BlockPos(i1, k1, j1 + 1))) {
                                     int k2 = 10 + random.nextInt(5) / 4;
 
                                     if (k2 > 15) {
@@ -220,7 +221,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
         if (random.nextInt(chance) < j1) {
             boolean flag = world.getBlockState(pos).getBlock() == Blocks.tnt;
 
-            if (random.nextInt(10 + 10) < 5 && !world.canLightningStrike(pos)) {
+            if (random.nextInt(10 + 10) < 5 && !world.isRainingAt(pos)) {
                 int k1 = 10 + random.nextInt(5) / 4;
 
                 if (k1 > 15) {

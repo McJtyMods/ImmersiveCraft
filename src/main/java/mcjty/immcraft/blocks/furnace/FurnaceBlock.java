@@ -12,6 +12,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,6 +25,13 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
         setHardness(2.0f);
         setStepSound(soundTypeMetal);
         setHarvestLevel("pickaxe", 0);
+    }
+
+    @SideOnly(Side.CLIENT)
+    @Override
+    public void initModel() {
+        super.initModel();
+        ClientRegistry.bindTileEntitySpecialRenderer(FurnaceTE.class, new FurnaceTESR());
     }
 
     @Override

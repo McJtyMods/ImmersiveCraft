@@ -9,6 +9,7 @@ import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.waila.WailaCompatibility;
 import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -45,10 +46,11 @@ public class ImmersiveCraft {
         creativeTab = new CreativeTabs("immcraft") {
             @Override
             public Item getTabIconItem() {
-                return Items.apple;
+                return Item.getItemFromBlock(ModBlocks.rockBlock);
             }
         };
         proxy.preInit(event);
+        WailaCompatibility.registerWaila();
     }
 
     @Mod.EventHandler
