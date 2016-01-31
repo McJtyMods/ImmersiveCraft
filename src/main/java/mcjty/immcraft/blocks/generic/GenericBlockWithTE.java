@@ -56,12 +56,19 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     }
 
     @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        try {
+            return teClazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public TileEntity createNewTileEntity(World world, int meta) {
         try {
             return teClazz.newInstance();
-        } catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }
