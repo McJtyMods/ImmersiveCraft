@@ -20,10 +20,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static mcjty.immcraft.blocks.foliage.EnumAmount.*;
@@ -73,18 +70,22 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        SticksTE sticksTE = BlockTools.getTE(SticksTE.class, worldIn, pos).get();
-        Boolean burning = sticksTE.getBurnTime() > 0;
-        state = state.withProperty(BURNING, burning);
-        int cnt = sticksTE.getSticks();
-        if (cnt <= 3) {
-            return state.withProperty(AMOUNT, SINGLE);
-        } else if (cnt <= 6) {
-            return state.withProperty(AMOUNT, DOUBLE);
-        } else if (cnt <= 9) {
-            return state.withProperty(AMOUNT, TRIPPLE);
+        SticksTE sticksTE = getTE(worldIn, pos);
+        if (sticksTE != null) {
+            Boolean burning = sticksTE.getBurnTime() > 0;
+            state = state.withProperty(BURNING, burning);
+            int cnt = sticksTE.getSticks();
+            if (cnt <= 3) {
+                return state.withProperty(AMOUNT, SINGLE);
+            } else if (cnt <= 6) {
+                return state.withProperty(AMOUNT, DOUBLE);
+            } else if (cnt <= 9) {
+                return state.withProperty(AMOUNT, TRIPPLE);
+            } else {
+                return state.withProperty(AMOUNT, ALL);
+            }
         } else {
-            return state.withProperty(AMOUNT, ALL);
+            return state;
         }
     }
 
@@ -106,7 +107,10 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        BlockTools.spawnItemStack(world, pos, new ItemStack(Items.stick, getTE(world, pos).getSticks()));
+        SticksTE te = getTE(world, pos);
+        if (te != null) {
+            BlockTools.spawnItemStack(world, pos, new ItemStack(Items.stick, te.getSticks()));
+        }
         super.breakBlock(world, pos, state);
     }
 
@@ -122,7 +126,8 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public boolean isBurning(IBlockAccess world, BlockPos pos) {
-        return getTE(world, pos).getBurnTime() > 0;
+        SticksTE te = getTE(world, pos);
+        return te != null ? te.getBurnTime() > 0 : false;
     }
 
     /**
@@ -244,7 +249,8 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
-        if (getTE(world, pos).getBurnTime() <= 0) {
+        SticksTE te = getTE(world, pos);
+        if (te == null || te.getBurnTime() <= 0) {
             return;
         }
 
