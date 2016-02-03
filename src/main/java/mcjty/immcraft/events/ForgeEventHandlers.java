@@ -4,6 +4,7 @@ package mcjty.immcraft.events;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -43,7 +44,10 @@ public class ForgeEventHandlers {
                 spawnAxe(event, player, block);
             } else if (item == Items.stone_axe && (block == Blocks.log || block == Blocks.log2)) {
                 createWorkbench(event);
-            } else if (canBePlaced(item) && event.world.isAirBlock(event.pos.up()) && InWorldPlacerTE.isValidPlacableBlock(event.world, event.pos, block)
+            } else if (GeneralConfiguration.allowRightClickPlacement
+                    && canBePlaced(item)
+                    && event.world.isAirBlock(event.pos.up())
+                    && InWorldPlacerTE.isValidPlacableBlock(event.world, event.pos, block)
                     && event.face == EnumFacing.UP) {
                 BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.inWorldPlacerBlock, player);
                 BlockTools.getInventoryTE(event.world, event.pos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
