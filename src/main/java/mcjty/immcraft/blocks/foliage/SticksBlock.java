@@ -20,7 +20,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static mcjty.immcraft.blocks.foliage.EnumAmount.*;
@@ -116,8 +119,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public int getLightValue(IBlockAccess world, BlockPos pos) {
-        SticksTE te = getTE(world, pos);
-        if (te != null && te.getBurnTime() > 0) {
+        if (isBurning(world, pos)) {
             return 14;
         } else {
             return 0;
@@ -249,8 +251,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random random) {
-        SticksTE te = getTE(world, pos);
-        if (te == null || te.getBurnTime() <= 0) {
+        if (!isBurning(world, pos)) {
             return;
         }
 
