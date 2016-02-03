@@ -6,6 +6,7 @@ import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
 import mcjty.immcraft.blocks.furnace.FurnaceBlock;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerBlock;
+import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchSecondaryBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
@@ -20,6 +21,7 @@ public class ModBlocks {
     public static WorkbenchBlock workbenchBlock;
     public static WorkbenchSecondaryBlock workbenchSecondaryBlock;
     public static InWorldPlacerBlock inWorldPlacerBlock;
+    public static InWorldVerticalPlacerBlock inWorldVerticalPlacerBlock;
 
     public static RockBlock rockBlock;
     public static SticksBlock sticksBlock;
@@ -33,6 +35,7 @@ public class ModBlocks {
         workbenchBlock = new WorkbenchBlock();
         workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
         inWorldPlacerBlock = new InWorldPlacerBlock();
+        inWorldVerticalPlacerBlock = new InWorldVerticalPlacerBlock();
 
         rockBlock = new RockBlock();
         sticksBlock = new SticksBlock();
@@ -54,6 +57,7 @@ public class ModBlocks {
     public static void initModels() {
         furnaceBlock.initModel();
         inWorldPlacerBlock.initModel();
+        inWorldVerticalPlacerBlock.initModel();
         rockBlock.initModel();
         sticksBlock.initModel();
         chestBlock.initModel();

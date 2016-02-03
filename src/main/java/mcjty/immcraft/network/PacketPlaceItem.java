@@ -4,6 +4,7 @@ package mcjty.immcraft.network;
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
+import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
@@ -66,10 +67,15 @@ public class PacketPlaceItem implements IMessage {
             World world = player.getEntityWorld();
 
             Block block = world.getBlockState(message.blockPos).getBlock();
-            if (world.isAirBlock(message.blockPos.up()) && InWorldPlacerTE.isValidPlacableBlock(world, message.blockPos, block) &&
-                    message.side == EnumFacing.UP) {
+            if (world.isAirBlock(message.blockPos.up())
+                    && InWorldPlacerTE.isValidPlacableBlock(world, message.blockPos, block)
+                    && message.side == EnumFacing.UP) {
                 BlockTools.placeBlock(world, message.blockPos.up(), ModBlocks.inWorldPlacerBlock, player);
                 BlockTools.getInventoryTE(world, message.blockPos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
+            } else if (world.isAirBlock(message.blockPos.offset(message.side))
+                    && InWorldVerticalPlacerTE.isValidPlacableBlock(world, message.blockPos, message.side, block)) {
+                BlockTools.placeBlock(world, message.blockPos.offset(message.side), ModBlocks.inWorldVerticalPlacerBlock, player);
+                BlockTools.getInventoryTE(world, message.blockPos.offset(message.side)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
             }
         }
     }

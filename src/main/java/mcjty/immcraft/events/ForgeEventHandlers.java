@@ -4,6 +4,7 @@ package mcjty.immcraft.events;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
+import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
@@ -51,6 +52,13 @@ public class ForgeEventHandlers {
                     && event.face == EnumFacing.UP) {
                 BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.inWorldPlacerBlock, player);
                 BlockTools.getInventoryTE(event.world, event.pos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
+                event.setCanceled(true);
+            } else if (GeneralConfiguration.allowRightClickPlacement
+                    && canBePlaced(item)
+                    && event.world.isAirBlock(event.pos.offset(event.face))
+                    && InWorldVerticalPlacerTE.isValidPlacableBlock(event.world, event.pos, event.face, block)) {
+                BlockTools.placeBlock(event.world, event.pos.offset(event.face), ModBlocks.inWorldVerticalPlacerBlock, player);
+                BlockTools.getInventoryTE(event.world, event.pos.offset(event.face)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
                 event.setCanceled(true);
             }
         }

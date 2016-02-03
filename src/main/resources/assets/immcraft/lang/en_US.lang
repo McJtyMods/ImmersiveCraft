@@ -9,6 +9,7 @@ tile.workbench_sec.name=Workbench (WIP)
 tile.rock.name=Rock
 tile.sticks.name=Sticks
 tile.in_world_placer.name=Placer
+tile.in_world_vertical_placer.name=Placer
 
 itemGroup.immcraft=ImmersiveCraft
 key.categories.immcraft=ImmersiveCraft
