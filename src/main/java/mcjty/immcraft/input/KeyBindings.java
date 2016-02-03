@@ -11,11 +11,14 @@ public class KeyBindings {
 
     public static KeyBinding keyNextItem;
     public static KeyBinding keyPrevItem;
+    public static KeyBinding keyPlaceItem;
 
     public static void init() {
         keyNextItem = new KeyBinding("key.nextitem", Keyboard.KEY_LBRACKET, "key.categories.immcraft");
         keyPrevItem = new KeyBinding("key.previtem", Keyboard.KEY_RBRACKET, "key.categories.immcraft");
+        keyPlaceItem = new KeyBinding("key.placeitem", Keyboard.KEY_P, "key.categories.immcraft");
         ClientRegistry.registerKeyBinding(keyNextItem);
         ClientRegistry.registerKeyBinding(keyPrevItem);
+        ClientRegistry.registerKeyBinding(keyPlaceItem);
     }
 }

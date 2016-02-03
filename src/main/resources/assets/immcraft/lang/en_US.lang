@@ -12,3 +12,7 @@ tile.in_world_placer.name=Placer
 
 itemGroup.immcraft=ImmersiveCraft
 key.categories.immcraft=ImmersiveCraft
+key.nextitem=Next item craftable item
+key.previtem=Previous item craftable item
+key.placeitem=Place item in world
+

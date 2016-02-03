@@ -5,7 +5,8 @@ import java.util.Map;
 
 public enum KeyType {
     KEY_NEXTITEM("nextItem"),
-    KEY_PREVIOUSITEM("prevItem");
+    KEY_PREVIOUSITEM("prevItem"),
+    KEY_PLACEITEM("placeItem");
 
     private final String name;
 

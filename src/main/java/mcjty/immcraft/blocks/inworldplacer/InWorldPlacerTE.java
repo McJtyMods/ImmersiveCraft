@@ -3,9 +3,13 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 public class InWorldPlacerTE extends GenericInventoryTE {
 
@@ -32,6 +36,26 @@ public class InWorldPlacerTE extends GenericInventoryTE {
         }
         // Self destruct
         worldObj.setBlockToAir(getPos());
+    }
+
+    public static boolean isValidPlacableBlock(World world, BlockPos pos, Block block) {
+        if (!block.isBlockSolid(world, pos, EnumFacing.UP)) {
+            return false;
+        }
+        if (!block.getMaterial().isSolid()) {
+            return false;
+        }
+        if (!block.isNormalCube()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static void addItems(GenericInventoryTE inventory, EntityPlayer player, ItemStack heldItem) {
+        inventory.setInventorySlotContents(SLOT_INPUT1, heldItem);
+        inventory.markDirtyClient();
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        player.openContainer.detectAndSendChanges();
     }
 
     @Override
