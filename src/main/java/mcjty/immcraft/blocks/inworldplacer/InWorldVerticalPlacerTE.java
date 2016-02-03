@@ -20,12 +20,10 @@ public class InWorldVerticalPlacerTE extends GenericInventoryTE {
 
     public InWorldVerticalPlacerTE() {
         super(4);
-//        bounds(                       .04f + boundsdx * x, .04f + boundsdy * y,            .04f + boundsdx * (x + 1),  .04f + boundsdy * (y + 1)).
-//                renderOffset(new Vec3(renderdx * (x - 1) - renderdx / 2.0,   renderdz * (y - 1) + 0.4,                        -0.10)).
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.23, 0.23, -0.40)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.23, 0.23, -0.40)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.SOUTH).bounds(0, 0, .5f, .5f).renderOffset(new Vec3(-.23, -0.23, -0.40)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.SOUTH).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3(.23, -0.23, -0.40)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.23, 0.73, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.23, 0.73, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.SOUTH).bounds(0, 0, .5f, .5f).renderOffset(new Vec3(-.23, 0.27, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.SOUTH).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3(.23, 0.27, -0.46)));
     }
 
     @Override
