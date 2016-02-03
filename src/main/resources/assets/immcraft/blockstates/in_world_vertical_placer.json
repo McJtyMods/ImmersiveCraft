@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "immcraft:in_world_vertical_placer"
+    "model": "immcraft:empty_model"
   },
   "variants": {
     "normal": [{}],

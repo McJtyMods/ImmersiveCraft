@@ -52,6 +52,16 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     }
 
     @Override
+    public boolean isFullBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube() {
+        return false;
+    }
+
+    @Override
     public int getRenderType() {
         return 2;
     }
