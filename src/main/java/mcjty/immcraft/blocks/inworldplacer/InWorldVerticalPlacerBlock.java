@@ -25,7 +25,7 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
         super(Material.ground, "in_world_vertical_placer", InWorldVerticalPlacerTE.class);
         setHardness(0.0f);
         setStepSound(soundTypeWood);
-        setBlockBounds(0, 0, 0, 1, .1f, 1);
+        setBlockBounds(0, 0, 0, 1, 1, .1f);
     }
 
     @SideOnly(Side.CLIENT)
@@ -70,6 +70,41 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
         return activateBlock(world, pos, player, side, sx, sy, sz);
     }
+
+    /**
+     * Updates the blocks bounds based on its current state. Args: world, x, y, z
+     */
+    @Override
+    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
+        IBlockState state = world.getBlockState(pos);
+        EnumFacing facing = state.getValue(FACING_HORIZ);
+        switch (facing) {
+            case NORTH:
+                setBlockBounds(0, 0, .1f, 1, 1, 1);
+                break;
+            case SOUTH:
+                setBlockBounds(0, 0, 0, 1, 1, .1f);
+                break;
+            case WEST:
+                setBlockBounds(.1f, 0, 0, 1, 1, 1);
+                break;
+            case EAST:
+                setBlockBounds(0, 0, 0, .1f, 1, 1);
+                break;
+            case DOWN:
+            case UP:
+            default:
+                break;
+        }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
+        this.setBlockBoundsBasedOnState(world, pos);
+        return super.getSelectedBoundingBox(world, pos);
+    }
+
 
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
