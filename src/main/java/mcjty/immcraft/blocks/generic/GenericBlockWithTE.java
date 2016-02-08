@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.generic;
 
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
@@ -35,7 +36,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     @Override
     protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super.register(name, clazz, itemBlockClass);
-        GameRegistry.registerTileEntity(clazz, name + "TE");
+        GameRegistry.registerTileEntityWithAlternatives(clazz, ImmersiveCraft.MODID + name + "TE", name + "TE");
     }
 
     @Override
