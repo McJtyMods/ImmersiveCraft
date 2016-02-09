@@ -77,7 +77,6 @@ public class ImmCraftGenerator implements IWorldGenerator {
         int y = pos.getY();
         int z = pos.getZ();
         y++;
-        int origy = y;
         if (!world.isAirBlock(new BlockPos(x, y, z))) {
             return;
         }
