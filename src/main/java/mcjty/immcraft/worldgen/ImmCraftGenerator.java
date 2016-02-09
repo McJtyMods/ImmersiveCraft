@@ -86,7 +86,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
                 if (isLeafBlock(world.getBlockState(new BlockPos(x, y, z)).getBlock())) {
                     world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
-                    SticksTE sticksTE = (SticksTE) world.getTileEntity(new BlockPos(x, origy, z));
+                    SticksTE sticksTE = (SticksTE) world.getTileEntity(pos.up());
                     sticksTE.setSticks(random.nextInt(6)+1);
                 }
                 return;
