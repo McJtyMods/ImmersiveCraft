@@ -1,16 +1,15 @@
 package mcjty.immcraft.cables;
 
-import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.NBTHelper;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
-public class CableSection {
+public class CableSection implements ICableSection {
     private final ICableType type;
     private final ICableSubType subType;
 
@@ -48,14 +47,17 @@ public class CableSection {
         this.id = id;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public ICableType getType() {
         return type;
     }
 
+    @Override
     public ICableSubType getSubType() {
         return subType;
     }

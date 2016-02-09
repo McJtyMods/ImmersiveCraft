@@ -3,7 +3,7 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.waila.WailaProvider;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

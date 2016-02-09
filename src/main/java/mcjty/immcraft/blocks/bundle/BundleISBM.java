@@ -3,7 +3,7 @@ package mcjty.immcraft.blocks.bundle;
 import com.google.common.primitives.Ints;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.cables.CableSectionRender;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;

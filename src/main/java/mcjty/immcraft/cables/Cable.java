@@ -1,5 +1,6 @@
 package mcjty.immcraft.cables;
 
+import mcjty.immcraft.api.cable.ICable;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.bundle.BundleTE;

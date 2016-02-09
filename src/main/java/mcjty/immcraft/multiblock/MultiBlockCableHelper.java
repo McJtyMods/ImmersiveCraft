@@ -3,6 +3,7 @@ package mcjty.immcraft.multiblock;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.cables.CableSection;
 import net.minecraft.tileentity.TileEntity;
@@ -31,7 +32,7 @@ public class MultiBlockCableHelper {
     }
 
     // addCableToNetwork with support for cable system
-    public static <T extends IMultiBlock> int addBlockToNetwork(MultiBlockNetwork<T> network, ICableType type, ICableSubType subType, int networkId, World world, BlockPos thisCoord) {
+    public static <T extends IMultiBlock> int addBlockToNetwork(IMultiBlockNetwork<T> network, ICableType type, ICableSubType subType, int networkId, World world, BlockPos thisCoord) {
         // Find an adjacent network to connect too.
         // First make a set of all ID's excluded from connecting (ID's from same cable type already in this block)
         Set<Integer> excluded = getTile(world, thisCoord, null).getCableSections().stream()
@@ -56,10 +57,12 @@ public class MultiBlockCableHelper {
             }
         }
 
+        MultiBlockNetwork n = (MultiBlockNetwork) network;
+
         if (foundMb == null) {
             // No adjacent network. We create a new one.
-            networkId = network.newMultiBlock();
-            network.getOrCreateMultiBlock(networkId).addBlock(thisCoord);
+            networkId = n.newMultiBlock();
+            n.getOrCreateMultiBlock(networkId).addBlock(thisCoord);
         } else {
             // Now check if we can connect this to other adjacent networks and connect them one at a time.
             for (EnumFacing direction : network.getDirections()) {
@@ -71,7 +74,7 @@ public class MultiBlockCableHelper {
                         if (otherMb != foundMb && foundMb.canConnect(otherMb, thisCoord)) {
                             Integer otherId = connectableSection.getId();
                             foundMb.merge(world, networkId, otherMb, connectableSection.getId());
-                            network.deleteMultiBlock(otherId);
+                            n.deleteMultiBlock(otherId);
                             break;
                         }
                     }
@@ -82,14 +85,15 @@ public class MultiBlockCableHelper {
     }
 
     // removeCableFromNetwork with support for cable system
-    public static <T extends IMultiBlock> void removeBlockFromNetwork(MultiBlockNetwork<T> network, ICableType type, ICableSubType subType, int networkId, World world, BlockPos thisCoord) {
+    public static <T extends IMultiBlock> void removeBlockFromNetwork(IMultiBlockNetwork<T> network, ICableType type, ICableSubType subType, int networkId, World world, BlockPos thisCoord) {
         BundleTE thisTile = getTile(world, thisCoord, null);
         CableSection section = thisTile.findSection(type, subType, networkId);
         T mb = (T) section.getCable(world);
         Collection<? extends IMultiBlock> multiBlocks = mb.remove(world, thisCoord);
-        network.deleteMultiBlock(section.getId());
+        MultiBlockNetwork n = (MultiBlockNetwork) network;
+        n.deleteMultiBlock(section.getId());
         for (IMultiBlock multiBlock : multiBlocks) {
-            int id = network.createMultiBlock((T) multiBlock);
+            int id = n.createMultiBlock((T) multiBlock);
             for (BlockPos b : multiBlock.getBlocks()) {
                 BundleTE te = getTile(world, b, null);
                 if (te != null) {

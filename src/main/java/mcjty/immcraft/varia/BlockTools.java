@@ -1,5 +1,6 @@
 package mcjty.immcraft.varia;
 
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericTE;

@@ -1,8 +1,6 @@
-package mcjty.immcraft.cables;
+package mcjty.immcraft.api.cable;
 
-import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.cable.ICableType;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.util.EnumFacing;
 
 /**

@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.cables.CableSectionRender;
@@ -81,9 +82,10 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         for (CableSection section : bundleTE.getCableSections()) {
             int networkId = section.getId();
             if (networkId != -1) {
-                MultiBlockNetwork networkClient = section.getType().getCableHandler().getNetworkClient(section.getSubType());
-                IMultiBlock multiBlock = networkClient.getOrCreateMultiBlock(networkId);
-                networkClient.refreshInfo(networkId);
+                IMultiBlockNetwork networkClient = section.getType().getCableHandler().getNetworkClient(section.getSubType());
+                MultiBlockNetwork n = (MultiBlockNetwork) networkClient;
+                IMultiBlock multiBlock = n.getOrCreateMultiBlock(networkId);
+                n.refreshInfo(networkId);
                 currenttip.add(EnumChatFormatting.GREEN + "Id: " + networkId + " (Size: " + multiBlock.getBlockCount() + ")");
                 if (accessor.getPlayer().isSneaking()) {
                     currenttip.add(EnumChatFormatting.YELLOW + section.getType().getReadableName() + ": " + section.getConnection(0) + " : " + bundleTE.getPos() + " : " + section.getConnection(1));

@@ -2,7 +2,7 @@ package mcjty.immcraft.cables;
 
 
 import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 
 /**
  * Cable section for the renderer (BundleISBM)

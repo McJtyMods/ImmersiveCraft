@@ -1,4 +1,4 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.util;
 
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;

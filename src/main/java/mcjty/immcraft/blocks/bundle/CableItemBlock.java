@@ -6,7 +6,7 @@ import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

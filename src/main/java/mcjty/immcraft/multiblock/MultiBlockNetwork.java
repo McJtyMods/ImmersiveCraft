@@ -60,6 +60,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         multiblocks.remove(id);
     }
 
+    @Override
     public EnumFacing[] getDirections() {
         return EnumFacing.values();
     }

@@ -1,4 +1,4 @@
-package mcjty.immcraft.cables;
+package mcjty.immcraft.api.cable;
 
 import net.minecraft.util.BlockPos;
 

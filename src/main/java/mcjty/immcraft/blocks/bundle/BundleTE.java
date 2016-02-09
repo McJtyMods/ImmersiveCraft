@@ -1,8 +1,7 @@
 package mcjty.immcraft.blocks.bundle;
 
-import mcjty.immcraft.api.cable.ICableHandler;
-import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.cable.*;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.cables.*;
@@ -11,7 +10,7 @@ import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.IntersectionTools;
 import mcjty.immcraft.varia.NBTHelper;
-import mcjty.immcraft.varia.Vector;
+import mcjty.immcraft.api.util.Vector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -112,7 +111,7 @@ public class BundleTE extends GenericTE implements ITickable {
     public void addCableToNetwork(ICableType type, ICableSubType subType, Vector vector) {
         ICableHandler cableHandler = type.getCableHandler();
 
-        MultiBlockNetwork network = cableHandler.getNetwork(worldObj, subType);
+        IMultiBlockNetwork network = cableHandler.getNetwork(worldObj, subType);
         int id = MultiBlockCableHelper.addBlockToNetwork(network, type, subType, -1, worldObj, getPos());
         cableHandler.saveNetwork(worldObj);
         CableSection section = new CableSection(type, subType, id, vector);
@@ -200,7 +199,7 @@ public class BundleTE extends GenericTE implements ITickable {
         disconnectCable(section);
 
         ICableHandler cableHandler = section.getType().getCableHandler();
-        MultiBlockNetwork network = cableHandler.getNetwork(worldObj, section.getSubType());
+        IMultiBlockNetwork network = cableHandler.getNetwork(worldObj, section.getSubType());
         MultiBlockCableHelper.removeBlockFromNetwork(network, section.getType(), section.getSubType(), section.getId(), worldObj, getPos());
         cableHandler.saveNetwork(worldObj);
 

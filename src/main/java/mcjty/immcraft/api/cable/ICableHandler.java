@@ -1,9 +1,7 @@
 package mcjty.immcraft.api.cable;
 
-import mcjty.immcraft.multiblock.MultiBlockNetwork;
-import mcjty.immcraft.blocks.bundle.BundleTE;
-import mcjty.immcraft.cables.CableSection;
-import mcjty.immcraft.cables.ICable;
+import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -13,7 +11,7 @@ import net.minecraft.world.World;
 public interface ICableHandler {
 
     // Called server side every tick
-    void tick(BundleTE bundleTE, CableSection section);
+    void tick(TileEntity bundleTE, ICableSection section);
 
     /*
      * Get the cable of the given subtype and id.
@@ -23,7 +21,7 @@ public interface ICableHandler {
     /*
      * Get the multiblock network for the given subtype.
      */
-    MultiBlockNetwork getNetwork(World world, ICableSubType subType);
+    IMultiBlockNetwork getNetwork(World world, ICableSubType subType);
 
     /*
      * Get the client-side representation of the multiblock network
@@ -31,7 +29,7 @@ public interface ICableHandler {
      * part of the network relevant for the client and is refreshed
      * via MultiBlockNetwork.refreshInfo().
      */
-    MultiBlockNetwork getNetworkClient(ICableSubType subType);
+    IMultiBlockNetwork getNetworkClient(ICableSubType subType);
 
     void saveNetwork(World world);
 }
