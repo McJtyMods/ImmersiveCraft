@@ -13,7 +13,7 @@ public interface ICableItemBlockHelper {
 
     /**
      * Call this from your ItemBlock onItemUse implementation. If this returns
-     * true you need to call super.onItemUse()
+     * true you need to call super.onItemUse() otherwise just return false
      * @param player
      * @param world
      * @param pos
