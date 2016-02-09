@@ -6,6 +6,7 @@ import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -84,8 +85,13 @@ public class ImmCraftGenerator implements IWorldGenerator {
         for (int i = 0 ; i < 15 ; i++) {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
                 if (isLeafBlock(world.getBlockState(new BlockPos(x, y, z)).getBlock())) {
-                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    IBlockState oldstate = world.getBlockState(pos.up());
+                    System.out.println("oldstate.getBlock() = " + oldstate.getBlock());
+                    boolean b = world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    System.out.println("b = " + b);
+                    System.out.println("pos = " + pos.up());
                     SticksTE sticksTE = (SticksTE) world.getTileEntity(pos.up());
+                    System.out.println("sticksTE = " + sticksTE);
                     sticksTE.setSticks(random.nextInt(6)+1);
                 }
                 return;

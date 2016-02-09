@@ -5,6 +5,7 @@ import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.NBTHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
@@ -13,8 +14,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +33,11 @@ public class GenericTE extends TileEntity {
 
     public GenericBlock getBlock() {
         return (GenericBlock) getBlockType();
+    }
+
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
     }
 
     @Override
