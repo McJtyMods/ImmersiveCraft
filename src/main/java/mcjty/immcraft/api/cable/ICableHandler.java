@@ -3,7 +3,6 @@ package mcjty.immcraft.api.cable;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.cables.CableSection;
-import mcjty.immcraft.cables.CableSubType;
 import mcjty.immcraft.cables.ICable;
 import net.minecraft.world.World;
 
@@ -19,12 +18,12 @@ public interface ICableHandler {
     /*
      * Get the cable of the given subtype and id.
      */
-    ICable getCable(World world, CableSubType subType, int id);
+    ICable getCable(World world, ICableSubType subType, int id);
 
     /*
      * Get the multiblock network for the given subtype.
      */
-    MultiBlockNetwork getNetwork(World world, CableSubType subType);
+    MultiBlockNetwork getNetwork(World world, ICableSubType subType);
 
     /*
      * Get the client-side representation of the multiblock network
@@ -32,7 +31,7 @@ public interface ICableHandler {
      * part of the network relevant for the client and is refreshed
      * via MultiBlockNetwork.refreshInfo().
      */
-    MultiBlockNetwork getNetworkClient(CableSubType subType);
+    MultiBlockNetwork getNetworkClient(ICableSubType subType);
 
     void saveNetwork(World world);
 }

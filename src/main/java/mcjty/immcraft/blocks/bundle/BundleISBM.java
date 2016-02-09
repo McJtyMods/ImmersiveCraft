@@ -17,15 +17,15 @@ import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class BundleISBM implements ISmartBlockModel {
 
     public static final float THICK = 1/16.0f;
 
-    public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("aquamunda:bundle");
+    public static final ModelResourceLocation modelResourceLocation = new ModelResourceLocation("immcraft:bundle");
+
+    private static final Map<String, TextureAtlasSprite> sprites = new HashMap<>();
 
     @Override
     public IBakedModel handleBlockState(IBlockState state) {
@@ -70,17 +70,13 @@ public class BundleISBM implements ISmartBlockModel {
     }
 
     public class BundleBakedModel implements IBakedModel {
-        private TextureAtlasSprite hoseSprite;
-        private TextureAtlasSprite blackCableSprite;
-        private TextureAtlasSprite elecCableSprite;
+        private TextureAtlasSprite bundleSprite;
 
         private List<CableSectionRender> cables;
         private final float CT = .1f;
 
         public BundleBakedModel(List<CableSectionRender> cables) {
-            hoseSprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(ImmersiveCraft.MODID + ":blocks/hose");
-            blackCableSprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(ImmersiveCraft.MODID + ":blocks/blackcable");
-            elecCableSprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(ImmersiveCraft.MODID + ":blocks/eleccable");
+            bundleSprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(ImmersiveCraft.MODID + ":blocks/bundle");
             this.cables = cables;
         }
 
@@ -127,17 +123,11 @@ public class BundleISBM implements ISmartBlockModel {
             List<BakedQuad> quads = new ArrayList<>();
 
             for (CableSectionRender section : cables) {
-                TextureAtlasSprite sprite = null;
-                switch (section.getSubType()) {
-                    case LIQUID:
-                        sprite = hoseSprite;
-                        break;
-                    case GROUND:
-                        sprite = blackCableSprite;
-                        break;
-                    case PLUS:
-                        sprite = elecCableSprite;
-                        break;
+                String textureName = section.getSubType().getTextureName();
+                TextureAtlasSprite sprite = sprites.get(textureName);
+                if (sprite == null) {
+                    sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(textureName);
+                    sprites.put(textureName, sprite);
                 }
                 addCable(section, sprite, quads);
             }
@@ -188,7 +178,7 @@ public class BundleISBM implements ISmartBlockModel {
 
         @Override
         public TextureAtlasSprite getParticleTexture() {
-            return hoseSprite;
+            return bundleSprite;
         }
 
         @Override

@@ -10,4 +10,6 @@ public interface ICableType {
     String getReadableName();
 
     ICableHandler getCableHandler();
+
+    ICableSubType getSubTypeByID(String id);
 }

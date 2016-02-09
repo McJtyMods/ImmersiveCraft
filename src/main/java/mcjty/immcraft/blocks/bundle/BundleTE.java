@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.api.cable.ICableHandler;
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
@@ -47,7 +48,7 @@ public class BundleTE extends GenericTE implements ITickable {
         return cableSections;
     }
 
-    public CableSection findSection(ICableType type, CableSubType subType, int id) {
+    public CableSection findSection(ICableType type, ICableSubType subType, int id) {
         for (CableSection section : cableSections) {
             if (section.getType() == type && section.getSubType() == subType && section.getId() == id) {
                 return section;
@@ -62,7 +63,7 @@ public class BundleTE extends GenericTE implements ITickable {
      * Otherwise a section with one connection is taken (if any).
      * Sections with an id that is present in the given 'excluded' set are never considered.
      */
-    public CableSection findConnectableSection(ICableType type, CableSubType subType, Set<Integer> excluded) {
+    public CableSection findConnectableSection(ICableType type, ICableSubType subType, Set<Integer> excluded) {
         // First try to find a cable that has no connections.
         Optional<CableSection> section = cableSections.stream().filter(p -> cableWithNoConnections(p, type, subType, excluded)).findFirst();
         if (section.isPresent()) {
@@ -72,11 +73,11 @@ public class BundleTE extends GenericTE implements ITickable {
         return cableSections.stream().filter(p -> cableWithOneConnection(p, type, subType, excluded)).findFirst().orElse(null);
     }
 
-    private boolean cableWithNoConnections(CableSection p, ICableType type, CableSubType subType, Set<Integer> excluded) {
+    private boolean cableWithNoConnections(CableSection p, ICableType type, ICableSubType subType, Set<Integer> excluded) {
         return (!excluded.contains(p.getId())) && p.getType() == type && p.getSubType() == subType && p.getConnection(0) == null && p.getConnection(1) == null;
     }
 
-    private boolean cableWithOneConnection(CableSection p, ICableType type, CableSubType subType, Set<Integer> excluded) {
+    private boolean cableWithOneConnection(CableSection p, ICableType type, ICableSubType subType, Set<Integer> excluded) {
         return (!excluded.contains(p.getId())) && p.getType() == type && p.getSubType() == subType && (p.getConnection(0) == null || p.getConnection(1) == null);
     }
 
@@ -84,7 +85,7 @@ public class BundleTE extends GenericTE implements ITickable {
      * Disconnect the given section from connected connectors so that they
      * can be freshly reconnected.
      */
-    private void disconnectFromConnector(ICableType type, CableSubType subType, int id, BlockPos current) {
+    private void disconnectFromConnector(ICableType type, ICableSubType subType, int id, BlockPos current) {
         BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, current).get();
         CableSection section = bundle.findSection(type, subType, id);
         if (section.getConnectorID(0) != -1 && section.getConnector(worldObj, 0) != null) {
@@ -97,7 +98,7 @@ public class BundleTE extends GenericTE implements ITickable {
         }
     }
 
-    private Vector getVectorFromCable(BlockPos c, ICableType type, CableSubType subType, int id) {
+    private Vector getVectorFromCable(BlockPos c, ICableType type, ICableSubType subType, int id) {
         BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, c).get();
         CableSection section = bundle.findSection(type, subType, id);
         return section.getVector();
@@ -108,7 +109,7 @@ public class BundleTE extends GenericTE implements ITickable {
      * with possible adjacent multiblock networks of the same type and subtype. After that
      * the entire resulting cable multiblock is reconnected.
      */
-    public void addCableToNetwork(ICableType type, CableSubType subType, Vector vector) {
+    public void addCableToNetwork(ICableType type, ICableSubType subType, Vector vector) {
         ICableHandler cableHandler = type.getCableHandler();
 
         MultiBlockNetwork network = cableHandler.getNetwork(worldObj, subType);
@@ -124,7 +125,7 @@ public class BundleTE extends GenericTE implements ITickable {
      * Fix all connections of this cable. This has to be called after adding a block to a
      * cable or merging two cables.
      */
-    private void reconnectCable(ICable cable, ICableType type, CableSubType subType, int id) {
+    private void reconnectCable(ICable cable, ICableType type, ICableSubType subType, int id) {
         List<BlockPos> path = cable.getPath();
         List<Vector> vectors = path.stream().map(p -> getVectorFromCable(p, type, subType, id)).collect(Collectors.toList());
 
@@ -184,7 +185,7 @@ public class BundleTE extends GenericTE implements ITickable {
      * In other words, this is the amount of cables that a new adjacent cable of this type
      * and subtype can connect too.
      */
-    public int countCableEndPoints(ICableType type, CableSubType subType) {
+    public int countCableEndPoints(ICableType type, ICableSubType subType) {
         return (int) cableSections.stream().filter(s -> s.getType() == type && s.getSubType() == subType && (s.getConnection(0) == null || s.getConnection(1) == null)).count();
     }
 

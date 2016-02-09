@@ -1,5 +1,6 @@
 package mcjty.immcraft.cables;
 
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.NBTHelper;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
 
 public class CableSection {
     private final ICableType type;
-    private final CableSubType subType;
+    private final ICableSubType subType;
 
     // The multiblock network id for this cable.
     private int id;
@@ -22,14 +23,14 @@ public class CableSection {
 
     public CableSection(NBTTagCompound tagCompound) {
         type = CableRegistry.getTypeByID(tagCompound.getString("type"));
-        subType = CableSubType.getTypeById(tagCompound.getString("subtype"));
+        subType = type.getSubTypeByID(tagCompound.getString("subtype"));
         id = tagCompound.getInteger("id");
         vector = new Vector(tagCompound.getFloat("vx"), tagCompound.getFloat("vy"), tagCompound.getFloat("vz"));
         info[0].readFromNBT(tagCompound, "0");
         info[1].readFromNBT(tagCompound, "1");
     }
 
-    public CableSection(ICableType type, CableSubType subType, int id, Vector vector) {
+    public CableSection(ICableType type, ICableSubType subType, int id, Vector vector) {
         this.id = id;
         this.type = type;
         this.subType = subType;
@@ -55,7 +56,7 @@ public class CableSection {
         return type;
     }
 
-    public CableSubType getSubType() {
+    public ICableSubType getSubType() {
         return subType;
     }
 
@@ -96,7 +97,7 @@ public class CableSection {
     public NBTHelper writeToNBT(NBTHelper helper) {
         helper
                 .set("type", type.getTypeID())
-                .set("subtype", subType.getTypeId())
+                .set("subtype", subType.getTypeID())
                 .set("id", id)
                 .set("v", vector);
         info[0].writeToNBT(helper, "0");

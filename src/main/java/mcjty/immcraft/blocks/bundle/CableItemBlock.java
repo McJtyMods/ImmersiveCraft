@@ -1,10 +1,10 @@
 package mcjty.immcraft.blocks.bundle;
 
 
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.cables.CableSection;
-import mcjty.immcraft.cables.CableSubType;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.Vector;
 import net.minecraft.block.Block;
@@ -26,9 +26,9 @@ import java.util.Set;
 public class CableItemBlock extends ItemBlock {
 
     private final ICableType type;
-    private final CableSubType subType;
+    private final ICableSubType subType;
 
-    public CableItemBlock(Block block, ICableType type, CableSubType subType) {
+    public CableItemBlock(Block block, ICableType type, ICableSubType subType) {
         super(block);
         this.type = type;
         this.subType = subType;

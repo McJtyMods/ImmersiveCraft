@@ -1,5 +1,6 @@
 package mcjty.immcraft.cables;
 
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
@@ -16,12 +17,12 @@ import java.util.List;
 
 public class Cable implements IMultiBlock, ICable {
     private final ICableType type;
-    private final CableSubType subType;
+    private final ICableSubType subType;
 
     private List<BlockPos> path = new ArrayList<>();
     private int clientBlockSize = -1;
 
-    public Cable(ICableType type, CableSubType subType) {
+    public Cable(ICableType type, ICableSubType subType) {
         this.type = type;
         this.subType = subType;
     }
@@ -30,7 +31,7 @@ public class Cable implements IMultiBlock, ICable {
         return type;
     }
 
-    public CableSubType getSubType() {
+    public ICableSubType getSubType() {
         return subType;
     }
 

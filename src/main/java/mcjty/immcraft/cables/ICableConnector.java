@@ -1,5 +1,6 @@
 package mcjty.immcraft.cables;
 
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.varia.Vector;
 import net.minecraft.util.EnumFacing;
@@ -19,7 +20,7 @@ public interface ICableConnector {
 
     // Connect to a side (given in block space) and return an id representing this connection. Returns -1 if connection not possible
     // The subtype is used for the preferred subtype. The returned id is unique for this connector (even when considering sides).
-    int connect(EnumFacing blockSide, int networkId, CableSubType subType);
+    int connect(EnumFacing blockSide, int networkId, ICableSubType subType);
 
     void disconnect(int connectorId);
 
