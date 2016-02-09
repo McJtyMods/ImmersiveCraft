@@ -68,12 +68,12 @@ public class PacketPlaceItem implements IMessage {
 
             Block block = world.getBlockState(message.blockPos).getBlock();
             if (world.isAirBlock(message.blockPos.up())
-                    && InWorldPlacerTE.isValidPlacableBlock(world, message.blockPos, block)
+                    && BlockTools.isTopValidAndSolid(world, message.blockPos, block)
                     && message.side == EnumFacing.UP) {
                 BlockTools.placeBlock(world, message.blockPos.up(), ModBlocks.inWorldPlacerBlock, player);
                 BlockTools.getInventoryTE(world, message.blockPos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
             } else if (world.isAirBlock(message.blockPos.offset(message.side))
-                    && InWorldVerticalPlacerTE.isValidPlacableBlock(world, message.blockPos, message.side, block)) {
+                    && BlockTools.isSideValidAndSolid(world, message.blockPos, message.side, block)) {
                 BlockTools.placeBlock(world, message.blockPos.offset(message.side), ModBlocks.inWorldVerticalPlacerBlock, player);
                 BlockTools.getInventoryTE(world, message.blockPos.offset(message.side)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
             }

@@ -397,4 +397,30 @@ public class BlockTools {
             return Optional.empty();
         }
     }
+
+    public static boolean isTopValidAndSolid(World world, BlockPos pos, Block block) {
+        if (!block.isBlockSolid(world, pos, UP)) {
+            return false;
+        }
+        if (!block.getMaterial().isSolid()) {
+            return false;
+        }
+        if (!block.isNormalCube()) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isSideValidAndSolid(World world, BlockPos pos, EnumFacing side, Block block) {
+        if (!block.isBlockSolid(world, pos, side)) {
+            return false;
+        }
+        if (!block.getMaterial().isSolid()) {
+            return false;
+        }
+        if (!block.isNormalCube()) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -48,7 +48,7 @@ public class ForgeEventHandlers {
             } else if (GeneralConfiguration.allowRightClickPlacement
                     && canBePlaced(item)
                     && event.world.isAirBlock(event.pos.up())
-                    && InWorldPlacerTE.isValidPlacableBlock(event.world, event.pos, block)
+                    && BlockTools.isTopValidAndSolid(event.world, event.pos, block)
                     && event.face == EnumFacing.UP) {
                 BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.inWorldPlacerBlock, player);
                 BlockTools.getInventoryTE(event.world, event.pos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
@@ -56,7 +56,7 @@ public class ForgeEventHandlers {
             } else if (GeneralConfiguration.allowRightClickPlacement
                     && canBePlaced(item)
                     && event.world.isAirBlock(event.pos.offset(event.face))
-                    && InWorldVerticalPlacerTE.isValidPlacableBlock(event.world, event.pos, event.face, block)) {
+                    && BlockTools.isSideValidAndSolid(event.world, event.pos, event.face, block)) {
                 BlockTools.placeBlock(event.world, event.pos.offset(event.face), ModBlocks.inWorldVerticalPlacerBlock, player);
                 BlockTools.getInventoryTE(event.world, event.pos.offset(event.face)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
                 event.setCanceled(true);
@@ -106,7 +106,7 @@ public class ForgeEventHandlers {
                 SticksTE sticksTE = (SticksTE) te;
                 addSticks(player, sticksTE);
             }
-        } else if (event.world.isAirBlock(event.pos.up()) && InWorldPlacerTE.isValidPlacableBlock(event.world, event.pos, block)) {
+        } else if (event.world.isAirBlock(event.pos.up()) && BlockTools.isTopValidAndSolid(event.world, event.pos, block)) {
             BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.sticksBlock, player);
             TileEntity te = event.world.getTileEntity(event.pos.up());
             SticksTE sticksTE = (SticksTE) te;

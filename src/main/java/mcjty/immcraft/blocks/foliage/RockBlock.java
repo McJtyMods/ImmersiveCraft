@@ -1,10 +1,12 @@
 package mcjty.immcraft.blocks.foliage;
 
 import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -58,5 +60,18 @@ public class RockBlock extends GenericBlock {
 
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    }
+
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+        if (!canBlockStay(worldIn, pos)) {
+            dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+        }
+    }
+
+    private boolean canBlockStay(World worldIn, BlockPos pos) {
+        return BlockTools.isTopValidAndSolid(worldIn, pos, worldIn.getBlockState(pos.down()).getBlock());
     }
 }

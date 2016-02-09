@@ -38,19 +38,6 @@ public class InWorldVerticalPlacerTE extends GenericInventoryTE {
         worldObj.setBlockToAir(getPos());
     }
 
-    public static boolean isValidPlacableBlock(World world, BlockPos pos, EnumFacing side, Block block) {
-        if (!block.isBlockSolid(world, pos, side)) {
-            return false;
-        }
-        if (!block.getMaterial().isSolid()) {
-            return false;
-        }
-        if (!block.isNormalCube()) {
-            return false;
-        }
-        return true;
-    }
-
     public static void addItems(GenericInventoryTE inventory, EntityPlayer player, ItemStack heldItem) {
         inventory.setInventorySlotContents(SLOT_INPUT1, heldItem);
         inventory.markDirtyClient();

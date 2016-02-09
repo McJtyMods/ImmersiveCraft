@@ -5,6 +5,7 @@ import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.varia.BlockTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockState;
@@ -78,7 +79,19 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    }
 
+    @Override
+    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
+        if (!canBlockStay(worldIn, pos)) {
+            dropBlockAsItem(worldIn, pos, state, 0);
+            worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+        }
+    }
+
+    private boolean canBlockStay(World worldIn, BlockPos pos) {
+        return BlockTools.isTopValidAndSolid(worldIn, pos, worldIn.getBlockState(pos.down()).getBlock());
     }
 
     @Override
