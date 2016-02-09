@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks;
 
+import mcjty.immcraft.blocks.bundle.BundleBlock;
 import mcjty.immcraft.blocks.chest.ChestBlock;
 import mcjty.immcraft.blocks.chest.CupboardBlock;
 import mcjty.immcraft.blocks.foliage.RockBlock;
@@ -28,9 +29,11 @@ public class ModBlocks {
     public static ChestBlock chestBlock;
     public static CupboardBlock cupboardBlock;
 
+    public static BundleBlock bundleBlock;
 
     public static void init() {
         furnaceBlock = new FurnaceBlock();
+        bundleBlock = new BundleBlock();
 
         workbenchBlock = new WorkbenchBlock();
         workbenchSecondaryBlock = new WorkbenchSecondaryBlock();
@@ -56,6 +59,7 @@ public class ModBlocks {
     @SideOnly(Side.CLIENT)
     public static void initModels() {
         furnaceBlock.initModel();
+        bundleBlock.initModel();
         inWorldPlacerBlock.initModel();
         inWorldVerticalPlacerBlock.initModel();
         rockBlock.initModel();
@@ -64,5 +68,10 @@ public class ModBlocks {
         workbenchBlock.initModel();
         workbenchSecondaryBlock.initModel();
         cupboardBlock.initModel();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void initItemModels() {
+        ModBlocks.bundleBlock.initItemModel();
     }
 }

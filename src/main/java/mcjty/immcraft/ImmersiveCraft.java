@@ -1,6 +1,10 @@
 package mcjty.immcraft;
 
 
+import com.google.common.base.Function;
+import com.google.common.base.Optional;
+import mcjty.immcraft.api.IImmersiveCraft;
+import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ClientForgeEventHandlers;
@@ -20,6 +24,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
@@ -65,6 +70,20 @@ public class ImmersiveCraft {
         proxy.postInit(e);
     }
 
+
+    @Mod.EventHandler
+    public void imcCallback(FMLInterModComms.IMCEvent event) {
+        for (FMLInterModComms.IMCMessage message : event.getMessages()) {
+            if ("getapi".equalsIgnoreCase(message.key)) {
+                Optional<Function<IImmersiveCraft, Void>> value = message.getFunctionValue(IImmersiveCraft.class, Void.class);
+                value.get().apply(new ImmersiveCraftApi());
+            }
+        }
+    }
+
+
+
+
     public static class CommonProxy {
         public void preInit(FMLPreInitializationEvent e) {
             PacketHandler.registerMessages("immcraft");
@@ -104,8 +123,7 @@ public class ImmersiveCraft {
             super.init(e);
             FMLCommonHandler.instance().bus().register(new InputHandler());
             KeyBindings.init();
-
-//            ModBlocks.initItemModels();
+            ModBlocks.initItemModels();
         }
     }
 

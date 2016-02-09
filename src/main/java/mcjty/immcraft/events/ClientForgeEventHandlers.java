@@ -1,6 +1,7 @@
 package mcjty.immcraft.events;
 
 
+import mcjty.immcraft.blocks.bundle.BundleISBM;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.network.PacketHandler;
@@ -9,6 +10,7 @@ import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -38,5 +40,14 @@ public class ClientForgeEventHandlers {
             PacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_NEXTITEM));
         }
         event.setCanceled(true);
+    }
+
+    @SubscribeEvent
+    public void onModelBakeEvent(ModelBakeEvent event) {
+        Object object =  event.modelRegistry.getObject(BundleISBM.modelResourceLocation);
+        if (object != null) {
+            BundleISBM customModel = new BundleISBM();
+            event.modelRegistry.putObject(BundleISBM.modelResourceLocation, customModel);
+        }
     }
 }
