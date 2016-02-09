@@ -1,48 +1,36 @@
 package mcjty.immcraft.blocks.bundle;
 
 
+import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 
-public class CableItemBlock extends ItemBlock {
+public class CableItemBlockHelper implements ICableItemBlockHelper {
 
     private final ICableType type;
     private final ICableSubType subType;
 
-    public CableItemBlock(Block block, ICableType type, ICableSubType subType) {
-        super(block);
+    public CableItemBlockHelper(ICableType type, ICableSubType subType) {
         this.type = type;
         this.subType = subType;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
-        // Return true to make this work all the time.
-        return true;
-    }
-
-    @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onItemUse(EntityPlayer player, World world, BlockPos pos) {
         if (!world.isRemote) {
             Block block = world.getBlockState(pos).getBlock();
             if (block == ModBlocks.bundleBlock) {
@@ -55,10 +43,10 @@ public class CableItemBlock extends ItemBlock {
                     MovingObjectPosition movingObjectPosition = getMovingObjectPositionFromPlayer(world, player, false);
 
                     if (movingObjectPosition != null) {
-                        side = movingObjectPosition.sideHit;
-                        hitX = (float) movingObjectPosition.hitVec.xCoord - movingObjectPosition.getBlockPos().getX();
-                        hitY = (float) movingObjectPosition.hitVec.yCoord - movingObjectPosition.getBlockPos().getY();
-                        hitZ = (float) movingObjectPosition.hitVec.zCoord - movingObjectPosition.getBlockPos().getZ();
+                        EnumFacing side = movingObjectPosition.sideHit;
+                        float hitX = (float) movingObjectPosition.hitVec.xCoord - movingObjectPosition.getBlockPos().getX();
+                        float hitY = (float) movingObjectPosition.hitVec.yCoord - movingObjectPosition.getBlockPos().getY();
+                        float hitZ = (float) movingObjectPosition.hitVec.zCoord - movingObjectPosition.getBlockPos().getZ();
 
                         addCable(world, pos, side, hitX, hitY, hitZ);
                         return false;
@@ -66,11 +54,33 @@ public class CableItemBlock extends ItemBlock {
                 }
             }
         }
-        return super.onItemUse(stack, player, world, pos, side, hitX, hitY, hitZ);
+        return true;
     }
 
+    private MovingObjectPosition getMovingObjectPositionFromPlayer(World worldIn, EntityPlayer playerIn, boolean useLiquids) {
+        float pitch = playerIn.rotationPitch;
+        float yaw = playerIn.rotationYaw;
+        double x = playerIn.posX;
+        double y = playerIn.posY + playerIn.getEyeHeight();
+        double z = playerIn.posZ;
+        Vec3 vec3 = new Vec3(x, y, z);
+        float f2 = MathHelper.cos(-yaw * 0.017453292F - (float) Math.PI);
+        float f3 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+        float f4 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f5 = MathHelper.sin(-pitch * 0.017453292F);
+        float f6 = f3 * f4;
+        float f7 = f2 * f4;
+        double reach = 5.0D;
+        if (playerIn instanceof net.minecraft.entity.player.EntityPlayerMP) {
+            reach = ((net.minecraft.entity.player.EntityPlayerMP)playerIn).theItemInWorldManager.getBlockReachDistance();
+        }
+        Vec3 vec31 = vec3.addVector(f6 * reach, f5 * reach, f7 * reach);
+        return worldIn.rayTraceBlocks(vec3, vec31, useLiquids, !useLiquids, false);
+    }
+
+
     @Override
-    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
+    public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             Block block = ModBlocks.bundleBlock;
             boolean placed = false;

@@ -1,5 +1,7 @@
 package mcjty.immcraft.api;
 
+import mcjty.immcraft.api.cable.ICableItemBlockHelper;
+import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 
 /**
@@ -10,4 +12,12 @@ import mcjty.immcraft.api.cable.ICableType;
 public interface IImmersiveCraft {
 
     void registerCableType(ICableType type);
+
+    /**
+     * Create a helper to work with cable itemblocks
+     * @param type
+     * @param subType
+     * @return
+     */
+    ICableItemBlockHelper createItemBlockHelper(ICableType type, ICableSubType subType);
 }
