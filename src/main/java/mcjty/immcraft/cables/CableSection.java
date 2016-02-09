@@ -92,6 +92,7 @@ public class CableSection implements ICableSection {
         info[directionId].releaseConnector(world);
     }
 
+    @Override
     public ICableConnector getConnector(World worldObj, int directionId) {
         return info[directionId].getConnector(worldObj);
     }

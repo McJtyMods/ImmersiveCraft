@@ -2,15 +2,14 @@ package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
-import mcjty.immcraft.cables.*;
+import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.multiblock.MultiBlockCableHelper;
-import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.IntersectionTools;
 import mcjty.immcraft.varia.NBTHelper;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -26,9 +25,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BundleTE extends GenericTE implements ITickable {
+public class BundleTE extends GenericTE implements ITickable, IBundle {
 
     private final List<CableSection> cableSections = new ArrayList<>();
+
+    @Override
+    public TileEntity getTileEntity() {
+        return this;
+    }
 
     @Override
     public void update() {
@@ -47,7 +51,8 @@ public class BundleTE extends GenericTE implements ITickable {
         return cableSections;
     }
 
-    public CableSection findSection(ICableType type, ICableSubType subType, int id) {
+    @Override
+    public ICableSection findSection(ICableType type, ICableSubType subType, int id) {
         for (CableSection section : cableSections) {
             if (section.getType() == type && section.getSubType() == subType && section.getId() == id) {
                 return section;
@@ -86,7 +91,8 @@ public class BundleTE extends GenericTE implements ITickable {
      */
     private void disconnectFromConnector(ICableType type, ICableSubType subType, int id, BlockPos current) {
         BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, current).get();
-        CableSection section = bundle.findSection(type, subType, id);
+        ICableSection isection = bundle.findSection(type, subType, id);
+        CableSection section = (CableSection) isection;
         if (section.getConnectorID(0) != -1 && section.getConnector(worldObj, 0) != null) {
             section.getConnector(worldObj, 0).disconnect(section.getConnectorID(0));
             section.setConnection(0, null, null, -1);
@@ -99,7 +105,7 @@ public class BundleTE extends GenericTE implements ITickable {
 
     private Vector getVectorFromCable(BlockPos c, ICableType type, ICableSubType subType, int id) {
         BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, c).get();
-        CableSection section = bundle.findSection(type, subType, id);
+        CableSection section = (CableSection) bundle.findSection(type, subType, id);
         return section.getVector();
     }
 
@@ -135,7 +141,7 @@ public class BundleTE extends GenericTE implements ITickable {
             BlockPos current = path.get(i);
 
             BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, current).get();
-            CableSection section = bundle.findSection(type, subType, id);
+            CableSection section = (CableSection) bundle.findSection(type, subType, id);
 
             ICableConnector connector = null;
             if (i <= 0) {
@@ -228,7 +234,7 @@ public class BundleTE extends GenericTE implements ITickable {
     }
 
     private void disconnectOther(BundleTE other, CableSection thisSection) {
-        CableSection otherSection = other.findSection(thisSection.getType(), thisSection.getSubType(), thisSection.getId());
+        CableSection otherSection = (CableSection) other.findSection(thisSection.getType(), thisSection.getSubType(), thisSection.getId());
         other.disconnectFrom(otherSection, getPos());
         other.markDirtyClient();
     }

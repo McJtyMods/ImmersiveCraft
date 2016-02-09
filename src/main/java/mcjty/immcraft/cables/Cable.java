@@ -1,6 +1,7 @@
 package mcjty.immcraft.cables;
 
 import mcjty.immcraft.api.cable.ICable;
+import mcjty.immcraft.api.cable.ICableSection;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.blocks.bundle.BundleTE;
@@ -164,9 +165,9 @@ public class Cable implements IMultiBlock, ICable {
             TileEntity te = world.getTileEntity(c);
             if (te instanceof BundleTE) {
                 BundleTE bundle = (BundleTE) te;
-                CableSection section = bundle.findSection(type, subType, otherId);
+                ICableSection section = bundle.findSection(type, subType, otherId);
                 if (section != null) {
-                    section.setId(networkId);
+                    ((CableSection)section).setId(networkId);
                 }
             }
         }

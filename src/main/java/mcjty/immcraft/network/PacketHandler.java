@@ -1,6 +1,8 @@
 package mcjty.immcraft.network;
 
 
+import mcjty.immcraft.multiblock.MultiblockInfoPacketClient;
+import mcjty.immcraft.multiblock.MultiblockInfoPacketServer;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -68,5 +70,6 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);
 
         register(nextPacketID(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
+        register(nextPacketID(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);
     }
 }

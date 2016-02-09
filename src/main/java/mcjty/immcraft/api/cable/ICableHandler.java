@@ -1,7 +1,6 @@
 package mcjty.immcraft.api.cable;
 
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -11,7 +10,7 @@ import net.minecraft.world.World;
 public interface ICableHandler {
 
     // Called server side every tick
-    void tick(TileEntity bundleTE, ICableSection section);
+    void tick(IBundle bundleTE, ICableSection section);
 
     /*
      * Get the cable of the given subtype and id.

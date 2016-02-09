@@ -1,5 +1,6 @@
 package mcjty.immcraft.multiblock;
 
+import mcjty.immcraft.api.cable.ICableSection;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
@@ -87,7 +88,8 @@ public class MultiBlockCableHelper {
     // removeCableFromNetwork with support for cable system
     public static <T extends IMultiBlock> void removeBlockFromNetwork(IMultiBlockNetwork<T> network, ICableType type, ICableSubType subType, int networkId, World world, BlockPos thisCoord) {
         BundleTE thisTile = getTile(world, thisCoord, null);
-        CableSection section = thisTile.findSection(type, subType, networkId);
+        ICableSection isection = thisTile.findSection(type, subType, networkId);
+        CableSection section = (CableSection) isection;
         T mb = (T) section.getCable(world);
         Collection<? extends IMultiBlock> multiBlocks = mb.remove(world, thisCoord);
         MultiBlockNetwork n = (MultiBlockNetwork) network;
@@ -97,8 +99,8 @@ public class MultiBlockCableHelper {
             for (BlockPos b : multiBlock.getBlocks()) {
                 BundleTE te = getTile(world, b, null);
                 if (te != null) {
-                    CableSection otherSection = te.findSection(type, subType, networkId);
-                    otherSection.setId(id);
+                    ICableSection otherSection = te.findSection(type, subType, networkId);
+                    ((CableSection)otherSection).setId(id);
                     te.markDirtyClient();
                 }
             }
