@@ -6,10 +6,12 @@ import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import mcjty.immcraft.blocks.bundle.CableItemBlockHelper;
 import mcjty.immcraft.cables.Cable;
+import mcjty.immcraft.cables.CableClientInfo;
 import mcjty.immcraft.cables.CableRegistry;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import net.minecraft.tileentity.TileEntity;
@@ -32,13 +34,21 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     }
 
     @Override
-    public <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(IMultiBlockFactory<T> factory, EnumFacing[] directions) {
-        return new MultiBlockNetwork<>(factory, directions);
+    public <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions) {
+        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        if (network != null) {
+            return network;
+        }
+        return new MultiBlockNetwork<>(networkName, factory, directions);
     }
 
     @Override
-    public IMultiBlockNetwork createCableNetwork(ICableType type, ICableSubType subType) {
-        return new MultiBlockNetwork<Cable>(new IMultiBlockFactory<Cable>() {
+    public IMultiBlockNetwork createCableNetwork(String networkName, ICableType type, ICableSubType subType) {
+        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        if (network != null) {
+            return network;
+        }
+        return new MultiBlockNetwork<Cable>(networkName, new IMultiBlockFactory<Cable>() {
             @Override
             public Cable create() {
                 return new Cable(type, subType);
@@ -47,6 +57,11 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
             @Override
             public boolean isSameType(IMultiBlock mb) {
                 return mb instanceof Cable && ((Cable)mb).getType() == type;
+            }
+
+            @Override
+            public IMultiBlockClientInfo createClientInfo() {
+                return new CableClientInfo(0);
             }
         }, EnumFacing.VALUES);
     }

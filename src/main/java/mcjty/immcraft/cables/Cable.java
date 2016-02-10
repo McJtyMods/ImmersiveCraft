@@ -4,6 +4,7 @@ import mcjty.immcraft.api.cable.ICable;
 import mcjty.immcraft.api.cable.ICableSection;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.varia.BlockPosTools;
@@ -35,6 +36,11 @@ public class Cable implements IMultiBlock, ICable {
 
     public ICableSubType getSubType() {
         return subType;
+    }
+
+    @Override
+    public IMultiBlockClientInfo getClientInfo() {
+        return new CableClientInfo(getBlockCount());
     }
 
     @Override

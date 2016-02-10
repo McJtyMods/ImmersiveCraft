@@ -1,40 +1,44 @@
 package mcjty.immcraft.multiblock;
 
 import io.netty.buffer.ByteBuf;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.network.InfoPacketClient;
+import mcjty.immcraft.network.NetworkTools;
 import net.minecraft.client.entity.EntityPlayerSP;
 
 public class MultiblockInfoPacketClient implements InfoPacketClient {
 
-    private int networkId;
+    private String networkName;
     private int id;
-    private int refcount;
+    private IMultiBlockClientInfo clientInfo;
 
     public MultiblockInfoPacketClient() {
     }
 
-    public MultiblockInfoPacketClient(int networkId, int id, int refcount) {
-        this.networkId = networkId;
+    public MultiblockInfoPacketClient(String networkName, int id, IMultiBlockClientInfo clientInfo) {
+        this.networkName = networkName;
         this.id = id;
-        this.refcount = refcount;
+        this.clientInfo = clientInfo;
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        networkId = buf.readInt();
+        networkName = NetworkTools.readString(buf);
         id = buf.readInt();
-        refcount = buf.readInt();
+        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        clientInfo = network.getFactory().createClientInfo();
+        clientInfo.readFromBuf(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(networkId);
+        NetworkTools.writeString(buf, networkName);
         buf.writeInt(id);
-        buf.writeInt(refcount);
+        clientInfo.writeToBuf(buf);
     }
 
     @Override
     public void onMessageClient(EntityPlayerSP player) {
-        MultiBlockNetwork.registerBlockCount(networkId, id, refcount);
+        MultiBlockNetwork.registerClientInfo(networkName, id, clientInfo);
     }
 }

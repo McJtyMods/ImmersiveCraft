@@ -31,20 +31,22 @@ public interface IImmersiveCraft {
     ICableItemBlockHelper createItemBlockHelper(ICableType type, ICableSubType subType);
 
     /**
-     * Create a multiblock network for the given factory
+     * Create a multiblock network for the given factory. If the network already exists nothing happens
+     * @param networkName
      * @param factory
      * @param <T>
      * @return
      */
-    <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(IMultiBlockFactory<T> factory, EnumFacing[] directions);
+    <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions);
 
     /**
      * Create a multiblock network for a cable
+     * @param networkName
      * @param type
      * @param subType
      * @return
      */
-    IMultiBlockNetwork createCableNetwork(ICableType type, ICableSubType subType);
+    IMultiBlockNetwork createCableNetwork(String networkName, ICableType type, ICableSubType subType);
 
     /**
      * Get the bundle at the specific position.

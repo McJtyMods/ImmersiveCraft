@@ -9,6 +9,12 @@ import net.minecraft.util.EnumFacing;
 public interface IMultiBlockNetwork<T extends IMultiBlock> {
 
     /**
+     * Get the unique name that identifies this multiblock network
+     * @return
+     */
+    String getNetworkName();
+
+    /**
      * Get valid directions in which this multiblock network can expand
      * @return
      */
@@ -40,6 +46,14 @@ public interface IMultiBlockNetwork<T extends IMultiBlock> {
      * @return
      */
     T getOrCreateMultiBlock(int id);
+
+    /**
+     * Get the client information object we got from the server. Call this only client side
+     * and expect this to be a) not present, b) not up-to-date
+     * @param blockId
+     * @return
+     */
+    IMultiBlockClientInfo getClientInfo(int blockId);
 
     // Refresh client side information about a multiblock
     void refreshInfo(int id);

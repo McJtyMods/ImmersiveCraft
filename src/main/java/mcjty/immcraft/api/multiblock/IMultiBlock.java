@@ -17,6 +17,13 @@ public interface IMultiBlock {
      */
     boolean canConnect(IMultiBlock other, BlockPos pos);
 
+    /**
+     * Get information useful for displaying info on the client.
+     * This will always be called server-side.
+     * @return
+     */
+    IMultiBlockClientInfo getClientInfo();
+
     /*
      * The number of blocks that are part of this multiblock.
      */

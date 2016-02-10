@@ -1,9 +1,6 @@
 package mcjty.immcraft.multiblock;
 
-import mcjty.immcraft.api.multiblock.IMultiBlock;
-import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
-import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
-import mcjty.immcraft.api.multiblock.IMultiBlockTile;
+import mcjty.immcraft.api.multiblock.*;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,32 +15,54 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
     // Every multiblock in this network has its id
     private int lastId = 0;
 
-    // The multiblock network itself also has an id
-    private int networkId = -1;
-    private static int lastNetworkId = 0;
-    private static Map<Integer, MultiBlockNetwork> networks = new HashMap<>();
+    private final String networkName;
+    private static Map<String, MultiBlockNetwork> networks = new HashMap<>();
 
     private final IMultiBlockFactory<T> factory;
-    private final Map<Integer,T> multiblocks = new HashMap<Integer,T>();
+    private final Map<Integer,T> multiblocks = new HashMap<>();
     private final EnumFacing[] directions;
 
-    public MultiBlockNetwork(IMultiBlockFactory<T> factory, EnumFacing[] directions) {
+    public MultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions) {
+        this.networkName = networkName;
         this.factory = factory;
-        networkId = lastNetworkId++;
-        networks.put(networkId, this);
+        networks.put(networkName, this);
         this.directions = directions;
     }
 
-    public static MultiBlockNetwork getNetwork(int networkId) {
-        return networks.get(networkId);
+    @Override
+    public String getNetworkName() {
+        return networkName;
     }
 
-    public static void registerBlockCount(int networkId, int blockId, int count) {
-        // @todo
+    public IMultiBlockFactory<T> getFactory() {
+        return factory;
     }
+
+    public static MultiBlockNetwork getNetwork(String networkName) {
+        return networks.get(networkName);
+    }
+
+    //---------------------------------------------------------------
+    // Client information system
 
     // Client-side only. How long ago the mb entry was updated
     private final Map<Integer,Long> lastUpdateTime = new HashMap<>();
+
+    private final Map<Integer, IMultiBlockClientInfo> clientInfos = new HashMap<>();
+
+    // Called client side only
+    public static void registerClientInfo(String uniqueName, int blockId, IMultiBlockClientInfo clientInfo) {
+        networks.get(uniqueName).registerClientInfo(blockId, clientInfo);
+    }
+
+    public void registerClientInfo(int blockId, IMultiBlockClientInfo clientInfo) {
+        clientInfos.put(blockId, clientInfo);
+    }
+
+    @Override
+    public IMultiBlockClientInfo getClientInfo(int blockId) {
+        return clientInfos.get(blockId);
+    }
 
     // Refresh client side information about a multiblock
     @Override
@@ -51,9 +70,11 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         long time = System.currentTimeMillis();
         if ((!lastUpdateTime.containsKey(id)) || (time - lastUpdateTime.get(id)) > 100) {
             lastUpdateTime.put(id, time);
-            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new MultiblockInfoPacketServer(networkId, id)));
+            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new MultiblockInfoPacketServer(networkName, id)));
         }
     }
+
+    //---------------------------------------------------------------
 
     @Override
     public void clear() {
