@@ -72,6 +72,6 @@ public class RockBlock extends GenericBlock {
     }
 
     private boolean canBlockStay(World worldIn, BlockPos pos) {
-        return BlockTools.isTopValidAndSolid(worldIn, pos, worldIn.getBlockState(pos.down()).getBlock());
+        return BlockTools.isTopValidAndSolid(worldIn, pos);
     }
 }

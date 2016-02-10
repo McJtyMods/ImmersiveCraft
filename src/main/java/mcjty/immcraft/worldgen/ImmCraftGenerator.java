@@ -4,6 +4,7 @@ package mcjty.immcraft.worldgen;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -82,16 +83,14 @@ public class ImmCraftGenerator implements IWorldGenerator {
             return;
         }
         y++;
+        if (!BlockTools.isTopValidAndSolid(world, pos)) {
+            return;
+        }
         for (int i = 0 ; i < 15 ; i++) {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
                 if (isLeafBlock(world.getBlockState(new BlockPos(x, y, z)).getBlock())) {
-                    IBlockState oldstate = world.getBlockState(pos.up());
-                    System.out.println("oldstate.getBlock() = " + oldstate.getBlock());
-                    boolean b = world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
-                    System.out.println("b = " + b);
-                    System.out.println("pos = " + pos.up());
+                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     SticksTE sticksTE = (SticksTE) world.getTileEntity(pos.up());
-                    System.out.println("sticksTE = " + sticksTE);
                     sticksTE.setSticks(random.nextInt(6)+1);
                 }
                 return;

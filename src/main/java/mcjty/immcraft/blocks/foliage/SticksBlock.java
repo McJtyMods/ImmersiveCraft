@@ -91,7 +91,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     }
 
     private boolean canBlockStay(World worldIn, BlockPos pos) {
-        return BlockTools.isTopValidAndSolid(worldIn, pos, worldIn.getBlockState(pos.down()).getBlock());
+        return BlockTools.isTopValidAndSolid(worldIn, pos.down());
     }
 
     @Override

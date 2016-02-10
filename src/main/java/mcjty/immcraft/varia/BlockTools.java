@@ -399,7 +399,8 @@ public class BlockTools {
         }
     }
 
-    public static boolean isTopValidAndSolid(World world, BlockPos pos, Block block) {
+    public static boolean isTopValidAndSolid(World world, BlockPos pos) {
+        Block block = world.getBlockState(pos).getBlock();
         if (!block.isBlockSolid(world, pos, UP)) {
             return false;
         }
