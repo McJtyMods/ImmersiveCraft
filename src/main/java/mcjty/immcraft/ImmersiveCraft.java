@@ -12,6 +12,7 @@ import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
+import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.waila.WailaCompatibility;
 import mcjty.immcraft.worldgen.WorldGen;
@@ -23,10 +24,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
@@ -70,6 +68,10 @@ public class ImmersiveCraft {
         proxy.postInit(e);
     }
 
+    @Mod.EventHandler
+    public void serverStopped(FMLServerStoppedEvent event) {
+        MultiBlockData.clearInstance();
+    }
 
     @Mod.EventHandler
     public void imcCallback(FMLInterModComms.IMCEvent event) {

@@ -25,7 +25,7 @@ public class MultiblockInfoPacketClient implements InfoPacketClient {
     public void fromBytes(ByteBuf buf) {
         networkName = NetworkTools.readString(buf);
         id = buf.readInt();
-        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         clientInfo = network.getFactory().createClientInfo();
         clientInfo.readFromBuf(buf);
     }
@@ -39,6 +39,6 @@ public class MultiblockInfoPacketClient implements InfoPacketClient {
 
     @Override
     public void onMessageClient(EntityPlayerSP player) {
-        MultiBlockNetwork.registerClientInfo(networkName, id, clientInfo);
+        MultiBlockData.getClientSide().getNetwork(networkName).registerClientInfo(id, clientInfo);
     }
 }

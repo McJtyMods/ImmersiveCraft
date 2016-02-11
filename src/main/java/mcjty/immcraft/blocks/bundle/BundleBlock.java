@@ -1,11 +1,14 @@
 package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.cables.CableRegistry;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.cables.CableSectionRender;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
+import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -82,10 +85,10 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         for (CableSection section : bundleTE.getCableSections()) {
             int networkId = section.getId();
             if (networkId != -1) {
-                IMultiBlockNetwork networkClient = section.getType().getCableHandler().getNetworkClient(section.getSubType());
-                MultiBlockNetwork n = (MultiBlockNetwork) networkClient;
-                IMultiBlock multiBlock = n.getOrCreateMultiBlock(networkId);
-                n.refreshInfo(networkId);
+                String networkName = section.getType().getCableHandler().getNetworkName(section.getSubType());
+                MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
+                IMultiBlock multiBlock = network.getOrCreateMultiBlock(networkId);
+                network.refreshInfo(networkId);
                 currenttip.add(EnumChatFormatting.GREEN + "Id: " + networkId + " (Size: " + multiBlock.getBlockCount() + ")");
                 if (accessor.getPlayer().isSneaking()) {
                     currenttip.add(EnumChatFormatting.YELLOW + section.getType().getReadableName() + ": " + section.getConnection(0) + " : " + bundleTE.getPos() + " : " + section.getConnection(1));

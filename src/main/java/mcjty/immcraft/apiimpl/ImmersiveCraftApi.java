@@ -13,6 +13,7 @@ import mcjty.immcraft.blocks.bundle.CableItemBlockHelper;
 import mcjty.immcraft.cables.Cable;
 import mcjty.immcraft.cables.CableClientInfo;
 import mcjty.immcraft.cables.CableRegistry;
+import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
@@ -34,8 +35,13 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     }
 
     @Override
+    public void save(World world) {
+        MultiBlockData.save(world);
+    }
+
+    @Override
     public <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions) {
-        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         if (network != null) {
             return network;
         }
@@ -44,7 +50,7 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
 
     @Override
     public IMultiBlockNetwork createCableNetwork(String networkName, ICableType type, ICableSubType subType) {
-        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         if (network != null) {
             return network;
         }

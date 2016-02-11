@@ -16,7 +16,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
     private int lastId = 0;
 
     private final String networkName;
-    private static Map<String, MultiBlockNetwork> networks = new HashMap<>();
 
     private final IMultiBlockFactory<T> factory;
     private final Map<Integer,T> multiblocks = new HashMap<>();
@@ -25,7 +24,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
     public MultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions) {
         this.networkName = networkName;
         this.factory = factory;
-        networks.put(networkName, this);
+        MultiBlockData.networks.put(networkName, this);
         this.directions = directions;
     }
 
@@ -38,10 +37,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         return factory;
     }
 
-    public static MultiBlockNetwork getNetwork(String networkName) {
-        return networks.get(networkName);
-    }
-
     //---------------------------------------------------------------
     // Client information system
 
@@ -51,10 +46,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
     private final Map<Integer, IMultiBlockClientInfo> clientInfos = new HashMap<>();
 
     // Called client side only
-    public static void registerClientInfo(String uniqueName, int blockId, IMultiBlockClientInfo clientInfo) {
-        networks.get(uniqueName).registerClientInfo(blockId, clientInfo);
-    }
-
     public void registerClientInfo(int blockId, IMultiBlockClientInfo clientInfo) {
         clientInfos.put(blockId, clientInfo);
     }
@@ -78,6 +69,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public void clear() {
+        System.out.println("MultiBlockNetwork.clear ####################");
         multiblocks.clear();
         lastId = 0;
     }
@@ -90,6 +82,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public int createMultiBlock(T mb) {
+        System.out.println("MultiBlockNetwork.createMultiBlock");
         int id = newMultiBlock();
         multiblocks.put(id, mb);
         return id;
@@ -100,6 +93,8 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         T mb = multiblocks.get(id);
         if (mb == null) {
             mb = factory.create();
+            System.out.println("######################");
+            System.out.println("id = " + id + ", mb = " + mb);
             multiblocks.put(id, mb);
         }
         return mb;
@@ -111,6 +106,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public void deleteMultiBlock(int id) {
+        System.out.println("MultiBlockNetwork.deleteMultiBlock: id = " + id);
         multiblocks.remove(id);
     }
 
@@ -128,7 +124,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
     @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         multiblocks.clear();
-        NBTTagList lst = tagCompound.getTagList("tanks", Constants.NBT.TAG_COMPOUND);
+        NBTTagList lst = tagCompound.getTagList("multiblocks", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < lst.tagCount() ; i++) {
             NBTTagCompound tc = lst.getCompoundTagAt(i);
             int channel = tc.getInteger("channel");
@@ -148,10 +144,8 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
             entry.getValue().writeToNBT(tc);
             lst.appendTag(tc);
         }
-        tagCompound.setTag("tanks", lst);
+        tagCompound.setTag("multiblocks", lst);
         tagCompound.setInteger("lastId", lastId);
     }
-
-
 
 }

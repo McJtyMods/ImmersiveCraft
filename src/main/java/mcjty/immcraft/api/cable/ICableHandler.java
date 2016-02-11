@@ -1,6 +1,5 @@
 package mcjty.immcraft.api.cable;
 
-import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
 import net.minecraft.world.World;
 
 /**
@@ -17,18 +16,10 @@ public interface ICableHandler {
      */
     ICable getCable(World world, ICableSubType subType, int id);
 
-    /*
-     * Get the multiblock network for the given subtype.
+    /**
+     * Get the unique name of the network for the given subtype.
+     * @param subType
+     * @return
      */
-    IMultiBlockNetwork getNetwork(World world, ICableSubType subType);
-
-    /*
-     * Get the client-side representation of the multiblock network
-     * for the given subtype. This network instance only contains
-     * part of the network relevant for the client and is refreshed
-     * via MultiBlockNetwork.refreshInfo().
-     */
-    IMultiBlockNetwork getNetworkClient(ICableSubType subType);
-
-    void saveNetwork(World world);
+    String getNetworkName(ICableSubType subType);
 }

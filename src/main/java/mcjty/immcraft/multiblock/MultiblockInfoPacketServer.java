@@ -36,7 +36,8 @@ public class MultiblockInfoPacketServer implements InfoPacketServer {
 
     @Override
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
-        MultiBlockNetwork network = MultiBlockNetwork.getNetwork(networkName);
+        MultiBlockData.get(player.worldObj);
+        MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         IMultiBlock mb = network.getOrCreateMultiBlock(blockId);
         if (mb == null) {
             return Optional.empty();
