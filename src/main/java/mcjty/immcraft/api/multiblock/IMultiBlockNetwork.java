@@ -1,7 +1,7 @@
 package mcjty.immcraft.api.multiblock;
 
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 
 /**
  * This represents a multiblock network
@@ -59,17 +59,13 @@ public interface IMultiBlockNetwork<T extends IMultiBlock> {
     void refreshInfo(int id);
 
     /**
-         * Clear all multiblocks in this network
-         */
-    void clear();
+     * After making changes to a multiblock call this method to make sure the multiblock data gets persisted.
+     */
+    void save(World world);
 
     /**
      * Make a new multiblock and return the id
      * @return
      */
     int newMultiBlock();
-
-    void readFromNBT(NBTTagCompound tagCompound);
-    void writeToNBT(NBTTagCompound tagCompound);
-
 }

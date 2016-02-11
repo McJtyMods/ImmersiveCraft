@@ -35,11 +35,6 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     }
 
     @Override
-    public void save(World world) {
-        MultiBlockData.save(world);
-    }
-
-    @Override
     public <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions) {
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         if (network != null) {

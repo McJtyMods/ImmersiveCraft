@@ -40,11 +40,6 @@ public interface IImmersiveCraft {
     <T extends IMultiBlock> IMultiBlockNetwork<T> createMultiBlockNetwork(String networkName, IMultiBlockFactory<T> factory, EnumFacing[] directions);
 
     /**
-     * After making changes to a multiblock call this method to make sure the multiblock data gets persisted.
-     */
-    void save(World world);
-
-    /**
      * Create a multiblock network for a cable
      * @param networkName
      * @param type

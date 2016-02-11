@@ -6,6 +6,7 @@ import mcjty.immcraft.network.PacketHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 
 import java.util.HashMap;
@@ -35,6 +36,11 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     public IMultiBlockFactory<T> getFactory() {
         return factory;
+    }
+
+    @Override
+    public void save(World world) {
+        MultiBlockData.save(world);
     }
 
     //---------------------------------------------------------------
@@ -67,9 +73,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     //---------------------------------------------------------------
 
-    @Override
     public void clear() {
-        System.out.println("MultiBlockNetwork.clear ####################");
         multiblocks.clear();
         lastId = 0;
     }
@@ -82,7 +86,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public int createMultiBlock(T mb) {
-        System.out.println("MultiBlockNetwork.createMultiBlock");
         int id = newMultiBlock();
         multiblocks.put(id, mb);
         return id;
@@ -93,8 +96,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         T mb = multiblocks.get(id);
         if (mb == null) {
             mb = factory.create();
-            System.out.println("######################");
-            System.out.println("id = " + id + ", mb = " + mb);
             multiblocks.put(id, mb);
         }
         return mb;
@@ -106,7 +107,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public void deleteMultiBlock(int id) {
-        System.out.println("MultiBlockNetwork.deleteMultiBlock: id = " + id);
         multiblocks.remove(id);
     }
 
@@ -121,7 +121,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         return lastId;
     }
 
-    @Override
     public void readFromNBT(NBTTagCompound tagCompound) {
         multiblocks.clear();
         NBTTagList lst = tagCompound.getTagList("multiblocks", Constants.NBT.TAG_COMPOUND);
@@ -135,7 +134,6 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         lastId = tagCompound.getInteger("lastId");
     }
 
-    @Override
     public void writeToNBT(NBTTagCompound tagCompound) {
         NBTTagList lst = new NBTTagList();
         for (Map.Entry<Integer, T> entry : multiblocks.entrySet()) {
