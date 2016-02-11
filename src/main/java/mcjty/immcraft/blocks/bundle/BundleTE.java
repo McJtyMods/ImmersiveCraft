@@ -1,8 +1,8 @@
 package mcjty.immcraft.blocks.bundle;
 
+import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.cable.*;
 import mcjty.immcraft.api.util.Vector;
-import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.multiblock.MultiBlockCableHelper;
@@ -171,13 +171,13 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
             BlockPos adj = pos.offset(direction);
             TileEntity te = worldObj.getTileEntity(adj);
             if (te instanceof ICableConnector && te != alreadyConnected) {
-                GenericBlock genericBlock = BlockTools.getBlock(worldObj, adj).get();
-                EnumFacing blockSide = genericBlock.worldToBlockSpace(worldObj, adj, direction.getOpposite());
+                IOrientedBlock orientedBlock = (IOrientedBlock) worldObj.getBlockState(adj).getBlock();
+                EnumFacing blockSide = orientedBlock.worldToBlockSpace(worldObj, adj, direction.getOpposite());
 
                 ICableConnector connector = (ICableConnector) te;
                 if (connector.getType() == section.getType() && connector.canConnect(blockSide)) {
                     int connectorId = connector.connect(blockSide, networkId, section.getSubType());
-                    EnumFacing frontDirection = genericBlock.getFrontDirection(worldObj.getBlockState(adj));
+                    EnumFacing frontDirection = orientedBlock.getFrontDirection(worldObj.getBlockState(adj));
                     section.setConnection(directionId, adj, connector.getConnectorLocation(connectorId, frontDirection), connectorId);
                     return connector;
                 }

@@ -1,13 +1,10 @@
 package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
-import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
+import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.cables.CableRegistry;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.cables.CableSectionRender;
-import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcp.mobius.waila.api.IWailaConfigHandler;

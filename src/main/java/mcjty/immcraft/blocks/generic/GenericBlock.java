@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.waila.WailaProvider;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.List;
 
 @Optional.Interface(modid = "Waila", iface = "mcjty.immcraft.waila.WailaProvider")
-public class GenericBlock extends Block implements WailaProvider {
+public class GenericBlock extends Block implements WailaProvider, IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -112,6 +113,7 @@ public class GenericBlock extends Block implements WailaProvider {
     }
 
 
+    @Override
     public EnumFacing getFrontDirection(IBlockState state) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
@@ -159,6 +161,7 @@ public class GenericBlock extends Block implements WailaProvider {
         return null;
     }
 
+    @Override
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
