@@ -38,6 +38,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
     @Override
     public void update() {
         if (!worldObj.isRemote) {
+            MultiBlockData.get(worldObj);       // Make sure the multiblock data is loaded
             cableSections.stream().forEach(p -> p.getType().getCableHandler().tick(this, p));
         }
     }
