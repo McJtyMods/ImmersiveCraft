@@ -38,8 +38,10 @@ public class ClientForgeEventHandlers {
             EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
             if (player.isSneaking()) {
                 MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
-                BlockTools.getTE(null, Minecraft.getMinecraft().theWorld, mouseOver.getBlockPos())
-                        .ifPresent(p -> handleWheel(p, dWheel, event));
+                if (mouseOver != null && mouseOver.getBlockPos() != null) {
+                    BlockTools.getTE(null, Minecraft.getMinecraft().theWorld, mouseOver.getBlockPos())
+                            .ifPresent(p -> handleWheel(p, dWheel, event));
+                }
             }
         }
     }
