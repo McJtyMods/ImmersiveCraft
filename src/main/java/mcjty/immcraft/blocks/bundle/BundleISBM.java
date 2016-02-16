@@ -104,9 +104,9 @@ public class BundleISBM implements ISmartBlockModel {
             ), -1, side);
         }
 
-        private BakedQuad createOutwardsQuad(Vector inside, Vector v1, Vector v2, Vector v3, Vector v4, TextureAtlasSprite sprite) {
+        private BakedQuad createOrientedQuad(Vector inside, Vector v1, Vector v2, Vector v3, Vector v4, TextureAtlasSprite sprite, boolean inwards) {
             Vector normal = v1.subtract(v2).cross(v3.subtract(v2));
-            if (inside.subtract(v2).dot(normal) < 0) {
+            if ((inside.subtract(v2).dot(normal) < 0) != inwards) {
                 return createQuad(v4, v3, v2, v1, sprite);
             } else {
                 return createQuad(v1, v2, v3, v4, sprite);
@@ -155,10 +155,16 @@ public class BundleISBM implements ISmartBlockModel {
             Vector v1 = vectorPair.getLeft().normalize().mul(CT);
             Vector v2 = vectorPair.getRight().normalize().mul(CT);
             Vector center = vector1.add(vector2).mul(.5f);
-            quads.add(createOutwardsQuad(center, vector1.add(v1).add(v2), vector2.add(v1).add(v2), vector2.add(v1).subtract(v2), vector1.add(v1).subtract(v2), sprite));
-            quads.add(createOutwardsQuad(center, vector1.add(v1).subtract(v2), vector2.add(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector1.subtract(v1).subtract(v2), sprite));
-            quads.add(createOutwardsQuad(center, vector1.subtract(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector2.subtract(v1).add(v2), vector1.subtract(v1).add(v2), sprite));
-            quads.add(createOutwardsQuad(center, vector1.subtract(v1).add(v2),      vector2.subtract(v1).add(v2),      vector2.add(v1).add(v2),           vector1.add(v1).add(v2) , sprite));
+            quads.add(createOrientedQuad(center, vector1.add(v1).add(v2), vector2.add(v1).add(v2), vector2.add(v1).subtract(v2), vector1.add(v1).subtract(v2), sprite, false));
+            quads.add(createOrientedQuad(center, vector1.add(v1).subtract(v2), vector2.add(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector1.subtract(v1).subtract(v2), sprite, false));
+            quads.add(createOrientedQuad(center, vector1.subtract(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector2.subtract(v1).add(v2), vector1.subtract(v1).add(v2), sprite, false));
+            quads.add(createOrientedQuad(center, vector1.subtract(v1).add(v2), vector2.subtract(v1).add(v2), vector2.add(v1).add(v2), vector1.add(v1).add(v2), sprite, false));
+
+            // Inwards
+            quads.add(createOrientedQuad(center, vector1.add(v1).add(v2), vector2.add(v1).add(v2), vector2.add(v1).subtract(v2), vector1.add(v1).subtract(v2), sprite, true));
+            quads.add(createOrientedQuad(center, vector1.add(v1).subtract(v2), vector2.add(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector1.subtract(v1).subtract(v2), sprite, true));
+            quads.add(createOrientedQuad(center, vector1.subtract(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector2.subtract(v1).add(v2), vector1.subtract(v1).add(v2), sprite, true));
+            quads.add(createOrientedQuad(center, vector1.subtract(v1).add(v2), vector2.subtract(v1).add(v2), vector2.add(v1).add(v2), vector1.add(v1).add(v2), sprite, true));
         }
 
         @Override
