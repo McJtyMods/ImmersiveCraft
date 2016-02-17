@@ -197,6 +197,14 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
         return (int) cableSections.stream().filter(s -> s.getType() == type && s.getSubType() == subType && (s.getConnection(0) == null || s.getConnection(1) == null)).count();
     }
 
+
+    /**
+     * Remove all cables from the multiblock network (used when the entire bundle is broken)
+     */
+    public void removeAllCables() {
+        cableSections.stream().forEach(this::removeCableFromNetwork);
+    }
+
     /*
      * Remove a cable that is part of this bundle from its network.
      * It will first disconnect the segment out of the cable and

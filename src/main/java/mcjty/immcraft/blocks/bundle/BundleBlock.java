@@ -102,6 +102,12 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         getTE(world, pos).checkConnections();
     }
 
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        getTE(world, pos).removeAllCables();
+        super.breakBlock(world, pos, state);
+    }
+
     @SideOnly(Side.CLIENT)
     @Override
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
