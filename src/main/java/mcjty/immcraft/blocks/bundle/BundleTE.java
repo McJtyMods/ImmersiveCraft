@@ -202,7 +202,8 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
      * Remove all cables from the multiblock network (used when the entire bundle is broken)
      */
     public void removeAllCables() {
-        cableSections.stream().forEach(this::removeCableFromNetwork);
+        // Make a copy of the list to avoid a concurrent modification exception
+        (new ArrayList<CableSection>(cableSections)).stream().forEach(this::removeCableFromNetwork);
     }
 
     /*
