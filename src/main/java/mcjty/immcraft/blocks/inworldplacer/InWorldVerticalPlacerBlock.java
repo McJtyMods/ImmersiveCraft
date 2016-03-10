@@ -6,7 +6,6 @@ import mcjty.immcraft.rendering.HandleTESR;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -74,11 +73,6 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     @Override
     public int quantityDropped(Random random) {
         return 0;
-    }
-
-    @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
-        return activateBlock(world, pos, player, side, sx, sy, sz);
     }
 
     /**

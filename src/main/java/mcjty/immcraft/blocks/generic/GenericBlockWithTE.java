@@ -3,6 +3,8 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
+import mcjty.immcraft.network.PacketHitBlock;
+import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -10,14 +12,12 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -79,7 +79,19 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
         return (T) te;
     }
 
-    public boolean activateBlock(World world, BlockPos pos, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
+    @Override
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer playerIn) {
+        if (world.isRemote) {
+            PacketHandler.INSTANCE.sendToServer(new PacketHitBlock());
+        }
+    }
+
+    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3 hitVec) {
+        return getTE(world, pos).onClick(player, side, worldToBlockSpace(world, pos, side), hitVec);
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
         return getTE(world, pos).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3(sx, sy, sz));
     }
 

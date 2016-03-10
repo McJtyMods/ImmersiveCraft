@@ -172,6 +172,28 @@ public class GenericTE extends TileEntity {
         }
     }
 
+    public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        if (handle != null) {
+            ItemStack heldItem = player.getHeldItem();
+            if (heldItem == null) {
+                // Nothing happens if the player doesn't have anything in his/her hand
+                return false;
+            }
+            int amount = -1;
+            if (handle.acceptAsInput(heldItem)) {
+                if (!addItemToHandle(player, heldItem, handle, amount)) {
+                    addItemAnywhere(player, heldItem, amount);
+                }
+                return true;
+            } else {
+                return addItemAnywhere(player, heldItem, amount);
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Should be called server side on activation.
      * @param worldSide is the side in world space where the block is activated
@@ -197,6 +219,17 @@ public class GenericTE extends TileEntity {
             }
         }
 
+        return false;
+    }
+
+    private boolean addItemAnywhere(EntityPlayer player, ItemStack heldItem, int amount) {
+        for (IInterfaceHandle handle : interfaceHandles) {
+            if (handle.acceptAsInput(heldItem)) {
+                if (addItemToHandle(player, heldItem, handle, amount)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 

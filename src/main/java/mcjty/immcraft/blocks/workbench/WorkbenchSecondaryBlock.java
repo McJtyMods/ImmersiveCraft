@@ -52,11 +52,6 @@ public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSeconda
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
-        return activateBlock(world, pos, player, side, sx, sy, sz);
-    }
-
-    @Override
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player) {
         if (!world.isRemote) {
             EnumFacing left = getLeftDirection(state);

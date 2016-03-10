@@ -59,9 +59,4 @@ public class ChestBlock extends GenericBlockWithTE<ChestTE> {
     public boolean isFullCube() {
         return false;
     }
-
-    @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
-        return activateBlock(world, pos, player, side, sx, sy, sz);
-    }
 }

@@ -65,6 +65,7 @@ public class PacketHandler {
         INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, nextID(), Side.SERVER);
         INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, nextID(), Side.SERVER);
         INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, nextID(), Side.SERVER);
 
         // Client side
         INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);

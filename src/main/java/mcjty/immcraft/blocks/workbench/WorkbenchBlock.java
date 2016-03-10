@@ -54,11 +54,6 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
-        return activateBlock(world, pos, player, side, sx, sy, sz);
-    }
-
-    @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase entityLivingBase, ItemStack itemStack) {
         super.onBlockPlacedBy(world, pos, state, entityLivingBase, itemStack);
         EnumFacing right = getRightDirection(state);
