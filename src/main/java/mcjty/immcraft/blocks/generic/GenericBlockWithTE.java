@@ -3,8 +3,8 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
-import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -17,10 +17,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -82,8 +87,13 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     @Override
     public void onBlockClicked(World world, BlockPos pos, EntityPlayer playerIn) {
         if (world.isRemote) {
-            PacketHandler.INSTANCE.sendToServer(new PacketHitBlock());
+            clickBlockClient();
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void clickBlockClient() {
+        PacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
     }
 
     public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3 hitVec) {

@@ -5,7 +5,6 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.varia.BlockPosTools;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
@@ -38,7 +37,9 @@ public class PacketHitBlock implements IMessage {
     }
 
     public PacketHitBlock() {
-        MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
+    }
+
+    public PacketHitBlock(MovingObjectPosition mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
         hitVec = new Vec3(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());

@@ -8,7 +8,6 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -43,7 +42,9 @@ public class PacketPlaceItem implements IMessage {
     }
 
     public PacketPlaceItem() {
-        MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
+    }
+
+    public PacketPlaceItem(MovingObjectPosition mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
         hitVec = new Vec3(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
