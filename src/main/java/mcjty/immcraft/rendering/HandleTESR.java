@@ -5,6 +5,7 @@ import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -26,6 +27,14 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
 
     @Override
     public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+
+        IBlockState state = tileEntity.getWorld().getBlockState(tileEntity.getPos());
+        if (!(state.getBlock() instanceof GenericBlock)) {
+            // Safety. In some situations (like with shaders mod installed) this gets called
+            // when the block is already removed
+            return;
+        }
+
         GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 

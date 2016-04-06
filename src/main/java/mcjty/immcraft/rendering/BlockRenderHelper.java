@@ -4,7 +4,6 @@ package mcjty.immcraft.rendering;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
-import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
