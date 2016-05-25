@@ -1,4 +1,4 @@
-package mcjty.immcraft.top;
+package mcjty.immcraft.compat.top;
 
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;

@@ -1,4 +1,4 @@
-package mcjty.immcraft.waila;
+package mcjty.immcraft.compat.waila;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

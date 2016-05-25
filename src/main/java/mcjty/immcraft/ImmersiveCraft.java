@@ -7,6 +7,7 @@ import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleModelLoader;
+import mcjty.immcraft.compat.MainCompatHandler;
 import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ClientForgeEventHandlers;
 import mcjty.immcraft.events.ForgeEventHandlers;
@@ -15,11 +16,8 @@ import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.network.PacketHandler;
-import mcjty.immcraft.top.TOPCompatibility;
-import mcjty.immcraft.waila.WailaCompatibility;
 import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -58,8 +56,8 @@ public class ImmersiveCraft {
             }
         };
         proxy.preInit(event);
-        WailaCompatibility.register();
-        TOPCompatibility.register();
+        MainCompatHandler.registerWaila();
+        MainCompatHandler.registerTOP();
     }
 
     @Mod.EventHandler

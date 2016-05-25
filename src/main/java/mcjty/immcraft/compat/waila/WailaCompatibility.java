@@ -1,4 +1,4 @@
-package mcjty.immcraft.waila;
+package mcjty.immcraft.compat.waila;
 
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -43,7 +43,7 @@ public class WailaCompatibility implements IWailaDataProvider {
         if (registered)
             return;
         registered = true;
-        FMLInterModComms.sendMessage("Waila", "register", "mcjty.immcraft.waila.WailaCompatibility.load");
+        FMLInterModComms.sendMessage("Waila", "register", "mcjty.immcraft.compat.waila.WailaCompatibility.load");
     }
 
     @Override

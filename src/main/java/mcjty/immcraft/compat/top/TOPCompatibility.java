@@ -1,4 +1,4 @@
-package mcjty.immcraft.top;
+package mcjty.immcraft.compat.top;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.theoneprobe.api.*;
@@ -18,7 +18,7 @@ public class TOPCompatibility {
         if (registered)
             return;
         registered = true;
-        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "mcjty.immcraft.top.TOPCompatibility$GetTheOneProbe");
+        FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", "mcjty.immcraft.compat.top.TOPCompatibility$GetTheOneProbe");
     }
 
 
