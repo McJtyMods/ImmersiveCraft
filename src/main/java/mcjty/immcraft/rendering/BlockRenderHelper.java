@@ -200,6 +200,7 @@ public final class BlockRenderHelper {
     }
 
     private static void renderItemStackInWorld(Vec3d offset, boolean selected, boolean crafting, ItemStack ghosted, ItemStack stack, float scale) {
+        scale *= .6f;
         if (ghosted != null) {
             stack = ghosted;
         }

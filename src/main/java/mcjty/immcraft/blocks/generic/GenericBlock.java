@@ -74,6 +74,8 @@ public class GenericBlock extends Block implements WailaProvider, IOrientedBlock
         GameRegistry.register(this);
         if (itemBlockClass != null) {
             GameRegistry.register(createItemBlock(itemBlockClass), getRegistryName());
+        } else {
+            GameRegistry.register(new ItemBlock(this), getRegistryName());
         }
     }
 
