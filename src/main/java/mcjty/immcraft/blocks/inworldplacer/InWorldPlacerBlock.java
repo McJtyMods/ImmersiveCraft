@@ -3,12 +3,14 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.rendering.HandleTESR;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -20,11 +22,17 @@ import java.util.Random;
 
 public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
 
+    public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, .1f, 1);
+
     public InWorldPlacerBlock() {
-        super(Material.ground, "in_world_placer", InWorldPlacerTE.class);
+        super(Material.GROUND, "in_world_placer", InWorldPlacerTE.class);
         setHardness(0.0f);
-        setStepSound(soundTypeWood);
-        setBlockBounds(0, 0, 0, 1, .1f, 1);
+        setSoundType(SoundType.WOOD);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return AABB;
     }
 
     @SideOnly(Side.CLIENT)
@@ -34,9 +42,9 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
         ClientRegistry.bindTileEntitySpecialRenderer(InWorldPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldPlacerBlock));
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    @Override
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -46,27 +54,27 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public int getRenderType() {
-        return 2;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -76,6 +84,6 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
     }
 }

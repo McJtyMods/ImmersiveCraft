@@ -50,7 +50,7 @@ public class MultiBlockData extends WorldSavedData {
         if (instance != null) {
             return instance;
         }
-        instance = (MultiBlockData) world.getMapStorage().loadData(MultiBlockData.class, MULTIBLOCK_NETWORK);
+        instance = (MultiBlockData) world.getMapStorage().getOrLoadData(MultiBlockData.class, MULTIBLOCK_NETWORK);
         if (instance == null) {
             instance = new MultiBlockData(MULTIBLOCK_NETWORK);
         }
@@ -66,12 +66,13 @@ public class MultiBlockData extends WorldSavedData {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         for (Map.Entry<String, MultiBlockNetwork> entry : networks.entrySet()) {
             NBTTagCompound tc = new NBTTagCompound();
             entry.getValue().writeToNBT(tc);
             tagCompound.setTag(entry.getKey(), tc);
         }
+        return tagCompound;
     }
 
 }
