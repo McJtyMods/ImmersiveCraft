@@ -7,8 +7,8 @@ import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;

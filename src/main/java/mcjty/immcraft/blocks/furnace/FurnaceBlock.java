@@ -2,13 +2,14 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.varia.BlockTools;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumWorldBlockLayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,9 +20,9 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
     public static final PropertyBool BURNING = PropertyBool.create("burning");
 
     public FurnaceBlock() {
-        super(Material.rock, "furnace", FurnaceTE.class);
+        super(Material.ROCK, "furnace", FurnaceTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeStone);
+        setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 0);
     }
 
@@ -32,29 +33,29 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
         ClientRegistry.bindTileEntitySpecialRenderer(FurnaceTE.class, new FurnaceTESR());
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    @Override
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean canRenderInLayer(EnumWorldBlockLayer layer) {
-        return layer == EnumWorldBlockLayer.SOLID || layer == EnumWorldBlockLayer.CUTOUT;
+    public boolean canRenderInLayer(BlockRenderLayer layer) {
+        return layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT;
     }
 
     @Override
-    public int getLightValue(IBlockAccess world, BlockPos pos) {
+    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
         if (getTE(world, pos).getBurnTime() > 0) {
             return 13;
         } else {
@@ -70,8 +71,8 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
     }
 
     @Override
-    protected BlockState createBlockState() {
-        return new BlockState(this, FACING_HORIZ, BURNING);
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING_HORIZ, BURNING);
     }
 
 }

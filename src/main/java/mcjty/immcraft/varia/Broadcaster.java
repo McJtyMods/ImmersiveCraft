@@ -1,8 +1,8 @@
 package mcjty.immcraft.varia;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class Broadcaster {
             EntityPlayer player = (EntityPlayer) p;
             double sqdist = player.getDistanceSq(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5);
             if (sqdist < radius) {
-                player.addChatComponentMessage(new ChatComponentText(message));
+                player.addChatComponentMessage(new TextComponentString(message));
             }
         }
     }

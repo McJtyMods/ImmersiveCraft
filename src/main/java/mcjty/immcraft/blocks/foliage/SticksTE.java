@@ -2,14 +2,16 @@ package mcjty.immcraft.blocks.foliage;
 
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.varia.NBTHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class SticksTE extends GenericTE implements ITickable {
 
@@ -41,7 +43,7 @@ public class SticksTE extends GenericTE implements ITickable {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
         if (worldObj.isRemote) {
             // If needed send a render update.
@@ -57,7 +59,8 @@ public class SticksTE extends GenericTE implements ITickable {
             if (sticks > 1) {
                 burnTime = BURNTIME_STICK;
                 sticks--;
-                worldObj.markBlockForUpdate(getPos());
+                IBlockState state = worldObj.getBlockState(getPos());
+                worldObj.notifyBlockUpdate(getPos(), state, state, 3);
             } else {
                 // Self destruct
                 sticks = 0;
@@ -83,11 +86,11 @@ public class SticksTE extends GenericTE implements ITickable {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel) {
+    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        if (player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = BURNTIME_STICK;
             markDirtyClient();
-            player.getHeldItem().damageItem(1, player);
+            player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
         }
         return super.onActivate(player, worldSide, side, hitVec);
     }

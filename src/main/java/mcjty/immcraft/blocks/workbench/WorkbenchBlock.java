@@ -3,13 +3,14 @@ package mcjty.immcraft.blocks.workbench;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.rendering.HandleTESR;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -19,9 +20,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
 
     public WorkbenchBlock() {
-        super(Material.wood, "workbench", WorkbenchTE.class);
+        super(Material.WOOD, "workbench", WorkbenchTE.class);
         setHardness(1.0f);
-        setStepSound(soundTypeWood);
+        setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
     }
 
@@ -32,9 +33,9 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
         ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchTE.class, new HandleTESR<>(this));
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    @Override
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -44,12 +45,12 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
