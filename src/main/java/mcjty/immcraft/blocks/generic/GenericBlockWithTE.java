@@ -17,10 +17,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -54,7 +55,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
                 if (currentStack != null) {
-                    currenttip.add(EnumChatFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.stackSize + ")");
+                    currenttip.add(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.stackSize + ")");
                 }
             }
         }
@@ -96,13 +97,13 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
         PacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
     }
 
-    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3 hitVec) {
+    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3d hitVec) {
         return getTE(world, pos).onClick(player, side, worldToBlockSpace(world, pos, side), hitVec);
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float sx, float sy, float sz) {
-        return getTE(world, pos).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3(sx, sy, sz));
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float sx, float sy, float sz) {
+        return getTE(world, pos).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3d(sx, sy, sz));
     }
 
     @Override

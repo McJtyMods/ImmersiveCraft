@@ -4,10 +4,11 @@ import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.varia.InventoryHelper;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements IInterfaceHandle {
     private int slot;
@@ -16,7 +17,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     private float minY;
     private float maxX;
     private float maxY;
-    private Vec3 renderOffset;
+    private Vec3d renderOffset;
     private float scale = 1.0f;
 
     public T slot(int slot) {
@@ -37,7 +38,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         return (T) this;
     }
 
-    public T renderOffset(Vec3 renderOffset) {
+    public T renderOffset(Vec3d renderOffset) {
         this.renderOffset = renderOffset;
         return (T) this;
     }
@@ -51,7 +52,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public Vec3 getRenderOffset() {
+    public Vec3d getRenderOffset() {
         return renderOffset;
     }
 
@@ -101,7 +102,8 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     public int insertInput(GenericTE te, ItemStack stack) {
         int remaining = InventoryHelper.mergeItemStackSafe(GenericInventoryTE.castGenericInventoryTE(te).get(), null, stack, slot, slot + 1, null);
         if (remaining != stack.stackSize) {
-            te.getWorld().markBlockForUpdate(te.getPos());
+            IBlockState state = te.getWorld().getBlockState(te.getPos());
+            te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
         }
         return remaining;
     }
@@ -126,7 +128,8 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         } else {
             stack = te.decrStackSize(slot, amount);
         }
-        te.getWorld().markBlockForUpdate(te.getPos());
+        IBlockState state = te.getWorld().getBlockState(te.getPos());
+        te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
         return stack;
     }
 

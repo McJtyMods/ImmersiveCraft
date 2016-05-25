@@ -1,7 +1,7 @@
 package mcjty.immcraft.api.util;
 
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class Vector {
@@ -21,8 +21,8 @@ public class Vector {
         this.z = (float) z;
     }
 
-    public Vec3 getVec3() {
-        return new Vec3(x, y, z);
+    public Vec3d getVec3() {
+        return new Vec3d(x, y, z);
     }
 
     public double length() {

@@ -9,9 +9,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunkGenerator;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
@@ -21,7 +22,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
     public static ImmCraftGenerator instance = new ImmCraftGenerator();
 
     @Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
         generateWorld(random, chunkX, chunkZ, world);
     }
 
@@ -88,7 +89,8 @@ public class ImmCraftGenerator implements IWorldGenerator {
         }
         for (int i = 0 ; i < 15 ; i++) {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
-                if (isLeafBlock(world.getBlockState(new BlockPos(x, y, z)).getBlock())) {
+                IBlockState state = world.getBlockState(new BlockPos(x, y, z));
+                if (isLeafBlock(state.getBlock(), state)) {
                     world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     SticksTE sticksTE = (SticksTE) world.getTileEntity(pos.up());
                     sticksTE.setSticks(random.nextInt(6)+1);
@@ -126,15 +128,15 @@ public class ImmCraftGenerator implements IWorldGenerator {
     }
 
     private boolean isStickSpawnable(Block block) {
-        return block == Blocks.dirt || block == Blocks.grass;
+        return block == Blocks.DIRT || block == Blocks.GRASS;
     }
 
-    private boolean isLeafBlock(Block block) {
-        return block.getMaterial() == Material.leaves;
+    private boolean isLeafBlock(Block block, IBlockState state) {
+        return block.getMaterial(state) == Material.LEAVES;
     }
 
     private boolean isRockSpawnable(Block block) {
-        return block == Blocks.dirt || block == Blocks.grass || block == Blocks.stone;
+        return block == Blocks.DIRT || block == Blocks.GRASS || block == Blocks.STONE;
     }
 
 //    public void addOreSpawn(Block block, byte blockMeta, Block targetBlock,

@@ -11,14 +11,15 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,19 +42,28 @@ public class GenericTE extends TileEntity {
     }
 
     @Override
-    public Packet getDescriptionPacket() {
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT(new NBTTagCompound());
+    }
+
+    @Nullable
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
         NBTTagCompound nbtTag = new NBTTagCompound();
         this.writeToNBT(nbtTag);
-        return new S35PacketUpdateTileEntity(getPos(), 1, nbtTag);
+        return new SPacketUpdateTileEntity(getPos(), 1, nbtTag);
     }
 
     public void markDirtyClient() {
         markDirty();
-        worldObj.markBlockForUpdate(getPos());
+        if (worldObj != null) {
+            IBlockState state = worldObj.getBlockState(getPos());
+            worldObj.notifyBlockUpdate(getPos(), state, state, 3);
+        }
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         this.readFromNBT(packet.getNbtCompound());
     }
 
@@ -94,7 +104,7 @@ public class GenericTE extends TileEntity {
         return interfaceHandles;
     }
 
-    public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+    public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         EnumFacing front = getBlock().getFrontDirection(worldObj.getBlockState(getPos()));
         double sx2 = calculateHitX(hitVec, worldSide, front);
         double sy2 = calculateHitY(hitVec, worldSide, front);
@@ -106,7 +116,7 @@ public class GenericTE extends TileEntity {
         return null;
     }
 
-    public static double calculateHitX(Vec3 hitVec, EnumFacing k, EnumFacing front) {
+    public static double calculateHitX(Vec3d hitVec, EnumFacing k, EnumFacing front) {
         return calculateHitX(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
     }
 
@@ -139,7 +149,7 @@ public class GenericTE extends TileEntity {
         }
     }
 
-    public static double calculateHitY(Vec3 hitVec, EnumFacing k, EnumFacing front) {
+    public static double calculateHitY(Vec3d hitVec, EnumFacing k, EnumFacing front) {
         return calculateHitY(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
     }
 
@@ -172,10 +182,10 @@ public class GenericTE extends TileEntity {
         }
     }
 
-    public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+    public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
-            ItemStack heldItem = player.getHeldItem();
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (heldItem == null) {
                 // Nothing happens if the player doesn't have anything in his/her hand
                 return false;
@@ -199,10 +209,10 @@ public class GenericTE extends TileEntity {
      * @param worldSide is the side in world space where the block is activated
      * @param side is the side in block space where the block is activated
      */
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
-            ItemStack heldItem = player.getHeldItem();
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             int amount = -1;
             if (player.isSneaking()) {
                 amount = 1;
@@ -276,7 +286,7 @@ public class GenericTE extends TileEntity {
     /**
      * Called server side on keypress
      */
-    public void onKeyPress(KeyType keyType, EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+    public void onKeyPress(KeyType keyType, EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
             handle.onKeyPress(this, keyType, player);
@@ -284,9 +294,10 @@ public class GenericTE extends TileEntity {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound) {
+    public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
         writeToNBT(NBTHelper.create(tagCompound));
+        return tagCompound;
     }
 
     protected void writeToNBT(NBTHelper helper) {

@@ -5,7 +5,7 @@ import mcjty.immcraft.input.KeyType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public interface IInterfaceHandle {
     float getMinX();
@@ -15,7 +15,7 @@ public interface IInterfaceHandle {
     EnumFacing getSide();
     float getScale();
 
-    Vec3 getRenderOffset();
+    Vec3d getRenderOffset();
 
     ItemStack getCurrentStack(GenericTE inventoryTE);
 

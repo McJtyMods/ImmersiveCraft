@@ -3,13 +3,10 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
+import net.minecraft.util.math.Vec3d;
 
 public class InWorldVerticalPlacerTE extends GenericInventoryTE {
 
@@ -20,10 +17,10 @@ public class InWorldVerticalPlacerTE extends GenericInventoryTE {
 
     public InWorldVerticalPlacerTE() {
         super(4);
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.23, 0.73, -0.46)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.23, 0.73, -0.46)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.SOUTH).bounds(0, 0, .5f, .5f).renderOffset(new Vec3(-.23, 0.27, -0.46)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.SOUTH).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3(.23, 0.27, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3d(-.23, 0.73, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3d(.23, 0.73, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.SOUTH).bounds(0, 0, .5f, .5f).renderOffset(new Vec3d(-.23, 0.27, -0.46)));
+        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.SOUTH).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3d(.23, 0.27, -0.46)));
     }
 
     @Override

@@ -10,30 +10,32 @@ import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.BlockState;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -43,9 +45,9 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     public static final UnlistedCableProperty CABLES = new UnlistedCableProperty("cables");
 
     public BundleBlock() {
-        super(Material.cloth, "bundle", BundleTE.class);
+        super(Material.CLOTH, "bundle", BundleTE.class);
         setHardness(0.0f);
-        setStepSound(soundTypeCloth);
+        setSoundType(SoundType.CLOTH);
         setHarvestLevel("pickaxe", 0);
     }
 
@@ -60,7 +62,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         StateMapperBase ignoreState = new StateMapperBase() {
             @Override
             protected ModelResourceLocation getModelResourceLocation(IBlockState iBlockState) {
-                return BundleISBM.modelResourceLocation;
+                return BundleISBM.BAKED_MODEL;
             }
         };
         ModelLoader.setCustomStateMapper(this, ignoreState);
@@ -68,8 +70,8 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
     @SideOnly(Side.CLIENT)
     public void initItemModel() {
-        Item itemBlock = GameRegistry.findItem(ImmersiveCraft.MODID, "bundle");
-        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(ImmersiveCraft.MODID + ":bundle", "inventory");
+        Item itemBlock = Item.REGISTRY.getObject(new ResourceLocation(ImmersiveCraft.MODID, "bundle"));
+        ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }
@@ -86,9 +88,9 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
                 MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
                 IMultiBlock multiBlock = network.getOrCreateMultiBlock(networkId);
                 network.refreshInfo(networkId);
-                currenttip.add(EnumChatFormatting.GREEN + "Id: " + networkId + " (Size: " + multiBlock.getBlockCount() + ")");
+                currenttip.add(TextFormatting.GREEN + "Id: " + networkId + " (Size: " + multiBlock.getBlockCount() + ")");
                 if (accessor.getPlayer().isSneaking()) {
-                    currenttip.add(EnumChatFormatting.YELLOW + section.getType().getReadableName() + ": " + section.getConnection(0) + " : " + bundleTE.getPos() + " : " + section.getConnection(1));
+                    currenttip.add(TextFormatting.YELLOW + section.getType().getReadableName() + ": " + section.getConnection(0) + " : " + bundleTE.getPos() + " : " + section.getConnection(1));
                 }
             }
         }
@@ -98,7 +100,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
 
     @Override
-    public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
         getTE(world, pos).checkConnections();
     }
 
@@ -110,32 +112,32 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
     }
 
     @Override
@@ -143,13 +145,14 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         return 0;
     }
 
+    @Nullable
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, World worldIn, BlockPos pos) {
         return null;
     }
 
     @Override
-    protected BlockState createBlockState() {
+    protected BlockStateContainer createBlockState() {
         IProperty[] listedProperties = new IProperty[0]; // no listed properties
         IUnlistedProperty[] unlistedProperties = new IUnlistedProperty[] { CABLES };
         return new ExtendedBlockState(this, listedProperties, unlistedProperties);

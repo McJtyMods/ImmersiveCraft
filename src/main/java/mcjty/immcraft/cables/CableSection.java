@@ -1,12 +1,12 @@
 package mcjty.immcraft.cables;
 
 import mcjty.immcraft.api.cable.*;
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.NBTHelper;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class CableSection implements ICableSection {

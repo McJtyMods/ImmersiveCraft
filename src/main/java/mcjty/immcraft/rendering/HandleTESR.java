@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -19,7 +19,7 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
 
     protected GenericBlock block;
 
-    protected Vec3 textOffset = new Vec3(0, 0, 0);
+    protected Vec3d textOffset = new Vec3d(0, 0, 0);
 
     public HandleTESR(GenericBlock block) {
         this.block = block;
@@ -55,7 +55,7 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
             return;
         }
 
-        bindTexture(TextureMap.locationBlocksTexture);
+        bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(tileEntity, block);
         BlockRenderHelper.renderInterfaceHandles(tileEntity, selectedHandle, textOffset);
     }

@@ -3,7 +3,7 @@ package mcjty.immcraft.varia;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class NBTHelper {
     private final NBTTagCompound tag;

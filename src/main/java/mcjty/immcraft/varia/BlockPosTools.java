@@ -2,7 +2,7 @@ package mcjty.immcraft.varia;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class BlockPosTools {
     public static void toBytes(BlockPos pos, ByteBuf buf) {

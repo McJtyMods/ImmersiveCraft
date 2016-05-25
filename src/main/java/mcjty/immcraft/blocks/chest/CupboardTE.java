@@ -4,10 +4,12 @@ import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
 import mcjty.immcraft.varia.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -32,7 +34,7 @@ public class CupboardTE extends GenericInventoryTE {
             for (int x = 0 ; x < 4 ; x++) {
                 addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.SOUTH).
                         bounds(.04f + boundsdx * x, .04f + boundsdy * y, .04f + boundsdx * (x + 1), .04f + boundsdy * (y + 1)).
-                        renderOffset(new Vec3(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.10)).
+                        renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.10)).
                         scale(.60f));
             }
         }
@@ -52,10 +54,11 @@ public class CupboardTE extends GenericInventoryTE {
         this.open = open;
         if (open) {
             opening = 0;
-            this.worldObj.playSoundEffect(xCoord+.5, yCoord + 0.5, zCoord+.5, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+
+            this.worldObj.playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
         } else {
             opening = -60;
-            this.worldObj.playSoundEffect(xCoord+.5, yCoord + 0.5, zCoord+.5, "random.chestclosed", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+            this.worldObj.playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
         }
         markDirtyClient();
     }
@@ -81,7 +84,7 @@ public class CupboardTE extends GenericInventoryTE {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
+    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         if (!open) {
             setOpen(!open);
         } else if (!super.onActivate(player, worldSide, side, hitVec)) {
@@ -96,6 +99,6 @@ public class CupboardTE extends GenericInventoryTE {
         int xCoord = getPos().getX();
         int yCoord = getPos().getY();
         int zCoord = getPos().getZ();
-        return AxisAlignedBB.fromBounds(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
+        return new AxisAlignedBB(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 }

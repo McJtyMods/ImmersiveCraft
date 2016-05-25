@@ -1,25 +1,50 @@
 package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
 
+    public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 1, .5f);
+    public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .5f, 1, 1, 1);
+    public static final AxisAlignedBB AABB_SOUTH = new AxisAlignedBB(0, 0, 0, 1, 1, .5f);
+    public static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(.5f, 0, 0, 1, 1, 1);
+    public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .5f, 1, 1);
+
     public CupboardBlock() {
-        super(Material.wood, "cupboard", CupboardTE.class);
+        super(Material.WOOD, "cupboard", CupboardTE.class);
         setHardness(2.0f);
-        setStepSound(soundTypeWood);
+        setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
-        setBlockBounds(0, 0, 0, 1, 1, .5f);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        EnumFacing facing = state.getValue(FACING_HORIZ);
+        switch (facing) {
+            case NORTH:
+                return AABB_NORTH;
+            case SOUTH:
+                return AABB_SOUTH;
+            case WEST:
+                return AABB_WEST;
+            case EAST:
+                return AABB_EAST;
+            case DOWN:
+            case UP:
+            default:
+                break;
+        }
+        return AABB;
     }
 
     @SideOnly(Side.CLIENT)
@@ -29,9 +54,9 @@ public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
         ClientRegistry.bindTileEntitySpecialRenderer(CupboardTE.class, new CupboardTESR());
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    @Override
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -40,58 +65,23 @@ public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
         return false;
     }
 
-    /**
-     * Updates the blocks bounds based on its current state. Args: world, x, y, z
-     */
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        EnumFacing facing = state.getValue(FACING_HORIZ);
-        switch (facing) {
-            case NORTH:
-                setBlockBounds(0, 0, .5f, 1, 1, 1);
-                break;
-            case SOUTH:
-                setBlockBounds(0, 0, 0, 1, 1, .5f);
-                break;
-            case WEST:
-                setBlockBounds(.5f, 0, 0, 1, 1, 1);
-                break;
-            case EAST:
-                setBlockBounds(0, 0, 0, .5f, 1, 1);
-                break;
-            case DOWN:
-            case UP:
-            default:
-                break;
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
-        this.setBlockBoundsBasedOnState(world, pos);
-        return super.getSelectedBoundingBox(world, pos);
-    }
-
-
-    @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 }

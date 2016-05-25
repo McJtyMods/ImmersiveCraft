@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,17 +10,18 @@ import mcjty.immcraft.network.PacketHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
@@ -70,23 +71,23 @@ public final class BlockRenderHelper {
 
         IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
 
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-        textureManager.getTexture(TextureMap.locationBlocksTexture).setBlurMipmap(false, false);
+        textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
         preTransform(renderItem, is);
         GlStateManager.enableRescaleNormal();
         GlStateManager.alphaFunc(516, 0.1F);
 //        GlStateManager.enableBlend();
 //        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.pushMatrix();
-        ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.NONE);
+        ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.NONE, false);
 
         renderItem.renderItem(is, ibakedmodel);
-        GlStateManager.cullFace(1029);
+        GlStateManager.cullFace(GlStateManager.CullFace.BACK);
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
 //        GlStateManager.disableBlend();
-        textureManager.bindTexture(TextureMap.locationBlocksTexture);
-        textureManager.getTexture(TextureMap.locationBlocksTexture).restoreLastBlurMipmap();
+        textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+        textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
     }
 
     private static void preTransform(RenderItem renderItem, ItemStack stack) {
@@ -133,7 +134,7 @@ public final class BlockRenderHelper {
      * @return
      */
     public static IInterfaceHandle getFacingInterfaceHandle(GenericTE te, GenericBlock block) {
-        MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
+        RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
         if (mouseOver != null && te.getPos().equals(mouseOver.getBlockPos())) {
             EnumFacing directionHit = mouseOver.sideHit;
             double sx = mouseOver.hitVec.xCoord - te.getPos().getX();
@@ -155,11 +156,11 @@ public final class BlockRenderHelper {
 
     private static long lastUpdateTime = 0;
 
-    public static void renderInterfaceHandles(GenericTE te, IInterfaceHandle selectedHandle, Vec3 textOffset) {
+    public static void renderInterfaceHandles(GenericTE te, IInterfaceHandle selectedHandle, Vec3d textOffset) {
         for (IInterfaceHandle handle : te.getInterfaceHandles()) {
             boolean selected = selectedHandle == handle;
             ItemStack ghosted = null;
-            ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
+            ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
             ItemStack stackInSlot = handle.getCurrentStack(te);
             if (selected && heldItem != null && stackInSlot == null) {
                 if (handle.acceptAsInput(heldItem)) {
@@ -172,7 +173,7 @@ public final class BlockRenderHelper {
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
                 boolean selected = selectedHandle == handle;
                 ItemStack ghosted = null;
-                ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
+                ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
                 ItemStack stackInSlot = handle.getCurrentStack(te);
                 if (selected && heldItem != null && stackInSlot == null) {
                     if (handle.acceptAsInput(heldItem)) {
@@ -198,7 +199,7 @@ public final class BlockRenderHelper {
         }
     }
 
-    private static void renderItemStackInWorld(Vec3 offset, boolean selected, boolean crafting, ItemStack ghosted, ItemStack stack, float scale) {
+    private static void renderItemStackInWorld(Vec3d offset, boolean selected, boolean crafting, ItemStack ghosted, ItemStack stack, float scale) {
         if (ghosted != null) {
             stack = ghosted;
         }
@@ -227,7 +228,7 @@ public final class BlockRenderHelper {
         }
     }
 
-    private static void renderTextOverlay(Vec3 offset, List<String> present, List<String> missing, ItemStack ghosted, ItemStack stack, float scale, Vec3 textOffset) {
+    private static void renderTextOverlay(Vec3d offset, List<String> present, List<String> missing, ItemStack ghosted, ItemStack stack, float scale, Vec3d textOffset) {
         if (ghosted != null) {
             stack = ghosted;
         }

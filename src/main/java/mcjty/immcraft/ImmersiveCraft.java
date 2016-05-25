@@ -6,6 +6,7 @@ import com.google.common.base.Optional;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
+import mcjty.immcraft.blocks.bundle.BundleModelLoader;
 import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ClientForgeEventHandlers;
 import mcjty.immcraft.events.ForgeEventHandlers;
@@ -19,6 +20,7 @@ import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -114,7 +116,8 @@ public class ImmersiveCraft {
             super.preInit(e);
 
             MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
-            OBJLoader.instance.addDomain(MODID);
+            OBJLoader.INSTANCE.addDomain(MODID);
+            ModelLoaderRegistry.registerLoader(new BundleModelLoader());
 
             ModBlocks.initModels();
             ModItems.initModels();

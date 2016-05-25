@@ -3,12 +3,14 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.rendering.HandleTESR;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -20,12 +22,20 @@ import java.util.Random;
 
 public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVerticalPlacerTE> {
 
+    public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .1f, 1, 1, 1);
+    public static final AxisAlignedBB AABB_SOUTH = new AxisAlignedBB(0, 0, 0, 1, 1, .1f);
+    public static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(.1f, 0, 0, 1, 1, 1);
+    public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .1f, 1, 1);
+
     public InWorldVerticalPlacerBlock() {
-        super(Material.ground, "in_world_vertical_placer", InWorldVerticalPlacerTE.class);
+        super(Material.GROUND, "in_world_vertical_placer", InWorldVerticalPlacerTE.class);
         setHardness(0.0f);
-        setStepSound(soundTypeWood);
-        setBlockBounds(0, 0, 0, 1, 1, .1f);
+        setSoundType(SoundType.WOOD);
+//        setBlockBounds(0, 0, 0, 1, 1, .1f);
     }
+
+
+
 
     @SideOnly(Side.CLIENT)
     @Override
@@ -35,8 +45,7 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
@@ -46,27 +55,27 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public int getRenderType() {
-        return 2;
+    public EnumBlockRenderType getRenderType(IBlockState state) {
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
@@ -75,42 +84,27 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
         return 0;
     }
 
-    /**
-     * Updates the blocks bounds based on its current state. Args: world, x, y, z
-     */
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         EnumFacing facing = state.getValue(FACING_HORIZ);
         switch (facing) {
             case NORTH:
-                setBlockBounds(0, 0, .1f, 1, 1, 1);
-                break;
+                return AABB_NORTH;
             case SOUTH:
-                setBlockBounds(0, 0, 0, 1, 1, .1f);
-                break;
+                return AABB_SOUTH;
             case WEST:
-                setBlockBounds(.1f, 0, 0, 1, 1, 1);
-                break;
+                return AABB_WEST;
             case EAST:
-                setBlockBounds(0, 0, 0, .1f, 1, 1);
-                break;
+                return AABB_EAST;
             case DOWN:
             case UP:
             default:
                 break;
         }
+        return super.getBoundingBox(state, source, pos);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBox(World world, BlockPos pos) {
-        this.setBlockBoundsBasedOnState(world, pos);
-        return super.getSelectedBoundingBox(world, pos);
-    }
-
-
-    @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
     }
 }

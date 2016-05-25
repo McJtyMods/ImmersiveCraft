@@ -14,9 +14,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -400,27 +400,29 @@ public class BlockTools {
     }
 
     public static boolean isTopValidAndSolid(World world, BlockPos pos) {
-        Block block = world.getBlockState(pos).getBlock();
+        IBlockState state = world.getBlockState(pos);
+        Block block = state.getBlock();
         if (!block.isBlockSolid(world, pos, UP)) {
             return false;
         }
-        if (!block.getMaterial().isSolid()) {
+        if (!block.getMaterial(state).isSolid()) {
             return false;
         }
-        if (!block.isNormalCube()) {
+        if (!block.isNormalCube(state, world, pos)) {
             return false;
         }
         return true;
     }
 
     public static boolean isSideValidAndSolid(World world, BlockPos pos, EnumFacing side, Block block) {
+        IBlockState state = world.getBlockState(pos);
         if (!block.isBlockSolid(world, pos, side)) {
             return false;
         }
-        if (!block.getMaterial().isSolid()) {
+        if (!block.getMaterial(state).isSolid()) {
             return false;
         }
-        if (!block.isNormalCube()) {
+        if (!block.isNormalCube(state, world, pos)) {
             return false;
         }
         return true;

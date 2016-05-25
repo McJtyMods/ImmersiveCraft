@@ -4,7 +4,7 @@ import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.varia.IntersectionTools;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
@@ -69,7 +69,7 @@ public class CableRenderer {
 
     public static void renderCable(Vector player, CableSection section) {
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldRenderer = tessellator.getWorldRenderer();
+        VertexBuffer buffer = tessellator.getBuffer();
 
         Vector vector = section.getVector();
         Vector vector1 = section.getVector(0);
@@ -78,7 +78,7 @@ public class CableRenderer {
         }
         Vector vector2 = section.getVector(1);
 
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         drawBeamExtended(player, vector, vector1);
         if (vector2 != null) {
             drawBeamExtended(player, vector, vector2);

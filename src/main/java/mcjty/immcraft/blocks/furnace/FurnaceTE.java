@@ -12,11 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
@@ -31,9 +32,9 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     public FurnaceTE() {
         super(3);
-        addInterfaceHandle(new FuelInterfaceHandle().slot(SLOT_FUEL).side(EnumFacing.SOUTH).bounds(0, 0, 1, .5f).renderOffset(new Vec3(0, 0.23, 0)));
-        addInterfaceHandle(new SmeltableInterfaceHandle().slot(SLOT_TOBURN).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.2, 0.7, 0)));
-        addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.2, 0.7, 0)));
+        addInterfaceHandle(new FuelInterfaceHandle().slot(SLOT_FUEL).side(EnumFacing.SOUTH).bounds(0, 0, 1, .5f).renderOffset(new Vec3d(0, 0.23, 0)));
+        addInterfaceHandle(new SmeltableInterfaceHandle().slot(SLOT_TOBURN).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3d(-.2, 0.7, 0)));
+        addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3d(.2, 0.7, 0)));
     }
 
     @Override
@@ -46,7 +47,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
         if (worldObj.isRemote) {
             // If needed send a render update.
@@ -128,14 +129,14 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel) {
+    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        if (player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
             markDirtyClient();
-            player.getHeldItem().damageItem(1, player);
+            player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
             return true;
         } else {
             return super.onActivate(player, worldSide, side, hitVec);

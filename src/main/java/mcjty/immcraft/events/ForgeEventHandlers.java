@@ -16,7 +16,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -28,7 +27,7 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void onPlayerInterractEvent(PlayerInteractEvent event) {
-        if (event.world.isRemote) {
+        if (event.getWorld().isRemote) {
             return;
         }
         if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {

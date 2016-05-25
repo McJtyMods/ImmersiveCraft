@@ -3,10 +3,10 @@ package mcjty.immcraft.varia;
 import mcjty.immcraft.api.util.Vector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -75,14 +75,14 @@ public class IntersectionTools {
         return (float) dP.length();
     }
 
-    public static MovingObjectPosition getMovingObjectPositionFromPlayer(World world, EntityPlayer player, boolean stopOnLiquid) {
+    public static RayTraceResult getMovingObjectPositionFromPlayer(World world, EntityPlayer player, boolean stopOnLiquid) {
         float f = 1.0F;
         float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
         float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
         double doubleX = player.prevPosX + (player.posX - player.prevPosX) * (double) f;
         double doubleY = player.prevPosY + (player.posY - player.prevPosY) * (double) f + (double) (world.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight()); // isRemote check to revert changes to ray trace position due to adding the eye height clientside and player yOffset differences
         double doubleZ = player.prevPosZ + (player.posZ - player.prevPosZ) * (double) f;
-        Vec3 start = new Vec3(doubleX, doubleY, doubleZ);
+        Vec3d start = new Vec3d(doubleX, doubleY, doubleZ);
         float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
         float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
         float f5 = -MathHelper.cos(-f1 * 0.017453292F);
@@ -91,13 +91,13 @@ public class IntersectionTools {
         float f8 = f3 * f5;
         double d3 = 5.0D;
         if (player instanceof EntityPlayerMP) {
-            d3 = ((EntityPlayerMP) player).theItemInWorldManager.getBlockReachDistance();
+            d3 = ((EntityPlayerMP) player).interactionManager.getBlockReachDistance();
         }
-        Vec3 end = start.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+        Vec3d end = start.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
         return world.rayTraceBlocks(start, end, stopOnLiquid, !stopOnLiquid, false);
     }
 
-    public static List<MovingObjectPosition> rayTest(World world, Vec3 start, Vec3 end, boolean stopOnLiquid, boolean ignoreBlocksWithoutBoundingbox, boolean returnLastUncollidableBlock) {
+    public static List<RayTraceResult> rayTest(World world, Vec3d start, Vec3d end, boolean stopOnLiquid, boolean ignoreBlocksWithoutBoundingbox, boolean returnLastUncollidableBlock) {
 //        if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) {
 //            return Collections.emptyList();
 //        }
