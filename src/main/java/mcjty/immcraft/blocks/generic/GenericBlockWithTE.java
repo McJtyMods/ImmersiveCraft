@@ -7,6 +7,9 @@ import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.ITileEntityProvider;
@@ -43,6 +46,22 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super.register(name, clazz, itemBlockClass);
         GameRegistry.registerTileEntityWithAlternatives(clazz, ImmersiveCraft.MODID + name + "TE", name + "TE");
+    }
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
+        TileEntity tileEntity = world.getTileEntity(data.getPos());
+        if (tileEntity instanceof GenericTE) {
+            T te = (T) tileEntity;
+            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
+            if (selectedHandle != null) {
+                ItemStack currentStack = selectedHandle.getCurrentStack(te);
+                if (currentStack != null) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.stackSize + ")");
+                }
+            }
+        }
     }
 
     @Override

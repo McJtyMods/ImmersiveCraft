@@ -4,8 +4,12 @@ package mcjty.immcraft.blocks.generic;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.util.Vector;
+import mcjty.immcraft.top.TOPInfoProvider;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.waila.WailaProvider;
+import mcjty.immcraft.waila.WailaInfoProvider;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
@@ -15,6 +19,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -23,7 +28,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -32,8 +36,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-@Optional.Interface(modid = "Waila", iface = "mcjty.immcraft.waila.WailaProvider")
-public class GenericBlock extends Block implements WailaProvider, IOrientedBlock {
+public class GenericBlock extends Block implements WailaInfoProvider, IOrientedBlock, TOPInfoProvider {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -90,10 +93,12 @@ public class GenericBlock extends Block implements WailaProvider, IOrientedBlock
         }
     }
 
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
 
+    }
 
     @Override
-    @Optional.Method(modid = "Waila")
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }

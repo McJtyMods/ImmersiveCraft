@@ -6,6 +6,8 @@ import net.minecraft.item.ItemStack;
 
 import java.util.List;
 
-public interface WailaProvider {
+public interface WailaInfoProvider {
+
     List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+
 }

@@ -15,6 +15,7 @@ import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.top.TOPCompatibility;
 import mcjty.immcraft.waila.WailaCompatibility;
 import mcjty.immcraft.worldgen.WorldGen;
 import net.minecraft.creativetab.CreativeTabs;
@@ -57,7 +58,8 @@ public class ImmersiveCraft {
             }
         };
         proxy.preInit(event);
-        WailaCompatibility.registerWaila();
+        WailaCompatibility.register();
+        TOPCompatibility.register();
     }
 
     @Mod.EventHandler
@@ -84,9 +86,6 @@ public class ImmersiveCraft {
             }
         }
     }
-
-
-
 
     public static class CommonProxy {
         public void preInit(FMLPreInitializationEvent e) {

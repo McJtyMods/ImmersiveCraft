@@ -7,6 +7,9 @@ import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.cables.CableSectionRender;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
@@ -19,8 +22,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -76,6 +81,28 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);
     }
 
+
+    @Override
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+        super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
+        TileEntity te = world.getTileEntity(data.getPos());
+        if (te instanceof BundleTE) {
+            BundleTE bundleTE = (BundleTE) te;
+            for (CableSection section : bundleTE.getCableSections()) {
+                int networkId = section.getId();
+                if (networkId != -1) {
+                    String networkName = section.getType().getCableHandler().getNetworkName(section.getSubType());
+                    MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
+                    IMultiBlock multiBlock = network.getOrCreateMultiBlock(networkId);
+                    network.refreshInfo(networkId);
+                    probeInfo.text(TextFormatting.GREEN + "Id: " + networkId + " (Size: " + multiBlock.getBlockCount() + ")");
+                    if (mode == ProbeMode.EXTENDED) {
+                        probeInfo.text(TextFormatting.YELLOW + section.getType().getReadableName() + ": " + section.getConnection(0) + " : " + bundleTE.getPos() + " : " + section.getConnection(1));
+                    }
+                }
+            }
+        }
+    }
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
