@@ -23,7 +23,7 @@ public class RockBlock extends GenericBlock {
     public static final AxisAlignedBB AABB = new AxisAlignedBB(.2f, 0, .2f, .8f, .4f, .8f);
 
     public RockBlock() {
-        super(Material.GROUND, "rock");
+        super(Material.GROUND, "rock", true);
         setHardness(0.0f);
         setSoundType(SoundType.STONE);
     }

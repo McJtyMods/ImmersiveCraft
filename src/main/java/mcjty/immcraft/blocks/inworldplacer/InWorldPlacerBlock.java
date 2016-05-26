@@ -25,7 +25,7 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, .1f, 1);
 
     public InWorldPlacerBlock() {
-        super(Material.GROUND, "in_world_placer", InWorldPlacerTE.class);
+        super(Material.GROUND, "in_world_placer", InWorldPlacerTE.class, false);
         setHardness(0.0f);
         setSoundType(SoundType.WOOD);
     }

@@ -20,7 +20,7 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
     public static final PropertyBool BURNING = PropertyBool.create("burning");
 
     public FurnaceBlock() {
-        super(Material.ROCK, "furnace", FurnaceTE.class);
+        super(Material.ROCK, "furnace", FurnaceTE.class, true);
         setHardness(2.0f);
         setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 0);

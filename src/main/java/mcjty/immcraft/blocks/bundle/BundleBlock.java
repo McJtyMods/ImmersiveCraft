@@ -50,7 +50,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     public static final UnlistedCableProperty CABLES = new UnlistedCableProperty("cables");
 
     public BundleBlock() {
-        super(Material.CLOTH, "bundle", BundleTE.class);
+        super(Material.CLOTH, "bundle", BundleTE.class, false);
         setHardness(0.0f);
         setSoundType(SoundType.CLOTH);
         setHarvestLevel("pickaxe", 0);

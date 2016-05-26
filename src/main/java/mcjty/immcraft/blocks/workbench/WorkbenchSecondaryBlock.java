@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSecondaryTE> {
 
     public WorkbenchSecondaryBlock() {
-        super(Material.WOOD, "workbench_sec", WorkbenchSecondaryTE.class);
+        super(Material.WOOD, "workbench_sec", WorkbenchSecondaryTE.class, false);
         setHardness(1.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);

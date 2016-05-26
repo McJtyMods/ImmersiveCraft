@@ -37,8 +37,8 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
 
     private final Class<? extends GenericTE> teClazz;
 
-    public GenericBlockWithTE(Material material, String name, Class<? extends GenericTE> clazz) {
-        super(material, name, clazz);
+    public GenericBlockWithTE(Material material, String name, Class<? extends GenericTE> clazz, boolean inTab) {
+        super(material, name, clazz, inTab);
         teClazz = clazz;
     }
 

@@ -56,18 +56,19 @@ public class GenericBlock extends Block implements WailaInfoProvider, IOrientedB
         return MetaUsage.HORIZROTATION;
     }
 
-    public GenericBlock(Material material, String name) {
-        this(material, name, null, null);
+    public GenericBlock(Material material, String name, boolean inTab) {
+        this(material, name, null, null, inTab);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz) {
-        this(material, name, clazz, null);
+    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, boolean inTab) {
+        this(material, name, clazz, null, inTab);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
         super(material);
-//        setDefaultState(this.blockState.getBaseState().withProperty(FACING_HORIZ, EnumFacing.NORTH));
-        this.setCreativeTab(ImmersiveCraft.creativeTab);
+        if (inTab) {
+            setCreativeTab(ImmersiveCraft.creativeTab);
+        }
         register(name, clazz, itemBlockClass);
     }
 

@@ -28,7 +28,7 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .1f, 1, 1);
 
     public InWorldVerticalPlacerBlock() {
-        super(Material.GROUND, "in_world_vertical_placer", InWorldVerticalPlacerTE.class);
+        super(Material.GROUND, "in_world_vertical_placer", InWorldVerticalPlacerTE.class, false);
         setHardness(0.0f);
         setSoundType(SoundType.WOOD);
 //        setBlockBounds(0, 0, 0, 1, 1, .1f);

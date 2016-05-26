@@ -50,7 +50,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     public static final AxisAlignedBB AABB = new AxisAlignedBB(.1f, 0, .1f, .9f, .4f, .9f);
 
     public SticksBlock() {
-        super(Material.CIRCUITS, "sticks", SticksTE.class);
+        super(Material.CIRCUITS, "sticks", SticksTE.class, true);
         setHardness(0.0f);
         setSoundType(SoundType.WOOD);
         setTickRandomly(true);

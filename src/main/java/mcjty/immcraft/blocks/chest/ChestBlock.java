@@ -17,7 +17,7 @@ public class ChestBlock extends GenericBlockWithTE<ChestTE> {
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, .90f, 1);
 
     public ChestBlock() {
-        super(Material.WOOD, "chest", ChestTE.class);
+        super(Material.WOOD, "chest", ChestTE.class, true);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
