@@ -19,7 +19,7 @@ public class ItemSaw extends ItemTool {
         setUnlocalizedName("saw");
         setRegistryName("saw");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        GameRegistry.registerItem(this);
+        GameRegistry.register(this);
     }
 
     @SideOnly(Side.CLIENT)

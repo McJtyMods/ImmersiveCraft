@@ -18,7 +18,7 @@ public class ItemChisel extends ItemTool {
         setRegistryName("chisel");
         setUnlocalizedName("chisel");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        GameRegistry.registerItem(this);
+        GameRegistry.register(this);
     }
 
     @SideOnly(Side.CLIENT)
