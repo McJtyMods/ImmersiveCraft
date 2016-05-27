@@ -8,11 +8,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ShelveTE extends GenericInventoryTE {
+public class ShelfTE extends GenericInventoryTE {
 
     public static final int SLOT_INPUT1 = 0;
 
-    public ShelveTE() {
+    public ShelfTE() {
         super(16);
         int i = SLOT_INPUT1;
 

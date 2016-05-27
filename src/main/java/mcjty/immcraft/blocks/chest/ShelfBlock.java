@@ -12,7 +12,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ShelveBlock extends GenericBlockWithTE<ShelveTE> {
+public class ShelfBlock extends GenericBlockWithTE<ShelfTE> {
 
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 1, .5f);
     public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .5f, 1, 1, 1);
@@ -20,8 +20,8 @@ public class ShelveBlock extends GenericBlockWithTE<ShelveTE> {
     public static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(.5f, 0, 0, 1, 1, 1);
     public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .5f, 1, 1);
 
-    public ShelveBlock() {
-        super(Material.WOOD, "shelve", ShelveTE.class, false);
+    public ShelfBlock() {
+        super(Material.WOOD, "shelf", ShelfTE.class, false);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
@@ -51,7 +51,7 @@ public class ShelveBlock extends GenericBlockWithTE<ShelveTE> {
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(ShelveTE.class, new ShelveTESR());
+        ClientRegistry.bindTileEntitySpecialRenderer(ShelfTE.class, new ShelfTESR());
     }
 
     @SideOnly(Side.CLIENT)

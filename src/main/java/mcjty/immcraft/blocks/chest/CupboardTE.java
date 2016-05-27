@@ -8,7 +8,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.Vec3d;
 
-public class CupboardTE extends ShelveTE {
+public class CupboardTE extends ShelfTE {
 
     public static final int SLOT_INPUT1 = 0;
 
