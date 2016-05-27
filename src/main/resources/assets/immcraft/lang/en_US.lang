@@ -4,6 +4,7 @@ item.saw.name=Saw
 tile.furnace.name=Furnace
 tile.chest.name=Chest
 tile.cupboard.name=Cupboard
+tile.shelve.name=Shelve
 tile.workbench.name=Workbench (WIP)
 tile.workbench_sec.name=Workbench (WIP)
 tile.rock.name=Rock

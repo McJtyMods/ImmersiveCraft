@@ -3,6 +3,7 @@ package mcjty.immcraft.blocks;
 import mcjty.immcraft.blocks.bundle.BundleBlock;
 import mcjty.immcraft.blocks.chest.ChestBlock;
 import mcjty.immcraft.blocks.chest.CupboardBlock;
+import mcjty.immcraft.blocks.chest.ShelveBlock;
 import mcjty.immcraft.blocks.foliage.RockBlock;
 import mcjty.immcraft.blocks.foliage.SticksBlock;
 import mcjty.immcraft.blocks.furnace.FurnaceBlock;
@@ -28,6 +29,7 @@ public class ModBlocks {
     public static SticksBlock sticksBlock;
     public static ChestBlock chestBlock;
     public static CupboardBlock cupboardBlock;
+    public static ShelveBlock shelveBlock;
 
     public static BundleBlock bundleBlock;
 
@@ -44,6 +46,7 @@ public class ModBlocks {
         sticksBlock = new SticksBlock();
         chestBlock = new ChestBlock();
         cupboardBlock = new CupboardBlock();
+        shelveBlock = new ShelveBlock();
     }
 
     public static void initCrafting() {
@@ -54,6 +57,7 @@ public class ModBlocks {
         GameRegistry.addShapedRecipe(new ItemStack(furnaceBlock), "ccc", "crc", "ccc", 'c', Blocks.COBBLESTONE, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(chestBlock), "ccc", "crc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(cupboardBlock), "ccc", "ccc", "crc", 'c', Blocks.PLANKS, 'r', rockBlock);
+        GameRegistry.addShapedRecipe(new ItemStack(shelveBlock), "crc", "ccc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
     }
 
     @SideOnly(Side.CLIENT)
@@ -68,6 +72,7 @@ public class ModBlocks {
         workbenchBlock.initModel();
         workbenchSecondaryBlock.initModel();
         cupboardBlock.initModel();
+        shelveBlock.initModel();
     }
 
     @SideOnly(Side.CLIENT)
