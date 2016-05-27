@@ -32,7 +32,7 @@ repositories {
     }
 }
 
-version = "1.9.4-1.1.4"
+version = "1.9.4-1.1.5"
 group= "mcjty.immcraft"
 archivesBaseName = "immcraft"
 
