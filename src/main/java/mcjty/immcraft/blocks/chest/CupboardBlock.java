@@ -21,7 +21,7 @@ public class CupboardBlock extends GenericBlockWithTE<CupboardTE> {
     public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .5f, 1, 1);
 
     public CupboardBlock() {
-        super(Material.WOOD, "cupboard", CupboardTE.class, false);
+        super(Material.WOOD, "cupboard", CupboardTE.class, true);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);

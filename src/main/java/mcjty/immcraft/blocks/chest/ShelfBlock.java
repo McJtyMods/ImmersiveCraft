@@ -21,7 +21,7 @@ public class ShelfBlock extends GenericBlockWithTE<ShelfTE> {
     public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .5f, 1, 1);
 
     public ShelfBlock() {
-        super(Material.WOOD, "shelf", ShelfTE.class, false);
+        super(Material.WOOD, "shelf", ShelfTE.class, true);
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
