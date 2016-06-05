@@ -125,8 +125,9 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        SticksTE sticksTE = getTE(worldIn, pos);
-        if (sticksTE != null) {
+        TileEntity te = worldIn.getTileEntity(pos);
+        if (te instanceof SticksTE) {
+            SticksTE sticksTE = (SticksTE) te;
             Boolean burning = sticksTE.getBurnTime() > 0;
             state = state.withProperty(BURNING, burning);
             int cnt = sticksTE.getSticks();
@@ -162,9 +163,9 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        SticksTE te = getTE(world, pos);
-        if (te != null) {
-            BlockTools.spawnItemStack(world, pos, new ItemStack(Items.STICK, te.getSticks()));
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof SticksTE) {
+            BlockTools.spawnItemStack(world, pos, new ItemStack(Items.STICK, ((SticksTE) te).getSticks()));
         }
         super.breakBlock(world, pos, state);
     }
@@ -180,8 +181,11 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
     @Override
     public boolean isBurning(IBlockAccess world, BlockPos pos) {
-        SticksTE te = getTE(world, pos);
-        return te != null && te.getBurnTime() > 0;
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof SticksTE) {
+            return ((SticksTE) te).getBurnTime() > 0;
+        }
+        return false;
     }
 
     /**

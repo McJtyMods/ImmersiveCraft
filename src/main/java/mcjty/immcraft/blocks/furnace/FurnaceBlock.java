@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -56,11 +57,15 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
 
     @Override
     public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        if (getTE(world, pos).getBurnTime() > 0) {
-            return 13;
-        } else {
-            return 0;
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof FurnaceTE) {
+            if (((FurnaceTE) te).getBurnTime() > 0) {
+                return 13;
+            } else {
+                return 0;
+            }
         }
+        return 0;
     }
 
     @Override

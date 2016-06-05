@@ -128,12 +128,18 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn) {
-        getTE(world, pos).checkConnections();
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof BundleTE) {
+            ((BundleTE) te).checkConnections();
+        }
     }
 
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        getTE(world, pos).removeAllCables();
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof BundleTE) {
+            ((BundleTE) te).removeAllCables();
+        }
         super.breakBlock(world, pos, state);
     }
 
@@ -189,10 +195,14 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     public IBlockState getExtendedState(IBlockState state, IBlockAccess world, BlockPos pos) {
         IExtendedBlockState extendedBlockState = (IExtendedBlockState) state;
 
-        BundleTE bundleTE = getTE(world, pos);
-        List<CableSectionRender> cables = bundleTE.getCableSections().stream().map(cable -> cable.getRenderer(pos)).collect(Collectors.toList());
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof BundleTE) {
+            BundleTE bundleTE = (BundleTE) te;
+            List<CableSectionRender> cables = bundleTE.getCableSections().stream().map(cable -> cable.getRenderer(pos)).collect(Collectors.toList());
 
-        return extendedBlockState.withProperty(CABLES, cables);
+            return extendedBlockState.withProperty(CABLES, cables);
+        }
+        return extendedBlockState;
     }
 
     @Override
