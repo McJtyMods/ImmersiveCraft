@@ -8,6 +8,7 @@ import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
@@ -50,7 +51,7 @@ public final class BlockRenderHelper {
         }
     }
 
-    public static void renderItemCustom(ItemStack is, int rotation, float scale) {
+    public static void renderItemCustom(ItemStack is, int rotation, float scale, boolean normal) {
         if (is != null) {
             GlStateManager.pushMatrix();
 
@@ -59,25 +60,31 @@ public final class BlockRenderHelper {
                 GlStateManager.rotate(rotation, 0F, 1F, 0F);
             }
 
-            customRenderItem(is);
+            customRenderItem(is, normal);
 
             GlStateManager.popMatrix();
         }
     }
 
-    public static void customRenderItem(ItemStack is) {
+    public static void customRenderItem(ItemStack is, boolean normal) {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 
-        IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
+//        IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
+        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+        IBakedModel ibakedmodel = renderItem.getItemModelWithOverrides(is, player.worldObj, player);
 
         textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
         preTransform(renderItem, is);
         GlStateManager.enableRescaleNormal();
         GlStateManager.alphaFunc(516, 0.1F);
-//        GlStateManager.enableBlend();
-//        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+
+        if (normal) {
+            GlStateManager.enableBlend();
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        }
+
         GlStateManager.pushMatrix();
         ibakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(ibakedmodel, ItemCameraTransforms.TransformType.NONE, false);
 
@@ -85,7 +92,11 @@ public final class BlockRenderHelper {
         GlStateManager.cullFace(GlStateManager.CullFace.BACK);
         GlStateManager.popMatrix();
         GlStateManager.disableRescaleNormal();
-//        GlStateManager.disableBlend();
+
+        if (normal) {
+            GlStateManager.disableBlend();
+        }
+
         textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).restoreLastBlurMipmap();
     }
@@ -208,20 +219,21 @@ public final class BlockRenderHelper {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
             GlStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
 
-            if (ghosted != null || crafting) {
+            boolean ghostly = ghosted != null || crafting;
+            if (ghostly) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
             }
-            renderItemCustom(stack, 0, 0.3f * scale);
+            renderItemCustom(stack, 0, 0.3f * scale, !ghostly);
             if (selected && ghosted == null) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 GlStateManager.depthFunc(GL11.GL_EQUAL);
-                renderItemCustom(stack, 0, 0.3f * scale);
+                renderItemCustom(stack, 0, 0.3f * scale, false);
                 GlStateManager.depthFunc(GL11.GL_LEQUAL);
                 GlStateManager.disableBlend();
             }
-            if (ghosted != null || crafting) {
+            if (ghostly) {
                 GlStateManager.disableBlend();
             }
 
