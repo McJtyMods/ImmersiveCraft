@@ -81,7 +81,7 @@ public class GenericTE extends TileEntity {
         this.missingIngredients = missingIngredients;
     }
 
-    // Server side: optionally calculate the ingredients needed for the current craftable item
+    // Server side: optionally calculate the ingredients needed for the current craftable block
     public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, InventoryPlayer inventoryPlayer) {
         if (this instanceof ICraftingContainer) {
             for (IInterfaceHandle handle : interfaceHandles) {

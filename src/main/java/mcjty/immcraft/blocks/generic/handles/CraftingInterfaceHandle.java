@@ -42,7 +42,7 @@ public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
             } else {
                 List<ItemStack> missing = schema.getMissing(inventory, player.inventory);
                 for (ItemStack stack : missing) {
-                    Broadcaster.broadcast(te.getWorld(), te.getPos(), "Missing item " + stack.getDisplayName(), 6);
+                    Broadcaster.broadcast(te.getWorld(), te.getPos(), "Missing block " + stack.getDisplayName(), 6);
                 }
             }
         }

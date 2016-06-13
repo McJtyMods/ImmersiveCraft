@@ -112,7 +112,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
                     if (undo) {
                         cookTime = 40;   // Try again
-                        // Error, put back our item
+                        // Error, put back our block
                         if (inventoryHelper.hasStack(SLOT_TOBURN)) {
                             inventoryHelper.getStackInSlot(SLOT_TOBURN).stackSize++;
                         } else {
