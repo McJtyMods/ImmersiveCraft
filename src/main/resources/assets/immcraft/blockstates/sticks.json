@@ -26,14 +26,14 @@
       "false": {},
       "true": {
         "submodel": {
-          "f1": { "model": "fire_nsew_main" },
-          "f2": { "model": "fire_nsewu1_main" },
-          "f3": { "model": "fire_nsew_alt" },
-          "f4": { "model": "fire_nsewu1_alt" },
-          "f1": { "model": "fire_nsew_flip_main" },
-          "f2": { "model": "fire_nsewu1_flip_main" },
-          "f3": { "model": "fire_nsew_alt_flip" },
-          "f4": { "model": "fire_nsewu1_alt_flip" }
+          "f1": { "model": "fire_side0" },
+          "f2": { "model": "fire_side1" },
+          "f3": { "model": "fire_side_alt0" },
+          "f4": { "model": "fire_side_alt1" },
+          "f1": { "model": "fire_up0" },
+          "f2": { "model": "fire_up1" },
+          "f3": { "model": "fire_up_alt0" },
+          "f4": { "model": "fire_up_alt1" }
         }
       }
     }
