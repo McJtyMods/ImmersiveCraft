@@ -22,9 +22,9 @@ import java.util.Random;
 
 public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVerticalPlacerTE> {
 
-    public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .1f, 1, 1, 1);
+    public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .9f, 1, 1, 1);
     public static final AxisAlignedBB AABB_SOUTH = new AxisAlignedBB(0, 0, 0, 1, 1, .1f);
-    public static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(.1f, 0, 0, 1, 1, 1);
+    public static final AxisAlignedBB AABB_WEST = new AxisAlignedBB(.9f, 0, 0, 1, 1, 1);
     public static final AxisAlignedBB AABB_EAST = new AxisAlignedBB(0, 0, 0, .1f, 1, 1);
 
     public InWorldVerticalPlacerBlock() {
