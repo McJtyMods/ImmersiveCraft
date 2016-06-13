@@ -46,6 +46,10 @@ public class ForgeEventHandlers {
             spawnAxe(event, player, block);
         } else if (item == Items.STONE_AXE && (block == Blocks.LOG || block == Blocks.LOG2)) {
             createWorkbench(event);
+        } else if ((item == Items.DIAMOND_SHOVEL || item == Items.GOLDEN_SHOVEL || item == Items.IRON_SHOVEL ||
+                item == Items.STONE_SHOVEL || item == Items.WOODEN_SHOVEL) && block == Blocks.GRASS) {
+            // Allow the grass path to be made
+            return;
         } else if (GeneralConfiguration.allowRightClickPlacement
                 && canBePlaced(item)
                 && event.getWorld().isAirBlock(event.getPos().up())
