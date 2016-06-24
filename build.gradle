@@ -32,7 +32,7 @@ repositories {
     }
 }
 
-version = "1.9.4-1.1.7"
+version = "1.10-1.1.7"
 group= "mcjty.immcraft"
 archivesBaseName = "immcraft"
 
@@ -40,9 +40,9 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 minecraft {
-    version = "1.9.4-12.17.0.1961"
+    version = "1.10-12.18.0.1986-1.10.0"
     runDir = "run"
-    mappings = "snapshot_20160613"
+    mappings = "snapshot_20160624"
     useDepAts = true
 }
 
