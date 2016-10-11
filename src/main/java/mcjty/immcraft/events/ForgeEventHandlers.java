@@ -144,8 +144,10 @@ public class ForgeEventHandlers {
         if (!event.isSilkTouching()) {
             Block block = event.getState().getBlock();
             if (block == Blocks.LEAVES || block == Blocks.LEAVES2) {
-                if (random.nextFloat() < GeneralConfiguration.leavesDropSticksChance) {
-                    event.getDrops().add(new ItemStack(Items.STICK));
+                if (event.getHarvester() != null) {
+                    if (random.nextFloat() < GeneralConfiguration.leavesDropSticksChance) {
+                        event.getDrops().add(new ItemStack(Items.STICK));
+                    }
                 }
             }
         }
