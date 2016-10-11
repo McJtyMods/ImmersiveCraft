@@ -16,6 +16,9 @@ public class GeneralConfiguration {
 
     public static float rockDamage = 2.0f;
 
+    public static int worldgenStickAttemptsPerChunk = 30;
+    public static int worldgenRockAttemptsPerChunk = 10;
+
     public static void init(Configuration cfg) {
         worldgen = cfg.getBoolean("worldgen", CATEGORY_GENERAL, worldgen, "Enable worldgen for rocks and sticks");
         rockRecipe = cfg.getBoolean("rockRecipe", CATEGORY_GENERAL, rockRecipe, "Enable recipe for rocks");
@@ -26,5 +29,8 @@ public class GeneralConfiguration {
 
         maxRenderDistance = cfg.getFloat("maxRenderDistance", CATEGORY_GENERAL, maxRenderDistance, 1.0f, 1000000000.0f, "Maximum render distance for in-world items");
         maxRenderDistanceSquared = maxRenderDistance * maxRenderDistance;
+
+        worldgenStickAttemptsPerChunk = cfg.getInt("worldgenStickAttemptsPerChunk", CATEGORY_GENERAL, worldgenStickAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn sticks in a chunk");
+        worldgenRockAttemptsPerChunk = cfg.getInt("worldgenRockAttemptsPerChunk", CATEGORY_GENERAL, worldgenRockAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn rocks in a chunk");
     }
 }

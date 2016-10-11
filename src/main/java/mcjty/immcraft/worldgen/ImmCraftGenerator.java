@@ -4,6 +4,7 @@ package mcjty.immcraft.worldgen;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -32,44 +33,47 @@ public class ImmCraftGenerator implements IWorldGenerator {
         spawnRubble(random, chunkX, chunkZ, world);
     }
 
-    public static final int ROCK_TRIES = 10;
-    public static final int STICK_TRIES = 30;
-
     private void spawnRubble(Random random, int chunkX, int chunkZ, World world) {
 
         // Spawn above ground
-        for (int i = 0 ; i < random.nextInt(ROCK_TRIES) ; i++) {
-            int x = chunkX * 16 + random.nextInt(16);
-            int z = chunkZ * 16 + random.nextInt(16);
-            BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
-            Block block = world.getBlockState(pos).getBlock();
-            if (isRockSpawnable(block)) {
-                if (world.isAirBlock(pos.up())) {
-                    world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+        if (GeneralConfiguration.worldgenRockAttemptsPerChunk > 0) {
+            for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenRockAttemptsPerChunk); i++) {
+                int x = chunkX * 16 + random.nextInt(16);
+                int z = chunkZ * 16 + random.nextInt(16);
+                BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
+                Block block = world.getBlockState(pos).getBlock();
+                if (isRockSpawnable(block)) {
+                    if (world.isAirBlock(pos.up())) {
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    }
                 }
             }
         }
-        for (int i = 0 ; i < random.nextInt(STICK_TRIES) ; i++) {
-            int x = chunkX * 16 + random.nextInt(16);
-            int z = chunkZ * 16 + random.nextInt(16);
-            BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
-            Block block = world.getBlockState(pos).getBlock();
-            if (isStickSpawnable(block)) {
-                trySpawnSticks(world, pos, random);
+        if (GeneralConfiguration.worldgenStickAttemptsPerChunk > 0) {
+            for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenStickAttemptsPerChunk); i++) {
+                int x = chunkX * 16 + random.nextInt(16);
+                int z = chunkZ * 16 + random.nextInt(16);
+                BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
+                Block block = world.getBlockState(pos).getBlock();
+                if (isStickSpawnable(block)) {
+                    trySpawnSticks(world, pos, random);
+                }
             }
         }
 
         // Spawn in caves
-        for (int i = 0 ; i < random.nextInt(ROCK_TRIES) ; i++) {
-            int x = chunkX * 16 + random.nextInt(16);
-            int z = chunkZ * 16 + random.nextInt(16);
-            BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
-            int y = findCaveSpot(world, pos);
-            pos = new BlockPos(x, y, z);
-            Block block = world.getBlockState(pos).getBlock();
-            if (y != -1 && isRockSpawnable(block)) {
-                if (world.isAirBlock(pos.up())) {
-                    world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+        if (GeneralConfiguration.worldgenRockAttemptsPerChunk > 0) {
+            for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenRockAttemptsPerChunk); i++) {
+                int x = chunkX * 16 + random.nextInt(16);
+                int z = chunkZ * 16 + random.nextInt(16);
+                BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
+                int y = findCaveSpot(world, pos);
+                pos = new BlockPos(x, y, z);
+                Block block = world.getBlockState(pos).getBlock();
+                if (y != -1 && isRockSpawnable(block)) {
+                    if (world.isAirBlock(pos.up())) {
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    }
                 }
             }
         }
