@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -96,8 +97,11 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 IBlockState state = world.getBlockState(new BlockPos(x, y, z));
                 if (isLeafBlock(state.getBlock(), state)) {
                     world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
-                    SticksTE sticksTE = (SticksTE) world.getTileEntity(pos.up());
-                    sticksTE.setSticks(random.nextInt(6)+1);
+                    TileEntity te = world.getTileEntity(pos.up());
+                    if (te instanceof SticksTE) {
+                        SticksTE sticksTE = (SticksTE) te;
+                        sticksTE.setSticks(random.nextInt(6) + 1);
+                    }
                 }
                 return;
             }
