@@ -34,7 +34,7 @@ public class ImmersiveCraft {
 
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
-    public static final String VERSION = "1.1.7";
+    public static final String VERSION = "1.1.8";
 
     @SidedProxy
     public static CommonProxy proxy;
