@@ -4,6 +4,7 @@ import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.varia.InventoryHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -60,7 +61,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     public ItemStack getCurrentStack(GenericTE inventoryTE) {
         return GenericInventoryTE.castGenericInventoryTE(inventoryTE)
                 .map(p -> p.getStackInSlot(slot))
-                .orElse(null);
+                .orElse(ItemStackTools.getEmptyStack());
     }
 
     @Override
@@ -101,7 +102,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     @Override
     public int insertInput(GenericTE te, ItemStack stack) {
         int remaining = InventoryHelper.mergeItemStackSafe(GenericInventoryTE.castGenericInventoryTE(te).get(), null, stack, slot, slot + 1, null);
-        if (remaining != stack.stackSize) {
+        if (remaining != ItemStackTools.getStackSize(stack)) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
             te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
         }
@@ -121,10 +122,10 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     @Override
     public ItemStack extractOutput(GenericTE genericTE, EntityPlayer player, int amount) {
         GenericInventoryTE te = GenericInventoryTE.castGenericInventoryTE(genericTE).get();
-        ItemStack stack;
+        ItemStack stack = ItemStackTools.getEmptyStack();
         if (amount == -1) {
             stack = te.getStackInSlot(slot);
-            te.setInventorySlotContents(slot, null);
+            te.setInventorySlotContents(slot, ItemStackTools.getEmptyStack());
         } else {
             stack = te.decrStackSize(slot, amount);
         }

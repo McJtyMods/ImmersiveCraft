@@ -11,6 +11,7 @@ import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -33,11 +34,11 @@ public class ClientForgeEventHandlers {
     public void onMouseInput(MouseEvent event) {
         int dWheel = Mouse.getDWheel();
         if (dWheel != 0) {
-            EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+            EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
             if (player.isSneaking()) {
                 RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
                 if (mouseOver != null && mouseOver.getBlockPos() != null) {
-                    BlockTools.getTE(null, Minecraft.getMinecraft().theWorld, mouseOver.getBlockPos())
+                    BlockTools.getTE(null, MinecraftTools.getWorld(Minecraft.getMinecraft()), mouseOver.getBlockPos())
                             .ifPresent(p -> handleWheel(p, dWheel, event));
                 }
             }
@@ -56,7 +57,7 @@ public class ClientForgeEventHandlers {
     @SubscribeEvent
     public void onDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
         EntityPlayer p = event.getPlayer();
-        World world = p.worldObj;
+        World world = p.getEntityWorld();
         BlockPos pos = event.getTarget().getBlockPos();
         if (pos == null) {
             return;

@@ -31,10 +31,10 @@ public class CupboardTE extends ShelfTE {
         this.open = open;
         if (open) {
             opening = 0;
-            this.worldObj.playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
+            this.getWorld().playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, this.getWorld().rand.nextFloat() * 0.1F + 0.9F, false);
         } else {
             opening = -60;
-            this.worldObj.playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F, false);
+            this.getWorld().playSound(xCoord + .5, yCoord + 0.5, zCoord + .5, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, this.getWorld().rand.nextFloat() * 0.1F + 0.9F, false);
         }
         markDirtyClient();
     }

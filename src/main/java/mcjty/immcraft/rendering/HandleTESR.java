@@ -5,6 +5,7 @@ import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -50,7 +51,7 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
     }
 
     protected void renderHandles(T tileEntity) {
-        double distanceSq = Minecraft.getMinecraft().thePlayer.getDistanceSq(tileEntity.getPos());
+        double distanceSq = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getDistanceSq(tileEntity.getPos());
         if (distanceSq > GeneralConfiguration.maxRenderDistanceSquared) {
             return;
         }

@@ -35,7 +35,7 @@ public class SticksTE extends GenericTE implements ITickable {
 
     @Override
     public void update() {
-        if (!worldObj.isRemote) {
+        if (!getWorld().isRemote) {
             if (burnTime > 0) {
                 handleBurn();
             }
@@ -45,10 +45,10 @@ public class SticksTE extends GenericTE implements ITickable {
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
-        if (worldObj.isRemote) {
+        if (getWorld().isRemote) {
             // If needed send a render update.
             // @todo try to check if it is really needed
-            worldObj.markBlockRangeForRenderUpdate(getPos(), getPos());
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
 
@@ -59,12 +59,12 @@ public class SticksTE extends GenericTE implements ITickable {
             if (sticks > 1) {
                 burnTime = BURNTIME_STICK;
                 sticks--;
-                IBlockState state = worldObj.getBlockState(getPos());
-                worldObj.notifyBlockUpdate(getPos(), state, state, 3);
+                IBlockState state = getWorld().getBlockState(getPos());
+                getWorld().notifyBlockUpdate(getPos(), state, state, 3);
             } else {
                 // Self destruct
                 sticks = 0;
-                worldObj.setBlockToAir(getPos());
+                getWorld().setBlockToAir(getPos());
             }
         }
     }

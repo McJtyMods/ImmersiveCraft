@@ -65,7 +65,7 @@ public class PacketSendKey implements IMessage {
 
         private void handle(PacketSendKey message, MessageContext ctx) {
             EntityPlayerMP playerEntity = ctx.getServerHandler().playerEntity;
-            World world = playerEntity.worldObj;
+            World world = playerEntity.getEntityWorld();
             BlockTools.getTE(null, world, message.blockPos)
                     .ifPresent(p -> p.onKeyPress(message.keyType, playerEntity, message.side, getLocalSide(world, message), message.hitVec));
         }

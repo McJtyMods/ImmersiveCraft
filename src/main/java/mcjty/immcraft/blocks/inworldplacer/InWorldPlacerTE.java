@@ -3,12 +3,11 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
-import net.minecraft.block.Block;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
 public class InWorldPlacerTE extends GenericInventoryTE {
 
@@ -34,13 +33,13 @@ public class InWorldPlacerTE extends GenericInventoryTE {
             }
         }
         // Self destruct
-        worldObj.setBlockToAir(getPos());
+        getWorld().setBlockToAir(getPos());
     }
 
     public static void addItems(GenericInventoryTE inventory, EntityPlayer player, ItemStack heldItem) {
         inventory.setInventorySlotContents(SLOT_INPUT1, heldItem);
         inventory.markDirtyClient();
-        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
         player.openContainer.detectAndSendChanges();
     }
 

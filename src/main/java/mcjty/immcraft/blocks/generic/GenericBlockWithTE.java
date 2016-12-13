@@ -7,6 +7,7 @@ import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -57,8 +58,8 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
             IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
-                if (currentStack != null) {
-                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.stackSize + ")");
+                if (ItemStackTools.isValid(currentStack)) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
                 }
             }
         }
@@ -73,8 +74,8 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
             IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
-                if (currentStack != null) {
-                    currenttip.add(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.stackSize + ")");
+                if (ItemStackTools.isValid(currentStack)) {
+                    currenttip.add(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
                 }
             }
         }
@@ -121,7 +122,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, ItemStack heldItem, EnumFacing side, float sx, float sy, float sz) {
+    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
         return getTE(world, pos).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3d(sx, sy, sz));
     }
 

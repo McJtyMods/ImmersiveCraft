@@ -1,5 +1,6 @@
 package mcjty.immcraft.varia;
 
+import mcjty.lib.tools.ChatTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -26,7 +27,7 @@ public class Broadcaster {
             EntityPlayer player = (EntityPlayer) p;
             double sqdist = player.getDistanceSq(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5);
             if (sqdist < radius) {
-                player.addChatComponentMessage(new TextComponentString(message));
+                ChatTools.addChatMessage(player, new TextComponentString(message));
             }
         }
     }

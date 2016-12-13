@@ -37,7 +37,7 @@ public class ChestTESR extends HandleTESR<ChestTE> {
         // for rendering
         if (bakedLidModel == null) {
             try {
-                lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "block/chestLid.obj"));
+                lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "block/chestlid.obj"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

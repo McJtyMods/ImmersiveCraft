@@ -10,6 +10,7 @@ import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.NBTHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -73,8 +74,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     @Override
     public List<ItemStack> getInventory() {
         List<ItemStack> inventory = new ArrayList<>();
-        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(worldObj.getBlockState(getPos()));
-        Optional<IInventory> inv = BlockTools.getInventory(worldObj, getPos().offset(left));
+        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
+        Optional<IInventory> inv = BlockTools.getInventory(getWorld(), getPos().offset(left));
         if (inv.isPresent()) {
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT1));
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT2));
@@ -87,15 +88,15 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     @Override
     public void updateInventory(List<ItemStack> inventory) {
-        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(worldObj.getBlockState(getPos()));
-        Optional<GenericTE> te = BlockTools.getTE(null, worldObj, getPos().offset(left));
+        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
+        Optional<GenericTE> te = BlockTools.getTE(null, getWorld(), getPos().offset(left));
         if (te.isPresent()) {
             if (te.get() instanceof IInventory) {
                 IInventory inv = (IInventory) te.get();
                 for (int i = 0 ; i < 4 ; i++) {
                     ItemStack itemStack = inventory.get(i);
-                    if (itemStack == null || itemStack.stackSize == 0) {
-                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, null);
+                    if (ItemStackTools.isEmpty(itemStack)) {
+                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, ItemStackTools.getEmptyStack());
                     } else {
                         inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, itemStack);
                     }
@@ -107,7 +108,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     private Schema[] getActiveSchemas() {
         ItemStack tool = inventoryHelper.getStackInSlot(SLOT_TOOL);
-        if (tool == null) {
+        if (ItemStackTools.isEmpty(tool)) {
             return baseSchemas;
         } else if (tool.getItem() == ModItems.chisel) {
             return chiselSchemas;

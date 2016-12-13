@@ -37,8 +37,8 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
 
     @Override
     public void update() {
-        if (!worldObj.isRemote) {
-            MultiBlockData.get(worldObj);       // Make sure the multiblock data is loaded
+        if (!getWorld().isRemote) {
+            MultiBlockData.get(getWorld());       // Make sure the multiblock data is loaded
             cableSections.stream().forEach(p -> p.getType().getCableHandler().tick(this, p));
         }
     }
@@ -46,7 +46,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
-        worldObj.markBlockRangeForRenderUpdate(getPos(), getPos());
+        getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
     }
 
     public List<CableSection> getCableSections() {
@@ -92,21 +92,21 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
      * can be freshly reconnected.
      */
     private void disconnectFromConnector(ICableType type, ICableSubType subType, int id, BlockPos current) {
-        BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, current).get();
+        BundleTE bundle = BlockTools.getTE(BundleTE.class, getWorld(), current).get();
         ICableSection isection = bundle.findSection(type, subType, id);
         CableSection section = (CableSection) isection;
-        if (section.getConnectorID(0) != -1 && section.getConnector(worldObj, 0) != null) {
-            section.getConnector(worldObj, 0).disconnect(section.getConnectorID(0));
+        if (section.getConnectorID(0) != -1 && section.getConnector(getWorld(), 0) != null) {
+            section.getConnector(getWorld(), 0).disconnect(section.getConnectorID(0));
             section.setConnection(0, null, null, -1);
         }
-        if (section.getConnectorID(1) != -1 && section.getConnector(worldObj, 1) != null) {
-            section.getConnector(worldObj, 1).disconnect(section.getConnectorID(1));
+        if (section.getConnectorID(1) != -1 && section.getConnector(getWorld(), 1) != null) {
+            section.getConnector(getWorld(), 1).disconnect(section.getConnectorID(1));
             section.setConnection(1, null, null, -1);
         }
     }
 
     private Vector getVectorFromCable(BlockPos c, ICableType type, ICableSubType subType, int id) {
-        BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, c).get();
+        BundleTE bundle = BlockTools.getTE(BundleTE.class, getWorld(), c).get();
         CableSection section = (CableSection) bundle.findSection(type, subType, id);
         return section.getVector();
     }
@@ -121,12 +121,12 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
 
         String networkName = cableHandler.getNetworkName(subType);
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
-        int id = MultiBlockCableHelper.addBlockToNetwork(network, type, subType, -1, worldObj, getPos());
-        MultiBlockData.save(worldObj);
+        int id = MultiBlockCableHelper.addBlockToNetwork(network, type, subType, -1, getWorld(), getPos());
+        MultiBlockData.save(getWorld());
         CableSection section = new CableSection(type, subType, id, vector);
         cableSections.add(section);
 
-        reconnectCable(cableHandler.getCable(worldObj, subType, id), type, subType, id);
+        reconnectCable(cableHandler.getCable(getWorld(), subType, id), type, subType, id);
     }
 
     /*
@@ -143,7 +143,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
         for (int i = 0 ; i < path.size() ; i++) {
             BlockPos current = path.get(i);
 
-            BundleTE bundle = BlockTools.getTE(BundleTE.class, worldObj, current).get();
+            BundleTE bundle = BlockTools.getTE(BundleTE.class, getWorld(), current).get();
             CableSection section = (CableSection) bundle.findSection(type, subType, id);
 
             ICableConnector connector = null;
@@ -170,15 +170,15 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
     private ICableConnector tryConnectToConnector(CableSection section, int networkId, int directionId, BlockPos pos, ICableConnector alreadyConnected) {
         for (EnumFacing direction : EnumFacing.VALUES) {
             BlockPos adj = pos.offset(direction);
-            TileEntity te = worldObj.getTileEntity(adj);
+            TileEntity te = getWorld().getTileEntity(adj);
             if (te instanceof ICableConnector && te != alreadyConnected) {
-                IOrientedBlock orientedBlock = (IOrientedBlock) worldObj.getBlockState(adj).getBlock();
-                EnumFacing blockSide = orientedBlock.worldToBlockSpace(worldObj, adj, direction.getOpposite());
+                IOrientedBlock orientedBlock = (IOrientedBlock) getWorld().getBlockState(adj).getBlock();
+                EnumFacing blockSide = orientedBlock.worldToBlockSpace(getWorld(), adj, direction.getOpposite());
 
                 ICableConnector connector = (ICableConnector) te;
                 if (connector.getType() == section.getType() && connector.canConnect(blockSide)) {
                     int connectorId = connector.connect(blockSide, networkId, section.getSubType());
-                    EnumFacing frontDirection = orientedBlock.getFrontDirection(worldObj.getBlockState(adj));
+                    EnumFacing frontDirection = orientedBlock.getFrontDirection(getWorld().getBlockState(adj));
                     section.setConnection(directionId, adj, connector.getConnectorLocation(connectorId, frontDirection), connectorId);
                     return connector;
                 }
@@ -219,15 +219,15 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
         ICableHandler cableHandler = section.getType().getCableHandler();
         String networkName = cableHandler.getNetworkName(section.getSubType());
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
-        MultiBlockCableHelper.removeBlockFromNetwork(network, section.getType(), section.getSubType(), section.getId(), worldObj, getPos());
-        MultiBlockData.save(worldObj);
+        MultiBlockCableHelper.removeBlockFromNetwork(network, section.getType(), section.getSubType(), section.getId(), getWorld(), getPos());
+        MultiBlockData.save(getWorld());
 
         cableSections.remove(section);
 
         markDirtyClient();
 
         section.getSubType().getBlock()
-                .ifPresent(block -> BlockTools.spawnItemStack(worldObj, getPos(), new ItemStack(block)));
+                .ifPresent(block -> BlockTools.spawnItemStack(getWorld(), getPos(), new ItemStack(block)));
     }
 
     /*
@@ -238,9 +238,9 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
         for (int i = 0 ; i < 2 ; i++) {
             BlockPos connection = section.getConnection(i);
             if (connection != null) {
-                BlockTools.getTE(BundleTE.class, worldObj, connection).ifPresent(p -> disconnectOther(p, section));
+                BlockTools.getTE(BundleTE.class, getWorld(), connection).ifPresent(p -> disconnectOther(p, section));
             }
-            section.releaseConnector(worldObj, i);
+            section.releaseConnector(getWorld(), i);
             section.setConnection(i, null, null, -1);
         }
         markDirtyClient();
@@ -257,10 +257,10 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
             return;
         }
         if (other.equals(section.getConnection(0))) {
-            section.releaseConnector(worldObj, 0);
+            section.releaseConnector(getWorld(), 0);
             section.setConnection(0, null, null, -1);
         } else if (other.equals(section.getConnection(1))) {
-            section.releaseConnector(worldObj, 1);
+            section.releaseConnector(getWorld(), 1);
             section.setConnection(1, null, null, -1);
         }
     }
@@ -279,7 +279,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
                 if (id != -1) {
                     BlockPos connection = section.getConnection(i);
                     if (connection != null) {
-                        TileEntity te = worldObj.getTileEntity(connection);
+                        TileEntity te = getWorld().getTileEntity(connection);
                         if (!(te instanceof ICableConnector)) {
                             System.out.println("Connector removed");
                             // This is no longer a connector.

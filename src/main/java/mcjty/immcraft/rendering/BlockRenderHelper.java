@@ -7,6 +7,8 @@ import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -36,7 +38,7 @@ public final class BlockRenderHelper {
     private BlockRenderHelper(){}
 
     public static void renderItemDefault(ItemStack is, int rotation, float scale) {
-        if (is != null) {
+        if (ItemStackTools.isValid(is)) {
             GlStateManager.pushMatrix();
 
             RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
@@ -52,7 +54,7 @@ public final class BlockRenderHelper {
     }
 
     public static void renderItemCustom(ItemStack is, int rotation, float scale, boolean normal) {
-        if (is != null) {
+        if (ItemStackTools.isValid(is)) {
             GlStateManager.pushMatrix();
 
             GlStateManager.scale(scale, scale, scale);
@@ -71,8 +73,8 @@ public final class BlockRenderHelper {
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
 
 //        IBakedModel ibakedmodel = renderItem.getItemModelMesher().getItemModel(is);
-        EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-        IBakedModel ibakedmodel = renderItem.getItemModelWithOverrides(is, player.worldObj, player);
+        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        IBakedModel ibakedmodel = renderItem.getItemModelWithOverrides(is, player.getEntityWorld(), player);
 
         textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         textureManager.getTexture(TextureMap.LOCATION_BLOCKS_TEXTURE).setBlurMipmap(false, false);
@@ -170,23 +172,23 @@ public final class BlockRenderHelper {
     public static void renderInterfaceHandles(GenericTE te, IInterfaceHandle selectedHandle, Vec3d textOffset) {
         for (IInterfaceHandle handle : te.getInterfaceHandles()) {
             boolean selected = selectedHandle == handle;
-            ItemStack ghosted = null;
-            ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+            ItemStack ghosted = ItemStackTools.getEmptyStack();
+            ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
             ItemStack stackInSlot = handle.getCurrentStack(te);
-            if (selected && heldItem != null && stackInSlot == null) {
+            if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
                 if (handle.acceptAsInput(heldItem)) {
                     ghosted = heldItem;
                 }
             }
             renderItemStackInWorld(handle.getRenderOffset(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
         }
-        if (Minecraft.getMinecraft().thePlayer.isSneaking()) {
+        if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
                 boolean selected = selectedHandle == handle;
-                ItemStack ghosted = null;
-                ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem(EnumHand.MAIN_HAND);
+                ItemStack ghosted = ItemStackTools.getEmptyStack();
+                ItemStack heldItem = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getHeldItem(EnumHand.MAIN_HAND);
                 ItemStack stackInSlot = handle.getCurrentStack(te);
-                if (selected && heldItem != null && stackInSlot == null) {
+                if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
                     if (handle.acceptAsInput(heldItem)) {
                         ghosted = heldItem;
                     }
@@ -212,20 +214,20 @@ public final class BlockRenderHelper {
 
     private static void renderItemStackInWorld(Vec3d offset, boolean selected, boolean crafting, ItemStack ghosted, ItemStack stack, float scale) {
         scale *= .6f;
-        if (ghosted != null) {
+        if (ItemStackTools.isValid(ghosted)) {
             stack = ghosted;
         }
-        if (stack != null) {
+        if (ItemStackTools.isValid(stack)) {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
             GlStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
 
-            boolean ghostly = ghosted != null || crafting;
+            boolean ghostly = ItemStackTools.isValid(ghosted) || crafting;
             if (ghostly) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
             }
             renderItemCustom(stack, 0, 0.3f * scale, !ghostly);
-            if (selected && ghosted == null) {
+            if (selected && ItemStackTools.isEmpty(ghosted)) {
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 GlStateManager.depthFunc(GL11.GL_EQUAL);
@@ -242,10 +244,10 @@ public final class BlockRenderHelper {
     }
 
     private static void renderTextOverlay(Vec3d offset, List<String> present, List<String> missing, ItemStack ghosted, ItemStack stack, float scale, Vec3d textOffset) {
-        if (ghosted != null) {
+        if (ItemStackTools.isValid(ghosted)) {
             stack = ghosted;
         }
-        if (stack != null) {
+        if (ItemStackTools.isValid(stack)) {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
             GlStateManager.pushMatrix();
@@ -273,7 +275,7 @@ public final class BlockRenderHelper {
                 GlStateManager.popMatrix();
             }
 
-            fontrenderer.drawStringWithShadow(String.valueOf(stack.stackSize), 40, 40, 0xffffffff);
+            fontrenderer.drawStringWithShadow(String.valueOf(ItemStackTools.getStackSize(stack)), 40, 40, 0xffffffff);
             GlStateManager.enableDepth();
             GlStateManager.enableLighting();
 

@@ -111,8 +111,8 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        super.neighborChanged(state, worldIn, pos, blockIn);
+    protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+        super.clOnNeighborChanged(state, worldIn, pos, blockIn);
         if (!canBlockStay(worldIn, pos)) {
             dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);

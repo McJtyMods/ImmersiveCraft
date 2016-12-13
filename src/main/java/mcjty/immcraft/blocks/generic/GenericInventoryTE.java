@@ -2,8 +2,9 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.varia.InventoryHelper;
 import mcjty.immcraft.varia.NBTHelper;
+import mcjty.lib.compat.CompatSidedInventory;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,7 +19,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericTE implements ISidedInventory {
+public class GenericInventoryTE extends GenericTE implements CompatSidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;
@@ -79,7 +80,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    public boolean isUsable(EntityPlayer player) {
         return !this.isInvalid() && (player.getDistanceSq(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, (double) this.getPos().getZ() + 0.5D) <= 64.0D);
     }
 
@@ -91,7 +92,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack stack = inventoryHelper.getStackInSlot(index);
-        inventoryHelper.setStackInSlot(index, null);
+        inventoryHelper.setStackInSlot(index, ItemStackTools.getEmptyStack());
         return stack;
     }
 
@@ -150,7 +151,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
         NBTTagList bufferTagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < bufferTagList.tagCount() ; i++) {
             NBTTagCompound nbtTagCompound = bufferTagList.getCompoundTagAt(i);
-            inventoryHelper.setStackInSlot(i, ItemStack.loadItemStackFromNBT(nbtTagCompound));
+            inventoryHelper.setStackInSlot(i, ItemStackTools.loadFromNBT(nbtTagCompound));
         }
     }
 
@@ -165,7 +166,7 @@ public class GenericInventoryTE extends GenericTE implements ISidedInventory {
         for (int i = 0 ; i < inventoryHelper.getCount() ; i++) {
             ItemStack stack = inventoryHelper.getStackInSlot(i);
             NBTTagCompound nbtTagCompound = new NBTTagCompound();
-            if (stack != null) {
+            if (ItemStackTools.isValid(stack)) {
                 stack.writeToNBT(nbtTagCompound);
             }
             bufferTagList.appendTag(nbtTagCompound);

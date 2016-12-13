@@ -17,6 +17,7 @@ import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.worldgen.WorldGen;
+import mcjty.lib.compat.CompatCreativeTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -28,13 +29,20 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME, dependencies = "required-after:Forge@[11.15.0.1684,)", useMetadata = true,
-        version = ImmersiveCraft.VERSION)
+@Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME,
+        dependencies =
+                "required-after:compatlayer@[" + ImmersiveCraft.COMPATLAYER_VER + ",);" +
+                "after:Forge@[" + ImmersiveCraft.MIN_FORGE10_VER + ",);" +
+                "after:forge@[" + ImmersiveCraft.MIN_FORGE11_VER + ",)",
+        version = ImmersiveCraft.VERSION,
+        acceptedMinecraftVersions = "[1.10,1.12)")
 public class ImmersiveCraft {
-
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
     public static final String VERSION = "1.1.8";
+    public static final String MIN_FORGE10_VER = "12.18.1.2082";
+    public static final String MIN_FORGE11_VER = "13.19.0.2176";
+    public static final String COMPATLAYER_VER = "0.1.3";
 
     @SidedProxy
     public static CommonProxy proxy;
@@ -49,9 +57,9 @@ public class ImmersiveCraft {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
-        creativeTab = new CreativeTabs("immcraft") {
+        creativeTab = new CompatCreativeTabs("immcraft") {
             @Override
-            public Item getTabIconItem() {
+            protected Item getItem() {
                 return Item.getItemFromBlock(ModBlocks.rockBlock);
             }
         };

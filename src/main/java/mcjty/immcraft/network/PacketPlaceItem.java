@@ -7,6 +7,7 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -62,7 +63,7 @@ public class PacketPlaceItem implements IMessage {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (heldItem == null) {
+            if (ItemStackTools.isEmpty(heldItem)) {
                 return;
             }
 

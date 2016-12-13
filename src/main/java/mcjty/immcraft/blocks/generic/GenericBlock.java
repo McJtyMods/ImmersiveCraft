@@ -7,6 +7,7 @@ import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.compat.waila.WailaInfoProvider;
+import mcjty.lib.compat.CompatBlock;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -36,7 +37,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class GenericBlock extends Block implements WailaInfoProvider, IOrientedBlock, TOPInfoProvider {
+public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOrientedBlock, TOPInfoProvider {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");

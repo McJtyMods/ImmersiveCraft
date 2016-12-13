@@ -25,7 +25,7 @@ public class WorkbenchTE extends GenericInventoryTE {
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
-        EnumFacing direction = ModBlocks.workbenchBlock.worldToBlockSpace(worldObj, getPos(), side);
+        EnumFacing direction = ModBlocks.workbenchBlock.worldToBlockSpace(getWorld(), getPos(), side);
         if (direction == EnumFacing.UP) {
             return new int[] { SLOT_INPUT1, SLOT_INPUT2, SLOT_INPUT3, SLOT_INPUT4 };
         } else {

@@ -5,6 +5,7 @@ import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.NBTHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -56,9 +57,9 @@ public class GenericTE extends TileEntity {
 
     public void markDirtyClient() {
         markDirty();
-        if (worldObj != null) {
-            IBlockState state = worldObj.getBlockState(getPos());
-            worldObj.notifyBlockUpdate(getPos(), state, state, 3);
+        if (getWorld() != null) {
+            IBlockState state = getWorld().getBlockState(getPos());
+            getWorld().notifyBlockUpdate(getPos(), state, state, 3);
         }
     }
 
@@ -89,8 +90,8 @@ public class GenericTE extends TileEntity {
                     ICraftingContainer container = (ICraftingContainer) this;
                     List<ItemStack> inventory = container.getInventory();
                     Schema schema = container.getCurrentSchema();
-                    schema.getPresent(inventory, inventoryPlayer).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + p.stackSize + ")"));
-                    schema.getMissing(inventory, inventoryPlayer).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + p.stackSize + ")"));
+                    schema.getPresent(inventory, inventoryPlayer).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
+                    schema.getMissing(inventory, inventoryPlayer).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
                 }
             }
         }
@@ -105,7 +106,7 @@ public class GenericTE extends TileEntity {
     }
 
     public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        EnumFacing front = getBlock().getFrontDirection(worldObj.getBlockState(getPos()));
+        EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
         double sx2 = calculateHitX(hitVec, worldSide, front);
         double sy2 = calculateHitY(hitVec, worldSide, front);
         for (IInterfaceHandle handle : interfaceHandles) {
@@ -186,7 +187,7 @@ public class GenericTE extends TileEntity {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (heldItem == null) {
+            if (ItemStackTools.isEmpty(heldItem)) {
                 // Nothing happens if the player doesn't have anything in his/her hand
                 return false;
             }
@@ -217,7 +218,7 @@ public class GenericTE extends TileEntity {
             if (player.isSneaking()) {
                 amount = 1;
             }
-            if (heldItem == null) {
+            if (ItemStackTools.isEmpty(heldItem)) {
                 return getItemFromHandle(player, handle, amount, true);
             } else if (handle.acceptAsInput(heldItem)) {
                 if (!addItemToHandle(player, heldItem, handle, amount)) {
@@ -244,17 +245,17 @@ public class GenericTE extends TileEntity {
     }
 
     private boolean addItemToHandle(EntityPlayer player, ItemStack heldItem, IInterfaceHandle handle, int amount) {
-        if (!player.worldObj.isRemote) {
+        if (!player.getEntityWorld().isRemote) {
             ItemStack itemStack;
             if (amount == -1) {
                 itemStack = heldItem;
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
             } else {
                 itemStack = player.inventory.decrStackSize(player.inventory.currentItem, amount);
             }
             int remaining = handle.insertInput(this, itemStack);
             if (remaining != 0) {
-                itemStack.stackSize = remaining;
+                ItemStackTools.setStackSize(itemStack, remaining);
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
                 player.openContainer.detectAndSendChanges();
                 return false;
@@ -267,9 +268,9 @@ public class GenericTE extends TileEntity {
     }
 
     private boolean getItemFromHandle(EntityPlayer player, IInterfaceHandle handle, int amount, boolean exactSlot) {
-        if (!player.worldObj.isRemote) {
+        if (!player.getEntityWorld().isRemote) {
             ItemStack itemStack = handle.extractOutput(this, player, amount);
-            if (itemStack == null || itemStack.stackSize == 0) {
+            if (ItemStackTools.isEmpty(itemStack)) {
                 return false;
             }
             if (exactSlot) {

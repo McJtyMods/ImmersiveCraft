@@ -15,15 +15,15 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchSecondaryBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
+import mcjty.lib.tools.EntityTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.EntityList;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -84,7 +84,7 @@ public class ModBlocks {
         cupboardBlock.initModel();
         shelfBlock.initModel();
 
-        EntityRegistry.registerModEntity(EntityRock.class, "immcraft_rock", 1, ImmersiveCraft.MODID, 100, 5, true);
+        EntityTools.registerModEntity(new ResourceLocation(ImmersiveCraft.MODID, "immcraft_rock"), EntityRock.class, "immcraft_rock", 1, ImmersiveCraft.MODID, 100, 5, true);
 
         RenderingRegistry.registerEntityRenderingHandler(EntityRock.class, new IRenderFactory<EntityRock>() {
             @Override

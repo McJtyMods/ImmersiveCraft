@@ -7,6 +7,7 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,7 @@ public class ForgeEventHandlers {
 
         EntityPlayer player = event.getEntityPlayer();
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (heldItem == null) {
+        if (ItemStackTools.isEmpty(heldItem)) {
             return;
         }
         Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
@@ -125,7 +126,7 @@ public class ForgeEventHandlers {
     private void addSticks(EntityPlayer player, SticksTE sticksTE) {
         int amount;
         if (player.isSneaking()) {
-            amount = Math.min(64-sticksTE.getSticks(), player.getHeldItem(EnumHand.MAIN_HAND).stackSize);
+            amount = Math.min(64-sticksTE.getSticks(), ItemStackTools.getStackSize(player.getHeldItem(EnumHand.MAIN_HAND)));
         } else {
             amount = Math.min(64-sticksTE.getSticks(), 1);
         }

@@ -30,7 +30,7 @@ public class EntityRock extends EntityThrowable {
             result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), GeneralConfiguration.rockDamage);
         }
 
-        if (!this.worldObj.isRemote) {
+        if (!this.getEntityWorld().isRemote) {
             this.setDead();
         }
     }

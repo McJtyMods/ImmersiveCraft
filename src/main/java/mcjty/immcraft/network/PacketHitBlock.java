@@ -54,10 +54,10 @@ public class PacketHitBlock implements IMessage {
 
         private void handle(PacketHitBlock message, MessageContext ctx) {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-            Block block = player.worldObj.getBlockState(message.blockPos).getBlock();
+            Block block = player.getEntityWorld().getBlockState(message.blockPos).getBlock();
             if (block instanceof GenericBlockWithTE) {
                 GenericBlockWithTE genericBlockWithTE = (GenericBlockWithTE) block;
-                genericBlockWithTE.onClick(player.worldObj, message.blockPos, player, message.side, message.hitVec);
+                genericBlockWithTE.onClick(player.getEntityWorld(), message.blockPos, player, message.side, message.hitVec);
             }
         }
     }
