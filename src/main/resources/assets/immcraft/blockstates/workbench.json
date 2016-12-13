@@ -3,7 +3,7 @@
   "defaults": {
     "textures": {
     },
-    "model": "immcraft:workbenchLeft.obj"
+    "model": "immcraft:workbenchleft.obj"
   },
   "variants": {
     "normal": [{}],
