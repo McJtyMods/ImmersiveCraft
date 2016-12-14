@@ -34,13 +34,13 @@ public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
             ICraftingContainer craftingContainer = (ICraftingContainer) te;
             Schema schema = craftingContainer.getCurrentSchema();
             List<ItemStack> inventory = craftingContainer.getInventory();
-            if (schema.match(inventory, player.inventory)) {
-                ItemStack result = schema.craft(inventory, player.inventory);
+            if (schema.match(inventory, player)) {
+                ItemStack result = schema.craft(inventory, player);
                 craftingContainer.updateInventory(inventory);
                 player.openContainer.detectAndSendChanges();
                 return result;
             } else {
-                List<ItemStack> missing = schema.getMissing(inventory, player.inventory);
+                List<ItemStack> missing = schema.getMissing(inventory, player);
                 for (ItemStack stack : missing) {
                     Broadcaster.broadcast(te.getWorld(), te.getPos(), "Missing block " + stack.getDisplayName(), 6);
                 }

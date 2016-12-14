@@ -36,7 +36,7 @@ public class IngredientsInfoPacketServer implements InfoPacketServer {
         List<String> ingredients = new ArrayList<>();
         List<String> missingIngredients = new ArrayList<>();
         BlockTools.getTE(null, player.getEntityWorld(), pos)
-                .ifPresent(p -> p.calculateIngredients(ingredients, missingIngredients, player.inventory));
+                .ifPresent(p -> p.calculateIngredients(ingredients, missingIngredients, player));
         return Optional.of(new IngredientsInfoPacketClient(pos, ingredients, missingIngredients));
     }
 }

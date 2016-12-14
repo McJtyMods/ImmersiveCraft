@@ -1,7 +1,8 @@
 package mcjty.immcraft.schemas;
 
+import mcjty.lib.tools.InventoryTools;
 import mcjty.lib.tools.ItemStackTools;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -35,9 +36,9 @@ public class Schema {
         return result;
     }
 
-    public boolean match(Collection<ItemStack> in, InventoryPlayer inventoryPlayer) {
+    public boolean match(Collection<ItemStack> in, EntityPlayer player) {
         List<ItemStack> materials = Stream.concat(in.stream(),
-                hotbarStream(inventoryPlayer))
+                hotbarStream(player))
                 .filter(ItemStackTools::isValid)
                 .map(ItemStack::copy)
                 .collect(Collectors.toList());
@@ -45,14 +46,12 @@ public class Schema {
         return !inputs.stream().anyMatch(input -> ItemStackTools.isValid(input) && !consume(input, null, materials));
     }
 
-    private Stream<ItemStack> hotbarStream(InventoryPlayer inventoryPlayer) {
-        return inventoryPlayer.mainInventory.stream().limit(9);
-        // @TODO TODO TODO
-//        return Arrays.stream(inventoryPlayer.mainInventory).limit(9);
+    private Stream<ItemStack> hotbarStream(EntityPlayer player) {
+        return InventoryTools.getMainInventory(player).stream().limit(9);
     }
 
-    public List<ItemStack> getMissing(List<ItemStack> in, InventoryPlayer inventoryPlayer) {
-        List<ItemStack> materials = Stream.concat(in.stream(), hotbarStream(inventoryPlayer))
+    public List<ItemStack> getMissing(List<ItemStack> in, EntityPlayer player) {
+        List<ItemStack> materials = Stream.concat(in.stream(), hotbarStream(player))
                 .filter(ItemStackTools::isValid)
                 .map(ItemStack::copy)
                 .collect(Collectors.toList());
@@ -62,8 +61,8 @@ public class Schema {
                 .collect(Collectors.toList());
     }
 
-    public List<ItemStack> getPresent(List<ItemStack> in, InventoryPlayer inventoryPlayer) {
-        List<ItemStack> materials = Stream.concat(in.stream(), hotbarStream(inventoryPlayer))
+    public List<ItemStack> getPresent(List<ItemStack> in, EntityPlayer player) {
+        List<ItemStack> materials = Stream.concat(in.stream(), hotbarStream(player))
                 .filter(ItemStackTools::isValid)
                 .map(ItemStack::copy)
                 .collect(Collectors.toList());
@@ -73,11 +72,11 @@ public class Schema {
                 .collect(Collectors.toList());
     }
 
-    private boolean consume(ItemStack input, InventoryPlayer inventoryPlayer, List<ItemStack> materials) {
+    private boolean consume(ItemStack input, EntityPlayer player, List<ItemStack> materials) {
         Integer[] a = new Integer[] { ItemStackTools.getStackSize(input) };
         materials.stream().filter(input::isItemEqual).forEach(s -> consumeStack(a, s));
-        if (inventoryPlayer != null && a[0] > 0) {
-            hotbarStream(inventoryPlayer).filter(input::isItemEqual).forEach(s -> consumeStack(a, s));
+        if (player != null && a[0] > 0) {
+            hotbarStream(player).filter(input::isItemEqual).forEach(s -> consumeStack(a, s));
         }
         return a[0] == 0;
     }
@@ -89,8 +88,8 @@ public class Schema {
     }
 
     // Call this only when match() returns true.
-    public ItemStack craft(List<ItemStack> in, InventoryPlayer inventoryPlayer) {
-        if (inputs.stream().anyMatch(input -> ItemStackTools.isValid(input) && !consume(input, inventoryPlayer, in))) {
+    public ItemStack craft(List<ItemStack> in, EntityPlayer player) {
+        if (inputs.stream().anyMatch(input -> ItemStackTools.isValid(input) && !consume(input, player, in))) {
             return ItemStackTools.getEmptyStack();
         }
         // Remove the itemstacks where nothing is left.
@@ -98,9 +97,7 @@ public class Schema {
                 .filter(i -> in.get(i) != null && ItemStackTools.getStackSize(in.get(i)) == 0)
                 .forEach(i -> in.set(i, ItemStackTools.getEmptyStack()));
 
-        // @todo @@@@@@@@@@@@@@@@@@@
-        List<ItemStack> inv = inventoryPlayer.mainInventory;
-//        ItemStack[] inv = inventoryPlayer.mainInventory;
+        List<ItemStack> inv = InventoryTools.getMainInventory(player);
         IntStream.range(0, 9)
                 .filter(i -> ItemStackTools.isValid(inv.get(i)) && ItemStackTools.getStackSize(inv.get(i)) == 0)
                 .forEach(i -> inv.set(i, ItemStackTools.getEmptyStack()));

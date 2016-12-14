@@ -83,15 +83,15 @@ public class GenericTE extends TileEntity {
     }
 
     // Server side: optionally calculate the ingredients needed for the current craftable block
-    public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, InventoryPlayer inventoryPlayer) {
+    public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, EntityPlayer player) {
         if (this instanceof ICraftingContainer) {
             for (IInterfaceHandle handle : interfaceHandles) {
                 if (handle.isCrafting()) {
                     ICraftingContainer container = (ICraftingContainer) this;
                     List<ItemStack> inventory = container.getInventory();
                     Schema schema = container.getCurrentSchema();
-                    schema.getPresent(inventory, inventoryPlayer).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
-                    schema.getMissing(inventory, inventoryPlayer).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
+                    schema.getPresent(inventory, player).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
+                    schema.getMissing(inventory, player).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
                 }
             }
         }
