@@ -8,7 +8,12 @@
   "variants": {
     "normal": [{}],
     "inventory": [{
-      "transform": { }
+      "transform": {
+        "gui": {
+          "scale": 0.65,
+          "rotation": [{"x": 15},{"y": 45}]
+        }
+      }
     }],
     "facing": {
       "south": {},
