@@ -4,6 +4,7 @@ import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 public class NBTHelper {
     private final NBTTagCompound tag;
@@ -58,11 +59,11 @@ public class NBTHelper {
         return this;
     }
 
-    public NBTHelper set(String name, Vector c) {
+    public NBTHelper set(String name, Vec3d c) {
         if (c != null) {
-            tag.setFloat(name + "x", c.getX());
-            tag.setFloat(name + "y", c.getY());
-            tag.setFloat(name + "z", c.getZ());
+            tag.setFloat(name + "x", (float) c.xCoord);
+            tag.setFloat(name + "y", (float) c.yCoord);
+            tag.setFloat(name + "z", (float) c.zCoord);
         }
         return this;
     }

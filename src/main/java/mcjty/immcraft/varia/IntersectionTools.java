@@ -15,15 +15,15 @@ public class IntersectionTools {
 
     private static final float EPSILON = 0.001f;
 
-    public static float calculateRayToLineDistance(Vector rayOrigin, Vector rayVec, Vector lineStart, Vector lineEnd) {
-        Vector u = rayVec;
-        Vector v = Vector.subtract(lineEnd, lineStart);
-        Vector w = Vector.subtract(rayOrigin, lineStart);
-        float a = Vector.dot(u, u);    // always >= 0
-        float b = Vector.dot(u, v);
-        float c = Vector.dot(v, v);    // always >= 0
-        float d = Vector.dot(u, w);
-        float e = Vector.dot(v, w);
+    public static float calculateRayToLineDistance(Vec3d rayOrigin, Vec3d rayVec, Vec3d lineStart, Vec3d lineEnd) {
+        Vec3d u = rayVec;
+        Vec3d v = lineEnd.subtract(lineStart);
+        Vec3d w = rayOrigin.subtract(lineStart);
+        float a = (float) u.dotProduct(u);     // always >= 0
+        float b = (float) u.dotProduct(v);
+        float c = (float) v.dotProduct(v);     // always >= 0
+        float d = (float) u.dotProduct(w);
+        float e = (float) v.dotProduct(w);
         float D = a * c - b * b;    // always >= 0
         float sc, sN, sD = D;    // sc = sN / sD, default sD = D >= 0
         float tc, tN, tD = D;    // tc = tN / tD, default tD = D >= 0
@@ -68,11 +68,12 @@ public class IntersectionTools {
         tc = (Math.abs(tN) < EPSILON ? 0.0f : tN / tD);
 
         // get the difference of the two closest points
-        Vector dP = Vector.subtract(Vector.add(w, Vector.mul(u, sc)), Vector.mul(v, tc));
+
+        Vec3d dP = w.add(u.scale(sc)).subtract(v.scale(tc));
 //        Vector dP = w + (sc * u) - (tc * v);	// = S1(sc) - S2(tc)
 //        info.iFracRay = sc;
 //        info.iFracLine = tc;
-        return (float) dP.length();
+        return (float) dP.lengthVector();
     }
 
     public static RayTraceResult getMovingObjectPositionFromPlayer(World world, EntityPlayer player, boolean stopOnLiquid) {
@@ -274,7 +275,7 @@ public class IntersectionTools {
         return null;
     }
 
-    public static Vector intersectAtGrid(BlockPos c1, BlockPos c2, Vector v1, Vector v2) {
+    public static Vec3d intersectAtGrid(BlockPos c1, BlockPos c2, Vec3d v1, Vec3d v2) {
         if (c1.getX() == c2.getX() && c1.getZ() == c2.getZ()) {
             float yval;
             if (c1.getY() < c2.getY()) {
@@ -282,8 +283,8 @@ public class IntersectionTools {
             } else {
                 yval = c1.getY();
             }
-            float r = (yval - v1.y) / (v2.y - v1.y);
-            return new Vector(r * (v2.x - v1.x) + v1.x, yval, r * (v2.z - v1.z) + v1.z);
+            float r = (float) ((yval - v1.yCoord) / (v2.yCoord - v1.yCoord));
+            return new Vec3d(r * (v2.xCoord - v1.xCoord) + v1.xCoord, yval, r * (v2.zCoord - v1.zCoord) + v1.zCoord);
         } else if (c1.getX() == c2.getX() && c1.getY() == c2.getY()) {
             float zval;
             if (c1.getZ() < c2.getZ()) {
@@ -291,8 +292,8 @@ public class IntersectionTools {
             } else {
                 zval = c1.getZ();
             }
-            float r = (zval - v1.z) / (v2.z - v1.z);
-            return new Vector(r * (v2.x - v1.x) + v1.x, r * (v2.y - v1.y) + v1.y, zval);
+            float r = (float) ((zval - v1.zCoord) / (v2.zCoord - v1.zCoord));
+            return new Vec3d(r * (v2.xCoord - v1.xCoord) + v1.xCoord, r * (v2.yCoord - v1.yCoord) + v1.yCoord, zval);
         } else if (c1.getY() == c2.getY() && c1.getZ() == c2.getZ()) {
             float xval;
             if (c1.getX() < c2.getX()) {
@@ -300,10 +301,10 @@ public class IntersectionTools {
             } else {
                 xval = c1.getX();
             }
-            float r = (xval - v1.x) / (v2.x - v1.x);
-            return new Vector(xval, r * (v2.y - v1.y) + v1.y, r * (v2.z - v1.z) + v1.z);
+            float r = (float) ((xval - v1.xCoord) / (v2.xCoord - v1.xCoord));
+            return new Vec3d(xval, r * (v2.yCoord - v1.yCoord) + v1.yCoord, r * (v2.zCoord - v1.zCoord) + v1.zCoord);
         } else {
-            return new Vector((v1.x + v2.x) / 2, (v1.y + v2.y) / 2, (v1.z + v2.z) / 2);
+            return new Vec3d((v1.xCoord + v2.xCoord) / 2, (v1.yCoord + v2.yCoord) / 2, (v1.zCoord + v2.zCoord) / 2);
         }
 
     }

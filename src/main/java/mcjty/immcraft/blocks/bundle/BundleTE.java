@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,7 +106,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
         }
     }
 
-    private Vector getVectorFromCable(BlockPos c, ICableType type, ICableSubType subType, int id) {
+    private Vec3d getVectorFromCable(BlockPos c, ICableType type, ICableSubType subType, int id) {
         BundleTE bundle = BlockTools.getTE(BundleTE.class, getWorld(), c).get();
         CableSection section = (CableSection) bundle.findSection(type, subType, id);
         return section.getVector();
@@ -116,7 +117,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
      * with possible adjacent multiblock networks of the same type and subtype. After that
      * the entire resulting cable multiblock is reconnected.
      */
-    public void addCableToNetwork(ICableType type, ICableSubType subType, Vector vector) {
+    public void addCableToNetwork(ICableType type, ICableSubType subType, Vec3d vector) {
         ICableHandler cableHandler = type.getCableHandler();
 
         String networkName = cableHandler.getNetworkName(subType);
@@ -135,7 +136,7 @@ public class BundleTE extends GenericTE implements ITickable, IBundle {
      */
     private void reconnectCable(ICable cable, ICableType type, ICableSubType subType, int id) {
         List<BlockPos> path = cable.getPath();
-        List<Vector> vectors = path.stream().map(p -> getVectorFromCable(p, type, subType, id)).collect(Collectors.toList());
+        List<Vec3d> vectors = path.stream().map(p -> getVectorFromCable(p, type, subType, id)).collect(Collectors.toList());
 
         disconnectFromConnector(type, subType, id, path.get(0));
         disconnectFromConnector(type, subType, id, path.get(path.size()-1));

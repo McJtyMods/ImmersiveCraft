@@ -19,6 +19,7 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.MouseEvent;
@@ -72,8 +73,8 @@ public class ClientForgeEventHandlers {
             double doubleX = p.lastTickPosX + (p.posX - p.lastTickPosX) * time;
             double doubleY = p.lastTickPosY + (p.posY - p.lastTickPosY) * time;
             double doubleZ = p.lastTickPosZ + (p.posZ - p.lastTickPosZ) * time;
-            Vector player = new Vector((float) doubleX, (float) doubleY, (float) doubleZ);
-            Vector hitVec = new Vector((float) event.getTarget().hitVec.xCoord, (float) event.getTarget().hitVec.yCoord, (float) event.getTarget().hitVec.zCoord);
+            Vec3d player = new Vec3d((float) doubleX, (float) doubleY, (float) doubleZ);
+            Vec3d hitVec = new Vec3d((float) event.getTarget().hitVec.xCoord, (float) event.getTarget().hitVec.yCoord, (float) event.getTarget().hitVec.zCoord);
 
             BundleTE bundleTE = BlockTools.getTE(BundleTE.class, world, pos).get();
             CableSection closestSection = CableRenderer.findSelectedCable(player, hitVec, bundleTE);

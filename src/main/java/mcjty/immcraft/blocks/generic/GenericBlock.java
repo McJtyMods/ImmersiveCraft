@@ -3,10 +3,9 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
-import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
-import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.compat.waila.WailaInfoProvider;
+import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.compat.CompatBlock;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -27,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -197,7 +197,7 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
         }
     }
 
-    public Vector blockToWorldSpace(World world, BlockPos pos, Vector v) {
+    public Vec3d blockToWorldSpace(World world, BlockPos pos, Vec3d v) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
                 return BlockTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));

@@ -114,23 +114,23 @@ public class CableItemBlockHelper implements ICableItemBlockHelper {
      */
     private void addCable(World world, BlockPos pos, EnumFacing directionHit, float hitX, float hitY, float hitZ) {
         BlockPos adjacentC = pos.offset(directionHit.getOpposite());
-        Vector vector;
+        Vec3d vector;
         if (world.isSideSolid(adjacentC, directionHit)) {
-            vector = new Vector(adjacentC.getX() + hitX + directionHit.getDirectionVec().getX() / 10.0f, adjacentC.getY() + hitY + directionHit.getDirectionVec().getY() / 10.0f, adjacentC.getZ() + hitZ + directionHit.getDirectionVec().getZ() / 10.0f);
+            vector = new Vec3d(adjacentC.getX() + hitX + directionHit.getDirectionVec().getX() / 10.0f, adjacentC.getY() + hitY + directionHit.getDirectionVec().getY() / 10.0f, adjacentC.getZ() + hitZ + directionHit.getDirectionVec().getZ() / 10.0f);
         } else {
             Set<Integer> excluded = Collections.emptySet();
 
-            vector = new Vector(pos.getX()+.5f, pos.getY()+.5f, pos.getZ()+.5f);
+            vector = new Vec3d(pos.getX()+.5f, pos.getY()+.5f, pos.getZ()+.5f);
             Optional<BundleTE> bundleTE = BlockTools.getTE(BundleTE.class, world, adjacentC);
             if (bundleTE.isPresent()) {
                 CableSection connectableSection = bundleTE.get().findConnectableSection(type, subType, excluded);
                 if (connectableSection != null) {
-                    vector = Vector.add(connectableSection.getVector(), directionHit.getDirectionVec().getX(), directionHit.getDirectionVec().getY(), directionHit.getDirectionVec().getZ());
+                    vector = connectableSection.getVector().addVector(directionHit.getDirectionVec().getX(), directionHit.getDirectionVec().getY(), directionHit.getDirectionVec().getZ());
                 }
             }
         }
 
-        final Vector finalVector = vector;
+        final Vec3d finalVector = vector;
         BlockTools.getTE(BundleTE.class, world, pos).ifPresent(p -> p.addCableToNetwork(type, subType, finalVector));
     }
 }

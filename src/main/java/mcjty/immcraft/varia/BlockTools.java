@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -173,24 +174,24 @@ public class BlockTools {
     }
 
 
-    public static Vector blockToWorldSpace(Vector v, IBlockState state) {
+    public static Vec3d blockToWorldSpace(Vec3d v, IBlockState state) {
         return blockToWorldSpace(v, getOrientation(state));
     }
 
     // Given the metavalue of a block, reorient the world direction to the internal block direction
     // so that the front side will be SOUTH.
-    public static Vector blockToWorldSpaceHoriz(Vector v, IBlockState state) {
+    public static Vec3d blockToWorldSpaceHoriz(Vec3d v, IBlockState state) {
         return blockToWorldSpace(v, getOrientationHoriz(state));
     }
 
-    public static Vector blockToWorldSpace(Vector v, EnumFacing side) {
+    public static Vec3d blockToWorldSpace(Vec3d v, EnumFacing side) {
         switch (side) {
-            case DOWN: return new Vector(v.x, v.z, v.y);        // @todo check: most likely wrong
-            case UP:  return new Vector(v.x, v.z, v.y);         // @todo check: most likely wrong
-            case NORTH: return new Vector(1-v.x, v.y, 1-v.z);
+            case DOWN: return new Vec3d(v.xCoord, v.zCoord, v.yCoord);        // @todo check: most likely wrong
+            case UP:  return new Vec3d(v.xCoord, v.zCoord, v.yCoord);         // @todo check: most likely wrong
+            case NORTH: return new Vec3d(1-v.xCoord, v.yCoord, 1-v.zCoord);
             case SOUTH: return v;
-            case WEST: return new Vector(1-v.z, v.y, v.x);
-            case EAST: return new Vector(v.z, v.y, 1-v.x);
+            case WEST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
+            case EAST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
             default: return v;
         }
     }

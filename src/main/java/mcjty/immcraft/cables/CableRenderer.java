@@ -1,33 +1,34 @@
 package mcjty.immcraft.cables;
 
+import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.varia.IntersectionTools;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
 
 public class CableRenderer {
 
-    public static CableSection findSelectedCable(Vector player, Vector hitVec, BundleTE bundleTE) {
+    public static CableSection findSelectedCable(Vec3d player, Vec3d hitVec, BundleTE bundleTE) {
         CableSection closestSection = null;
         float mindist = 1000000.0f;
         for (CableSection section : bundleTE.getCableSections()) {
-            Vector vector = section.getVector();
-            Vector vector1 = section.getVector(0);
+            Vec3d vector = section.getVector();
+            Vec3d vector1 = section.getVector(0);
             if (vector1 == null) {
-                vector1 = new Vector(vector.getX() + .2f, vector.getY() + .2f, vector.getZ() + .2f);
+                vector1 = new Vec3d(vector.xCoord + .2f, vector.yCoord + .2f, vector.zCoord + .2f);
             }
-            Vector vector2 = section.getVector(1);
+            Vec3d vector2 = section.getVector(1);
 
-            float dist = IntersectionTools.calculateRayToLineDistance(player, Vector.subtract(hitVec, player), vector, vector1);
+            float dist = IntersectionTools.calculateRayToLineDistance(player, hitVec.subtract(player), vector, vector1);
             if (dist < mindist) {
                 mindist = dist;
                 closestSection = section;
             }
             if (vector2 != null) {
-                dist = IntersectionTools.calculateRayToLineDistance(player, Vector.subtract(hitVec, player), vector, vector2);
+                dist = IntersectionTools.calculateRayToLineDistance(player, hitVec.subtract(player), vector, vector2);
                 if (dist < mindist) {
                     mindist = dist;
                     closestSection = section;
@@ -37,7 +38,7 @@ public class CableRenderer {
         return closestSection;
     }
 
-    public static void renderHilightedCable(Vector player, CableSection section) {
+    public static void renderHilightedCable(Vec3d player, CableSection section) {
 //        Vector vector = section.getVector();
 //        Vector vector1 = section.getVector(0);
 //        if (vector1 == null) {
@@ -67,16 +68,16 @@ public class CableRenderer {
 //        GL11.glDisable(GL11.GL_BLEND);
     }
 
-    public static void renderCable(Vector player, CableSection section) {
+    public static void renderCable(Vec3d player, CableSection section) {
         Tessellator tessellator = Tessellator.getInstance();
         VertexBuffer buffer = tessellator.getBuffer();
 
-        Vector vector = section.getVector();
-        Vector vector1 = section.getVector(0);
+        Vec3d vector = section.getVector();
+        Vec3d vector1 = section.getVector(0);
         if (vector1 == null) {
-            vector1 = new Vector(vector.getX() + .2f, vector.getY() + .2f, vector.getZ() + .2f);
+            vector1 = new Vec3d(vector.xCoord + .2f, vector.yCoord + .2f, vector.zCoord + .2f);
         }
-        Vector vector2 = section.getVector(1);
+        Vec3d vector2 = section.getVector(1);
 
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
         drawBeamExtended(player, vector, vector1);
@@ -86,9 +87,9 @@ public class CableRenderer {
         tessellator.draw();
     }
 
-    private static void drawBeamExtended(Vector player, Vector v1, Vector v2) {
+    private static void drawBeamExtended(Vec3d player, Vec3d v1, Vec3d v2) {
         // @todo optimize this by precalculating?
-        Vector diff = Vector.mul(Vector.subtract(v2, v1).normalize(), .02f);
+        Vec3d diff = v2.subtract(v1).normalize().scale(.02f);
 //        RenderHelper.drawBeam(Vector.subtract(v1, diff), Vector.add(v2, diff), player, .05f);
     }
 }
