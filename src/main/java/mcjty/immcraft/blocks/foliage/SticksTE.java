@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.foliage;
 
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.varia.NBTHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -87,7 +88,7 @@ public class SticksTE extends GenericTE implements ITickable {
 
     @Override
     public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        if (player.getHeldItem(EnumHand.MAIN_HAND) != null && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
+        if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = BURNTIME_STICK;
             markDirtyClient();
             player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
