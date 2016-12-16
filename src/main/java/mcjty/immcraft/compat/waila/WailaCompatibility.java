@@ -1,6 +1,7 @@
 package mcjty.immcraft.compat.waila;
 
 import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.lib.tools.ItemStackTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -53,7 +54,7 @@ public class WailaCompatibility implements IWailaDataProvider {
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
+        return ItemStackTools.getEmptyStack();
     }
 
     @Override

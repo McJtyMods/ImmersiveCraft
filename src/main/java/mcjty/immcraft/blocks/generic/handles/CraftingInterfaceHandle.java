@@ -4,6 +4,7 @@ import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.Broadcaster;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -46,7 +47,7 @@ public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
                 }
             }
         }
-        return null;
+        return ItemStackTools.getEmptyStack();
     }
 
     @Override

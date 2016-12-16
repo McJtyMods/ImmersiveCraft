@@ -94,7 +94,7 @@ public class Schema {
         }
         // Remove the itemstacks where nothing is left.
         IntStream.range(0, in.size())
-                .filter(i -> in.get(i) != null && ItemStackTools.getStackSize(in.get(i)) == 0)
+                .filter(i -> ItemStackTools.isValid(in.get(i)) && ItemStackTools.getStackSize(in.get(i)) == 0)
                 .forEach(i -> in.set(i, ItemStackTools.getEmptyStack()));
 
         List<ItemStack> inv = InventoryTools.getMainInventory(player);
