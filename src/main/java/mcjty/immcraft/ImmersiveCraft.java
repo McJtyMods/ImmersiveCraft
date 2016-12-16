@@ -6,24 +6,12 @@ import com.google.common.base.Optional;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.blocks.bundle.BundleModelLoader;
 import mcjty.immcraft.compat.MainCompatHandler;
-import mcjty.immcraft.config.ConfigSetup;
-import mcjty.immcraft.events.ClientForgeEventHandlers;
-import mcjty.immcraft.events.ForgeEventHandlers;
-import mcjty.immcraft.input.InputHandler;
-import mcjty.immcraft.input.KeyBindings;
-import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.multiblock.MultiBlockData;
-import mcjty.immcraft.network.PacketHandler;
-import mcjty.immcraft.worldgen.WorldGen;
+import mcjty.immcraft.proxy.CommonProxy;
 import mcjty.lib.compat.CompatCreativeTabs;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.obj.OBJLoader;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -44,7 +32,7 @@ public class ImmersiveCraft {
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
     public static final String COMPATLAYER_VER = "0.1.4";
 
-    @SidedProxy
+    @SidedProxy(clientSide = "mcjty.immcraft.proxy.ClientProxy", serverSide = "mcjty.immcraft.proxy.ServerProxy")
     public static CommonProxy proxy;
 
     @Mod.Instance
@@ -93,51 +81,5 @@ public class ImmersiveCraft {
         }
     }
 
-    public static class CommonProxy {
-        public void preInit(FMLPreInitializationEvent e) {
-            PacketHandler.registerMessages("immcraft");
 
-            ConfigSetup.preInit(e);
-            ModBlocks.init();
-            ModItems.init();
-            WorldGen.init();
-        }
-
-        public void init(FMLInitializationEvent e) {
-            MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-            ModBlocks.initCrafting();
-            ModItems.initCrafting();
-        }
-
-        public void postInit(FMLPostInitializationEvent e) {
-            ConfigSetup.postInit();
-        }
-    }
-
-
-    public static class ClientProxy extends CommonProxy {
-        @Override
-        public void preInit(FMLPreInitializationEvent e) {
-            super.preInit(e);
-
-            MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
-            OBJLoader.INSTANCE.addDomain(MODID);
-            ModelLoaderRegistry.registerLoader(new BundleModelLoader());
-
-            ModBlocks.initModels();
-            ModItems.initModels();
-        }
-
-        @Override
-        public void init(FMLInitializationEvent e) {
-            super.init(e);
-            FMLCommonHandler.instance().bus().register(new InputHandler());
-            KeyBindings.init();
-            ModBlocks.initItemModels();
-        }
-    }
-
-    public static class ServerProxy extends CommonProxy {
-
-    }
 }
