@@ -26,26 +26,28 @@
       "false": {},
       "true": {
         "submodel": {
-          "f1": { "model": "fire_side0" },
-          "f2": { "model": "fire_side1" },
-          "f3": { "model": "fire_side_alt0" },
-          "f4": { "model": "fire_side_alt1" },
-          "f5": { "model": "fire_side0", "y": 90 },
-          "f6": { "model": "fire_side1", "y": 90 },
-          "f7": { "model": "fire_side_alt0", "y": 90 },
-          "f8": { "model": "fire_side_alt1", "y": 90 },
-          "f9": { "model": "fire_side0", "y": 180 },
-          "f10": { "model": "fire_side1", "y": 180 },
-          "f11": { "model": "fire_side_alt0", "y": 180 },
-          "f12": { "model": "fire_side_alt1", "y": 180 },
-          "f13": { "model": "fire_side0", "y": 270 },
-          "f14": { "model": "fire_side1", "y": 270 },
-          "f15": { "model": "fire_side_alt0", "y": 270 },
-          "f16": { "model": "fire_side_alt1", "y": 270 }
-//          "f5": { "model": "fire_up0" },
-//          "f6": { "model": "fire_up1" },
-//          "f7": { "model": "fire_up_alt0" },
-//          "f8": { "model": "fire_up_alt1" }
+          "f1": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" } },
+          "f2": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" } },
+          "f3": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" } },
+          "f4": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" } },
+          "f5": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 90 },
+          "f6": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 90 },
+          "f7": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 90 },
+          "f8": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 90 },
+          "f9": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 180 },
+          "f10": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 180 },
+          "f11": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 180 },
+          "f12": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 180 },
+          "f13": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 270 },
+          "f14": { "model": "immcraft:fire_side", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 270 },
+          "f15": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" }, "y": 270 },
+          "f16": { "model": "immcraft:fire_side_alt", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" }, "y": 270 },
+          "f17": { "model": "immcraft:fire_up", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" } },
+          "f18": { "model": "immcraft:fire_up", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" } },
+          "f19": { "model": "immcraft:fire_up_alt", "textures": { "particle": "blocks/fire_layer_0", "fire": "blocks/fire_layer_0" } },
+          "f20": { "model": "immcraft:fire_up_alt", "textures": { "particle": "blocks/fire_layer_1", "fire": "blocks/fire_layer_1" } },
+          "f21": { "model": "fire_floor0" },
+          "f22": { "model": "fire_floor1" }
         }
       }
     }
