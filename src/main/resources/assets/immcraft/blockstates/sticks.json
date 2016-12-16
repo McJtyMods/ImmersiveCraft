@@ -30,10 +30,22 @@
           "f2": { "model": "fire_side1" },
           "f3": { "model": "fire_side_alt0" },
           "f4": { "model": "fire_side_alt1" },
-          "f1": { "model": "fire_up0" },
-          "f2": { "model": "fire_up1" },
-          "f3": { "model": "fire_up_alt0" },
-          "f4": { "model": "fire_up_alt1" }
+          "f5": { "model": "fire_side0", "y": 90 },
+          "f6": { "model": "fire_side1", "y": 90 },
+          "f7": { "model": "fire_side_alt0", "y": 90 },
+          "f8": { "model": "fire_side_alt1", "y": 90 },
+          "f9": { "model": "fire_side0", "y": 180 },
+          "f10": { "model": "fire_side1", "y": 180 },
+          "f11": { "model": "fire_side_alt0", "y": 180 },
+          "f12": { "model": "fire_side_alt1", "y": 180 },
+          "f13": { "model": "fire_side0", "y": 270 },
+          "f14": { "model": "fire_side1", "y": 270 },
+          "f15": { "model": "fire_side_alt0", "y": 270 },
+          "f16": { "model": "fire_side_alt1", "y": 270 }
+//          "f5": { "model": "fire_up0" },
+//          "f6": { "model": "fire_up1" },
+//          "f7": { "model": "fire_up_alt0" },
+//          "f8": { "model": "fire_up_alt1" }
         }
       }
     }

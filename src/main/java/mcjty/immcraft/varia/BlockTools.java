@@ -1,6 +1,5 @@
 package mcjty.immcraft.varia;
 
-import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericTE;
@@ -329,16 +328,13 @@ public class BlockTools {
                     j = ItemStackTools.getStackSize(itemstack);
                 }
 
-                ItemStackTools.incStackSize(itemstack, -j);
-                entityitem = new EntityItem(world, (x + f), (y + f1), (z + f2), new ItemStack(itemstack.getItem(), j, itemstack.getItemDamage()));
+                ItemStack toSpawn = itemstack.splitStack(j);
+                entityitem = new EntityItem(world, (x + f), (y + f1), (z + f2), toSpawn);
                 float f3 = 0.05F;
                 entityitem.motionX = ((float)random.nextGaussian() * f3);
                 entityitem.motionY = ((float)random.nextGaussian() * f3 + 0.2F);
                 entityitem.motionZ = ((float)random.nextGaussian() * f3);
 
-                if (itemstack.hasTagCompound()) {
-                    entityitem.getEntityItem().setTagCompound(itemstack.getTagCompound().copy());
-                }
                 WorldTools.spawnEntity(world, entityitem);
             }
         }

@@ -164,7 +164,9 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     @Override
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity te = world.getTileEntity(pos);
+        System.out.println("te = " + te);
         if (te instanceof SticksTE) {
+            System.out.println("((SticksTE) te).getSticks() = " + ((SticksTE) te).getSticks());
             BlockTools.spawnItemStack(world, pos, new ItemStack(Items.STICK, ((SticksTE) te).getSticks()));
         }
         super.breakBlock(world, pos, state);

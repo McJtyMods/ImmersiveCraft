@@ -1,6 +1,6 @@
 # Blender v2.72 (sub 0) OBJ File: 'cupboardLid.blend'
 # www.blender.org
-mtllib cupboardLid.mtl
+mtllib cupboardlid.mtl
 o Cube_Cube.002
 v -1.000000 -0.000000 0.000000
 v -1.000000 -1.000000 -0.000000
