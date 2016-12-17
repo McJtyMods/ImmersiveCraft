@@ -1,6 +1,7 @@
 package mcjty.immcraft.input;
 
 
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketPlaceItem;
 import mcjty.immcraft.network.PacketSendKey;

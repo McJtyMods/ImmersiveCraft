@@ -2,7 +2,7 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.rendering.BlockRenderHelper;

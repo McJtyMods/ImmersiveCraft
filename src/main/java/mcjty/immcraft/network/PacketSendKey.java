@@ -2,7 +2,7 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.input.KeyType;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.varia.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.client.Minecraft;

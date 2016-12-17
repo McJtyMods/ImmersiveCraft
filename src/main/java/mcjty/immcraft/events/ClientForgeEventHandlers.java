@@ -1,13 +1,12 @@
 package mcjty.immcraft.events;
 
 
-import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.cables.CableRenderer;
 import mcjty.immcraft.cables.CableSection;
-import mcjty.immcraft.input.KeyType;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.varia.BlockTools;

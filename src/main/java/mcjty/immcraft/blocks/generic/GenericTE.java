@@ -1,33 +1,31 @@
 package mcjty.immcraft.blocks.generic;
 
+import mcjty.immcraft.api.handles.HandleSupport;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
-import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
-import mcjty.immcraft.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class GenericTE extends TileEntity {
 
-    protected final List<IInterfaceHandle> interfaceHandles = new ArrayList<>();
+    protected HandleSupport handleSupport = new HandleSupport();
 
     // For client side only:
     private List<String> ingredients = Collections.emptyList();
@@ -85,7 +83,7 @@ public class GenericTE extends TileEntity {
     // Server side: optionally calculate the ingredients needed for the current craftable block
     public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, EntityPlayer player) {
         if (this instanceof ICraftingContainer) {
-            for (IInterfaceHandle handle : interfaceHandles) {
+            for (IInterfaceHandle handle : handleSupport.getInterfaceHandles()) {
                 if (handle.isCrafting()) {
                     ICraftingContainer container = (ICraftingContainer) this;
                     List<ItemStack> inventory = container.getInventory();
@@ -98,108 +96,22 @@ public class GenericTE extends TileEntity {
     }
 
     public void addInterfaceHandle(IInterfaceHandle handle) {
-        interfaceHandles.add(handle);
+        handleSupport.addInterfaceHandle(handle);
     }
 
     public List<IInterfaceHandle> getInterfaceHandles() {
-        return interfaceHandles;
+        return handleSupport.getInterfaceHandles();
     }
 
     public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
-        double sx2 = calculateHitX(hitVec, worldSide, front);
-        double sy2 = calculateHitY(hitVec, worldSide, front);
-        for (IInterfaceHandle handle : interfaceHandles) {
-            if (handle.getSide() == side && handle.getMinX() <= sx2 && sx2 <= handle.getMaxX() && handle.getMinY() <= sy2 && sy2 <= handle.getMaxY()) {
-                return handle;
-            }
-        }
-        return null;
-    }
-
-    public static double calculateHitX(Vec3d hitVec, EnumFacing k, EnumFacing front) {
-        return calculateHitX(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
-    }
-
-    public static double calculateHitX(double sx, double sy, double sz, EnumFacing k, EnumFacing front) {
-        switch (k) {
-            case DOWN:
-            case UP:
-                switch (front) {
-                    case DOWN:
-                        return sx;
-                    case UP:
-                        return sx;
-                    case NORTH:
-                        return 1-sx;
-                    case SOUTH:
-                        return sx;
-                    case WEST:
-                        return sz;
-                    case EAST:
-                        return 1-sz;
-                    default:
-                        break;
-                }
-                return sx;
-            case NORTH: return 1-sx;
-            case SOUTH: return sx;
-            case WEST: return sz;
-            case EAST: return 1-sz;
-            default: return 0.0f;
-        }
-    }
-
-    public static double calculateHitY(Vec3d hitVec, EnumFacing k, EnumFacing front) {
-        return calculateHitY(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
-    }
-
-    public static double calculateHitY(double sx, double sy, double sz, EnumFacing k, EnumFacing front) {
-        switch (k) {
-            case DOWN:
-            case UP:
-                switch (front) {
-                    case DOWN:
-                        return sz;
-                    case UP:
-                        return sz;
-                    case NORTH:
-                        return 1-sz;
-                    case SOUTH:
-                        return sz;
-                    case WEST:
-                        return 1-sx;
-                    case EAST:
-                        return sx;
-                    default:
-                        break;
-                }
-                return sz;
-            case NORTH: return sy;
-            case SOUTH: return sy;
-            case WEST: return sy;
-            case EAST: return sy;
-            default: return 0.0f;
-        }
+        return handleSupport.getHandleFromFace(worldSide, side, hitVec, front);
     }
 
     public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            if (ItemStackTools.isEmpty(heldItem)) {
-                // Nothing happens if the player doesn't have anything in his/her hand
-                return false;
-            }
-            int amount = -1;
-            if (handle.acceptAsInput(heldItem)) {
-                if (!addItemToHandle(player, heldItem, handle, amount)) {
-                    addItemAnywhere(player, heldItem, amount);
-                }
-                return true;
-            } else {
-                return addItemAnywhere(player, heldItem, amount);
-            }
+            return handleSupport.handleClick(this, player, handle);
         }
 
         return false;
@@ -213,74 +125,10 @@ public class GenericTE extends TileEntity {
     public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
         if (handle != null) {
-            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-            int amount = -1;
-            if (player.isSneaking()) {
-                amount = 1;
-            }
-            if (ItemStackTools.isEmpty(heldItem)) {
-                return getItemFromHandle(player, handle, amount, true);
-            } else if (handle.acceptAsInput(heldItem)) {
-                if (!addItemToHandle(player, heldItem, handle, amount)) {
-                    getItemFromHandle(player, handle, amount, false);
-                }
-                return true;
-            } else { //if (handle.isOutput()) {
-                return getItemFromHandle(player, handle, amount, false);
-            }
+            return handleSupport.handleActivate(this, player, handle);
         }
 
         return false;
-    }
-
-    private boolean addItemAnywhere(EntityPlayer player, ItemStack heldItem, int amount) {
-        for (IInterfaceHandle handle : interfaceHandles) {
-            if (handle.acceptAsInput(heldItem)) {
-                if (addItemToHandle(player, heldItem, handle, amount)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean addItemToHandle(EntityPlayer player, ItemStack heldItem, IInterfaceHandle handle, int amount) {
-        if (!player.getEntityWorld().isRemote) {
-            ItemStack itemStack;
-            if (amount == -1) {
-                itemStack = heldItem;
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
-            } else {
-                itemStack = player.inventory.decrStackSize(player.inventory.currentItem, amount);
-            }
-            int remaining = handle.insertInput(this, itemStack);
-            if (remaining != 0) {
-                ItemStackTools.setStackSize(itemStack, remaining);
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
-                player.openContainer.detectAndSendChanges();
-                return false;
-            } else {
-                player.openContainer.detectAndSendChanges();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean getItemFromHandle(EntityPlayer player, IInterfaceHandle handle, int amount, boolean exactSlot) {
-        if (!player.getEntityWorld().isRemote) {
-            ItemStack itemStack = handle.extractOutput(this, player, amount);
-            if (ItemStackTools.isEmpty(itemStack)) {
-                return false;
-            }
-            if (exactSlot) {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
-            } else {
-                player.inventory.addItemStackToInventory(itemStack);
-            }
-            player.openContainer.detectAndSendChanges();
-        }
-        return true;
     }
 
 

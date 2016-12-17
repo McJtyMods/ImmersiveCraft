@@ -1,12 +1,13 @@
 package mcjty.immcraft.blocks.generic.handles;
 
 import mcjty.immcraft.blocks.generic.GenericTE;
-import mcjty.immcraft.input.KeyType;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.Broadcaster;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
 import java.util.List;
 
@@ -23,14 +24,14 @@ public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
     }
 
     @Override
-    public ItemStack getCurrentStack(GenericTE te) {
+    public ItemStack getCurrentStack(TileEntity te) {
         ICraftingContainer craftingContainer = (ICraftingContainer) te;
         Schema schema = craftingContainer.getCurrentSchema();
         return schema.getResult();
     }
 
     @Override
-    public ItemStack extractOutput(GenericTE te, EntityPlayer player, int amount) {
+    public ItemStack extractOutput(TileEntity te, EntityPlayer player, int amount) {
         if (te instanceof ICraftingContainer) {
             ICraftingContainer craftingContainer = (ICraftingContainer) te;
             Schema schema = craftingContainer.getCurrentSchema();
@@ -51,7 +52,7 @@ public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
     }
 
     @Override
-    public void onKeyPress(GenericTE genericTE, KeyType keyType, EntityPlayer player) {
+    public void onKeyPress(TileEntity genericTE, KeyType keyType, EntityPlayer player) {
         if (genericTE instanceof ICraftingContainer) {
             ICraftingContainer craftingContainer = (ICraftingContainer) genericTE;
             if (keyType.equals(KeyType.KEY_PREVIOUSITEM)) {

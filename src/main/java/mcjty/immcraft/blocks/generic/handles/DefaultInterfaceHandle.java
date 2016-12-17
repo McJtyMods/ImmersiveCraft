@@ -1,13 +1,15 @@
 package mcjty.immcraft.blocks.generic.handles;
 
+import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericTE;
-import mcjty.immcraft.input.KeyType;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.varia.InventoryHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 
@@ -58,7 +60,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public ItemStack getCurrentStack(GenericTE inventoryTE) {
+    public ItemStack getCurrentStack(TileEntity inventoryTE) {
         return GenericInventoryTE.castGenericInventoryTE(inventoryTE)
                 .map(p -> p.getStackInSlot(slot))
                 .orElse(ItemStackTools.getEmptyStack());
@@ -100,7 +102,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public int insertInput(GenericTE te, ItemStack stack) {
+    public int insertInput(TileEntity te, ItemStack stack) {
         int remaining = InventoryHelper.mergeItemStackSafe(GenericInventoryTE.castGenericInventoryTE(te).get(), null, stack, slot, slot + 1, null);
         if (remaining != ItemStackTools.getStackSize(stack)) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
@@ -120,7 +122,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public ItemStack extractOutput(GenericTE genericTE, EntityPlayer player, int amount) {
+    public ItemStack extractOutput(TileEntity genericTE, EntityPlayer player, int amount) {
         GenericInventoryTE te = GenericInventoryTE.castGenericInventoryTE(genericTE).get();
         ItemStack stack = ItemStackTools.getEmptyStack();
         if (amount == -1) {
@@ -135,6 +137,6 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public void onKeyPress(GenericTE genericTE, KeyType keyType, EntityPlayer player) {
+    public void onKeyPress(TileEntity genericTE, KeyType keyType, EntityPlayer player) {
     }
 }

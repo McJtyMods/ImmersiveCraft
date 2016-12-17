@@ -1,4 +1,4 @@
-package mcjty.immcraft.input;
+package mcjty.immcraft.api.input;
 
 import java.util.HashMap;
 import java.util.Map;

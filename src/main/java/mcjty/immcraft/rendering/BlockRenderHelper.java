@@ -1,9 +1,10 @@
 package mcjty.immcraft.rendering;
 
 
+import mcjty.immcraft.api.handles.HandleSupport;
+import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericBlock;
 import mcjty.immcraft.blocks.generic.GenericTE;
-import mcjty.immcraft.blocks.generic.handles.IInterfaceHandle;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
@@ -154,8 +155,8 @@ public final class BlockRenderHelper {
             double sy = mouseOver.hitVec.yCoord - te.getPos().getY();
             double sz = mouseOver.hitVec.zCoord - te.getPos().getZ();
             EnumFacing front = block.getFrontDirection(te.getWorld().getBlockState(te.getPos()));
-            double sx2 = GenericTE.calculateHitX(sx, sy, sz, directionHit, front);
-            double sy2 = GenericTE.calculateHitY(sx, sy, sz, directionHit, front);
+            double sx2 = HandleSupport.calculateHitX(sx, sy, sz, directionHit, front);
+            double sy2 = HandleSupport.calculateHitY(sx, sy, sz, directionHit, front);
 
             directionHit = block.worldToBlockSpace(te.getWorld(), te.getPos(), mouseOver.sideHit);
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
