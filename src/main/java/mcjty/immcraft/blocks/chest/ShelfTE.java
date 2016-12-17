@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;

@@ -4,7 +4,6 @@ package mcjty.immcraft.blocks.bundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
-import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.varia.BlockTools;

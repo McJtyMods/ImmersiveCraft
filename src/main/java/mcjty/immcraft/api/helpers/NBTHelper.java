@@ -1,6 +1,5 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.helpers;
 
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;

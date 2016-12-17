@@ -1,4 +1,4 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.helpers;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;

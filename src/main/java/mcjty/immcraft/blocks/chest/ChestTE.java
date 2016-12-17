@@ -1,8 +1,8 @@
 package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;

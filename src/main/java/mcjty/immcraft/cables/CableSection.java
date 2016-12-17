@@ -1,9 +1,8 @@
 package mcjty.immcraft.cables;
 
 import mcjty.immcraft.api.cable.*;
-import mcjty.immcraft.api.util.Vector;
-import mcjty.immcraft.varia.BlockPosTools;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.BlockPosTools;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

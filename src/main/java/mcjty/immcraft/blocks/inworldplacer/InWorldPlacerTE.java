@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks.generic;
 
-import mcjty.immcraft.varia.InventoryHelper;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.compat.CompatSidedInventory;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;

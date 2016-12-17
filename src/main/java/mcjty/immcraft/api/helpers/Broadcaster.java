@@ -1,4 +1,4 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.helpers;
 
 import mcjty.lib.tools.ChatTools;
 import net.minecraft.entity.player.EntityPlayer;

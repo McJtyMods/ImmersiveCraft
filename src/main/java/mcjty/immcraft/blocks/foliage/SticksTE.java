@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks.foliage;
 
 import mcjty.immcraft.blocks.generic.GenericTE;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.generic.handles;
+package mcjty.immcraft.api.handles;
 
 import net.minecraft.item.ItemStack;
 

@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;

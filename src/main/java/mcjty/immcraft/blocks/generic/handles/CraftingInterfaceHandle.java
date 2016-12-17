@@ -1,9 +1,9 @@
 package mcjty.immcraft.blocks.generic.handles;
 
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.schemas.Schema;
-import mcjty.immcraft.varia.Broadcaster;
+import mcjty.immcraft.api.helpers.Broadcaster;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

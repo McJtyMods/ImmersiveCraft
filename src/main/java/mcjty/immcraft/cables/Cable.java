@@ -7,7 +7,7 @@ import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.blocks.bundle.BundleTE;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

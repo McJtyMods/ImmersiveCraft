@@ -2,8 +2,8 @@ package mcjty.immcraft.blocks.workbench;
 
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;

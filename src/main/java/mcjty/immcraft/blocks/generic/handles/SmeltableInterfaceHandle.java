@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks.generic.handles;
 
+import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;

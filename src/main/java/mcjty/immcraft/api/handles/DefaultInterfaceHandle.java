@@ -1,13 +1,11 @@
-package mcjty.immcraft.blocks.generic.handles;
+package mcjty.immcraft.api.handles;
 
-import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.api.input.KeyType;
-import mcjty.immcraft.varia.InventoryHelper;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -61,9 +59,11 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
 
     @Override
     public ItemStack getCurrentStack(TileEntity inventoryTE) {
-        return GenericInventoryTE.castGenericInventoryTE(inventoryTE)
-                .map(p -> p.getStackInSlot(slot))
-                .orElse(ItemStackTools.getEmptyStack());
+        if (inventoryTE instanceof IInventory) {
+            return ((IInventory) inventoryTE).getStackInSlot(slot);
+        } else {
+            return ItemStackTools.getEmptyStack();
+        }
     }
 
     @Override
@@ -103,7 +103,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
 
     @Override
     public int insertInput(TileEntity te, ItemStack stack) {
-        int remaining = InventoryHelper.mergeItemStackSafe(GenericInventoryTE.castGenericInventoryTE(te).get(), null, stack, slot, slot + 1, null);
+        int remaining = InventoryHelper.mergeItemStackSafe((IInventory) te, null, stack, slot, slot + 1, null);
         if (remaining != ItemStackTools.getStackSize(stack)) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
             te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
@@ -123,7 +123,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
 
     @Override
     public ItemStack extractOutput(TileEntity genericTE, EntityPlayer player, int amount) {
-        GenericInventoryTE te = GenericInventoryTE.castGenericInventoryTE(genericTE).get();
+        IInventory te = (IInventory) genericTE;
         ItemStack stack = ItemStackTools.getEmptyStack();
         if (amount == -1) {
             stack = te.getStackInSlot(slot);
@@ -131,8 +131,8 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         } else {
             stack = te.decrStackSize(slot, amount);
         }
-        IBlockState state = te.getWorld().getBlockState(te.getPos());
-        te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
+        IBlockState state = genericTE.getWorld().getBlockState(genericTE.getPos());
+        genericTE.getWorld().notifyBlockUpdate(genericTE.getPos(), state, state, 3);
         return stack;
     }
 

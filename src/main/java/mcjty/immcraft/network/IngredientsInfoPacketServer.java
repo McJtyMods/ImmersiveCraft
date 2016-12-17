@@ -1,7 +1,7 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;

@@ -5,7 +5,7 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
 import mcjty.immcraft.schemas.Schema;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
