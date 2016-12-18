@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.rendering.HandleTESR;
@@ -40,7 +41,12 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(InWorldPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldPlacerBlock, ImmersiveCraft.api));
+        ClientRegistry.bindTileEntitySpecialRenderer(InWorldPlacerTE.class, new HandleTESR<InWorldPlacerTE>(ModBlocks.inWorldPlacerBlock) {
+            @Override
+            protected IImmersiveCraft getApi() {
+                return ImmersiveCraft.api;
+            }
+        });
     }
 
     @SideOnly(Side.CLIENT)

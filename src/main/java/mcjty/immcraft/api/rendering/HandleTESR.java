@@ -15,18 +15,21 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
-public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T> {
+public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T> {
 
     protected final GenericBlock block;
-    protected final IImmersiveCraft api;
 
     protected Vec3d textOffset = new Vec3d(0, 0, 0);
 
-    public HandleTESR(GenericBlock block, IImmersiveCraft api) {
+    public HandleTESR(GenericBlock block) {
         this.block = block;
-        this.api = api;
     }
+
+    @Nonnull
+    protected abstract IImmersiveCraft getApi();
 
     @Override
     public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
@@ -54,13 +57,13 @@ public class HandleTESR<T extends GenericTE> extends TileEntitySpecialRenderer<T
 
     protected void renderHandles(T tileEntity) {
         double distanceSq = MinecraftTools.getPlayer(Minecraft.getMinecraft()).getDistanceSq(tileEntity.getPos());
-        if (distanceSq > api.getMaxHandleRenderDistanceSquared()) {
+        if (distanceSq > getApi().getMaxHandleRenderDistanceSquared()) {
             return;
         }
 
         bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(tileEntity, block);
-        BlockRenderHelper.renderInterfaceHandles(api, tileEntity, selectedHandle, textOffset);
+        BlockRenderHelper.renderInterfaceHandles(getApi(), tileEntity, selectedHandle, textOffset);
     }
 
     protected void renderExtra(T tileEntity) {

@@ -1,8 +1,9 @@
 package mcjty.immcraft.blocks.workbench;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.rendering.HandleTESR;
+import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -29,7 +30,12 @@ public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSeconda
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchSecondaryTE.class, new HandleTESR<>(this, ImmersiveCraft.api));
+        ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchSecondaryTE.class, new HandleTESR<WorkbenchSecondaryTE>(this) {
+            @Override
+            protected IImmersiveCraft getApi() {
+                return ImmersiveCraft.api;
+            }
+        });
     }
 
     @SideOnly(Side.CLIENT)

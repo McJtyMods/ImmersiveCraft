@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.furnace;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.renderer.Tessellator;
@@ -18,7 +19,12 @@ public class FurnaceTESR extends HandleTESR<FurnaceTE> {
     private ResourceLocation fireTexture = new ResourceLocation(ImmersiveCraft.MODID, "textures/blocks/fire.png");
 
     public FurnaceTESR() {
-        super(ModBlocks.furnaceBlock, ImmersiveCraft.api);
+        super(ModBlocks.furnaceBlock);
+    }
+
+    @Override
+    protected IImmersiveCraft getApi() {
+        return ImmersiveCraft.api;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.workbench;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.rendering.HandleTESR;
@@ -31,7 +32,12 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchTE.class, new HandleTESR<>(this, ImmersiveCraft.api));
+        ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchTE.class, new HandleTESR<WorkbenchTE>(this) {
+            @Override
+            protected IImmersiveCraft getApi() {
+                return ImmersiveCraft.api;
+            }
+        });
     }
 
     @SideOnly(Side.CLIENT)

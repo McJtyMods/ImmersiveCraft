@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.rendering.HandleTESR;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -42,7 +44,13 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(InWorldVerticalPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldVerticalPlacerBlock, ImmersiveCraft.api));
+        ClientRegistry.bindTileEntitySpecialRenderer(InWorldVerticalPlacerTE.class, new HandleTESR<InWorldVerticalPlacerTE>(ModBlocks.inWorldVerticalPlacerBlock) {
+            @Nonnull
+            @Override
+            protected IImmersiveCraft getApi() {
+                return ImmersiveCraft.api;
+            }
+        });
     }
 
     @Override
