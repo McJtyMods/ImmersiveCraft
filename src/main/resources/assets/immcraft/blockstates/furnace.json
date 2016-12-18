@@ -1,29 +1,17 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
+    "textures": {},
     "model": "immcraft:furnace.obj"
-//    "model": "forge:multi-layer",
-//    "custom": {
-//      "base": "immcraft:furnace#staticmodel",
-//      "Solid": "immcraft:furnace#staticmodel",
-//      "Cutout": "immcraft:furnace#cutout"
-//    }
   },
   "variants": {
     "normal": [{}],
     "inventory": [{
-      "transform": {
-        "gui": {
-          "scale": 0.65,
-          "rotation": [{"x": 15},{"y": 45}]
-        }
-      }
+      "transform": "forge:default-block"
     }],
 
-    "staticmodel": [ { "model": "immcraft:furnace.obj" } ],
-    "cutout": [ { "model": "fire_nsew_main" } ],
+    "staticmodel": [{ "model": "immcraft:furnace.obj" }],
+    "cutout": [{ "model": "fire_nsew_main" }],
 
     "facing": {
       "south": {},
@@ -34,18 +22,17 @@
     "burning": {
       "false": {},
       "true": {
-//        "submodel": {
-//          "f1": { "model": "fire_nsew_main" },
-//          "f2": { "model": "fire_nsewu1_main" },
-//          "f3": { "model": "fire_nsew_alt" },
-//          "f4": { "model": "fire_nsewu1_alt" },
-//          "f1": { "model": "fire_nsew_flip_main" },
-//          "f2": { "model": "fire_nsewu1_flip_main" },
-//          "f3": { "model": "fire_nsew_alt_flip" },
-//          "f4": { "model": "fire_nsewu1_alt_flip" }
-//        }
+        "submodel": {
+          "f1": { "model": "fire_nsew_main" },
+          "f2": { "model": "fire_nsewu1_main" },
+          "f3": { "model": "fire_nsew_alt" },
+          "f4": { "model": "fire_nsewu1_alt" },
+          "f1": { "model": "fire_nsew_flip_main" },
+          "f2": { "model": "fire_nsewu1_flip_main" },
+          "f3": { "model": "fire_nsew_alt_flip" },
+          "f4": { "model": "fire_nsewu1_alt_flip" }
+        }
       }
     }
   }
-
 }
