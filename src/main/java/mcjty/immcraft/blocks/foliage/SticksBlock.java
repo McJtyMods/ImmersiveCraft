@@ -1,6 +1,7 @@
 package mcjty.immcraft.blocks.foliage;
 
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -165,7 +166,7 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
     public void breakBlock(World world, BlockPos pos, IBlockState state) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof SticksTE) {
-            BlockTools.spawnItemStack(world, pos, new ItemStack(Items.STICK, ((SticksTE) te).getSticks()));
+            InventoryHelper.spawnItemStack(world, pos, new ItemStack(Items.STICK, ((SticksTE) te).getSticks()));
         }
         super.breakBlock(world, pos, state);
     }

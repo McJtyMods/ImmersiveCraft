@@ -2,14 +2,21 @@ package mcjty.immcraft.api.helpers;
 
 import mcjty.lib.tools.ItemStackList;
 import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.WorldTools;
+import net.minecraft.block.Block;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.Map;
+import java.util.Optional;
+import java.util.Random;
 
 public class InventoryHelper {
     private final TileEntity tileEntity;
@@ -20,6 +27,58 @@ public class InventoryHelper {
         this.tileEntity = tileEntity;
         stacks = ItemStackList.create(count);
         this.count = count;
+    }
+
+    public static Optional<IInventory> getInventory(World world, BlockPos pos) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof IInventory) {
+            return Optional.of((IInventory) te);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    private static final Random random = new Random();
+
+    public static void emptyInventoryInWorld(World world, BlockPos pos, Block block, IInventory inventory) {
+        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
+            ItemStack itemstack = inventory.getStackInSlot(i);
+            spawnItemStack(world, pos, itemstack);
+            inventory.setInventorySlotContents(i, ItemStackTools.getEmptyStack());
+        }
+
+        world.updateComparatorOutputLevel(pos, block);
+//        world.func_147453_f(x, y, z, block);
+    }
+
+    public static void spawnItemStack(World world, BlockPos c, ItemStack itemStack) {
+        spawnItemStack(world, c.getX(), c.getY(), c.getZ(), itemStack);
+    }
+
+    public static void spawnItemStack(World world, int x, int y, int z, ItemStack itemstack) {
+        if (ItemStackTools.isValid(itemstack)) {
+            float f = random.nextFloat() * 0.8F + 0.1F;
+            float f1 = random.nextFloat() * 0.8F + 0.1F;
+            EntityItem entityitem;
+
+            float f2 = random.nextFloat() * 0.8F + 0.1F;
+            while (ItemStackTools.isValid(itemstack)) {
+                int j = random.nextInt(21) + 10;
+
+                if (j > ItemStackTools.getStackSize(itemstack)) {
+                    j = ItemStackTools.getStackSize(itemstack);
+                }
+
+                ItemStack toSpawn = itemstack.splitStack(j);
+                entityitem = new EntityItem(world, (x + f), (y + f1), (z + f2), toSpawn);
+                float f3 = 0.05F;
+                entityitem.motionX = ((float) random.nextGaussian() * f3);
+                entityitem.motionY = ((float) random.nextGaussian() * f3 + 0.2F);
+                entityitem.motionZ = ((float) random.nextGaussian() * f3);
+
+                WorldTools.spawnEntity(world, entityitem);
+            }
+        }
     }
 
     public void setNewCount(int newcount) {

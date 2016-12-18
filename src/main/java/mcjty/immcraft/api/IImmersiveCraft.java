@@ -62,6 +62,11 @@ public interface IImmersiveCraft {
     void requestIngredients(BlockPos pos);
 
     /**
+     * Register a block click and send to server. Call this clientside only.
+     */
+    void registerBlockClick();
+
+    /**
      * Get the maximum handle render distance squared
      */
     double getMaxHandleRenderDistanceSquared();

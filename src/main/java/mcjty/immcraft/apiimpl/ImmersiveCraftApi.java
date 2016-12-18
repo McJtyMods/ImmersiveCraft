@@ -19,6 +19,8 @@ import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.PacketHitBlock;
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -84,6 +86,11 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     @Override
     public void requestIngredients(BlockPos pos) {
         PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new IngredientsInfoPacketServer(pos)));
+    }
+
+    @Override
+    public void registerBlockClick() {
+        PacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
     }
 
     @Override

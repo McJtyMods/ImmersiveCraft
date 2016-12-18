@@ -1,7 +1,9 @@
 package mcjty.immcraft.api.generic;
 
 
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.lib.compat.CompatBlock;
 import net.minecraft.block.Block;
@@ -11,10 +13,13 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -27,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public class GenericBlock extends CompatBlock implements IOrientedBlock {
+public abstract class GenericBlock extends CompatBlock implements IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -36,6 +41,8 @@ public class GenericBlock extends CompatBlock implements IOrientedBlock {
     public void initModel() {
         ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
     }
+
+    protected abstract IImmersiveCraft getApi();
 
     public enum MetaUsage {
         HORIZROTATION,
@@ -231,5 +238,43 @@ public class GenericBlock extends CompatBlock implements IOrientedBlock {
                 return super.createBlockState();
         }
         return super.createBlockState();
+    }
+
+    @Override
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer playerIn) {
+        if (world.isRemote) {
+            clickBlockClient();
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void clickBlockClient() {
+        getApi().registerBlockClick();
+    }
+
+    @Override
+    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof GenericTE) {
+            return ((GenericTE) te).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3d(sx, sy, sz));
+        } else {
+            return false;
+        }
+    }
+
+
+    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3d hitVec) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof GenericTE) {
+            return ((GenericTE) te).onClick(player, side, worldToBlockSpace(world, pos, side), hitVec);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void breakBlock(World world, BlockPos pos, IBlockState state) {
+        InventoryHelper.getInventory(world, pos).ifPresent(p -> InventoryHelper.emptyInventoryInWorld(world, pos, state.getBlock(), p));
+        super.breakBlock(world, pos, state);
     }
 }

@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.cable.*;
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.multiblock.MultiBlockCableHelper;
@@ -227,7 +228,7 @@ public class BundleTE extends GenericImmcraftTE implements ITickable, IBundle {
         markDirtyClient();
 
         section.getSubType().getBlock()
-                .ifPresent(block -> BlockTools.spawnItemStack(getWorld(), getPos(), new ItemStack(block)));
+                .ifPresent(block -> InventoryHelper.spawnItemStack(getWorld(), getPos(), new ItemStack(block)));
     }
 
     /*

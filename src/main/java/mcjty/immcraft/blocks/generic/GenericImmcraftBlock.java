@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
 import mcjty.immcraft.compat.waila.WailaInfoProvider;
@@ -34,6 +35,11 @@ public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvi
         if (inTab) {
             setCreativeTab(ImmersiveCraft.creativeTab);
         }
+    }
+
+    @Override
+    protected IImmersiveCraft getApi() {
+        return ImmersiveCraft.api;
     }
 
     @Override

@@ -100,36 +100,4 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
             throw new RuntimeException(e);
         }
     }
-
-    public T getTE(IBlockAccess world, BlockPos pos) {
-        TileEntity te = world.getTileEntity(pos);
-        return (T) te;
-    }
-
-    @Override
-    public void onBlockClicked(World world, BlockPos pos, EntityPlayer playerIn) {
-        if (world.isRemote) {
-            clickBlockClient();
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    private void clickBlockClient() {
-        PacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
-    }
-
-    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3d hitVec) {
-        return getTE(world, pos).onClick(player, side, worldToBlockSpace(world, pos, side), hitVec);
-    }
-
-    @Override
-    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
-        return getTE(world, pos).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3d(sx, sy, sz));
-    }
-
-    @Override
-    public void breakBlock(World world, BlockPos pos, IBlockState state) {
-        BlockTools.getInventory(world, pos).ifPresent(p -> BlockTools.emptyInventoryInWorld(world, pos, state.getBlock(), p));
-        super.breakBlock(world, pos, state);
-    }
 }

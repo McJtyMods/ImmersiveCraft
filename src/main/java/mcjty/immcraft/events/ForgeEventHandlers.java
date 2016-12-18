@@ -1,6 +1,7 @@
 package mcjty.immcraft.events;
 
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
@@ -98,7 +99,7 @@ public class ForgeEventHandlers {
                     event.getWorld().setBlockToAir(event.getPos());
                     player.inventory.decrStackSize(player.inventory.currentItem, 1);
                     player.openContainer.detectAndSendChanges();
-                    BlockTools.spawnItemStack(event.getWorld(), event.getPos(), new ItemStack(Items.STONE_AXE));
+                    InventoryHelper.spawnItemStack(event.getWorld(), event.getPos(), new ItemStack(Items.STONE_AXE));
                     event.setCanceled(true);
                 }
             }

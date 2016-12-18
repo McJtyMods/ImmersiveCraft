@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks.workbench;
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
@@ -75,7 +76,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     public List<ItemStack> getInventory() {
         List<ItemStack> inventory = new ArrayList<>();
         EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
-        Optional<IInventory> inv = BlockTools.getInventory(getWorld(), getPos().offset(left));
+        Optional<IInventory> inv = InventoryHelper.getInventory(getWorld(), getPos().offset(left));
         if (inv.isPresent()) {
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT1));
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT2));
