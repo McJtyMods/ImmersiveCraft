@@ -1,17 +1,9 @@
-package mcjty.immcraft.blocks.generic;
+package mcjty.immcraft.api.generic;
 
 
-import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
-import mcjty.immcraft.compat.top.TOPInfoProvider;
-import mcjty.immcraft.compat.waila.WailaInfoProvider;
-import mcjty.immcraft.varia.BlockTools;
+import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.lib.compat.CompatBlock;
-import mcjty.theoneprobe.api.IProbeHitData;
-import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -19,7 +11,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -35,9 +26,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 
-public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOrientedBlock, TOPInfoProvider {
+public class GenericBlock extends CompatBlock implements IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -58,18 +48,15 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
     }
 
     public GenericBlock(Material material, String name, boolean inTab) {
-        this(material, name, null, null, inTab);
+        this(material, name, null, null);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, boolean inTab) {
-        this(material, name, clazz, null, inTab);
+    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz) {
+        this(material, name, clazz, null);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
+    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super(material);
-        if (inTab) {
-            setCreativeTab(ImmersiveCraft.creativeTab);
-        }
         register(name, clazz, itemBlockClass);
     }
 
@@ -93,16 +80,6 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-
-    }
-
-    @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
     }
 
     @Override
@@ -161,10 +138,10 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
         EnumFacing orientation;
         switch (metaUsage) {
             case HORIZROTATION:
-                orientation = BlockTools.getOrientationHoriz(state);
+                orientation = OrientationTools.getOrientationHoriz(state);
                 break;
             case ROTATION:
-                orientation = BlockTools.getOrientation(state);
+                orientation = OrientationTools.getOrientation(state);
                 break;
             case NONE:
             default:
@@ -177,9 +154,9 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
     protected EnumFacing getOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.determineOrientationHoriz(entityLivingBase);
+                return OrientationTools.determineOrientationHoriz(entityLivingBase);
             case ROTATION:
-                return BlockTools.determineOrientation(x, y, z, entityLivingBase);
+                return OrientationTools.determineOrientation(x, y, z, entityLivingBase);
         }
         return null;
     }
@@ -188,9 +165,9 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.worldToBlockSpaceHoriz(side, world.getBlockState(pos));
+                return OrientationTools.worldToBlockSpaceHoriz(side, world.getBlockState(pos));
             case ROTATION:
-                return BlockTools.worldToBlockSpace(side, world.getBlockState(pos));
+                return OrientationTools.worldToBlockSpace(side, world.getBlockState(pos));
             case NONE:
             default:
                 return side;
@@ -200,9 +177,9 @@ public class GenericBlock extends CompatBlock implements WailaInfoProvider, IOri
     public Vec3d blockToWorldSpace(World world, BlockPos pos, Vec3d v) {
         switch (getMetaUsage()) {
             case HORIZROTATION:
-                return BlockTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));
+                return OrientationTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));
             case ROTATION:
-                return BlockTools.blockToWorldSpace(v, world.getBlockState(pos));
+                return OrientationTools.blockToWorldSpace(v, world.getBlockState(pos));
             case NONE:
             default:
                 return v;

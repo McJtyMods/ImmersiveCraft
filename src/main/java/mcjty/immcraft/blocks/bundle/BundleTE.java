@@ -2,7 +2,7 @@ package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.cable.*;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.multiblock.MultiBlockCableHelper;
 import mcjty.immcraft.multiblock.MultiBlockData;
@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BundleTE extends GenericTE implements ITickable, IBundle {
+public class BundleTE extends GenericImmcraftTE implements ITickable, IBundle {
 
     private final List<CableSection> cableSections = new ArrayList<>();
 

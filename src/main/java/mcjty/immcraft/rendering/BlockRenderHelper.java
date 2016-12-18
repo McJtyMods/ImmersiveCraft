@@ -1,10 +1,10 @@
 package mcjty.immcraft.rendering;
 
 
+import mcjty.immcraft.api.generic.GenericBlock;
+import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.blocks.generic.GenericBlock;
-import mcjty.immcraft.blocks.generic.GenericTE;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;

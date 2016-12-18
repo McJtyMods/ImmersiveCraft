@@ -3,7 +3,7 @@ package mcjty.immcraft.worldgen;
 
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
-import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
@@ -45,7 +45,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 Block block = world.getBlockState(pos).getBlock();
                 if (isRockSpawnable(block)) {
                     if (world.isAirBlock(pos.up())) {
-                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 Block block = world.getBlockState(pos).getBlock();
                 if (y != -1 && isRockSpawnable(block)) {
                     if (world.isAirBlock(pos.up())) {
-                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     }
                 }
             }
@@ -96,7 +96,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
                 IBlockState state = world.getBlockState(new BlockPos(x, y, z));
                 if (isLeafBlock(state.getBlock(), state)) {
-                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     TileEntity te = world.getTileEntity(pos.up());
                     if (te instanceof SticksTE) {
                         SticksTE sticksTE = (SticksTE) te;

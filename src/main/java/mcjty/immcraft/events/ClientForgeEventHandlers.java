@@ -3,7 +3,7 @@ package mcjty.immcraft.events;
 
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleTE;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.cables.CableRenderer;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.api.input.KeyType;
@@ -45,7 +45,7 @@ public class ClientForgeEventHandlers {
         }
     }
 
-    private void handleWheel(GenericTE genericTE, int dWheel, MouseEvent event) {
+    private void handleWheel(GenericImmcraftTE genericTE, int dWheel, MouseEvent event) {
         if (dWheel < 0) {
             PacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_PREVIOUSITEM));
         } else {

@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
@@ -34,11 +35,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implements ITileEntityProvider {
+public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmcraftBlock implements ITileEntityProvider {
 
-    private final Class<? extends GenericTE> teClazz;
+    private final Class<? extends GenericImmcraftTE> teClazz;
 
-    public GenericBlockWithTE(Material material, String name, Class<? extends GenericTE> clazz, boolean inTab) {
+    public GenericBlockWithTE(Material material, String name, Class<? extends GenericImmcraftTE> clazz, boolean inTab) {
         super(material, name, clazz, inTab);
         teClazz = clazz;
     }
@@ -53,7 +54,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
         super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
         TileEntity tileEntity = world.getTileEntity(data.getPos());
-        if (tileEntity instanceof GenericTE) {
+        if (tileEntity instanceof GenericImmcraftTE) {
             T te = (T) tileEntity;
             IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
             if (selectedHandle != null) {
@@ -69,7 +70,7 @@ public class GenericBlockWithTE<T extends GenericTE> extends GenericBlock implem
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         super.getWailaBody(itemStack, currenttip, accessor, config);
         TileEntity tileEntity = accessor.getTileEntity();
-        if (tileEntity instanceof GenericTE) {
+        if (tileEntity instanceof GenericImmcraftTE) {
             T te = (T) tileEntity;
             IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
             if (selectedHandle != null) {

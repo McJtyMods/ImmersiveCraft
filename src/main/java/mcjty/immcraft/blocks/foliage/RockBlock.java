@@ -1,6 +1,6 @@
 package mcjty.immcraft.blocks.foliage;
 
-import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class RockBlock extends GenericBlock {
+public class RockBlock extends GenericImmcraftBlock {
 
     public static final AxisAlignedBB AABB = new AxisAlignedBB(.2f, 0, .2f, .8f, .4f, .8f);
 

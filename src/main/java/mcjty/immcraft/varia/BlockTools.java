@@ -1,14 +1,13 @@
 package mcjty.immcraft.varia;
 
-import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.api.helpers.OrientationTools;
+import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.MathTools;
 import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -17,8 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -30,272 +27,49 @@ import static net.minecraft.util.EnumFacing.*;
 public class BlockTools {
     private static final Random random = new Random();
 
-    // Use these flags if you want to support a single redstone signal and 3 bits for orientation.
-    public static final int MASK_ORIENTATION = 0x7;
-    public static final int MASK_REDSTONE = 0x8;
-
-    // Use these flags if you want to support both redstone in and output and only 2 bits for orientation.
-    public static final int MASK_ORIENTATION_HORIZONTAL = 0x3;          // Only two bits for orientation
-    public static final int MASK_REDSTONE_IN = 0x8;                     // Redstone in
-    public static final int MASK_REDSTONE_OUT = 0x4;                    // Redstone out
-    public static final int MASK_STATE = 0xc;                           // If redstone is not used: state
-
-    public static EnumFacing getOrientation(IBlockState state) {
-        return ((GenericBlock)state.getBlock()).getFrontDirection(state);
-    }
-
-    // Given the metavalue of a block, reorient the world direction to the internal block direction
-    // so that the front side will be SOUTH.
-    public static EnumFacing worldToBlockSpace(EnumFacing side, IBlockState state) {
-        return worldToBlockSpace(side, getOrientation(state));
-    }
-
-    // Given the metavalue of a block, reorient the world direction to the internal block direction
-    // so that the front side will be SOUTH.
-    public static EnumFacing worldToBlockSpaceHoriz(EnumFacing side, IBlockState state) {
-        return worldToBlockSpace(side, getOrientationHoriz(state));
-    }
-
-    public static EnumFacing worldToBlockSpace(EnumFacing worldSide, EnumFacing blockDirection) {
-        switch (blockDirection) {
-            case DOWN:
-                switch (worldSide) {
-                    case DOWN: return SOUTH;
-                    case UP: return NORTH;
-                    case NORTH: return UP;
-                    case SOUTH: return DOWN;
-                    case WEST: return EAST;
-                    case EAST: return WEST;
-                    default: return worldSide;
-                }
-            case UP:
-                switch (worldSide) {
-                    case DOWN: return NORTH;
-                    case UP: return SOUTH;
-                    case NORTH: return UP;
-                    case SOUTH: return DOWN;
-                    case WEST: return WEST;
-                    case EAST: return EAST;
-                    default: return worldSide;
-                }
-            case NORTH:
-                if (worldSide == DOWN || worldSide == UP) {
-                    return worldSide;
-                }
-                return worldSide.getOpposite();
-            case SOUTH:
-                return worldSide;
-            case WEST:
-                if (worldSide == DOWN || worldSide == UP) {
-                    return worldSide;
-                } else if (worldSide == WEST) {
-                    return SOUTH;
-                } else if (worldSide == NORTH) {
-                    return WEST;
-                } else if (worldSide == EAST) {
-                    return NORTH;
-                } else {
-                    return EAST;
-                }
-            case EAST:
-                if (worldSide == DOWN || worldSide == UP) {
-                    return worldSide;
-                } else if (worldSide == WEST) {
-                    return NORTH;
-                } else if (worldSide == NORTH) {
-                    return EAST;
-                } else if (worldSide == EAST) {
-                    return SOUTH;
-                } else {
-                    return WEST;
-                }
-            default:
-                return worldSide;
-        }
-    }
-
-    public static EnumFacing blockToWorldSpace(EnumFacing blockSide, EnumFacing blockDirection) {
-        switch (blockDirection) {
-            case DOWN:
-                switch (blockSide) {
-                    case SOUTH: return DOWN;
-                    case NORTH: return UP;
-                    case UP: return NORTH;
-                    case DOWN: return SOUTH;
-                    case EAST: return WEST;
-                    case WEST: return EAST;
-                    default: return blockSide;
-                }
-            case UP:
-                switch (blockSide) {
-                    case NORTH: return DOWN;
-                    case SOUTH: return UP;
-                    case UP: return NORTH;
-                    case DOWN: return SOUTH;
-                    case WEST: return WEST;
-                    case EAST: return EAST;
-                    default: return blockSide;
-                }
-            case NORTH:
-                if (blockSide == DOWN || blockSide == UP) {
-                    return blockSide;
-                }
-                return blockSide.getOpposite();
-            case SOUTH:
-                return blockSide;
-            case WEST:
-                if (blockSide == DOWN || blockSide == UP) {
-                    return blockSide;
-                } else if (blockSide == SOUTH) {
-                    return WEST;
-                } else if (blockSide == WEST) {
-                    return NORTH;
-                } else if (blockSide == NORTH) {
-                    return EAST;
-                } else {
-                    return SOUTH;
-                }
-            case EAST:
-                if (blockSide == DOWN || blockSide == UP) {
-                    return blockSide;
-                } else if (blockSide == NORTH) {
-                    return WEST;
-                } else if (blockSide == EAST) {
-                    return NORTH;
-                } else if (blockSide == SOUTH) {
-                    return EAST;
-                } else {
-                    return SOUTH;
-                }
-            default:
-                return blockSide;
-        }
-    }
-
-
-    public static Vec3d blockToWorldSpace(Vec3d v, IBlockState state) {
-        return blockToWorldSpace(v, getOrientation(state));
-    }
-
-    // Given the metavalue of a block, reorient the world direction to the internal block direction
-    // so that the front side will be SOUTH.
-    public static Vec3d blockToWorldSpaceHoriz(Vec3d v, IBlockState state) {
-        return blockToWorldSpace(v, getOrientationHoriz(state));
-    }
-
-    public static Vec3d blockToWorldSpace(Vec3d v, EnumFacing side) {
-        switch (side) {
-            case DOWN: return new Vec3d(v.xCoord, v.zCoord, v.yCoord);        // @todo check: most likely wrong
-            case UP:  return new Vec3d(v.xCoord, v.zCoord, v.yCoord);         // @todo check: most likely wrong
-            case NORTH: return new Vec3d(1-v.xCoord, v.yCoord, 1-v.zCoord);
-            case SOUTH: return v;
-            case WEST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
-            case EAST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
-            default: return v;
-        }
-    }
-
-    public static EnumFacing getTopDirection(EnumFacing rotation) {
-        switch(rotation) {
-            case DOWN:
-                return SOUTH;
-            case UP:
-                return EnumFacing.NORTH;
-            default:
-                return EnumFacing.UP;
-        }
-    }
-
-    public static EnumFacing getBottomDirection(EnumFacing rotation) {
-        switch(rotation) {
-            case DOWN:
-                return EnumFacing.NORTH;
-            case UP:
-                return SOUTH;
-            default:
-                return DOWN;
-        }
-    }
-
-    public static int setOrientation(int metadata, EnumFacing orientation) {
-        return (metadata & ~MASK_ORIENTATION) | orientation.ordinal();
-    }
-
-    public static EnumFacing getOrientationHoriz(IBlockState state) {
-        return state.getValue(GenericBlock.FACING_HORIZ);
-    }
-
-    public static int setOrientationHoriz(int metadata, EnumFacing orientation) {
-        return (metadata & ~MASK_ORIENTATION_HORIZONTAL) | getHorizOrientationMeta(orientation);
-    }
-
-    public static int getHorizOrientationMeta(EnumFacing orientation) {
-        return orientation.ordinal()-2;
-    }
 
     public static boolean getRedstoneSignal(int metadata) {
-        return (metadata & MASK_REDSTONE) != 0;
+        return (metadata & OrientationTools.MASK_REDSTONE) != 0;
     }
 
     public static int setRedstoneSignal(int metadata, boolean signal) {
         if (signal) {
-            return metadata | MASK_REDSTONE;
+            return metadata | OrientationTools.MASK_REDSTONE;
         } else {
-            return metadata & ~MASK_REDSTONE;
+            return metadata & ~OrientationTools.MASK_REDSTONE;
         }
     }
 
     public static boolean getRedstoneSignalIn(int metadata) {
-        return (metadata & MASK_REDSTONE_IN) != 0;
+        return (metadata & OrientationTools.MASK_REDSTONE_IN) != 0;
     }
 
     public static int setRedstoneSignalIn(int metadata, boolean signal) {
         if (signal) {
-            return metadata | MASK_REDSTONE_IN;
+            return metadata | OrientationTools.MASK_REDSTONE_IN;
         } else {
-            return metadata & ~MASK_REDSTONE_IN;
+            return metadata & ~OrientationTools.MASK_REDSTONE_IN;
         }
     }
 
     public static boolean getRedstoneSignalOut(int metadata) {
-        return (metadata & MASK_REDSTONE_OUT) != 0;
+        return (metadata & OrientationTools.MASK_REDSTONE_OUT) != 0;
     }
 
     public static int setRedstoneSignalOut(int metadata, boolean signal) {
         if (signal) {
-            return metadata | MASK_REDSTONE_OUT;
+            return metadata | OrientationTools.MASK_REDSTONE_OUT;
         } else {
-            return metadata & ~MASK_REDSTONE_OUT;
+            return metadata & ~OrientationTools.MASK_REDSTONE_OUT;
         }
     }
 
     public static int setState(int metadata, int value) {
-        return (metadata & ~MASK_STATE) | (value << 2);
+        return (metadata & ~OrientationTools.MASK_STATE) | (value << 2);
     }
 
     public static int getState(int metadata) {
-        return (metadata & MASK_STATE) >> 2;
-    }
-
-    public static EnumFacing determineOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
-        if (MathHelper.abs((float) entityLivingBase.posX - x) < 2.0F && MathHelper.abs((float) entityLivingBase.posZ - z) < 2.0F) {
-            double d0 = entityLivingBase.posY + 1.82D - entityLivingBase.getYOffset();
-
-            if (d0 - y > 2.0D) {
-                return EnumFacing.UP;
-            }
-
-            if (y - d0 > 0.0D) {
-                return DOWN;
-            }
-        }
-        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
-    }
-
-    public static EnumFacing determineOrientationHoriz(EntityLivingBase entityLivingBase) {
-        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
+        return (metadata & OrientationTools.MASK_STATE) >> 2;
     }
 
 
@@ -341,8 +115,8 @@ public class BlockTools {
     }
 
 
-    public static void placeBlock(World world, BlockPos pos, GenericBlock block, EntityPlayer player) {
-        IBlockState state = block.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, player.getHorizontalFacing().getOpposite());
+    public static void placeBlock(World world, BlockPos pos, GenericImmcraftBlock block, EntityPlayer player) {
+        IBlockState state = block.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, player.getHorizontalFacing().getOpposite());
         world.setBlockState(pos, state, 2);
     }
 
@@ -354,9 +128,9 @@ public class BlockTools {
         }
     }
 
-    public static <T extends GenericTE> Optional<T> getTE(Class<T> clazz, IBlockAccess world, BlockPos pos) {
+    public static <T extends GenericImmcraftTE> Optional<T> getTE(Class<T> clazz, IBlockAccess world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof GenericTE && (clazz == null || clazz.isInstance(te))) {
+        if (te instanceof GenericImmcraftTE && (clazz == null || clazz.isInstance(te))) {
             return Optional.of((T) te);
         } else {
             return Optional.empty();
@@ -381,18 +155,18 @@ public class BlockTools {
         }
     }
 
-    public static Optional<GenericTE> castGenericTE(TileEntity te) {
-        return (te instanceof GenericTE) ? Optional.of((GenericTE) te) : Optional.empty();
+    public static Optional<GenericImmcraftTE> castGenericTE(TileEntity te) {
+        return (te instanceof GenericImmcraftTE) ? Optional.of((GenericImmcraftTE) te) : Optional.empty();
     }
 
-    public static <T extends GenericTE> T castTE(TileEntity te) {
+    public static <T extends GenericImmcraftTE> T castTE(TileEntity te) {
         return (T) te;
     }
 
-    public static Optional<GenericBlock> getBlock(World world, BlockPos pos) {
+    public static Optional<GenericImmcraftBlock> getBlock(World world, BlockPos pos) {
         Block block = world.getBlockState(pos).getBlock();
-        if (block instanceof GenericBlock) {
-            return Optional.of((GenericBlock) block);
+        if (block instanceof GenericImmcraftBlock) {
+            return Optional.of((GenericImmcraftBlock) block);
         } else {
             return Optional.empty();
         }

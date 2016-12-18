@@ -2,7 +2,7 @@ package mcjty.immcraft.blocks.workbench;
 
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.blocks.generic.handles.CraftingInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
@@ -89,7 +89,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     @Override
     public void updateInventory(List<ItemStack> inventory) {
         EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
-        Optional<GenericTE> te = BlockTools.getTE(null, getWorld(), getPos().offset(left));
+        Optional<GenericImmcraftTE> te = BlockTools.getTE(null, getWorld(), getPos().offset(left));
         if (te.isPresent()) {
             if (te.get() instanceof IInventory) {
                 IInventory inv = (IInventory) te.get();

@@ -1,8 +1,8 @@
 package mcjty.immcraft.rendering;
 
 
-import mcjty.immcraft.blocks.generic.GenericBlock;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.api.generic.GenericBlock;
+import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.lib.tools.MinecraftTools;

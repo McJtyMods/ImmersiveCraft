@@ -1,6 +1,7 @@
 package mcjty.immcraft.events;
 
 
+import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
@@ -77,7 +78,7 @@ public class ForgeEventHandlers {
                 Block block2 = state.getBlock();
                 if (block2 == Blocks.LOG || block2 == Blocks.LOG2) {
                     event.getWorld().setBlockToAir(newpos);
-                    int meta = BlockTools.getHorizOrientationMeta(dir.rotateY());
+                    int meta = OrientationTools.getHorizOrientationMeta(dir.rotateY());
                     event.getWorld().setBlockState(event.getPos(), ModBlocks.workbenchBlock.getStateFromMeta(meta), 3);
                     event.getWorld().setBlockState(newpos, ModBlocks.workbenchSecondaryBlock.getStateFromMeta(meta), 3);
                     event.setCanceled(true);

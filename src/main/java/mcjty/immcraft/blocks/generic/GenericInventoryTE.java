@@ -19,7 +19,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericTE implements CompatSidedInventory {
+public class GenericInventoryTE extends GenericImmcraftTE implements CompatSidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;

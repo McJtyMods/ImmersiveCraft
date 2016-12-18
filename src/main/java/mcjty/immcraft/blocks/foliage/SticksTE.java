@@ -1,6 +1,6 @@
 package mcjty.immcraft.blocks.foliage;
 
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
@@ -14,7 +14,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.Vec3d;
 
-public class SticksTE extends GenericTE implements ITickable {
+public class SticksTE extends GenericImmcraftTE implements ITickable {
 
     private int sticks = 0;
     private int burnTime = 0;
