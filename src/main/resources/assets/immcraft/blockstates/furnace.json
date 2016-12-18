@@ -8,6 +8,12 @@
     "normal": [{}],
     "inventory": [{
       "transform": "forge:default-block"
+//    "model": "forge:multi-layer",
+//    "custom": {
+//      "base": "immcraft:furnace#staticmodel",
+//      "Solid": "immcraft:furnace#staticmodel",
+//      "Cutout": "immcraft:furnace#cutout"
+//    }
     }],
 
     "staticmodel": [{ "model": "immcraft:furnace.obj" }],
