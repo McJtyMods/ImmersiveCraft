@@ -6,7 +6,7 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
-import mcjty.immcraft.rendering.BlockRenderHelper;
+import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;

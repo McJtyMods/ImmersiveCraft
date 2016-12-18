@@ -3,7 +3,7 @@ package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.rendering.HandleTESR;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -21,8 +21,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.io.IOException;
-
 @SideOnly(Side.CLIENT)
 public class CupboardTESR extends HandleTESR<CupboardTE> {
 
@@ -30,7 +28,7 @@ public class CupboardTESR extends HandleTESR<CupboardTE> {
     private IBakedModel bakedLidModel;
 
     public CupboardTESR() {
-        super(ModBlocks.cupboardBlock);
+        super(ModBlocks.cupboardBlock, ImmersiveCraft.api);
         textOffset = new Vec3d(0, 0, -.2);
     }
 

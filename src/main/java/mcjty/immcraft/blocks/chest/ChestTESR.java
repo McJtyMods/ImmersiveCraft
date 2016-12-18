@@ -3,7 +3,7 @@ package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.rendering.HandleTESR;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -28,7 +28,7 @@ public class ChestTESR extends HandleTESR<ChestTE> {
     private IBakedModel bakedLidModel;
 
     public ChestTESR() {
-        super(ModBlocks.chestBlock);
+        super(ModBlocks.chestBlock, ImmersiveCraft.api);
         textOffset = new Vec3d(0, 0, -.2);
     }
 

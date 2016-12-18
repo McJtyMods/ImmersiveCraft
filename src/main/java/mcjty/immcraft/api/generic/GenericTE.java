@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
+
 public class GenericTE extends TileEntity {
 
     protected HandleSupport handleSupport = new HandleSupport();
@@ -35,8 +36,16 @@ public class GenericTE extends TileEntity {
         return Collections.emptyList();
     }
 
+    // Client side
+    public void setIngredients(List<String> ingredients, List<String> missingIngredients) {
 
-    @Override
+    }
+
+    public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, EntityPlayer player) {
+    }
+
+
+        @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return oldState.getBlock() != newState.getBlock();
     }

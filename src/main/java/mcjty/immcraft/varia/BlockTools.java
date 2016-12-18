@@ -1,9 +1,9 @@
 package mcjty.immcraft.varia;
 
-import mcjty.immcraft.api.helpers.OrientationTools;
-import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
+import mcjty.immcraft.api.generic.GenericBlock;
+import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
+import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
@@ -22,55 +22,10 @@ import net.minecraft.world.World;
 import java.util.Optional;
 import java.util.Random;
 
-import static net.minecraft.util.EnumFacing.*;
+import static net.minecraft.util.EnumFacing.UP;
 
 public class BlockTools {
     private static final Random random = new Random();
-
-
-    public static boolean getRedstoneSignal(int metadata) {
-        return (metadata & OrientationTools.MASK_REDSTONE) != 0;
-    }
-
-    public static int setRedstoneSignal(int metadata, boolean signal) {
-        if (signal) {
-            return metadata | OrientationTools.MASK_REDSTONE;
-        } else {
-            return metadata & ~OrientationTools.MASK_REDSTONE;
-        }
-    }
-
-    public static boolean getRedstoneSignalIn(int metadata) {
-        return (metadata & OrientationTools.MASK_REDSTONE_IN) != 0;
-    }
-
-    public static int setRedstoneSignalIn(int metadata, boolean signal) {
-        if (signal) {
-            return metadata | OrientationTools.MASK_REDSTONE_IN;
-        } else {
-            return metadata & ~OrientationTools.MASK_REDSTONE_IN;
-        }
-    }
-
-    public static boolean getRedstoneSignalOut(int metadata) {
-        return (metadata & OrientationTools.MASK_REDSTONE_OUT) != 0;
-    }
-
-    public static int setRedstoneSignalOut(int metadata, boolean signal) {
-        if (signal) {
-            return metadata | OrientationTools.MASK_REDSTONE_OUT;
-        } else {
-            return metadata & ~OrientationTools.MASK_REDSTONE_OUT;
-        }
-    }
-
-    public static int setState(int metadata, int value) {
-        return (metadata & ~OrientationTools.MASK_STATE) | (value << 2);
-    }
-
-    public static int getState(int metadata) {
-        return (metadata & OrientationTools.MASK_STATE) >> 2;
-    }
 
 
     public static void emptyInventoryInWorld(World world, BlockPos pos, Block block, IInventory inventory) {
@@ -115,8 +70,8 @@ public class BlockTools {
     }
 
 
-    public static void placeBlock(World world, BlockPos pos, GenericImmcraftBlock block, EntityPlayer player) {
-        IBlockState state = block.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, player.getHorizontalFacing().getOpposite());
+    public static void placeBlock(World world, BlockPos pos, GenericBlock block, EntityPlayer player) {
+        IBlockState state = block.getDefaultState().withProperty(GenericBlock.FACING_HORIZ, player.getHorizontalFacing().getOpposite());
         world.setBlockState(pos, state, 2);
     }
 
@@ -128,7 +83,7 @@ public class BlockTools {
         }
     }
 
-    public static <T extends GenericImmcraftTE> Optional<T> getTE(Class<T> clazz, IBlockAccess world, BlockPos pos) {
+    public static <T extends GenericTE> Optional<T> getTE(Class<T> clazz, IBlockAccess world, BlockPos pos) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof GenericImmcraftTE && (clazz == null || clazz.isInstance(te))) {
             return Optional.of((T) te);
@@ -155,18 +110,10 @@ public class BlockTools {
         }
     }
 
-    public static Optional<GenericImmcraftTE> castGenericTE(TileEntity te) {
-        return (te instanceof GenericImmcraftTE) ? Optional.of((GenericImmcraftTE) te) : Optional.empty();
-    }
-
-    public static <T extends GenericImmcraftTE> T castTE(TileEntity te) {
-        return (T) te;
-    }
-
-    public static Optional<GenericImmcraftBlock> getBlock(World world, BlockPos pos) {
+    public static Optional<GenericBlock> getBlock(World world, BlockPos pos) {
         Block block = world.getBlockState(pos).getBlock();
-        if (block instanceof GenericImmcraftBlock) {
-            return Optional.of((GenericImmcraftBlock) block);
+        if (block instanceof GenericBlock) {
+            return Optional.of((GenericBlock) block);
         } else {
             return Optional.empty();
         }

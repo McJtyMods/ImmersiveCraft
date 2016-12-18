@@ -28,12 +28,14 @@ public class GenericImmcraftTE extends GenericTE {
     }
 
     // Client side
+    @Override
     public void setIngredients(List<String> ingredients, List<String> missingIngredients) {
         this.ingredients = ingredients;
         this.missingIngredients = missingIngredients;
     }
 
     // Server side: optionally calculate the ingredients needed for the current craftable block
+    @Override
     public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, EntityPlayer player) {
         if (this instanceof ICraftingContainer) {
             for (IInterfaceHandle handle : handleSupport.getInterfaceHandles()) {

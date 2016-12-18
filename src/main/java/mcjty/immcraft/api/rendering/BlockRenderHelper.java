@@ -1,13 +1,11 @@
-package mcjty.immcraft.rendering;
+package mcjty.immcraft.api.rendering;
 
 
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
-import mcjty.immcraft.network.IngredientsInfoPacketServer;
-import mcjty.immcraft.network.PacketGetInfoFromServer;
-import mcjty.immcraft.network.PacketHandler;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
@@ -170,7 +168,7 @@ public final class BlockRenderHelper {
 
     private static long lastUpdateTime = 0;
 
-    public static void renderInterfaceHandles(GenericTE te, IInterfaceHandle selectedHandle, Vec3d textOffset) {
+    public static void renderInterfaceHandles(IImmersiveCraft api, GenericTE te, IInterfaceHandle selectedHandle, Vec3d textOffset) {
         for (IInterfaceHandle handle : te.getInterfaceHandles()) {
             boolean selected = selectedHandle == handle;
             ItemStack ghosted = ItemStackTools.getEmptyStack();
@@ -202,7 +200,7 @@ public final class BlockRenderHelper {
                     long time = System.currentTimeMillis();
                     if ((time - lastUpdateTime) > 300) {
                         lastUpdateTime = time;
-                        PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new IngredientsInfoPacketServer(te.getPos())));
+                        api.requestIngredients(te.getPos());
                     }
                     present = te.getIngredients();
                     missing = te.getMissingIngredients();

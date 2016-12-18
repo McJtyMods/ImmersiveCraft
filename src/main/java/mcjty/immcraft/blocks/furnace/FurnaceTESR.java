@@ -3,7 +3,7 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.rendering.HandleTESR;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -18,7 +18,7 @@ public class FurnaceTESR extends HandleTESR<FurnaceTE> {
     private ResourceLocation fireTexture = new ResourceLocation(ImmersiveCraft.MODID, "textures/blocks/fire.png");
 
     public FurnaceTESR() {
-        super(ModBlocks.furnaceBlock);
+        super(ModBlocks.furnaceBlock, ImmersiveCraft.api);
     }
 
     @Override

@@ -55,4 +55,14 @@ public interface IImmersiveCraft {
      * @return
      */
     Optional<IBundle> getBundle(World world, BlockPos pos);
+
+    /**
+     * Request ingredients from server. Call this clientside only!
+     */
+    void requestIngredients(BlockPos pos);
+
+    /**
+     * Get the maximum handle render distance squared
+     */
+    double getMaxHandleRenderDistanceSquared();
 }

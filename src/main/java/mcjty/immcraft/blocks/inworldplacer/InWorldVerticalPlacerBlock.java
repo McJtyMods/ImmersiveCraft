@@ -1,8 +1,9 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.rendering.HandleTESR;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -41,7 +42,7 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(InWorldVerticalPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldVerticalPlacerBlock));
+        ClientRegistry.bindTileEntitySpecialRenderer(InWorldVerticalPlacerTE.class, new HandleTESR<>(ModBlocks.inWorldVerticalPlacerBlock, ImmersiveCraft.api));
     }
 
     @Override

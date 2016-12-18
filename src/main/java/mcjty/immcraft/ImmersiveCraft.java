@@ -38,6 +38,8 @@ public class ImmersiveCraft {
     @Mod.Instance
     public static ImmersiveCraft instance;
 
+    public static ImmersiveCraftApi api = new ImmersiveCraftApi();
+
     public static CreativeTabs creativeTab;
 
     public static Logger logger;
@@ -76,7 +78,7 @@ public class ImmersiveCraft {
         for (FMLInterModComms.IMCMessage message : event.getMessages()) {
             if ("getapi".equalsIgnoreCase(message.key)) {
                 Optional<Function<IImmersiveCraft, Void>> value = message.getFunctionValue(IImmersiveCraft.class, Void.class);
-                value.get().apply(new ImmersiveCraftApi());
+                value.get().apply(api);
             }
         }
     }
