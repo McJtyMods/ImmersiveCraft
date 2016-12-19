@@ -1,5 +1,6 @@
 package mcjty.immcraft.api.handles;
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -146,11 +147,31 @@ public class HandleSupport {
             if (exactSlot) {
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
             } else {
-                player.inventory.addItemStackToInventory(itemStack);
+                if (!player.inventory.addItemStackToInventory(itemStack)) {
+                    InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
+                }
             }
             player.openContainer.detectAndSendChanges();
         }
         return true;
+    }
+
+    private boolean handleItem(TileEntity te, EntityPlayer player, IInterfaceHandle handle, int amount) {
+        if (!player.getEntityWorld().isRemote) {
+            handle.handleActivate(te, player, amount);
+        }
+        return true;
+    }
+
+    public static void giveItemToPlayer(EntityPlayer player, ItemStack itemStack) {
+        if (ItemStackTools.isEmpty(player.inventory.getStackInSlot(player.inventory.currentItem))) {
+            player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
+        } else {
+            if (!player.inventory.addItemStackToInventory(itemStack)) {
+                InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
+            }
+        }
+        player.openContainer.detectAndSendChanges();
     }
 
     public boolean handleClick(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {
@@ -176,7 +197,9 @@ public class HandleSupport {
         if (player.isSneaking()) {
             amount = 1;
         }
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (handle.isSelfHandler()) {
+            return handleItem(te, player, handle, amount);
+        } else if (ItemStackTools.isEmpty(heldItem)) {
             return getItemFromHandle(te, player, handle, amount, true);
         } else if (handle.acceptAsInput(heldItem)) {
             if (!addItemToHandle(te, player, heldItem, handle, amount)) {

@@ -117,6 +117,11 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
+    public boolean isSelfHandler() {
+        return false;
+    }
+
+    @Override
     public boolean isCrafting() {
         return false;
     }
@@ -134,6 +139,11 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         IBlockState state = genericTE.getWorld().getBlockState(genericTE.getPos());
         genericTE.getWorld().notifyBlockUpdate(genericTE.getPos(), state, state, 3);
         return stack;
+    }
+
+    @Override
+    public void handleActivate(TileEntity te, EntityPlayer player, int amount) {
+
     }
 
     @Override
