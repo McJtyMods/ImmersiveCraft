@@ -41,7 +41,6 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
             return;
         }
 
-        GlStateManager.pushAttrib();
         GlStateManager.pushMatrix();
 
         GlStateManager.translate(x + .5, y, z + .5);
@@ -52,7 +51,6 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
         renderHandles(tileEntity);
 
         GlStateManager.popMatrix();
-        GlStateManager.popAttrib();
     }
 
     protected void renderHandles(T tileEntity) {

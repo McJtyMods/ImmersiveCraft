@@ -27,19 +27,24 @@ public interface IInterfaceHandle {
     // True if this handle is meant for output.
     boolean isOutput();
 
-    // True if this handle will do its item processing itself
-    boolean isSelfHandler();
-
     // True if this is a crafting handle
     boolean isCrafting();
 
     // Extract output, if amount is -1 all will be extracted. Otherwise the specific amount.
     ItemStack extractOutput(TileEntity te, EntityPlayer player, int amount);
 
-    // Used in self handler mode. In this mode this function can do whatever
-    // it wants with the item in the players hand and slot
-    void handleActivate(TileEntity te, EntityPlayer player, int amount);
-
     // A key is pressed.
     void onKeyPress(TileEntity te, KeyType keyType, EntityPlayer player);
+
+    // True if this slot needs another item to get things out
+    boolean isOutputWithItem();
+
+    // Return true if this is an item that needs to be extracted with an item
+    boolean isItemThatNeedsExtractionItem(ItemStack item);
+
+    // If 'isOutputWithItem' is true this returns true if the item is suitable for extracting the output
+    boolean isSuitableExtractionItem(ItemStack item);
+
+    // Return the message to show to the player to clarify what is needed
+    String getExtractionMessage();
 }

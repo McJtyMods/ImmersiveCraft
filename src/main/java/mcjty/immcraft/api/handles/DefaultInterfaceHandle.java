@@ -117,11 +117,6 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public boolean isSelfHandler() {
-        return false;
-    }
-
-    @Override
     public boolean isCrafting() {
         return false;
     }
@@ -142,11 +137,26 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     @Override
-    public void handleActivate(TileEntity te, EntityPlayer player, int amount) {
-
+    public void onKeyPress(TileEntity genericTE, KeyType keyType, EntityPlayer player) {
     }
 
     @Override
-    public void onKeyPress(TileEntity genericTE, KeyType keyType, EntityPlayer player) {
+    public boolean isOutputWithItem() {
+        return false;
+    }
+
+    @Override
+    public boolean isItemThatNeedsExtractionItem(ItemStack item) {
+        return false;
+    }
+
+    @Override
+    public boolean isSuitableExtractionItem(ItemStack item) {
+        return false;
+    }
+
+    @Override
+    public String getExtractionMessage() {
+        return "";
     }
 }

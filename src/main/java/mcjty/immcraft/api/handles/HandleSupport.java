@@ -1,6 +1,7 @@
 package mcjty.immcraft.api.handles;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextComponentString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,9 +158,28 @@ public class HandleSupport {
         return true;
     }
 
-    private boolean handleItem(TileEntity te, EntityPlayer player, IInterfaceHandle handle, int amount) {
+    private boolean extractItemFromHandle(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {
         if (!player.getEntityWorld().isRemote) {
-            handle.handleActivate(te, player, amount);
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+            if (!handle.isSuitableExtractionItem(heldItem)) {
+                return false;
+            }
+            ItemStack itemStack = handle.extractOutput(te, player, 1);
+            if (ItemStackTools.isEmpty(itemStack)) {
+                return false;
+            }
+
+            heldItem = ItemStackTools.incStackSize(heldItem, -1);
+            player.setHeldItem(EnumHand.MAIN_HAND, heldItem);
+
+            if (ItemStackTools.isEmpty(player.getHeldItem(EnumHand.MAIN_HAND))) {
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
+            } else {
+                if (!player.inventory.addItemStackToInventory(itemStack)) {
+                    InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
+                }
+            }
+            player.openContainer.detectAndSendChanges();
         }
         return true;
     }
@@ -192,13 +213,37 @@ public class HandleSupport {
     }
 
     public boolean handleActivate(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {
+        if (te.getWorld().isRemote) {
+            return true;
+        }
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
         int amount = -1;
         if (player.isSneaking()) {
             amount = 1;
         }
-        if (handle.isSelfHandler()) {
-            return handleItem(te, player, handle, amount);
+        if (handle.isOutputWithItem()) {
+            ItemStack currentStack = handle.getCurrentStack(te);
+            if (handle.isItemThatNeedsExtractionItem(currentStack)) {
+                if (handle.isSuitableExtractionItem(heldItem)) {
+                    while (amount == -1 || amount > 0) {
+                        if (!extractItemFromHandle(te, player, handle)) {
+                            return true;
+                        }
+                        if (amount > 0) {
+                            amount--;
+                        }
+                    }
+                } else {
+                    ChatTools.addChatMessage(player, new TextComponentString(handle.getExtractionMessage()));
+                }
+            } else if (ItemStackTools.isValid(currentStack)) {
+                return getItemFromHandle(te, player, handle, amount, false);
+            } else if (handle.acceptAsInput(heldItem)) {
+                if (!addItemToHandle(te, player, heldItem, handle, amount)) {
+                    getItemFromHandle(te, player, handle, amount, false);
+                }
+            }
+            return true;
         } else if (ItemStackTools.isEmpty(heldItem)) {
             return getItemFromHandle(te, player, handle, amount, true);
         } else if (handle.acceptAsInput(heldItem)) {
