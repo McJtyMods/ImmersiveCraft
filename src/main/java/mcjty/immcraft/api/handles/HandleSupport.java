@@ -217,14 +217,14 @@ public class HandleSupport {
             return true;
         }
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        int amount = -1;
-        if (player.isSneaking()) {
-            amount = 1;
-        }
+
+        boolean sneaking = player.isSneaking();
+
         if (handle.isOutputWithItem()) {
             ItemStack currentStack = handle.getCurrentStack(te);
             if (handle.isItemThatNeedsExtractionItem(currentStack)) {
                 if (handle.isSuitableExtractionItem(heldItem)) {
+                    int amount = handle.getExtractAmount(sneaking);
                     while (amount == -1 || amount > 0) {
                         if (!extractItemFromHandle(te, player, handle)) {
                             return true;
@@ -236,22 +236,21 @@ public class HandleSupport {
                 } else {
                     ChatTools.addChatMessage(player, new TextComponentString(handle.getExtractionMessage()));
                 }
-            } else if (ItemStackTools.isValid(currentStack)) {
-                return getItemFromHandle(te, player, handle, amount, false);
-            } else if (handle.acceptAsInput(heldItem)) {
-                if (!addItemToHandle(te, player, heldItem, handle, amount)) {
-                    getItemFromHandle(te, player, handle, amount, false);
-                }
+                return true;
             }
-            return true;
-        } else if (ItemStackTools.isEmpty(heldItem)) {
+        }
+
+        if (ItemStackTools.isEmpty(heldItem)) {
+            int amount = handle.getExtractAmount(sneaking);
             return getItemFromHandle(te, player, handle, amount, true);
         } else if (handle.acceptAsInput(heldItem)) {
+            int amount = handle.getInsertAmount(sneaking);
             if (!addItemToHandle(te, player, heldItem, handle, amount)) {
                 getItemFromHandle(te, player, handle, amount, false);
             }
             return true;
         } else { //if (handle.isOutput()) {
+            int amount = handle.getExtractAmount(sneaking);
             return getItemFromHandle(te, player, handle, amount, false);
         }
     }

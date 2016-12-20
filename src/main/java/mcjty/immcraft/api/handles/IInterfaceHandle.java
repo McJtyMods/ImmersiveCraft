@@ -19,6 +19,14 @@ public interface IInterfaceHandle {
 
     ItemStack getCurrentStack(TileEntity inventoryTE);
 
+    default int getInsertAmount(boolean sneak) {
+        return sneak ? 1 : -1;
+    }
+
+    default int getExtractAmount(boolean sneak) {
+        return sneak ? 1 : -1;
+    }
+
     boolean acceptAsInput(ItemStack stack);
 
     // Insert a stack and return the number of items that could not be inserted
