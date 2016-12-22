@@ -213,55 +213,55 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
                 b0 = -50;
             }
 
-            this.tryCatchFire(world, pos.east(), 600 + b0, random, WEST);
-            this.tryCatchFire(world, pos.west(), 600 + b0, random, EAST);
-            this.tryCatchFire(world, pos.down(), 250 + b0, random, UP);
-            this.tryCatchFire(world, pos.up(), 250 + b0, random, DOWN);
-            this.tryCatchFire(world, pos.north(), 600 + b0, random, SOUTH);
-            this.tryCatchFire(world, pos.south(), 600 + b0, random, NORTH);
-
-            int x = pos.getX();
-            int y = pos.getY();
-            int z = pos.getZ();
-            for (int i1 = x - 1; i1 <= x + 1; ++i1) {
-                for (int j1 = z - 1; j1 <= z + 1; ++j1) {
-                    for (int k1 = y - 1; k1 <= y + 4; ++k1) {
-                        if (i1 != x || k1 != y || j1 != z) {
-                            int l1 = 100;
-
-                            if (k1 > y + 1) {
-                                l1 += (k1 - (y + 1)) * 100;
-                            }
-
-                            int i2 = this.getChanceOfNeighborsEncouragingFire(world, new BlockPos(i1, k1, j1));
-
-                            if (i2 > 0) {
-                                int j2 = (i2 + 40 + world.getDifficulty().getDifficultyId() * 7) / (10 + 30);
-
-                                if (flag1) {
-                                    j2 /= 2;
-                                }
-
-
-                                if (j2 > 0 && random.nextInt(l1) <= j2 && (!world.isRaining() ||
-                                        !world.isRainingAt(new BlockPos(i1, k1, j1))) &&
-                                        !world.isRainingAt(new BlockPos(i1 - 1, k1, z)) &&
-                                        !world.isRainingAt(new BlockPos(i1 + 1, k1, j1)) &&
-                                        !world.isRainingAt(new BlockPos(i1, k1, j1 - 1)) &&
-                                        !world.isRainingAt(new BlockPos(i1, k1, j1 + 1))) {
-                                    int k2 = 10 + random.nextInt(5) / 4;
-
-                                    if (k2 > 15) {
-                                        k2 = 15;
-                                    }
-
-                                    world.setBlockState(new BlockPos(i1, k1, j1), Blocks.FIRE.getStateFromMeta(k2), 3);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+//            this.tryCatchFire(world, pos.east(), 600 + b0, random, WEST);
+//            this.tryCatchFire(world, pos.west(), 600 + b0, random, EAST);
+//            this.tryCatchFire(world, pos.down(), 250 + b0, random, UP);
+//            this.tryCatchFire(world, pos.up(), 250 + b0, random, DOWN);
+//            this.tryCatchFire(world, pos.north(), 600 + b0, random, SOUTH);
+//            this.tryCatchFire(world, pos.south(), 600 + b0, random, NORTH);
+//
+//            int x = pos.getX();
+//            int y = pos.getY();
+//            int z = pos.getZ();
+//            for (int i1 = x - 1; i1 <= x + 1; ++i1) {
+//                for (int j1 = z - 1; j1 <= z + 1; ++j1) {
+//                    for (int k1 = y - 1; k1 <= y + 4; ++k1) {
+//                        if (i1 != x || k1 != y || j1 != z) {
+//                            int l1 = 100;
+//
+//                            if (k1 > y + 1) {
+//                                l1 += (k1 - (y + 1)) * 100;
+//                            }
+//
+//                            int i2 = this.getChanceOfNeighborsEncouragingFire(world, new BlockPos(i1, k1, j1));
+//
+//                            if (i2 > 0) {
+//                                int j2 = (i2 + 40 + world.getDifficulty().getDifficultyId() * 7) / (10 + 30);
+//
+//                                if (flag1) {
+//                                    j2 /= 2;
+//                                }
+//
+//
+//                                if (j2 > 0 && random.nextInt(l1) <= j2 && (!world.isRaining() ||
+//                                        !world.isRainingAt(new BlockPos(i1, k1, j1))) &&
+//                                        !world.isRainingAt(new BlockPos(i1 - 1, k1, z)) &&
+//                                        !world.isRainingAt(new BlockPos(i1 + 1, k1, j1)) &&
+//                                        !world.isRainingAt(new BlockPos(i1, k1, j1 - 1)) &&
+//                                        !world.isRainingAt(new BlockPos(i1, k1, j1 + 1))) {
+//                                    int k2 = 10 + random.nextInt(5) / 4;
+//
+//                                    if (k2 > 15) {
+//                                        k2 = 15;
+//                                    }
+//
+//                                    world.setBlockState(new BlockPos(i1, k1, j1), Blocks.FIRE.getStateFromMeta(k2), 3);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 

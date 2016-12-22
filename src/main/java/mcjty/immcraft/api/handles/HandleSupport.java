@@ -146,14 +146,16 @@ public class HandleSupport {
             if (ItemStackTools.isEmpty(itemStack)) {
                 return false;
             }
-            if (exactSlot) {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
-            } else {
-                if (!player.inventory.addItemStackToInventory(itemStack)) {
-                    InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
-                }
-            }
-            player.openContainer.detectAndSendChanges();
+            // @todo check and test!
+            InventoryHelper.giveItemToPlayer(player, itemStack);
+//            if (exactSlot) {
+//                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
+//            } else {
+//                if (!player.inventory.addItemStackToInventory(itemStack)) {
+//                    InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
+//                }
+//            }
+//            player.openContainer.detectAndSendChanges();
         }
         return true;
     }
@@ -172,27 +174,9 @@ public class HandleSupport {
             heldItem = ItemStackTools.incStackSize(heldItem, -1);
             player.setHeldItem(EnumHand.MAIN_HAND, heldItem);
 
-            if (ItemStackTools.isEmpty(player.getHeldItem(EnumHand.MAIN_HAND))) {
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
-            } else {
-                if (!player.inventory.addItemStackToInventory(itemStack)) {
-                    InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
-                }
-            }
-            player.openContainer.detectAndSendChanges();
+            InventoryHelper.giveItemToPlayer(player, itemStack);
         }
         return true;
-    }
-
-    public static void giveItemToPlayer(EntityPlayer player, ItemStack itemStack) {
-        if (ItemStackTools.isEmpty(player.inventory.getStackInSlot(player.inventory.currentItem))) {
-            player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
-        } else {
-            if (!player.inventory.addItemStackToInventory(itemStack)) {
-                InventoryHelper.spawnItemStack(player.getEntityWorld(), player.getPosition(), itemStack);
-            }
-        }
-        player.openContainer.detectAndSendChanges();
     }
 
     public boolean handleClick(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {

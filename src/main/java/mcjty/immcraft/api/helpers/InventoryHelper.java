@@ -5,12 +5,14 @@ import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -39,6 +41,37 @@ public class InventoryHelper {
     }
 
     private static final Random random = new Random();
+
+    /**
+     * This function will first try to set the item at the 'heldItem' position if possible.
+     * Otherwise it will try to find a suitable place elsewhere. If that fails it will spawn
+     * the item in the world. The stack parameter may be modified
+     */
+    public static void giveItemToPlayer(EntityPlayer player, ItemStack stack) {
+        ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+        if (ItemStackTools.isEmpty(heldItem)) {
+            player.setHeldItem(EnumHand.MAIN_HAND, stack);
+            player.openContainer.detectAndSendChanges();
+            return;
+        } else if (isItemStackConsideredEqual(heldItem, stack)) {
+            if (ItemStackTools.getStackSize(heldItem) < heldItem.getMaxStackSize()) {
+                int itemsToAdd = Math.min(ItemStackTools.getStackSize(stack), heldItem.getMaxStackSize() - ItemStackTools.getStackSize(heldItem));
+                ItemStackTools.incStackSize(heldItem, itemsToAdd);
+                ItemStackTools.incStackSize(stack, -itemsToAdd);
+                if (ItemStackTools.isEmpty(stack)) {
+                    player.openContainer.detectAndSendChanges();
+                    return;
+                }
+            }
+        }
+        // We have items remaining. Add them elsewhere
+        if (player.inventory.addItemStackToInventory(stack)) {
+            player.openContainer.detectAndSendChanges();
+            return;
+        }
+        // Spawn in world
+        spawnItemStack(player.getEntityWorld(), player.getPosition(), stack);
+    }
 
     public static void emptyInventoryInWorld(World world, BlockPos pos, Block block, IInventory inventory) {
         for (int i = 0; i < inventory.getSizeInventory(); ++i) {
@@ -177,7 +210,7 @@ public class InventoryHelper {
         return itemsToPlace;
     }
 
-    private static boolean isItemStackConsideredEqual(ItemStack result, ItemStack itemstack1) {
+    public static boolean isItemStackConsideredEqual(ItemStack result, ItemStack itemstack1) {
         return ItemStackTools.isValid(itemstack1) && itemstack1.getItem() == result.getItem() && (!result.getHasSubtypes() || result.getItemDamage() == itemstack1.getItemDamage()) && ItemStack.areItemStackTagsEqual(result, itemstack1);
     }
 
