@@ -213,12 +213,12 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
                 b0 = -50;
             }
 
-            this.tryCatchFire(world, pos.east(), 300 + b0, random, WEST);
-            this.tryCatchFire(world, pos.west(), 300 + b0, random, EAST);
+            this.tryCatchFire(world, pos.east(), 600 + b0, random, WEST);
+            this.tryCatchFire(world, pos.west(), 600 + b0, random, EAST);
             this.tryCatchFire(world, pos.down(), 250 + b0, random, UP);
             this.tryCatchFire(world, pos.up(), 250 + b0, random, DOWN);
-            this.tryCatchFire(world, pos.north(), 300 + b0, random, SOUTH);
-            this.tryCatchFire(world, pos.south(), 300 + b0, random, NORTH);
+            this.tryCatchFire(world, pos.north(), 600 + b0, random, SOUTH);
+            this.tryCatchFire(world, pos.south(), 600 + b0, random, NORTH);
 
             int x = pos.getX();
             int y = pos.getY();
