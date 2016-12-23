@@ -157,15 +157,29 @@ public class BundleISBM implements IBakedModel {
         Vec3d v1 = vectorPair.getLeft().normalize().scale(CT);
         Vec3d v2 = vectorPair.getRight().normalize().scale(CT);
         Vec3d center = vector1.add(vector2).scale(.5f);
-        quads.add(createOrientedQuad(center, vector1.add(v1).add(v2), vector2.add(v1).add(v2), vector2.add(v1).subtract(v2), vector1.add(v1).subtract(v2), sprite, false));
-        quads.add(createOrientedQuad(center, vector1.add(v1).subtract(v2), vector2.add(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector1.subtract(v1).subtract(v2), sprite, false));
-        quads.add(createOrientedQuad(center, vector1.subtract(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector2.subtract(v1).add(v2), vector1.subtract(v1).add(v2), sprite, false));
-        quads.add(createOrientedQuad(center, vector1.subtract(v1).add(v2), vector2.subtract(v1).add(v2), vector2.add(v1).add(v2), vector1.add(v1).add(v2), sprite, false));
+
+        Vec3d s1 = vector1.add(v1).add(v2);
+        Vec3d s2 = vector2.add(v1).add(v2);
+        Vec3d s3 = vector2.add(v1).subtract(v2);
+        Vec3d s4 = vector1.add(v1).subtract(v2);
+        Vec3d s5 = vector2.subtract(v1).subtract(v2);
+        Vec3d s6 = vector1.subtract(v1).subtract(v2);
+        Vec3d s7 = vector2.subtract(v1).add(v2);
+        Vec3d s8 = vector1.subtract(v1).add(v2);
+
+        quads.add(createOrientedQuad(center, s1, s2, s3, s4, sprite, false));
+        quads.add(createOrientedQuad(center, s4, s3, s5, s6, sprite, false));
+        quads.add(createOrientedQuad(center, s6, s5, s7, s8, sprite, false));
+        quads.add(createOrientedQuad(center, s8, s7, s2, s1, sprite, false));
 
         // Inwards
-        quads.add(createOrientedQuad(center, vector1.add(v1).add(v2), vector2.add(v1).add(v2), vector2.add(v1).subtract(v2), vector1.add(v1).subtract(v2), sprite, true));
-        quads.add(createOrientedQuad(center, vector1.add(v1).subtract(v2), vector2.add(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector1.subtract(v1).subtract(v2), sprite, true));
-        quads.add(createOrientedQuad(center, vector1.subtract(v1).subtract(v2), vector2.subtract(v1).subtract(v2), vector2.subtract(v1).add(v2), vector1.subtract(v1).add(v2), sprite, true));
-        quads.add(createOrientedQuad(center, vector1.subtract(v1).add(v2), vector2.subtract(v1).add(v2), vector2.add(v1).add(v2), vector1.add(v1).add(v2), sprite, true));
+        quads.add(createOrientedQuad(center, s1, s2, s3, s4, sprite, true));
+        quads.add(createOrientedQuad(center, s4, s3, s5, s6, sprite, true));
+        quads.add(createOrientedQuad(center, s6, s5, s7, s8, sprite, true));
+        quads.add(createOrientedQuad(center, s8, s7, s2, s1, sprite, true));
+
+        // Caps
+        quads.add(createOrientedQuad(center, s1, s4, s6, s8, sprite, false));
+        quads.add(createOrientedQuad(center, s7, s5, s3, s2, sprite, false));
     }
 }
