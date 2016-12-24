@@ -173,10 +173,10 @@ public class BundleISBM implements IBakedModel {
         quads.add(createOrientedQuad(center, s8, s7, s2, s1, sprite, false));
 
         // Inwards
-        quads.add(createOrientedQuad(center, s1, s2, s3, s4, sprite, true));
-        quads.add(createOrientedQuad(center, s4, s3, s5, s6, sprite, true));
-        quads.add(createOrientedQuad(center, s6, s5, s7, s8, sprite, true));
-        quads.add(createOrientedQuad(center, s8, s7, s2, s1, sprite, true));
+//        quads.add(createOrientedQuad(center, s1, s2, s3, s4, sprite, true));
+//        quads.add(createOrientedQuad(center, s4, s3, s5, s6, sprite, true));
+//        quads.add(createOrientedQuad(center, s6, s5, s7, s8, sprite, true));
+//        quads.add(createOrientedQuad(center, s8, s7, s2, s1, sprite, true));
 
         // Caps
         quads.add(createOrientedQuad(center, s1, s4, s6, s8, sprite, false));
