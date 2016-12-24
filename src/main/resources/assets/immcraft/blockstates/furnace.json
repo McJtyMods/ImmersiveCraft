@@ -1,29 +1,23 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
+    "textures": {},
     "model": "immcraft:furnace.obj"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+      "transform": "forge:default-block"
 //    "model": "forge:multi-layer",
 //    "custom": {
 //      "base": "immcraft:furnace#staticmodel",
 //      "Solid": "immcraft:furnace#staticmodel",
 //      "Cutout": "immcraft:furnace#cutout"
 //    }
-  },
-  "variants": {
-    "normal": [{}],
-    "inventory": [{
-      "transform": {
-        "gui": {
-          "scale": 0.65,
-          "rotation": [{"x": 15},{"y": 45}]
-        }
-      }
     }],
 
-    "staticmodel": [ { "model": "immcraft:furnace.obj" } ],
-    "cutout": [ { "model": "fire_nsew_main" } ],
+    "staticmodel": [{ "model": "immcraft:furnace.obj" }],
+    "cutout": [{ "model": "fire_nsew_main" }],
 
     "facing": {
       "south": {},
@@ -47,5 +41,4 @@
       }
     }
   }
-
 }

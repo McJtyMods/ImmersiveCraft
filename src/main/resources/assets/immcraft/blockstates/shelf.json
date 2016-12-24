@@ -1,19 +1,13 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
+    "textures": {},
     "model": "immcraft:cupboard.obj"
   },
   "variants": {
     "normal": [{}],
     "inventory": [{
-      "transform": {
-        "gui": {
-          "scale": 0.65,
-          "rotation": [{"x": 15},{"y": 45}]
-        }
-      }
+      "transform": "forge:default-block"
     }],
     "facing": {
       "north": {},
@@ -22,5 +16,4 @@
       "east": {"y": 90}
     }
   }
-
 }

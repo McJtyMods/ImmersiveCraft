@@ -4,8 +4,8 @@
     "model": "immcraft:empty_model"
   },
   "variants": {
-    "normal": [{}],
-    "inventory": [{}],
+    "normal": {},
+    "inventory": {},
     "facing": {
       "north": {},
       "south": {"y": 180},
