@@ -4,6 +4,7 @@ package mcjty.immcraft.api.rendering;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
@@ -12,16 +13,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
@@ -30,6 +34,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public final class BlockRenderHelper {
@@ -148,18 +153,27 @@ public final class BlockRenderHelper {
     public static IInterfaceHandle getFacingInterfaceHandle(GenericTE te, GenericBlock block) {
         RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
         if (mouseOver != null && te.getPos().equals(mouseOver.getBlockPos())) {
-            EnumFacing directionHit = mouseOver.sideHit;
-            double sx = mouseOver.hitVec.xCoord - te.getPos().getX();
-            double sy = mouseOver.hitVec.yCoord - te.getPos().getY();
-            double sz = mouseOver.hitVec.zCoord - te.getPos().getZ();
-            EnumFacing front = block.getFrontDirection(te.getWorld().getBlockState(te.getPos()));
-            double sx2 = HandleSupport.calculateHitX(sx, sy, sz, directionHit, front);
-            double sy2 = HandleSupport.calculateHitY(sx, sy, sz, directionHit, front);
+            if (mouseOver.hitInfo instanceof HandleSelector) {
+                HandleSelector selector = (HandleSelector) mouseOver.hitInfo;
+                for (IInterfaceHandle handle : te.getInterfaceHandles()) {
+                    if (selector.getId().equals(handle.getSelectorID())) {
+                        return handle;
+                    }
+                }
+            } else {
+                EnumFacing directionHit = mouseOver.sideHit;
+                double sx = mouseOver.hitVec.xCoord - te.getPos().getX();
+                double sy = mouseOver.hitVec.yCoord - te.getPos().getY();
+                double sz = mouseOver.hitVec.zCoord - te.getPos().getZ();
+                EnumFacing front = block.getFrontDirection(te.getWorld().getBlockState(te.getPos()));
+                double sx2 = HandleSupport.calculateHitX(sx, sy, sz, directionHit, front);
+                double sy2 = HandleSupport.calculateHitY(sx, sy, sz, directionHit, front);
 
-            directionHit = block.worldToBlockSpace(te.getWorld(), te.getPos(), mouseOver.sideHit);
-            for (IInterfaceHandle handle : te.getInterfaceHandles()) {
-                if (handle.getSide() == directionHit && handle.getMinX() <= sx2 && sx2 <= handle.getMaxX() && handle.getMinY() <= sy2 && sy2 <= handle.getMaxY()) {
-                    return handle;
+                directionHit = block.worldToBlockSpace(te.getWorld(), te.getPos(), mouseOver.sideHit);
+                for (IInterfaceHandle handle : te.getInterfaceHandles()) {
+                    if (handle.getSide() == directionHit && handle.getMinX() <= sx2 && sx2 <= handle.getMaxX() && handle.getMinY() <= sy2 && sy2 <= handle.getMaxY()) {
+                        return handle;
+                    }
                 }
             }
         }
@@ -169,6 +183,8 @@ public final class BlockRenderHelper {
     private static long lastUpdateTime = 0;
 
     public static void renderInterfaceHandles(IImmersiveCraft api, GenericTE te, IInterfaceHandle selectedHandle, Vec3d textOffset) {
+        Map<String, HandleSelector> selectors = te.getBlock().getSelectors();
+
         for (IInterfaceHandle handle : te.getInterfaceHandles()) {
             boolean selected = selectedHandle == handle;
             ItemStack ghosted = ItemStackTools.getEmptyStack();
@@ -179,7 +195,15 @@ public final class BlockRenderHelper {
                     ghosted = heldItem;
                 }
             }
-            renderItemStackInWorld(handle.getRenderOffset(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
+            if (handle.getSelectorID() != null) {
+                HandleSelector selector = selectors.get(handle.getSelectorID());
+                if (selector != null) {
+                    AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
+                    renderItemStackInWorld(box.getCenter(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
+                }
+            } else {
+                renderItemStackInWorld(handle.getRenderOffset(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
+            }
         }
         if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
             for (IInterfaceHandle handle : te.getInterfaceHandles()) {
@@ -206,7 +230,15 @@ public final class BlockRenderHelper {
                     missing = te.getMissingIngredients();
                 }
 
-                renderTextOverlay(handle.getRenderOffset(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
+                if (handle.getSelectorID() != null) {
+                    HandleSelector selector = selectors.get(handle.getSelectorID());
+                    if (selector != null) {
+                        AxisAlignedBB box = selector.getBox();
+                        renderTextOverlay(box.getCenter(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
+                    }
+                } else {
+                    renderTextOverlay(handle.getRenderOffset(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
+                }
             }
         }
     }
@@ -316,5 +348,24 @@ public final class BlockRenderHelper {
     public static void rotateToPlayer() {
 //        GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
 //        GL11.glRotatef(RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+    }
+
+
+
+    public static void drawSelectionBox(EntityPlayer player, AxisAlignedBB box, float partialTicks, float r, float g, float b, float a) {
+        GlStateManager.enableBlend();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.glLineWidth(2.0F);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+
+        double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
+        double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
+        double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
+        RenderGlobal.drawSelectionBoundingBox(box.expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
+
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
     }
 }

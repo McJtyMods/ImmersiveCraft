@@ -1,7 +1,7 @@
 package mcjty.immcraft.api.handles;
 
-import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.input.KeyType;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -20,6 +20,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     private float maxY;
     private Vec3d renderOffset;
     private float scale = 1.0f;
+    private String selectorID = null;
 
     public T slot(int slot) {
         this.slot = slot;
@@ -50,6 +51,15 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     }
 
     public DefaultInterfaceHandle() {
+    }
+
+    public DefaultInterfaceHandle(String selectorID) {
+        this.selectorID = selectorID;
+    }
+
+    @Override
+    public String getSelectorID() {
+        return selectorID;
     }
 
     @Override

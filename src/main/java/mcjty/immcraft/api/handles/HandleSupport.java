@@ -40,6 +40,15 @@ public class HandleSupport {
         return null;
     }
 
+    public IInterfaceHandle getHandleWithID(String id) {
+        for (IInterfaceHandle handle : interfaceHandles) {
+            if (id.equals(handle.getSelectorID())) {
+                return handle;
+            }
+        }
+        return null;
+    }
+
     public static double calculateHitX(Vec3d hitVec, EnumFacing k, EnumFacing front) {
         return calculateHitX(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
     }

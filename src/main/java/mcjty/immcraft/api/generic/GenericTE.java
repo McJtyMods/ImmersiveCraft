@@ -1,7 +1,9 @@
 package mcjty.immcraft.api.generic;
 
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.api.helpers.IntersectionTools;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.api.input.KeyType;
 import net.minecraft.block.state.IBlockState;
@@ -12,6 +14,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -84,13 +87,8 @@ public class GenericTE extends TileEntity {
         return handleSupport.getInterfaceHandles();
     }
 
-    public IInterfaceHandle getHandle(EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
-        return handleSupport.getHandleFromFace(worldSide, side, hitVec, front);
-    }
-
     public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
         if (handle != null) {
             return handleSupport.handleClick(this, player, handle);
         }
@@ -104,7 +102,7 @@ public class GenericTE extends TileEntity {
      * @param side is the side in block space where the block is activated
      */
     public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
         if (handle != null) {
             return handleSupport.handleActivate(this, player, handle);
         }
@@ -112,12 +110,27 @@ public class GenericTE extends TileEntity {
         return false;
     }
 
+    private IInterfaceHandle getHandle(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+        IInterfaceHandle handle = null;
+        if (getBlock().getSelectors().isEmpty()) {
+            EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
+            handle = handleSupport.getHandleFromFace(worldSide, side, hitVec, front);
+        } else {
+            RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
+            if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {
+                HandleSelector selector = (HandleSelector) traceResult.hitInfo;
+                handle = handleSupport.getHandleWithID(selector.getId());
+            }
+        }
+        return handle;
+    }
+
 
     /**
      * Called server side on keypress
      */
     public void onKeyPress(KeyType keyType, EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(worldSide, side, hitVec);
+        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
         if (handle != null) {
             handle.onKeyPress(this, keyType, player);
         }

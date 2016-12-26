@@ -9,6 +9,13 @@ public class InputInterfaceHandle extends DefaultInterfaceHandle<InputInterfaceH
 
     private final Set<ItemStack> acceptedItems = new HashSet<>();
 
+    public InputInterfaceHandle() {
+    }
+
+    public InputInterfaceHandle(String selectorID) {
+        super(selectorID);
+    }
+
     @Override
     public boolean acceptAsInput(ItemStack stack) {
         return acceptedItems.isEmpty() || acceptedItems.stream().anyMatch(p -> p.isItemEqual(stack));

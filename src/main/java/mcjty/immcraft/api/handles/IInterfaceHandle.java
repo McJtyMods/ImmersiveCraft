@@ -14,6 +14,7 @@ public interface IInterfaceHandle {
     float getMaxY();
     EnumFacing getSide();
     float getScale();
+    String getSelectorID();
 
     Vec3d getRenderOffset();
 
