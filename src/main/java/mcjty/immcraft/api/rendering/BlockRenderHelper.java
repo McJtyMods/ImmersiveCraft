@@ -185,7 +185,7 @@ public final class BlockRenderHelper {
                 HandleSelector selector = selectors.get(handle.getSelectorID());
                 if (selector != null) {
                     AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                    renderItemStackInWorld(box.getCenter(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
+                    renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
                 }
             }
         }
@@ -218,7 +218,7 @@ public final class BlockRenderHelper {
                     HandleSelector selector = selectors.get(handle.getSelectorID());
                     if (selector != null) {
                         AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                        renderTextOverlay(box.getCenter(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
+                        renderTextOverlay(box.getCenter().add(handle.getRenderOffset()), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
                     }
                 }
             }

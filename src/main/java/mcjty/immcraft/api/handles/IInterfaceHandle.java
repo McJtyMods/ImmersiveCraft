@@ -13,6 +13,10 @@ public interface IInterfaceHandle {
 
     ItemStack getCurrentStack(TileEntity inventoryTE);
 
+    default Vec3d getRenderOffset() {
+        return Vec3d.ZERO;
+    }
+
     default int getInsertAmount(boolean sneak) {
         return sneak ? 1 : -1;
     }
