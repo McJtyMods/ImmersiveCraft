@@ -1,5 +1,7 @@
 package mcjty.immcraft.blocks.chest;
 
+import mcjty.immcraft.api.handles.HandleSelector;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -7,6 +9,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,6 +28,21 @@ public class ShelfBlock extends GenericBlockWithTE<ShelfTE> {
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
+
+        float boundsdx = .2f;
+        float boundsdy = .2f;
+        int i = 0;
+
+        for (int y = 0 ; y < 4 ; y++) {
+            for (int x = 0 ; x < 4 ; x++) {
+                addSelector(createSelector("i" + i, boundsdx, boundsdy, x, y));
+                i++;
+            }
+        }
+    }
+
+    private HandleSelector createSelector(String id, float boundsdx, float boundsdz, float x, float y) {
+        return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, boundsdz * y + .1f, 0.2f, boundsdx * (x + 1) + .1f, boundsdz * (y + 1) + .1f, 0.5));
     }
 
     @Override

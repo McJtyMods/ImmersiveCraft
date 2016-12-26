@@ -2,7 +2,9 @@ package mcjty.immcraft.events;
 
 
 import mcjty.immcraft.api.generic.GenericTE;
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.input.KeyType;
+import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.cables.CableRenderer;
@@ -84,6 +86,16 @@ public class ClientForgeEventHandlers {
 
 //            event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
+        RayTraceResult target = e.getTarget();
+        String id = null;
+        if (target.hitInfo instanceof HandleSelector) {
+            id = ((HandleSelector) target.hitInfo).getId();
+        }
+        BlockRenderHelper.renderHandleBoxes(id, e.getPlayer(), e.getPartialTicks(), target.getBlockPos());
     }
 
 }

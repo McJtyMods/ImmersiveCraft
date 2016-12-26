@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks.chest;
 
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -21,6 +22,21 @@ public class ChestBlock extends GenericBlockWithTE<ChestTE> {
         setHardness(2.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
+
+        float boundsdx = .2f;
+        float boundsdz = .3f;
+        int i = 0;
+
+        for (int y = 0 ; y < 3 ; y++) {
+            for (int x = 0 ; x < 4 ; x++) {
+                addSelector(createSelector("i" + i, boundsdx, boundsdz, x, y));
+                i++;
+            }
+        }
+    }
+
+    private HandleSelector createSelector(String id, float boundsdx, float boundsdz, float x, float y) {
+        return new HandleSelector(id, new AxisAlignedBB(boundsdx * x + .1f, 0.9f, boundsdz * y + .1f, boundsdx * (x + 1) + .1f, 1.0f, boundsdz * (y + 1) + .1f));
     }
 
     @Override

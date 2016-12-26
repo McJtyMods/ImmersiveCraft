@@ -32,10 +32,11 @@ public class ChestTE extends GenericInventoryTE {
         double renderdz = 0.29;
         for (int y = 0 ; y < 3 ; y++) {
             for (int x = 0 ; x < 4 ; x++) {
-                addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.UP).
+                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).side(EnumFacing.UP).
                         bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
                         renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.9, renderdz * (y - 1) - .02)).
                         scale(.60f));
+                i++;
             }
         }
     }

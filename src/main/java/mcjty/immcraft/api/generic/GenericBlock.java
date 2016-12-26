@@ -205,6 +205,18 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
         }
     }
 
+    public Vec3d worldToBlockSpace(World world, BlockPos pos, Vec3d v) {
+        switch (getMetaUsage()) {
+            case HORIZROTATION:
+                return OrientationTools.worldToBlockSpaceHoriz(v, world.getBlockState(pos));
+            case ROTATION:
+                return OrientationTools.worldToBlockSpace(v, world.getBlockState(pos));
+            case NONE:
+            default:
+                return v;
+        }
+    }
+
     @Override
     public IBlockState getStateFromMeta(int meta) {
         switch (getMetaUsage()) {
@@ -292,21 +304,22 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
 
     @Nullable
     @Override
-    protected RayTraceResult rayTrace(BlockPos pos, Vec3d start, Vec3d end, AxisAlignedBB boundingBox) {
-        Vec3d vec3d = start.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
-        Vec3d vec3d1 = end.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+    public RayTraceResult collisionRayTrace(IBlockState blockState, World worldIn, BlockPos pos, Vec3d start, Vec3d end) {
+        Vec3d p = new Vec3d(pos);
+        start = worldToBlockSpace(worldIn, pos, start.subtract(p));
+        end = worldToBlockSpace(worldIn, pos, end.subtract(p));
 
         for (HandleSelector selector : selectors.values()) {
-            RayTraceResult result = selector.getBox().calculateIntercept(vec3d, vec3d1);
+            RayTraceResult result = selector.getBox().calculateIntercept(start, end);
             if (result != null) {
-                RayTraceResult rc = new RayTraceResult(result.hitVec.addVector((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), result.sideHit, pos);
+                RayTraceResult rc = new RayTraceResult(result.hitVec.add(p), result.sideHit, pos);
                 rc.hitInfo = selector;
                 return rc;
             }
         }
 
-        RayTraceResult raytraceresult = boundingBox.calculateIntercept(vec3d, vec3d1);
-        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), raytraceresult.sideHit, pos);
+        AxisAlignedBB boundingBox = blockState.getBoundingBox(worldIn, pos);
+        RayTraceResult raytraceresult = boundingBox.calculateIntercept(start, end);
+        return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.add(p), raytraceresult.sideHit, pos);
     }
-
 }

@@ -22,10 +22,11 @@ public class ShelfTE extends GenericInventoryTE {
         double renderdz = 0.20;
         for (int y = 0 ; y < 4 ; y++) {
             for (int x = 0 ; x < 4 ; x++) {
-                addInterfaceHandle(new InputInterfaceHandle().slot(i++).side(EnumFacing.SOUTH).
+                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).side(EnumFacing.SOUTH).
                         bounds(.04f + boundsdx * x, .04f + boundsdy * y, .04f + boundsdx * (x + 1), .04f + boundsdy * (y + 1)).
                         renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.10)).
                         scale(.60f));
+                i++;
             }
         }
     }

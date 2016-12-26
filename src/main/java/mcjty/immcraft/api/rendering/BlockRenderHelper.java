@@ -9,6 +9,7 @@ import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.MinecraftTools;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
@@ -26,6 +27,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
@@ -233,7 +235,7 @@ public final class BlockRenderHelper {
                 if (handle.getSelectorID() != null) {
                     HandleSelector selector = selectors.get(handle.getSelectorID());
                     if (selector != null) {
-                        AxisAlignedBB box = selector.getBox();
+                        AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
                         renderTextOverlay(box.getCenter(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
                     }
                 } else {
@@ -367,5 +369,26 @@ public final class BlockRenderHelper {
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static void renderHandleBoxes(String id, EntityPlayer player, float partialTicks, BlockPos pos) {
+        IBlockState state = player.getEntityWorld().getBlockState(pos);
+        if (state.getBlock() instanceof GenericBlock) {
+            GenericBlock genericBlock = (GenericBlock) state.getBlock();
+            for (Map.Entry<String, HandleSelector> entry : genericBlock.getSelectors().entrySet()) {
+                HandleSelector selector = entry.getValue();
+                AxisAlignedBB box = selector.getBox();
+                Vec3d vmin = new Vec3d(box.minX, box.minY, box.minZ);
+                Vec3d vmax = new Vec3d(box.maxX, box.maxY, box.maxZ);
+                vmin = genericBlock.blockToWorldSpace(player.getEntityWorld(), pos, vmin);
+                vmax = genericBlock.blockToWorldSpace(player.getEntityWorld(), pos, vmax);
+                box = new AxisAlignedBB(vmin, vmax);
+                if (id != null && id.equals(entry.getKey())) {
+                    drawSelectionBox(player, box.offset(pos), partialTicks, 1, 1, 1, .4f);
+                } else {
+                    drawSelectionBox(player, box.offset(pos), partialTicks, 0, 0, 0, .4f);
+                }
+            }
+        }
     }
 }

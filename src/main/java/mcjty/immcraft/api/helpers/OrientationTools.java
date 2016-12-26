@@ -188,10 +188,18 @@ public class OrientationTools {
         return blockToWorldSpace(v, getOrientation(state));
     }
 
+    public static Vec3d worldToBlockSpace(Vec3d v, IBlockState state) {
+        return worldToBlockSpace(v, getOrientation(state));
+    }
+
     // Given the metavalue of a block, reorient the world direction to the internal block direction
     // so that the front side will be SOUTH.
     public static Vec3d blockToWorldSpaceHoriz(Vec3d v, IBlockState state) {
         return blockToWorldSpace(v, getOrientationHoriz(state));
+    }
+
+    public static Vec3d worldToBlockSpaceHoriz(Vec3d v, IBlockState state) {
+        return worldToBlockSpace(v, getOrientationHoriz(state));
     }
 
     public static Vec3d blockToWorldSpace(Vec3d v, EnumFacing side) {
@@ -202,6 +210,18 @@ public class OrientationTools {
             case SOUTH: return v;
             case WEST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
             case EAST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
+            default: return v;
+        }
+    }
+
+    public static Vec3d worldToBlockSpace(Vec3d v, EnumFacing side) {
+        switch (side) {
+            case DOWN: return new Vec3d(v.xCoord, v.zCoord, v.yCoord);        // @todo check: most likely wrong
+            case UP:  return new Vec3d(v.xCoord, v.zCoord, v.yCoord);         // @todo check: most likely wrong
+            case NORTH: return new Vec3d(1-v.xCoord, v.yCoord, 1-v.zCoord);
+            case SOUTH: return v;
+            case WEST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
+            case EAST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
             default: return v;
         }
     }

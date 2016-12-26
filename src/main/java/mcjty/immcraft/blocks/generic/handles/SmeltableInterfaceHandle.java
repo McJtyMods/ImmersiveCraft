@@ -6,6 +6,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class SmeltableInterfaceHandle extends DefaultInterfaceHandle {
+
+    public SmeltableInterfaceHandle() {
+    }
+
+    public SmeltableInterfaceHandle(String selectorID) {
+        super(selectorID);
+    }
+
     @Override
     public boolean acceptAsInput(ItemStack stack) {
         return ItemStackTools.isValid(FurnaceRecipes.instance().getSmeltingResult(stack));

@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks.furnace;
 
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.SoundType;
@@ -10,6 +11,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -25,6 +27,10 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
         setHardness(2.0f);
         setSoundType(SoundType.STONE);
         setHarvestLevel("pickaxe", 0);
+
+        addSelector(new HandleSelector("fuel", new AxisAlignedBB(0, .1, .3, 1, .48, .8)));
+        addSelector(new HandleSelector("input", new AxisAlignedBB(0, .51, .3, .5, .99, .8)));
+        addSelector(new HandleSelector("output", new AxisAlignedBB(.51, .51, .3, 1, .99, .8)));
     }
 
     @SideOnly(Side.CLIENT)
