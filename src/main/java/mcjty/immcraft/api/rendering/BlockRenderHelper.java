@@ -5,7 +5,6 @@ import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
-import mcjty.immcraft.api.handles.HandleSupport;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.MinecraftTools;
@@ -162,21 +161,6 @@ public final class BlockRenderHelper {
                         return handle;
                     }
                 }
-            } else {
-                EnumFacing directionHit = mouseOver.sideHit;
-                double sx = mouseOver.hitVec.xCoord - te.getPos().getX();
-                double sy = mouseOver.hitVec.yCoord - te.getPos().getY();
-                double sz = mouseOver.hitVec.zCoord - te.getPos().getZ();
-                EnumFacing front = block.getFrontDirection(te.getWorld().getBlockState(te.getPos()));
-                double sx2 = HandleSupport.calculateHitX(sx, sy, sz, directionHit, front);
-                double sy2 = HandleSupport.calculateHitY(sx, sy, sz, directionHit, front);
-
-                directionHit = block.worldToBlockSpace(te.getWorld(), te.getPos(), mouseOver.sideHit);
-                for (IInterfaceHandle handle : te.getInterfaceHandles()) {
-                    if (handle.getSide() == directionHit && handle.getMinX() <= sx2 && sx2 <= handle.getMaxX() && handle.getMinY() <= sy2 && sy2 <= handle.getMaxY()) {
-                        return handle;
-                    }
-                }
             }
         }
         return null;
@@ -203,8 +187,6 @@ public final class BlockRenderHelper {
                     AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
                     renderItemStackInWorld(box.getCenter(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
                 }
-            } else {
-                renderItemStackInWorld(handle.getRenderOffset(), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
             }
         }
         if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
@@ -238,8 +220,6 @@ public final class BlockRenderHelper {
                         AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
                         renderTextOverlay(box.getCenter(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
                     }
-                } else {
-                    renderTextOverlay(handle.getRenderOffset(), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
                 }
             }
         }

@@ -2,6 +2,8 @@ package mcjty.immcraft.blocks.inworldplacer;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
+import mcjty.immcraft.api.handles.HandleSelector;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.rendering.HandleTESR;
@@ -13,6 +15,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -35,6 +38,11 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
         setHardness(0.0f);
         setSoundType(SoundType.WOOD);
 //        setBlockBounds(0, 0, 0, 1, 1, .1f);
+
+        addSelector(new HandleSelector("i0", new AxisAlignedBB(0, .5, 0, .5, 1, .2)));
+        addSelector(new HandleSelector("i1", new AxisAlignedBB(.5, .5, 0, 1, 1, .2)));
+        addSelector(new HandleSelector("i2", new AxisAlignedBB(0, 0, 0, .5, .5, .2)));
+        addSelector(new HandleSelector("i3", new AxisAlignedBB(.5, 0, 0, 1, .5, .2)));
     }
 
 

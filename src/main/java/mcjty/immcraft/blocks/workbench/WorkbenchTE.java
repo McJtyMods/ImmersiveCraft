@@ -1,12 +1,11 @@
 package mcjty.immcraft.blocks.workbench;
 
-import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.immcraft.blocks.ModBlocks;
+import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.Vec3d;
 
 public class WorkbenchTE extends GenericInventoryTE {
 
@@ -17,10 +16,10 @@ public class WorkbenchTE extends GenericInventoryTE {
 
     public WorkbenchTE() {
         super(4);
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.UP).bounds(0, .5f, .5f, 1).renderOffset(new Vec3d(-.23, 1 + 0.23, .23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.UP).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3d(.23, 1 + 0.23, .23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.UP).bounds(0, 0, .5f, .5f).renderOffset(new Vec3d(-.23, 1 + 0.23, -.23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.UP).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3d(.23, 1 + 0.23, -.23)));
+        addInterfaceHandle(new InputInterfaceHandle("i0").slot(SLOT_INPUT1)); // @todo .side(EnumFacing.UP).bounds(0, .5f, .5f, 1).renderOffset(new Vec3d(-.23, 1 + 0.23, .23)));
+        addInterfaceHandle(new InputInterfaceHandle("i1").slot(SLOT_INPUT2)); // @todo .side(EnumFacing.UP).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3d(.23, 1 + 0.23, .23)));
+        addInterfaceHandle(new InputInterfaceHandle("i2").slot(SLOT_INPUT3)); // @todo .side(EnumFacing.UP).bounds(0, 0, .5f, .5f).renderOffset(new Vec3d(-.23, 1 + 0.23, -.23)));
+        addInterfaceHandle(new InputInterfaceHandle("i3").slot(SLOT_INPUT4)); // @todo .side(EnumFacing.UP).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3d(.23, 1 + 0.23, -.23)));
     }
 
     @Override

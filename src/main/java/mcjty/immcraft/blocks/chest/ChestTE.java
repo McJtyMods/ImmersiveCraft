@@ -1,8 +1,8 @@
 package mcjty.immcraft.blocks.chest;
 
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -26,16 +26,9 @@ public class ChestTE extends GenericInventoryTE {
         super(12);
         int i = SLOT_INPUT1;
 
-        float boundsdx = .25f;
-        float boundsdy = .33f;
-        double renderdx = 0.19;
-        double renderdz = 0.29;
         for (int y = 0 ; y < 3 ; y++) {
             for (int x = 0 ; x < 4 ; x++) {
-                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).side(EnumFacing.UP).
-                        bounds(boundsdx * x, boundsdy * y, boundsdx * (x + 1), boundsdy * (y + 1)).
-                        renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, 0.9, renderdz * (y - 1) - .02)).
-                        scale(.60f));
+                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).scale(.60f));
                 i++;
             }
         }

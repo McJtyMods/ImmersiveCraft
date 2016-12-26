@@ -26,6 +26,8 @@ public class WorkbenchBlock extends GenericBlockWithTE<WorkbenchTE> {
         setHardness(1.0f);
         setSoundType(SoundType.WOOD);
         setHarvestLevel("axe", 0);
+
+        // @todo define handles
     }
 
     @SideOnly(Side.CLIENT)

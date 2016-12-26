@@ -1,11 +1,11 @@
 package mcjty.immcraft.blocks.furnace;
 
+import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
-import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
-import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -33,9 +33,9 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     public FurnaceTE() {
         super(3);
-        addInterfaceHandle(new FuelInterfaceHandle("fuel").slot(SLOT_FUEL).side(EnumFacing.SOUTH).bounds(0, 0, 1, .5f).renderOffset(new Vec3d(0, 0.23, 0)));
-        addInterfaceHandle(new SmeltableInterfaceHandle("input").slot(SLOT_TOBURN).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3d(-.2, 0.7, 0)));
-        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3d(.2, 0.7, 0)));
+        addInterfaceHandle(new FuelInterfaceHandle("fuel").slot(SLOT_FUEL));
+        addInterfaceHandle(new SmeltableInterfaceHandle("input").slot(SLOT_TOBURN));
+        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT));
     }
 
     @Override

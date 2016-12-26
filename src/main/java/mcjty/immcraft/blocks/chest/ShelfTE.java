@@ -1,10 +1,8 @@
 package mcjty.immcraft.blocks.chest;
 
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
-import net.minecraft.util.EnumFacing;
+import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -16,16 +14,9 @@ public class ShelfTE extends GenericInventoryTE {
         super(16);
         int i = SLOT_INPUT1;
 
-        float boundsdx = .23f;
-        float boundsdy = .23f;
-        double renderdx = 0.19;
-        double renderdz = 0.20;
         for (int y = 0 ; y < 4 ; y++) {
             for (int x = 0 ; x < 4 ; x++) {
-                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).side(EnumFacing.SOUTH).
-                        bounds(.04f + boundsdx * x, .04f + boundsdy * y, .04f + boundsdx * (x + 1), .04f + boundsdy * (y + 1)).
-                        renderOffset(new Vec3d(renderdx * (x - 1) - renderdx / 2.0, renderdz * (y - 1) + 0.4, -0.10)).
-                        scale(.60f));
+                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).scale(.60f));
                 i++;
             }
         }

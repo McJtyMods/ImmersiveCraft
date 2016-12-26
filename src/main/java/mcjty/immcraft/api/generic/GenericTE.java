@@ -112,15 +112,10 @@ public class GenericTE extends TileEntity {
 
     private IInterfaceHandle getHandle(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
         IInterfaceHandle handle = null;
-        if (getBlock().getSelectors().isEmpty()) {
-            EnumFacing front = getBlock().getFrontDirection(getWorld().getBlockState(getPos()));
-            handle = handleSupport.getHandleFromFace(worldSide, side, hitVec, front);
-        } else {
-            RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
-            if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {
-                HandleSelector selector = (HandleSelector) traceResult.hitInfo;
-                handle = handleSupport.getHandleWithID(selector.getId());
-            }
+        RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
+        if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {
+            HandleSelector selector = (HandleSelector) traceResult.hitInfo;
+            handle = handleSupport.getHandleWithID(selector.getId());
         }
         return handle;
     }

@@ -8,15 +8,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 
 public interface IInterfaceHandle {
-    float getMinX();
-    float getMaxX();
-    float getMinY();
-    float getMaxY();
-    EnumFacing getSide();
     float getScale();
     String getSelectorID();
-
-    Vec3d getRenderOffset();
 
     ItemStack getCurrentStack(TileEntity inventoryTE);
 

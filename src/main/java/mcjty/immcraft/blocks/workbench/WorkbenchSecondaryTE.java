@@ -53,11 +53,11 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     public WorkbenchSecondaryTE() {
         super(1);
-        addInterfaceHandle(new InputInterfaceHandle()
-                .slot(SLOT_TOOL).side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3d(.23, 1 + 0.1, -.35))
+        addInterfaceHandle(new InputInterfaceHandle("tool")
+                .slot(SLOT_TOOL)   // @todo .side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3d(.23, 1 + 0.1, -.35))
                 .input(new ItemStack(ModItems.chisel))
                 .input(new ItemStack(ModItems.saw)));
-        addInterfaceHandle(new CraftingInterfaceHandle().side(EnumFacing.UP).bounds(0, .25f, .5f, .75f).renderOffset(new Vec3d(-.23, 1 + 0.23, 0)));
+        addInterfaceHandle(new CraftingInterfaceHandle("craft"));// @todo.side(EnumFacing.UP).bounds(0, .25f, .5f, .75f).renderOffset(new Vec3d(-.23, 1 + 0.23, 0)));
     }
 
     @Override
