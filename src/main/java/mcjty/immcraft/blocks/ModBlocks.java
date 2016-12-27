@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.bundle.BundleBlock;
+import mcjty.immcraft.blocks.chest.BookshelfBlock;
 import mcjty.immcraft.blocks.chest.ChestBlock;
 import mcjty.immcraft.blocks.chest.CupboardBlock;
 import mcjty.immcraft.blocks.chest.ShelfBlock;
@@ -20,6 +21,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
@@ -40,6 +42,7 @@ public class ModBlocks {
     public static ChestBlock chestBlock;
     public static CupboardBlock cupboardBlock;
     public static ShelfBlock shelfBlock;
+    public static BookshelfBlock bookshelfBlock;
 
     public static BundleBlock bundleBlock;
 
@@ -57,6 +60,7 @@ public class ModBlocks {
         chestBlock = new ChestBlock();
         cupboardBlock = new CupboardBlock();
         shelfBlock = new ShelfBlock();
+        bookshelfBlock = new BookshelfBlock();
     }
 
     public static void initCrafting() {
@@ -68,6 +72,7 @@ public class ModBlocks {
         GameRegistry.addShapedRecipe(new ItemStack(chestBlock), "ccc", "crc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(cupboardBlock), "ccc", "ccc", "crc", 'c', Blocks.PLANKS, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(shelfBlock), "crc", "ccc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
+        GameRegistry.addShapedRecipe(new ItemStack(bookshelfBlock), "crc", "cbc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock, 'b', Items.BOOK);
     }
 
     @SideOnly(Side.CLIENT)
@@ -83,6 +88,7 @@ public class ModBlocks {
         workbenchSecondaryBlock.initModel();
         cupboardBlock.initModel();
         shelfBlock.initModel();
+        bookshelfBlock.initModel();
 
         EntityTools.registerModEntity(new ResourceLocation(ImmersiveCraft.MODID, "immcraft_rock"), EntityRock.class, "immcraft_rock", 1, ImmersiveCraft.MODID, 100, 5, true);
 

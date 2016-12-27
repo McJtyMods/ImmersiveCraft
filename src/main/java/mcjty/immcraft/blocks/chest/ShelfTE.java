@@ -11,11 +11,15 @@ public class ShelfTE extends GenericInventoryTE {
     public static final int SLOT_INPUT1 = 0;
 
     public ShelfTE() {
-        super(16);
+        this(4, 4);
+    }
+
+    protected ShelfTE(int width, int height) {
+        super(width * height);
         int i = SLOT_INPUT1;
 
-        for (int y = 0 ; y < 4 ; y++) {
-            for (int x = 0 ; x < 4 ; x++) {
+        for (int y = 0 ; y < height ; y++) {
+            for (int x = 0 ; x < width ; x++) {
                 addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).scale(.60f));
                 i++;
             }

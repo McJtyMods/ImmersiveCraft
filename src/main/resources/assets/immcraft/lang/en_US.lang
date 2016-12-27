@@ -5,6 +5,7 @@ tile.furnace.name=Furnace
 tile.chest.name=Chest
 tile.cupboard.name=Cupboard
 tile.shelf.name=Shelf
+tile.bookshelf.name=Bookshelf
 tile.workbench.name=Workbench (WIP)
 tile.workbench_sec.name=Workbench (WIP)
 tile.rock.name=Rock
