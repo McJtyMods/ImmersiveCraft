@@ -9,6 +9,7 @@ import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.cables.CableRenderer;
 import mcjty.immcraft.cables.CableSection;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.varia.BlockTools;
@@ -60,7 +61,8 @@ public class ClientForgeEventHandlers {
     public void onDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
         EntityPlayer p = event.getPlayer();
         World world = p.getEntityWorld();
-        BlockPos pos = event.getTarget().getBlockPos();
+        RayTraceResult target = event.getTarget();
+        BlockPos pos = target.getBlockPos();
         if (pos == null) {
             return;
         }
@@ -75,7 +77,7 @@ public class ClientForgeEventHandlers {
             double doubleY = p.lastTickPosY + (p.posY - p.lastTickPosY) * time;
             double doubleZ = p.lastTickPosZ + (p.posZ - p.lastTickPosZ) * time;
             Vec3d player = new Vec3d((float) doubleX, (float) doubleY, (float) doubleZ);
-            Vec3d hitVec = new Vec3d((float) event.getTarget().hitVec.xCoord, (float) event.getTarget().hitVec.yCoord, (float) event.getTarget().hitVec.zCoord);
+            Vec3d hitVec = new Vec3d((float) target.hitVec.xCoord, (float) target.hitVec.yCoord, (float) target.hitVec.zCoord);
 
             BundleTE bundleTE = BlockTools.getTE(BundleTE.class, world, pos).get();
             CableSection closestSection = CableRenderer.findSelectedCable(player, hitVec, bundleTE);
@@ -86,16 +88,13 @@ public class ClientForgeEventHandlers {
 
 //            event.setCanceled(true);
         }
-    }
 
-    @SubscribeEvent
-    public void onDrawBlockHighlight(DrawBlockHighlightEvent e) {
-        RayTraceResult target = e.getTarget();
-        String id = null;
-        if (target.hitInfo instanceof HandleSelector) {
-            id = ((HandleSelector) target.hitInfo).getId();
+        if (GeneralConfiguration.showDebugHandles) {
+            String id = null;
+            if (target.hitInfo instanceof HandleSelector) {
+                id = ((HandleSelector) target.hitInfo).getId();
+            }
+            BlockRenderHelper.renderHandleBoxes(id, p, event.getPartialTicks(), pos);
         }
-        BlockRenderHelper.renderHandleBoxes(id, e.getPlayer(), e.getPartialTicks(), target.getBlockPos());
     }
-
 }

@@ -19,6 +19,8 @@ public class GeneralConfiguration {
     public static int worldgenStickAttemptsPerChunk = 30;
     public static int worldgenRockAttemptsPerChunk = 10;
 
+    public static boolean showDebugHandles = false;
+
     public static void init(Configuration cfg) {
         worldgen = cfg.getBoolean("worldgen", CATEGORY_GENERAL, worldgen, "Enable worldgen for rocks and sticks");
         rockRecipe = cfg.getBoolean("rockRecipe", CATEGORY_GENERAL, rockRecipe, "Enable recipe for rocks");

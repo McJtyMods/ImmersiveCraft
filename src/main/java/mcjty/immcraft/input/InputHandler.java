@@ -2,6 +2,7 @@ package mcjty.immcraft.input;
 
 
 import mcjty.immcraft.api.input.KeyType;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketPlaceItem;
 import mcjty.immcraft.network.PacketSendKey;
@@ -19,6 +20,8 @@ public class InputHandler {
             PacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_PREVIOUSITEM));
         } else if (KeyBindings.keyPlaceItem.isPressed()) {
             PacketHandler.INSTANCE.sendToServer(new PacketPlaceItem(Minecraft.getMinecraft().objectMouseOver));
+        } else if (KeyBindings.keyDebugHandles.isPressed()) {
+            GeneralConfiguration.showDebugHandles = !GeneralConfiguration.showDebugHandles;
         }
     }
 }
