@@ -72,7 +72,7 @@ public class RockBlock extends GenericImmcraftBlock {
     @Override
     protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
         super.clOnNeighborChanged(state, worldIn, pos, blockIn);
-        if (!canBlockStay(worldIn, pos)) {
+        if (!canBlockStay(worldIn, pos.down())) {
             dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
