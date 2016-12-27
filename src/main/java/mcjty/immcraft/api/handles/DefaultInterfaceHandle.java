@@ -9,10 +9,13 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
+import javax.annotation.Nonnull;
+
 public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements IInterfaceHandle {
     private int slot;
     private float scale = 1.0f;
-    private String selectorID = null;
+
+    @Nonnull private final String selectorID;
 
     public T slot(int slot) {
         this.slot = slot;
@@ -24,14 +27,12 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         return (T) this;
     }
 
-    public DefaultInterfaceHandle() {
-    }
-
     public DefaultInterfaceHandle(String selectorID) {
         this.selectorID = selectorID;
     }
 
     @Override
+    @Nonnull
     public String getSelectorID() {
         return selectorID;
     }

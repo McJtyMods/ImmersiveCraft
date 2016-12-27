@@ -11,6 +11,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class HandleSupport {
         interfaceHandles.add(handle);
     }
 
+    @Nullable
     public IInterfaceHandle getHandleWithID(String id) {
         for (IInterfaceHandle handle : interfaceHandles) {
             if (id.equals(handle.getSelectorID())) {

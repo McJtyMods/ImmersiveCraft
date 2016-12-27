@@ -7,8 +7,12 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 
+import javax.annotation.Nonnull;
+
 public interface IInterfaceHandle {
     float getScale();
+
+    @Nonnull
     String getSelectorID();
 
     ItemStack getCurrentStack(TileEntity inventoryTE);

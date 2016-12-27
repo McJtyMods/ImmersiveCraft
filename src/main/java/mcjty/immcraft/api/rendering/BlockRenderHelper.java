@@ -33,6 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -151,6 +152,7 @@ public final class BlockRenderHelper {
      * @param te
      * @return
      */
+    @Nullable
     public static IInterfaceHandle getFacingInterfaceHandle(GenericTE te, GenericBlock block) {
         RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
         if (mouseOver != null && te.getPos().equals(mouseOver.getBlockPos())) {
@@ -181,12 +183,10 @@ public final class BlockRenderHelper {
                     ghosted = heldItem;
                 }
             }
-            if (handle.getSelectorID() != null) {
-                HandleSelector selector = selectors.get(handle.getSelectorID());
-                if (selector != null) {
-                    AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                    renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
-                }
+            HandleSelector selector = selectors.get(handle.getSelectorID());
+            if (selector != null) {
+                AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
+                renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
             }
         }
         if (MinecraftTools.getPlayer(Minecraft.getMinecraft()).isSneaking()) {
@@ -214,12 +214,10 @@ public final class BlockRenderHelper {
                     missing = te.getMissingIngredients();
                 }
 
-                if (handle.getSelectorID() != null) {
-                    HandleSelector selector = selectors.get(handle.getSelectorID());
-                    if (selector != null) {
-                        AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-                        renderTextOverlay(box.getCenter().add(handle.getRenderOffset()), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
-                    }
+                HandleSelector selector = selectors.get(handle.getSelectorID());
+                if (selector != null) {
+                    AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
+                    renderTextOverlay(box.getCenter().add(handle.getRenderOffset()), present, missing, ghosted, stackInSlot, handle.getScale(), textOffset);
                 }
             }
         }

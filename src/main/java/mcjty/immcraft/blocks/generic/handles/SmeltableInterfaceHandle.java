@@ -7,9 +7,6 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 
 public class SmeltableInterfaceHandle extends DefaultInterfaceHandle {
 
-    public SmeltableInterfaceHandle() {
-    }
-
     public SmeltableInterfaceHandle(String selectorID) {
         super(selectorID);
     }

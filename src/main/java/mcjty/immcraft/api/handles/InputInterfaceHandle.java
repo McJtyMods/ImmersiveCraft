@@ -9,9 +9,6 @@ public class InputInterfaceHandle extends DefaultInterfaceHandle<InputInterfaceH
 
     private final Set<ItemStack> acceptedItems = new HashSet<>();
 
-    public InputInterfaceHandle() {
-    }
-
     public InputInterfaceHandle(String selectorID) {
         super(selectorID);
     }

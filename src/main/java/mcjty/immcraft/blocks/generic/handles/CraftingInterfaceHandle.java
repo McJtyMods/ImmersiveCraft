@@ -13,9 +13,6 @@ import java.util.List;
 
 public class CraftingInterfaceHandle extends DefaultInterfaceHandle {
 
-    public CraftingInterfaceHandle() {
-    }
-
     public CraftingInterfaceHandle(String selectorID) {
         super(selectorID);
     }

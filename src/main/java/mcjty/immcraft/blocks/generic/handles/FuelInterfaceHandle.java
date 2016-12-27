@@ -6,9 +6,6 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class FuelInterfaceHandle extends DefaultInterfaceHandle {
 
-    public FuelInterfaceHandle() {
-    }
-
     public FuelInterfaceHandle(String selectorID) {
         super(selectorID);
     }
