@@ -5,7 +5,7 @@ import mcjty.immcraft.api.handles.InputInterfaceHandle;
 public class BookshelfTE extends ShelfTE {
 
     public BookshelfTE() {
-        super(16, 4);
+        super(12, 4);
     }
 
     @Override

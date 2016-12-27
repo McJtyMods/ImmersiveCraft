@@ -197,9 +197,9 @@ public class HandleSupport {
     }
 
     public boolean handleActivate(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {
-        if (te.getWorld().isRemote) {
-            return true;
-        }
+//        if (te.getWorld().isRemote) {
+//            return true;
+//        }
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
 
         boolean sneaking = player.isSneaking();
@@ -218,7 +218,9 @@ public class HandleSupport {
                         }
                     }
                 } else {
-                    ChatTools.addChatMessage(player, new TextComponentString(handle.getExtractionMessage()));
+                    if (!te.getWorld().isRemote) {
+                        ChatTools.addChatMessage(player, new TextComponentString(handle.getExtractionMessage()));
+                    }
                 }
                 return true;
             }

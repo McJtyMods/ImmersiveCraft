@@ -2,7 +2,6 @@ package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,7 +12,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class GenericShelfBlock<T extends GenericImmcraftTE> extends GenericBlockWithTE<T> {
+public class GenericShelfBlock<T extends ShelfTE> extends GenericBlockWithTE<T> {
 
     public static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 1, .5f);
     public static final AxisAlignedBB AABB_NORTH = new AxisAlignedBB(0, 0, .5f, 1, 1, 1);
