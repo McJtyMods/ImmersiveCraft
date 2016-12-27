@@ -2,10 +2,10 @@ package mcjty.immcraft.blocks;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.bundle.BundleBlock;
-import mcjty.immcraft.blocks.chest.BookshelfBlock;
+import mcjty.immcraft.blocks.shelf.BookshelfBlock;
 import mcjty.immcraft.blocks.chest.ChestBlock;
-import mcjty.immcraft.blocks.chest.CupboardBlock;
-import mcjty.immcraft.blocks.chest.ShelfBlock;
+import mcjty.immcraft.blocks.shelf.CupboardBlock;
+import mcjty.immcraft.blocks.shelf.ShelfBlock;
 import mcjty.immcraft.blocks.foliage.EntityRock;
 import mcjty.immcraft.blocks.foliage.RenderRock;
 import mcjty.immcraft.blocks.foliage.RockBlock;

@@ -1,8 +1,6 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
     "model": "immcraft:workbenchright.obj"
   },
   "variants": {

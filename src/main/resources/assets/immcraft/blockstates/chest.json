@@ -1,14 +1,10 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
     "model": "immcraft:chest.obj"
   },
   "variants": {
-    "normal": [
-      {}
-    ],
+    "normal": [{}],
     "inventory": [
       {
         "transform": {

@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.chest;
+package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;

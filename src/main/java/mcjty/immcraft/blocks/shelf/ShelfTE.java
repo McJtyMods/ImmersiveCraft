@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.chest;
+package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
@@ -20,10 +20,14 @@ public class ShelfTE extends GenericInventoryTE {
 
         for (int y = 0 ; y < height ; y++) {
             for (int x = 0 ; x < width ; x++) {
-                addInterfaceHandle(new InputInterfaceHandle("i" + i).slot(i).scale(.60f));
+                addInterfaceHandle(createHandle(i));
                 i++;
             }
         }
+    }
+
+    protected InputInterfaceHandle createHandle(int i) {
+        return new InputInterfaceHandle("i" + i).slot(i).scale(.60f);
     }
 
     @SideOnly(Side.CLIENT)
