@@ -108,13 +108,13 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
 
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+    public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
     }
 
     @Override
     protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
         super.clOnNeighborChanged(state, worldIn, pos, blockIn);
-        if (!canBlockStay(worldIn, pos)) {
+        if (!canBlockStay(worldIn, pos.down())) {
             dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
