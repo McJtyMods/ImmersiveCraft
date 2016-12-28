@@ -280,17 +280,18 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof GenericTE) {
-            return ((GenericTE) te).onActivate(player, side, worldToBlockSpace(world, pos, side), new Vec3d(sx, sy, sz));
+            ((GenericTE) te).onActivate(player);
+            return true;
         } else {
             return false;
         }
     }
 
 
-    public boolean onClick(World world, BlockPos pos, EntityPlayer player, EnumFacing side, Vec3d hitVec) {
+    public boolean onClick(World world, BlockPos pos, EntityPlayer player) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof GenericTE) {
-            return ((GenericTE) te).onClick(player, side, worldToBlockSpace(world, pos, side), hitVec);
+            return ((GenericTE) te).onClick(player);
         } else {
             return false;
         }

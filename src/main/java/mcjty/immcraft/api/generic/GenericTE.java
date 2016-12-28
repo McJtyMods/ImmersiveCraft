@@ -87,8 +87,8 @@ public class GenericTE extends TileEntity {
         return handleSupport.getInterfaceHandles();
     }
 
-    public boolean onClick(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
+    public boolean onClick(EntityPlayer player) {
+        IInterfaceHandle handle = getHandle(player);
         if (handle != null) {
             return handleSupport.handleClick(this, player, handle);
         }
@@ -98,11 +98,9 @@ public class GenericTE extends TileEntity {
 
     /**
      * Should be called server side on activation.
-     * @param worldSide is the side in world space where the block is activated
-     * @param side is the side in block space where the block is activated
      */
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
+    public boolean onActivate(EntityPlayer player) {
+        IInterfaceHandle handle = getHandle(player);
         if (handle != null) {
             return handleSupport.handleActivate(this, player, handle);
         }
@@ -110,7 +108,7 @@ public class GenericTE extends TileEntity {
         return false;
     }
 
-    private IInterfaceHandle getHandle(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+    private IInterfaceHandle getHandle(EntityPlayer player) {
         IInterfaceHandle handle = null;
         RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
         if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {
@@ -125,7 +123,7 @@ public class GenericTE extends TileEntity {
      * Called server side on keypress
      */
     public void onKeyPress(KeyType keyType, EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
-        IInterfaceHandle handle = getHandle(player, worldSide, side, hitVec);
+        IInterfaceHandle handle = getHandle(player);
         if (handle != null) {
             handle.onKeyPress(this, keyType, player);
         }

@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks.foliage;
 
-import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,10 +9,8 @@ import net.minecraft.init.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
 
 public class SticksTE extends GenericImmcraftTE implements ITickable {
 
@@ -87,13 +85,13 @@ public class SticksTE extends GenericImmcraftTE implements ITickable {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+    public boolean onActivate(EntityPlayer player) {
         if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = BURNTIME_STICK;
             markDirtyClient();
             player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
         }
-        return super.onActivate(player, worldSide, side, hitVec);
+        return super.onActivate(player);
     }
 
 }

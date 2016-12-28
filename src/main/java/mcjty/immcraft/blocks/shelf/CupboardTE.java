@@ -60,10 +60,13 @@ public class CupboardTE extends ShelfTE {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+    public boolean onActivate(EntityPlayer player) {
+        if (getWorld().isRemote) {
+            return super.onActivate(player);
+        }
         if (!open) {
             setOpen(!open);
-        } else if (!super.onActivate(player, worldSide, side, hitVec)) {
+        } else if (!super.onActivate(player)) {
             setOpen(!open);
         }
         return true;

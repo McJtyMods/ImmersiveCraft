@@ -6,10 +6,8 @@ import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -77,10 +75,13 @@ public class ChestTE extends GenericInventoryTE {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+    public boolean onActivate(EntityPlayer player) {
+        if (getWorld().isRemote) {
+            return super.onActivate(player);
+        }
         if (!open) {
             setOpen(!open);
-        } else if (!super.onActivate(player, worldSide, side, hitVec)) {
+        } else if (!super.onActivate(player)) {
             setOpen(!open);
         }
         return true;

@@ -130,7 +130,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3d hitVec) {
+    public boolean onActivate(EntityPlayer player) {
         if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
@@ -140,7 +140,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
             player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
             return true;
         } else {
-            return super.onActivate(player, worldSide, side, hitVec);
+            return super.onActivate(player);
         }
     }
 

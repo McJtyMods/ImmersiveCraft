@@ -57,7 +57,7 @@ public class PacketHitBlock implements IMessage {
             Block block = player.getEntityWorld().getBlockState(message.blockPos).getBlock();
             if (block instanceof GenericBlockWithTE) {
                 GenericBlockWithTE genericBlockWithTE = (GenericBlockWithTE) block;
-                genericBlockWithTE.onClick(player.getEntityWorld(), message.blockPos, player, message.side, message.hitVec);
+                genericBlockWithTE.onClick(player.getEntityWorld(), message.blockPos, player);
             }
         }
     }
