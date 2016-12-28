@@ -72,6 +72,9 @@ public class ForgeEventHandlers {
     }
     
     private void createWorkbench(PlayerInteractEvent event) {
+        if (!GeneralConfiguration.createWorkbench) {
+            return;
+        }
         for (EnumFacing dir : EnumFacing.VALUES) {
             if (dir != EnumFacing.DOWN && dir != EnumFacing.UP) {
                 BlockPos newpos = event.getPos().offset(dir);

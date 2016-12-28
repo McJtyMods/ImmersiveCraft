@@ -20,6 +20,7 @@ public class GeneralConfiguration {
     public static int worldgenRockAttemptsPerChunk = 10;
 
     public static boolean showDebugHandles = false;
+    public static boolean createWorkbench = false;
 
     public static void init(Configuration cfg) {
         worldgen = cfg.getBoolean("worldgen", CATEGORY_GENERAL, worldgen, "Enable worldgen for rocks and sticks");
@@ -28,6 +29,7 @@ public class GeneralConfiguration {
 
         allowRightClickPlacement = cfg.getBoolean("allowRightClickPlacement", CATEGORY_GENERAL, allowRightClickPlacement, "If true then right clicking a tool on a block will place it. If disabled then only the placement hotkey will work");
         leavesDropSticksChance = cfg.getFloat("leavesDropSticksChance", CATEGORY_GENERAL, leavesDropSticksChance, 0.0f, 1.0f, "Chance that destroying a leaf block will spawn sticks (0 to disable this)");
+        createWorkbench = cfg.getBoolean("createWorkbench", CATEGORY_GENERAL, createWorkbench, "If true then right clicking a stone axe on two logs will create a workbench. Currently disabled because workbench isn't working properly");
 
         maxRenderDistance = cfg.getFloat("maxRenderDistance", CATEGORY_GENERAL, maxRenderDistance, 1.0f, 1000000000.0f, "Maximum render distance for in-world items");
         maxRenderDistanceSquared = maxRenderDistance * maxRenderDistance;
