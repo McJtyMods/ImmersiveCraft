@@ -17,6 +17,28 @@ import java.util.List;
 
 public class ItemDummyBook extends CompatItem {
 
+    public enum BookType {
+        BOOK_RED("dummybook_red"),
+        BOOK_BLUE("dummybook_blue"),
+        BOOK_GREEN("dummybook_green"),
+        BOOK_YELLOW("dummybook_yellow"),
+        BOOK_SMALL_RED("dummybook_small_red"),
+        BOOK_SMALL_BLUE("dummybook_small_blue"),
+        BOOK_SMALL_GREEN("dummybook_small_green"),
+        BOOK_SMALL_YELLOW("dummybook_small_yellow");
+
+        private final String model;
+
+        BookType(String model) {
+            this.model = model;
+        }
+
+        public String getModel() {
+            return model;
+        }
+    }
+
+
     public ItemDummyBook() {
         super();
         setMaxStackSize(1);
@@ -28,21 +50,15 @@ public class ItemDummyBook extends CompatItem {
 
     @SideOnly(Side.CLIENT)
     public void initModel() {
-        ModelLoader.setCustomModelResourceLocation(this, 0, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_red"), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(this, 1, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_blue"), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(this, 2, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_green"), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(this, 3, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_small_red"), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(this, 4, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_small_blue"), "inventory"));
-        ModelLoader.setCustomModelResourceLocation(this, 5, new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, "dummybook_small_green"), "inventory"));
+        for (BookType type : BookType.values()) {
+            ModelLoader.setCustomModelResourceLocation(this, type.ordinal(), new ModelResourceLocation(new ResourceLocation(ImmersiveCraft.MODID, type.getModel()), "inventory"));
+        }
     }
 
     @Override
     protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        subItems.add(new ItemStack(this, 1, 0));
-        subItems.add(new ItemStack(this, 1, 1));
-        subItems.add(new ItemStack(this, 1, 2));
-        subItems.add(new ItemStack(this, 1, 3));
-        subItems.add(new ItemStack(this, 1, 4));
-        subItems.add(new ItemStack(this, 1, 5));
+        for (BookType type : BookType.values()) {
+            subItems.add(new ItemStack(this, 1, type.ordinal()));
+        }
     }
 }
