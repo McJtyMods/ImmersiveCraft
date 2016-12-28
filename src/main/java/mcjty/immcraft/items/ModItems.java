@@ -11,10 +11,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModItems {
     public static ItemChisel chisel;
     public static ItemSaw saw;
+    public static ItemDummyBook dummyBook;
 
     public static void init() {
         chisel = new ItemChisel();
         saw = new ItemSaw();
+        dummyBook = new ItemDummyBook();
     }
 
     public static void initCrafting() {
@@ -26,5 +28,6 @@ public class ModItems {
     public static void initModels() {
         chisel.initModel();
         saw.initModel();
+        dummyBook.initModel();
     }
 }

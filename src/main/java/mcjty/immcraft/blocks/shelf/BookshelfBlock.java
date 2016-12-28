@@ -14,13 +14,13 @@ public class BookshelfBlock extends GenericShelfBlock<BookshelfTE> {
 
     @Override
     protected void createSelectors() {
-        float boundsdx = .07f;
-        float boundsdy = .2f;
+        float boundsdx = .08f;
+        float boundsdy = .25f;
         int i = 0;
 
-        for (int y = 0 ; y < 4 ; y++) {
-            for (int x = 0 ; x < 12 ; x++) {
-                addSelector(new HandleSelector("i" + i, new AxisAlignedBB(boundsdx * x + .1f, boundsdy * y + .1f, 0.2f, boundsdx * ((float) x + 1) + .1f, boundsdy * ((float) y + 1) + .1f, 0.5)));
+        for (int y = 0 ; y < 3 ; y++) {
+            for (int x = 0 ; x < 10 ; x++) {
+                addSelector(new HandleSelector("i" + i, new AxisAlignedBB(boundsdx * x + .1f, boundsdy * y + .15f, 0.2f, boundsdx * ((float) x + 1) + .1f, boundsdy * ((float) y + 1) + .1f, 0.5)));
                 i++;
             }
         }
