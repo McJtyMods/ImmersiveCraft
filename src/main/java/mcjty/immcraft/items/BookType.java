@@ -1,5 +1,8 @@
 package mcjty.immcraft.items;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum BookType {
     BOOK_RED("dummybook_red"),
     BOOK_BLUE("dummybook_blue"),
@@ -12,11 +15,23 @@ public enum BookType {
 
     private final String model;
 
+    private final static Map<String, BookType> TYPE_MAP = new HashMap<>();
+
+    static {
+        for (BookType type : BookType.values()) {
+            TYPE_MAP.put(type.getModel(), type);
+        }
+    }
+
     BookType(String model) {
         this.model = model;
     }
 
     public String getModel() {
         return model;
+    }
+
+    public static BookType getTypeByName(String name) {
+        return TYPE_MAP.get(name);
     }
 }

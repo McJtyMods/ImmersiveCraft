@@ -15,7 +15,7 @@ public class BookshelfTE extends ShelfTE {
 
     @Override
     protected InputInterfaceHandle createHandle(int i) {
-        return new BookHandle("i" + i).slot(i).scale(1f);
+        return new BookHandle("i" + i).slot(i).scale(1.23f);
     }
 
     @Override
