@@ -310,13 +310,21 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
         start = worldToBlockSpace(worldIn, pos, start.subtract(p));
         end = worldToBlockSpace(worldIn, pos, end.subtract(p));
 
+        double maxSqd = 1000000000.0;
+        RayTraceResult rc = null;
         for (HandleSelector selector : selectors.values()) {
             RayTraceResult result = selector.getBox().calculateIntercept(start, end);
             if (result != null) {
-                RayTraceResult rc = new RayTraceResult(result.hitVec.add(p), result.sideHit, pos);
-                rc.hitInfo = selector;
-                return rc;
+                double sqd = start.squareDistanceTo(result.hitVec);
+                if (sqd < maxSqd) {
+                    rc = new RayTraceResult(result.hitVec.add(p), result.sideHit, pos);
+                    rc.hitInfo = selector;
+                    maxSqd = sqd;
+                }
             }
+        }
+        if (rc != null) {
+            return rc;
         }
 
         AxisAlignedBB boundingBox = blockState.getBoundingBox(worldIn, pos);

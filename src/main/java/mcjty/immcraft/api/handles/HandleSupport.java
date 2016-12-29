@@ -6,9 +6,7 @@ import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
@@ -38,72 +36,6 @@ public class HandleSupport {
             }
         }
         return null;
-    }
-
-    public static double calculateHitX(Vec3d hitVec, EnumFacing k, EnumFacing front) {
-        return calculateHitX(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
-    }
-
-    public static double calculateHitX(double sx, double sy, double sz, EnumFacing k, EnumFacing front) {
-        switch (k) {
-            case DOWN:
-            case UP:
-                switch (front) {
-                    case DOWN:
-                        return sx;
-                    case UP:
-                        return sx;
-                    case NORTH:
-                        return 1-sx;
-                    case SOUTH:
-                        return sx;
-                    case WEST:
-                        return sz;
-                    case EAST:
-                        return 1-sz;
-                    default:
-                        break;
-                }
-                return sx;
-            case NORTH: return 1-sx;
-            case SOUTH: return sx;
-            case WEST: return sz;
-            case EAST: return 1-sz;
-            default: return 0.0f;
-        }
-    }
-
-    public static double calculateHitY(Vec3d hitVec, EnumFacing k, EnumFacing front) {
-        return calculateHitY(hitVec.xCoord, hitVec.yCoord, hitVec.zCoord, k, front);
-    }
-
-    public static double calculateHitY(double sx, double sy, double sz, EnumFacing k, EnumFacing front) {
-        switch (k) {
-            case DOWN:
-            case UP:
-                switch (front) {
-                    case DOWN:
-                        return sz;
-                    case UP:
-                        return sz;
-                    case NORTH:
-                        return 1-sz;
-                    case SOUTH:
-                        return sz;
-                    case WEST:
-                        return 1-sx;
-                    case EAST:
-                        return sx;
-                    default:
-                        break;
-                }
-                return sz;
-            case NORTH: return sy;
-            case SOUTH: return sy;
-            case WEST: return sy;
-            case EAST: return sy;
-            default: return 0.0f;
-        }
     }
 
     public boolean addItemAnywhere(TileEntity te, EntityPlayer player, ItemStack heldItem, int amount) {

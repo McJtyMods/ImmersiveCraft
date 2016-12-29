@@ -14,8 +14,8 @@ public class BookshelfBlock extends GenericShelfBlock<BookshelfTE> {
 
     @Override
     protected void createSelectors() {
-        float boundsdx = .08f;
-        float boundsdy = .27f;
+        float boundsdx = .088f;
+        float boundsdy = .25f;
         int i = 0;
 
         for (int y = 0 ; y < BookshelfTE.VERTICAL ; y++) {
