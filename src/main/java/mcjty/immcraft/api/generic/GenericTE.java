@@ -48,7 +48,7 @@ public class GenericTE extends TileEntity {
     }
 
 
-        @Override
+    @Override
     public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
         return oldState.getBlock() != newState.getBlock();
     }
@@ -108,7 +108,7 @@ public class GenericTE extends TileEntity {
         return false;
     }
 
-    private IInterfaceHandle getHandle(EntityPlayer player) {
+    protected IInterfaceHandle getHandle(EntityPlayer player) {
         IInterfaceHandle handle = null;
         RayTraceResult traceResult = IntersectionTools.getMovingObjectPositionFromPlayer(getWorld(), player, true);
         if (traceResult != null && traceResult.hitInfo instanceof HandleSelector) {
