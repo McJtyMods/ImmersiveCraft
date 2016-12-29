@@ -147,11 +147,15 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
         readBufferFromNBT(tagCompound);
     }
 
+    protected void setStack(int index, ItemStack stack) {
+        inventoryHelper.setStackInSlot(index, stack);
+    }
+
     private void readBufferFromNBT(NBTTagCompound tagCompound) {
         NBTTagList bufferTagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < bufferTagList.tagCount() ; i++) {
             NBTTagCompound nbtTagCompound = bufferTagList.getCompoundTagAt(i);
-            inventoryHelper.setStackInSlot(i, ItemStackTools.loadFromNBT(nbtTagCompound));
+            setStack(i, ItemStackTools.loadFromNBT(nbtTagCompound));
         }
     }
 

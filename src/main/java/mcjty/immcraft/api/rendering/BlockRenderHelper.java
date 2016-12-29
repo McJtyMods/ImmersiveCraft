@@ -191,7 +191,7 @@ public final class BlockRenderHelper {
         ItemStack stackInSlot = handle.getCurrentStack(te);
         if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
             if (handle.acceptAsInput(heldItem)) {
-                ghosted = heldItem;
+                ghosted = handle.getRenderStack(te, heldItem);
             }
         }
 
@@ -221,13 +221,14 @@ public final class BlockRenderHelper {
         ItemStack stackInSlot = handle.getCurrentStack(te);
         if (selected && ItemStackTools.isValid(heldItem) && ItemStackTools.isEmpty(stackInSlot)) {
             if (handle.acceptAsInput(heldItem)) {
-                ghosted = heldItem;
+                ghosted = handle.getRenderStack(te, heldItem);
             }
         }
         HandleSelector selector = selectors.get(handle.getSelectorID());
         if (selector != null) {
             AxisAlignedBB box = selector.getBox().offset(-.5, 0, -.5);
-            renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, stackInSlot, handle.getScale());
+            ItemStack renderStack = handle.getRenderStack(te, stackInSlot);
+            renderItemStackInWorld(box.getCenter().add(handle.getRenderOffset()), selected, handle.isCrafting(), ghosted, renderStack, handle.getScale());
         }
     }
 

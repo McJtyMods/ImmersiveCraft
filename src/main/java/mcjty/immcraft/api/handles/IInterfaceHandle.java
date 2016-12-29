@@ -17,6 +17,13 @@ public interface IInterfaceHandle {
 
     ItemStack getCurrentStack(TileEntity inventoryTE);
 
+    /**
+     * Get the item stack to actually render
+     */
+    default ItemStack getRenderStack(TileEntity inventoryTE, ItemStack stack) {
+        return stack;
+    }
+
     default Vec3d getRenderOffset() {
         return Vec3d.ZERO;
     }
