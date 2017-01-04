@@ -31,7 +31,7 @@ public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvi
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
-        super(material, name, clazz, itemBlockClass);
+        super(material, ImmersiveCraft.MODID, name, clazz, itemBlockClass);
         if (inTab) {
             setCreativeTab(ImmersiveCraft.creativeTab);
         }

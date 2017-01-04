@@ -16,7 +16,7 @@ public class ItemChisel extends ItemTool {
         super(3.0F, 1.0f, ToolMaterial.STONE, Collections.emptySet());
         setMaxStackSize(1);
         setRegistryName("chisel");
-        setUnlocalizedName("chisel");
+        setUnlocalizedName(ImmersiveCraft.MODID + ".chisel");
         setCreativeTab(ImmersiveCraft.creativeTab);
         GameRegistry.register(this);
     }

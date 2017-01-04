@@ -1,18 +1,18 @@
-item.chisel.name=Chisel
-item.saw.name=Saw
-item.dummybook.name=Dummy Book
+item.immcraft.chisel.name=Chisel
+item.immcraft.saw.name=Saw
+item.immcraft.dummybook.name=Dummy Book
 
-tile.furnace.name=Furnace
-tile.chest.name=Chest
-tile.cupboard.name=Cupboard
-tile.shelf.name=Shelf
-tile.bookshelf.name=Bookshelf
-tile.workbench.name=Workbench (WIP)
-tile.workbench_sec.name=Workbench (WIP)
-tile.rock.name=Rock
-tile.sticks.name=Sticks
-tile.in_world_placer.name=Placer
-tile.in_world_vertical_placer.name=Placer
+tile.immcraft.furnace.name=Furnace
+tile.immcraft.chest.name=Chest
+tile.immcraft.cupboard.name=Cupboard
+tile.immcraft.shelf.name=Shelf
+tile.immcraft.bookshelf.name=Bookshelf
+tile.immcraft.workbench.name=Workbench (WIP)
+tile.immcraft.workbench_sec.name=Workbench (WIP)
+tile.immcraft.rock.name=Rock
+tile.immcraft.sticks.name=Sticks
+tile.immcraft.in_world_placer.name=Placer
+tile.immcraft.in_world_vertical_placer.name=Placer
 
 itemGroup.immcraft=ImmersiveCraft
 key.categories.immcraft=ImmersiveCraft

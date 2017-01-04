@@ -66,22 +66,22 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
         return MetaUsage.HORIZROTATION;
     }
 
-    public GenericBlock(Material material, String name, boolean inTab) {
-        this(material, name, null, null);
+    public GenericBlock(Material material, String modid, String name, boolean inTab) {
+        this(material, modid, name, null, null);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz) {
-        this(material, name, clazz, null);
+    public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz) {
+        this(material, modid, name, clazz, null);
     }
 
-    public GenericBlock(Material material, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+    public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super(material);
-        register(name, clazz, itemBlockClass);
+        register(modid, name, clazz, itemBlockClass);
     }
 
-    protected void register(String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+    protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         setRegistryName(name);
-        setUnlocalizedName(name);
+        setUnlocalizedName(modid + "." + name);
         GameRegistry.register(this);
         if (itemBlockClass != null) {
             GameRegistry.register(createItemBlock(itemBlockClass), getRegistryName());

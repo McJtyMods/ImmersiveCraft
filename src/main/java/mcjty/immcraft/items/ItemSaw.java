@@ -16,7 +16,7 @@ public class ItemSaw extends ItemTool {
     public ItemSaw() {
         super(3.0F, 1.0f, ToolMaterial.STONE, Collections.emptySet());
         setMaxStackSize(1);
-        setUnlocalizedName("saw");
+        setUnlocalizedName(ImmersiveCraft.MODID + ".saw");
         setRegistryName("saw");
         setCreativeTab(ImmersiveCraft.creativeTab);
         GameRegistry.register(this);

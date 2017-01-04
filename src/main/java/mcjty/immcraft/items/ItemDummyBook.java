@@ -21,7 +21,7 @@ public class ItemDummyBook extends CompatItem {
     public ItemDummyBook() {
         super();
         setMaxStackSize(1);
-        setUnlocalizedName("dummybook");
+        setUnlocalizedName(ImmersiveCraft.MODID + ".dummybook");
         setRegistryName("dummybook");
         setCreativeTab(ImmersiveCraft.creativeTab);
         GameRegistry.register(this);
