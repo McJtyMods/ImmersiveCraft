@@ -1,0 +1,18 @@
+item.chisel.name=Meißel
+item.saw.name=Säge
+
+tile.furnace.name=Ofen
+tile.chest.name=Truhe
+tile.cupboard.name=Schrank
+tile.workbench.name=Werkbank (WIP)
+tile.workbench_sec.name=Werkbank (WIP)
+tile.rock.name=Felsen
+tile.sticks.name=Stöcke
+tile.in_world_placer.name=Platzierer
+tile.in_world_vertical_placer.name=Platzierer
+
+itemGroup.immcraft=ImmersiveCraft
+key.categories.immcraft=ImmersiveCraft
+key.nextitem=Nächster herstellbarer Gegenstand
+key.previtem=Vorheriger herstellbarer Gegenstand
+key.placeitem=Gegenstand platzieren
