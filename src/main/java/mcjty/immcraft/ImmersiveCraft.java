@@ -56,6 +56,7 @@ public class ImmersiveCraft {
         proxy.preInit(event);
         MainCompatHandler.registerWaila();
         MainCompatHandler.registerTOP();
+        MainCompatHandler.registerWheel();
     }
 
     @Mod.EventHandler
