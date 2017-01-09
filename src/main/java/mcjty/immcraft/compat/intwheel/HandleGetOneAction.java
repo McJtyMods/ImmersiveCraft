@@ -4,7 +4,6 @@ import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.intwheel.api.IWheelAction;
 import mcjty.intwheel.api.WheelActionElement;
 import mcjty.lib.tools.ItemStackTools;
@@ -42,7 +41,7 @@ public class HandleGetOneAction implements IWheelAction {
         Block block = world.getBlockState(pos).getBlock();
         if (tileEntity instanceof GenericTE && block instanceof GenericBlock) {
             GenericTE te = (GenericTE) tileEntity;
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, (GenericBlock) block);
+            IInterfaceHandle selectedHandle = te.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack stack = selectedHandle.extractOutput(te, player, 1);
                 if (ItemStackTools.isValid(stack)) {

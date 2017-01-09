@@ -44,10 +44,10 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
         super.addProbeInfo(mode, probeInfo, player, world, blockState, data);
         TileEntity tileEntity = world.getTileEntity(data.getPos());
         if (tileEntity instanceof GenericImmcraftTE) {
-            T te = (T) tileEntity;
-            IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
+            GenericImmcraftTE immcraftTE = (GenericImmcraftTE) tileEntity;
+            IInterfaceHandle selectedHandle = immcraftTE.getHandle(player);
             if (selectedHandle != null) {
-                ItemStack currentStack = selectedHandle.getCurrentStack(te);
+                ItemStack currentStack = selectedHandle.getCurrentStack(immcraftTE);
                 if (ItemStackTools.isValid(currentStack)) {
                     probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
                 }
