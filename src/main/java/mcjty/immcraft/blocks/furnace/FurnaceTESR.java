@@ -13,6 +13,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class FurnaceTESR extends HandleTESR<FurnaceTE> {
 
@@ -22,6 +24,7 @@ public class FurnaceTESR extends HandleTESR<FurnaceTE> {
         super(ModBlocks.furnaceBlock);
     }
 
+    @Nonnull
     @Override
     protected IImmersiveCraft getApi() {
         return ImmersiveCraft.api;

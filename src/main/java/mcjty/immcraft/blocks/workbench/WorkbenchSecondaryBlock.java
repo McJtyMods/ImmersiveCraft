@@ -17,6 +17,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSecondaryTE> {
 
     public WorkbenchSecondaryBlock() {
@@ -33,6 +35,7 @@ public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSeconda
     public void initModel() {
         super.initModel();
         ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchSecondaryTE.class, new HandleTESR<WorkbenchSecondaryTE>(this) {
+            @Nonnull
             @Override
             protected IImmersiveCraft getApi() {
                 return ImmersiveCraft.api;

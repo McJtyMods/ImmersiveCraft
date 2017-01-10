@@ -22,6 +22,8 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class ChestTESR extends HandleTESR<ChestTE> {
 
@@ -33,6 +35,7 @@ public class ChestTESR extends HandleTESR<ChestTE> {
         textOffset = new Vec3d(0, 0, -.2);
     }
 
+    @Nonnull
     @Override
     protected IImmersiveCraft getApi() {
         return ImmersiveCraft.api;

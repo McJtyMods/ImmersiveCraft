@@ -22,6 +22,7 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 
@@ -50,6 +51,7 @@ public class InWorldPlacerBlock extends GenericBlockWithTE<InWorldPlacerTE> {
     public void initModel() {
         super.initModel();
         ClientRegistry.bindTileEntitySpecialRenderer(InWorldPlacerTE.class, new HandleTESR<InWorldPlacerTE>(ModBlocks.inWorldPlacerBlock) {
+            @Nonnull
             @Override
             protected IImmersiveCraft getApi() {
                 return ImmersiveCraft.api;
