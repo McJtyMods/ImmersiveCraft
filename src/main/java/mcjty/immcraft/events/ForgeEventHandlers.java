@@ -1,12 +1,15 @@
 package mcjty.immcraft.events;
 
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,8 +19,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -27,54 +31,60 @@ import java.util.Random;
 public class ForgeEventHandlers {
 
     @SubscribeEvent
-    public void onPlayerInterractEvent(PlayerInteractEvent event) {
-        if (event.world.isRemote) {
+    public void onPlayerRightClickEvent(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getWorld().isRemote) {
             return;
         }
-        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            EntityPlayer player = event.entityPlayer;
-            ItemStack heldItem = player.getHeldItem();
-            if (heldItem == null) {
-                return;
-            }
-            Block block = event.world.getBlockState(event.pos).getBlock();
-            Item item = heldItem.getItem();
-            if (item == Items.stick) {
-                placeSticks(event, player, block);
-            } else if (item == Item.getItemFromBlock(ModBlocks.rockBlock)) {
-                spawnAxe(event, player, block);
-            } else if (item == Items.stone_axe && (block == Blocks.log || block == Blocks.log2)) {
-                createWorkbench(event);
-            } else if (GeneralConfiguration.allowRightClickPlacement
-                    && canBePlaced(item)
-                    && event.world.isAirBlock(event.pos.up())
-                    && BlockTools.isTopValidAndSolid(event.world, event.pos)
-                    && event.face == EnumFacing.UP) {
-                BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.inWorldPlacerBlock, player);
-                BlockTools.getInventoryTE(event.world, event.pos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
-                event.setCanceled(true);
-            } else if (GeneralConfiguration.allowRightClickPlacement
-                    && canBePlaced(item)
-                    && event.world.isAirBlock(event.pos.offset(event.face))
-                    && BlockTools.isSideValidAndSolid(event.world, event.pos, event.face, block)) {
-                BlockTools.placeBlock(event.world, event.pos.offset(event.face), ModBlocks.inWorldVerticalPlacerBlock, player);
-                BlockTools.getInventoryTE(event.world, event.pos.offset(event.face)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
-                event.setCanceled(true);
-            }
+
+        EntityPlayer player = event.getEntityPlayer();
+        ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+        if (ItemStackTools.isEmpty(heldItem)) {
+            return;
+        }
+        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
+        Item item = heldItem.getItem();
+        if (item == Items.STICK) {
+            placeSticks(event, player, block);
+        } else if (item == Item.getItemFromBlock(ModBlocks.rockBlock)) {
+            spawnAxe(event, player, block);
+        } else if (item == Items.STONE_AXE && (block == Blocks.LOG || block == Blocks.LOG2)) {
+            createWorkbench(event);
+        } else if ((item == Items.DIAMOND_SHOVEL || item == Items.GOLDEN_SHOVEL || item == Items.IRON_SHOVEL ||
+                item == Items.STONE_SHOVEL || item == Items.WOODEN_SHOVEL) && block == Blocks.GRASS) {
+            // Allow the grass path to be made
+            return;
+        } else if (GeneralConfiguration.allowRightClickPlacement
+                && canBePlaced(item)
+                && event.getWorld().isAirBlock(event.getPos().up())
+                && BlockTools.isTopValidAndSolid(event.getWorld(), event.getPos())
+                && event.getFace() == EnumFacing.UP) {
+            BlockTools.placeBlock(event.getWorld(), event.getPos().up(), ModBlocks.inWorldPlacerBlock, player);
+            BlockTools.getInventoryTE(event.getWorld(), event.getPos().up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
+            event.setCanceled(true);
+        } else if (GeneralConfiguration.allowRightClickPlacement
+                && canBePlaced(item)
+                && event.getWorld().isAirBlock(event.getPos().offset(event.getFace()))
+                && BlockTools.isSideValidAndSolid(event.getWorld(), event.getPos(), event.getFace(), block)) {
+            BlockTools.placeBlock(event.getWorld(), event.getPos().offset(event.getFace()), ModBlocks.inWorldVerticalPlacerBlock, player);
+            BlockTools.getInventoryTE(event.getWorld(), event.getPos().offset(event.getFace())).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
+            event.setCanceled(true);
         }
     }
-
+    
     private void createWorkbench(PlayerInteractEvent event) {
+        if (!GeneralConfiguration.createWorkbench) {
+            return;
+        }
         for (EnumFacing dir : EnumFacing.VALUES) {
             if (dir != EnumFacing.DOWN && dir != EnumFacing.UP) {
-                BlockPos newpos = event.pos.offset(dir);
-                IBlockState state = event.world.getBlockState(newpos);
+                BlockPos newpos = event.getPos().offset(dir);
+                IBlockState state = event.getWorld().getBlockState(newpos);
                 Block block2 = state.getBlock();
-                if (block2 == Blocks.log || block2 == Blocks.log2) {
-                    event.world.setBlockToAir(newpos);
-                    int meta = BlockTools.getHorizOrientationMeta(dir.rotateY());
-                    event.world.setBlockState(event.pos, ModBlocks.workbenchBlock.getStateFromMeta(meta), 3);
-                    event.world.setBlockState(newpos, ModBlocks.workbenchSecondaryBlock.getStateFromMeta(meta), 3);
+                if (block2 == Blocks.LOG || block2 == Blocks.LOG2) {
+                    event.getWorld().setBlockToAir(newpos);
+                    int meta = OrientationTools.getHorizOrientationMeta(dir.rotateY());
+                    event.getWorld().setBlockState(event.getPos(), ModBlocks.workbenchBlock.getStateFromMeta(meta), 3);
+                    event.getWorld().setBlockState(newpos, ModBlocks.workbenchSecondaryBlock.getStateFromMeta(meta), 3);
                     event.setCanceled(true);
                     return;
                 }
@@ -84,15 +94,15 @@ public class ForgeEventHandlers {
 
     private void spawnAxe(PlayerInteractEvent event, EntityPlayer player, Block block) {
         if (block == ModBlocks.sticksBlock) {
-            TileEntity te = event.world.getTileEntity(event.pos);
+            TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if (te instanceof SticksTE) {
                 SticksTE sticksTE = (SticksTE) te;
                 if (sticksTE.getSticks() == 1) {
                     sticksTE.setSticks(0);
-                    event.world.setBlockToAir(event.pos);
+                    event.getWorld().setBlockToAir(event.getPos());
                     player.inventory.decrStackSize(player.inventory.currentItem, 1);
                     player.openContainer.detectAndSendChanges();
-                    BlockTools.spawnItemStack(event.world, event.pos, new ItemStack(Items.stone_axe));
+                    InventoryHelper.spawnItemStack(event.getWorld(), event.getPos(), new ItemStack(Items.STONE_AXE));
                     event.setCanceled(true);
                 }
             }
@@ -101,14 +111,14 @@ public class ForgeEventHandlers {
 
     private void placeSticks(PlayerInteractEvent event, EntityPlayer player, Block block) {
         if (block == ModBlocks.sticksBlock) {
-            TileEntity te = event.world.getTileEntity(event.pos);
+            TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if (te instanceof SticksTE) {
                 SticksTE sticksTE = (SticksTE) te;
                 addSticks(player, sticksTE);
             }
-        } else if (event.world.isAirBlock(event.pos.up()) && BlockTools.isTopValidAndSolid(event.world, event.pos)) {
-            BlockTools.placeBlock(event.world, event.pos.up(), ModBlocks.sticksBlock, player);
-            TileEntity te = event.world.getTileEntity(event.pos.up());
+        } else if (event.getWorld().isAirBlock(event.getPos().up()) && BlockTools.isTopValidAndSolid(event.getWorld(), event.getPos())) {
+            BlockTools.placeBlock(event.getWorld(), event.getPos().up(), ModBlocks.sticksBlock, player);
+            TileEntity te = event.getWorld().getTileEntity(event.getPos().up());
             SticksTE sticksTE = (SticksTE) te;
             addSticks(player, sticksTE);
         }
@@ -121,7 +131,7 @@ public class ForgeEventHandlers {
     private void addSticks(EntityPlayer player, SticksTE sticksTE) {
         int amount;
         if (player.isSneaking()) {
-            amount = Math.min(64-sticksTE.getSticks(), player.getHeldItem().stackSize);
+            amount = Math.min(64-sticksTE.getSticks(), ItemStackTools.getStackSize(player.getHeldItem(EnumHand.MAIN_HAND)));
         } else {
             amount = Math.min(64-sticksTE.getSticks(), 1);
         }
@@ -137,11 +147,13 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void onHarvestDropsEvent(BlockEvent.HarvestDropsEvent event) {
-        if (!event.isSilkTouching) {
-            Block block = event.state.getBlock();
-            if (block == Blocks.leaves || block == Blocks.leaves2) {
-                if (random.nextFloat() < GeneralConfiguration.leavesDropSticksChance) {
-                    event.drops.add(new ItemStack(Items.stick));
+        if (!event.isSilkTouching()) {
+            Block block = event.getState().getBlock();
+            if (block == Blocks.LEAVES || block == Blocks.LEAVES2) {
+                if (event.getHarvester() != null) {
+                    if (random.nextFloat() < GeneralConfiguration.leavesDropSticksChance) {
+                        event.getDrops().add(new ItemStack(Items.STICK));
+                    }
                 }
             }
         }

@@ -1,15 +1,11 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
-import net.minecraft.block.Block;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
 
 public class InWorldPlacerTE extends GenericInventoryTE {
 
@@ -20,10 +16,10 @@ public class InWorldPlacerTE extends GenericInventoryTE {
 
     public InWorldPlacerTE() {
         super(4);
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT1).side(EnumFacing.UP).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.23, 0.23, .23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT2).side(EnumFacing.UP).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.23, 0.23, .23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT3).side(EnumFacing.UP).bounds(0, 0, .5f, .5f).renderOffset(new Vec3(-.23, 0.23, -.23)));
-        addInterfaceHandle(new InputInterfaceHandle().slot(SLOT_INPUT4).side(EnumFacing.UP).bounds(.5f, 0, 1, .5f).renderOffset(new Vec3(.23, 0.23, -.23)));
+        addInterfaceHandle(new InputInterfaceHandle("i0").slot(SLOT_INPUT1));
+        addInterfaceHandle(new InputInterfaceHandle("i1").slot(SLOT_INPUT2));
+        addInterfaceHandle(new InputInterfaceHandle("i2").slot(SLOT_INPUT3));
+        addInterfaceHandle(new InputInterfaceHandle("i3").slot(SLOT_INPUT4));
     }
 
     @Override
@@ -35,13 +31,13 @@ public class InWorldPlacerTE extends GenericInventoryTE {
             }
         }
         // Self destruct
-        worldObj.setBlockToAir(getPos());
+        getWorld().setBlockToAir(getPos());
     }
 
     public static void addItems(GenericInventoryTE inventory, EntityPlayer player, ItemStack heldItem) {
         inventory.setInventorySlotContents(SLOT_INPUT1, heldItem);
         inventory.markDirtyClient();
-        player.inventory.setInventorySlotContents(player.inventory.currentItem, null);
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
         player.openContainer.detectAndSendChanges();
     }
 

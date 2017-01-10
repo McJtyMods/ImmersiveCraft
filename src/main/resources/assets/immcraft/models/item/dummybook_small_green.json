@@ -1,0 +1,6 @@
+{
+  "parent": "immcraft:block/dummybook_small",
+  "textures": {
+    "txt": "immcraft:items/bookgreen"
+  }
+}

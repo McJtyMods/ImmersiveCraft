@@ -1,11 +1,12 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class IngredientsInfoPacketClient implements InfoPacketClient {
 
     @Override
     public void onMessageClient(EntityPlayerSP player) {
-        BlockTools.getTE(null, Minecraft.getMinecraft().theWorld, pos)
+        BlockTools.getTE(null, MinecraftTools.getWorld(Minecraft.getMinecraft()), pos)
                 .ifPresent(p -> p.setIngredients(ingredients, missingIngredients));
     }
 }

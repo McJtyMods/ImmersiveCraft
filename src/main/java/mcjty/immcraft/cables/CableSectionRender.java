@@ -3,17 +3,18 @@ package mcjty.immcraft.cables;
 
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.util.Vector;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Cable section for the renderer (BundleISBM)
  */
 public class CableSectionRender {
     private final ICableSubType subType;
-    private final Vector vector;
-    private final Vector vector1;
-    private final Vector vector2;
+    private final Vec3d vector;
+    private final Vec3d vector1;
+    private final Vec3d vector2;
 
-    public CableSectionRender(ICableSubType subType, Vector vector, Vector vector1, Vector vector2) {
+    public CableSectionRender(ICableSubType subType, Vec3d vector, Vec3d vector1, Vec3d vector2) {
         this.subType = subType;
         this.vector = vector;
         this.vector1 = vector1;
@@ -24,15 +25,15 @@ public class CableSectionRender {
         return subType;
     }
 
-    public Vector getVector() {
+    public Vec3d getVector() {
         return vector;
     }
 
-    public Vector getVector1() {
+    public Vec3d getVector1() {
         return vector1;
     }
 
-    public Vector getVector2() {
+    public Vec3d getVector2() {
         return vector2;
     }
 }

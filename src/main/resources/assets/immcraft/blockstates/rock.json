@@ -1,14 +1,12 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
     "model": "immcraft:rock.obj"
   },
   "variants": {
     "normal": [{}],
     "inventory": [{
-      "transform": { "gui": {"scale": 2, "translation": [0,0.2,0]}}
+      "transform": { "gui": {"scale": 2, "translation": [0,0.6,0]}}
     }],
     "facing": {
       "north": {},

@@ -1,6 +1,6 @@
 package mcjty.immcraft.api.cable;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 

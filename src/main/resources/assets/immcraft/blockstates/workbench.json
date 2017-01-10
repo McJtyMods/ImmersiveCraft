@@ -1,14 +1,17 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "textures": {
-    },
-    "model": "immcraft:workbenchLeft.obj"
+    "model": "immcraft:workbenchleft.obj"
   },
   "variants": {
     "normal": [{}],
     "inventory": [{
-      "transform": { "gui": {"scale": 1}}
+      "transform": {
+        "gui": {
+          "scale": 0.65,
+          "rotation": [{"x": 15},{"y": 45}]
+        }
+      }
     }],
     "facing": {
       "south": {},
