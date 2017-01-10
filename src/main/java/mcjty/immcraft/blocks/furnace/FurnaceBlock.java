@@ -13,7 +13,9 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -76,9 +78,14 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        FurnaceTE furnaceTE = BlockTools.getTE(FurnaceTE.class, worldIn, pos).get();
-        Boolean burning = furnaceTE.getBurnTime() > 0;
-        return state.withProperty(BURNING, burning);
+        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+        if (te instanceof FurnaceTE) {
+            FurnaceTE furnaceTE = (FurnaceTE) te;
+            Boolean burning = furnaceTE.getBurnTime() > 0;
+            return state.withProperty(BURNING, burning);
+        } else {
+            return state;
+        }
     }
 
     @Override
