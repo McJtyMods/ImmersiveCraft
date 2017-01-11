@@ -2,17 +2,17 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.input.KeyType;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.input.KeyType;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -21,14 +21,14 @@ public class PacketSendKey implements IMessage {
     private KeyType keyType;
     private BlockPos blockPos;
     private EnumFacing side;
-    private Vec3 hitVec;
+    private Vec3d hitVec;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         keyType = KeyType.values()[buf.readShort()];
         blockPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = EnumFacing.values()[buf.readShort()];
-        hitVec = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+        hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     }
 
     @Override
@@ -46,10 +46,10 @@ public class PacketSendKey implements IMessage {
 
     public PacketSendKey(KeyType keyType) {
         this.keyType = keyType;
-        MovingObjectPosition mouseOver = Minecraft.getMinecraft().objectMouseOver;
+        RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
-        hitVec = new Vec3(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
+        hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
     }
 
     public KeyType getKeyType() {
@@ -59,13 +59,13 @@ public class PacketSendKey implements IMessage {
     public static class Handler implements IMessageHandler<PacketSendKey, IMessage> {
         @Override
         public IMessage onMessage(PacketSendKey message, MessageContext ctx) {
-            MinecraftServer.getServer().addScheduledTask(() -> handle(message, ctx));
+            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
             return null;
         }
 
         private void handle(PacketSendKey message, MessageContext ctx) {
             EntityPlayerMP playerEntity = ctx.getServerHandler().playerEntity;
-            World world = playerEntity.worldObj;
+            World world = playerEntity.getEntityWorld();
             BlockTools.getTE(null, world, message.blockPos)
                     .ifPresent(p -> p.onKeyPress(message.keyType, playerEntity, message.side, getLocalSide(world, message), message.hitVec));
         }

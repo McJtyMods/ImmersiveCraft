@@ -7,8 +7,8 @@ import mcjty.immcraft.api.cable.ICableType;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.Optional;
@@ -55,4 +55,19 @@ public interface IImmersiveCraft {
      * @return
      */
     Optional<IBundle> getBundle(World world, BlockPos pos);
+
+    /**
+     * Request ingredients from server. Call this clientside only!
+     */
+    void requestIngredients(BlockPos pos);
+
+    /**
+     * Register a block click and send to server. Call this clientside only.
+     */
+    void registerBlockClick();
+
+    /**
+     * Get the maximum handle render distance squared
+     */
+    double getMaxHandleRenderDistanceSquared();
 }

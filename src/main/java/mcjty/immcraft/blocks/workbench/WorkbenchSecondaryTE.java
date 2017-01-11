@@ -1,22 +1,24 @@
 package mcjty.immcraft.blocks.workbench;
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.immcraft.blocks.generic.GenericTE;
+import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.blocks.generic.handles.CraftingInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
-import mcjty.immcraft.blocks.generic.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,35 +29,35 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     public static final int SLOT_TOOL = 0;
 
     private Schema[] baseSchemas = new Schema[] {
-            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.stick, 3), new ItemStack(ModBlocks.rockBlock, 2)),
-            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.stick, 1), new ItemStack(ModBlocks.rockBlock, 2)),
-            new Schema("flint & steel", new ItemStack(Items.flint_and_steel), new ItemStack(Items.flint, 1), new ItemStack(ModBlocks.rockBlock, 1)),
-            new Schema("pickaxe", new ItemStack(Items.stone_pickaxe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3)),
-            new Schema("axe", new ItemStack(Items.stone_axe), new ItemStack(Items.stick, 2), new ItemStack(ModBlocks.rockBlock, 3))
-//            new Schema("torch", new ItemStack(ModBlocks.blockTorchOff, 4), new ItemStack(Items.stick, 1), new ItemStack(Items.coal, 1))
+            new Schema("saw", new ItemStack(ModItems.saw), new ItemStack(Items.STICK, 3), new ItemStack(ModBlocks.rockBlock, 2)),
+            new Schema("chisel", new ItemStack(ModItems.chisel), new ItemStack(Items.STICK, 1), new ItemStack(ModBlocks.rockBlock, 2)),
+            new Schema("flint & steel", new ItemStack(Items.FLINT_AND_STEEL), new ItemStack(Items.FLINT, 1), new ItemStack(ModBlocks.rockBlock, 1)),
+            new Schema("pickaxe", new ItemStack(Items.STONE_PICKAXE), new ItemStack(Items.STICK, 2), new ItemStack(ModBlocks.rockBlock, 3)),
+            new Schema("axe", new ItemStack(Items.STONE_AXE), new ItemStack(Items.STICK, 2), new ItemStack(ModBlocks.rockBlock, 3))
+//            new Schema("torch", new ItemStack(ModBlocks.blockTorchOff, 4), new ItemStack(Items.STICK, 1), new ItemStack(Items.coal, 1))
     };
 
     private Schema[] sawSchemas = new Schema[] {
-            new Schema("planks", new ItemStack(Blocks.planks, 4), new ItemStack(Blocks.log)),
-            new Schema("sticks", new ItemStack(Items.stick, 4), new ItemStack(Blocks.planks, 2))
+            new Schema("planks", new ItemStack(Blocks.PLANKS, 4), new ItemStack(Blocks.LOG)),
+            new Schema("sticks", new ItemStack(Items.STICK, 4), new ItemStack(Blocks.PLANKS, 2))
     };
 
     private Schema[] chiselSchemas = new Schema[] {
-            new Schema("furnace", new ItemStack(ModBlocks.furnaceBlock), new ItemStack(Blocks.cobblestone, 8)),
+            new Schema("furnace", new ItemStack(ModBlocks.furnaceBlock), new ItemStack(Blocks.COBBLESTONE, 8)),
 //            new Schema("tank", new ItemStack(ModBlocks.tankBlock), new ItemStack(Blocks.cobblestone, 5)),
-            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.planks, 8)),
-            new Schema("cupboard", new ItemStack(ModBlocks.cupboardBlock), new ItemStack(Blocks.planks, 8))
+            new Schema("chest", new ItemStack(ModBlocks.chestBlock), new ItemStack(Blocks.PLANKS, 8)),
+            new Schema("cupboard", new ItemStack(ModBlocks.cupboardBlock), new ItemStack(Blocks.PLANKS, 8))
     };
 
     private int currentSchema = 0;
 
     public WorkbenchSecondaryTE() {
         super(1);
-        addInterfaceHandle(new InputInterfaceHandle()
-                .slot(SLOT_TOOL).side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3(.23, 1 + 0.1, -.35))
+        addInterfaceHandle(new InputInterfaceHandle("tool")
+                .slot(SLOT_TOOL)   // @todo .side(EnumFacing.UP).bounds(.6f, 0, 1, .4f).scale(.5f).renderOffset(new Vec3d(.23, 1 + 0.1, -.35))
                 .input(new ItemStack(ModItems.chisel))
                 .input(new ItemStack(ModItems.saw)));
-        addInterfaceHandle(new CraftingInterfaceHandle().side(EnumFacing.UP).bounds(0, .25f, .5f, .75f).renderOffset(new Vec3(-.23, 1 + 0.23, 0)));
+        addInterfaceHandle(new CraftingInterfaceHandle("craft"));// @todo.side(EnumFacing.UP).bounds(0, .25f, .5f, .75f).renderOffset(new Vec3d(-.23, 1 + 0.23, 0)));
     }
 
     @Override
@@ -73,8 +75,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
     @Override
     public List<ItemStack> getInventory() {
         List<ItemStack> inventory = new ArrayList<>();
-        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(worldObj.getBlockState(getPos()));
-        Optional<IInventory> inv = BlockTools.getInventory(worldObj, getPos().offset(left));
+        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
+        Optional<IInventory> inv = InventoryHelper.getInventory(getWorld(), getPos().offset(left));
         if (inv.isPresent()) {
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT1));
             inventory.add(inv.get().getStackInSlot(WorkbenchTE.SLOT_INPUT2));
@@ -87,15 +89,15 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     @Override
     public void updateInventory(List<ItemStack> inventory) {
-        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(worldObj.getBlockState(getPos()));
-        Optional<GenericTE> te = BlockTools.getTE(null, worldObj, getPos().offset(left));
+        EnumFacing left = ModBlocks.workbenchSecondaryBlock.getLeftDirection(getWorld().getBlockState(getPos()));
+        Optional<GenericImmcraftTE> te = BlockTools.getTE(null, getWorld(), getPos().offset(left));
         if (te.isPresent()) {
             if (te.get() instanceof IInventory) {
                 IInventory inv = (IInventory) te.get();
                 for (int i = 0 ; i < 4 ; i++) {
                     ItemStack itemStack = inventory.get(i);
-                    if (itemStack == null || itemStack.stackSize == 0) {
-                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, null);
+                    if (ItemStackTools.isEmpty(itemStack)) {
+                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, ItemStackTools.getEmptyStack());
                     } else {
                         inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, itemStack);
                     }
@@ -107,7 +109,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     private Schema[] getActiveSchemas() {
         ItemStack tool = inventoryHelper.getStackInSlot(SLOT_TOOL);
-        if (tool == null) {
+        if (ItemStackTools.isEmpty(tool)) {
             return baseSchemas;
         } else if (tool.getItem() == ModItems.chisel) {
             return chiselSchemas;

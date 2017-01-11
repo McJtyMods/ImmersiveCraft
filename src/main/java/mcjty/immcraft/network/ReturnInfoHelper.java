@@ -2,6 +2,7 @@ package mcjty.immcraft.network;
 
 
 
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -12,7 +13,7 @@ public class ReturnInfoHelper {
         Minecraft.getMinecraft().addScheduledTask(new Runnable() {
             @Override
             public void run() {
-                message.getPacket().onMessageClient(Minecraft.getMinecraft().thePlayer);
+                message.getPacket().onMessageClient(MinecraftTools.getPlayer(Minecraft.getMinecraft()));
             }
         });
     }

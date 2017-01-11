@@ -5,17 +5,19 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -23,13 +25,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class PacketPlaceItem implements IMessage {
     private BlockPos blockPos;
     private EnumFacing side;
-    private Vec3 hitVec;
+    private Vec3d hitVec;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         blockPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = EnumFacing.values()[buf.readShort()];
-        hitVec = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+        hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     }
 
     @Override
@@ -44,24 +46,24 @@ public class PacketPlaceItem implements IMessage {
     public PacketPlaceItem() {
     }
 
-    public PacketPlaceItem(MovingObjectPosition mouseOver) {
+    public PacketPlaceItem(RayTraceResult mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
-        hitVec = new Vec3(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
+        hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
     }
 
     public static class Handler implements IMessageHandler<PacketPlaceItem, IMessage> {
         @Override
         public IMessage onMessage(PacketPlaceItem message, MessageContext ctx) {
-            MinecraftServer.getServer().addScheduledTask(() -> handle(message, ctx));
+            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
             return null;
         }
 
         private void handle(PacketPlaceItem message, MessageContext ctx) {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 
-            ItemStack heldItem = player.getHeldItem();
-            if (heldItem == null) {
+            ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
+            if (ItemStackTools.isEmpty(heldItem)) {
                 return;
             }
 

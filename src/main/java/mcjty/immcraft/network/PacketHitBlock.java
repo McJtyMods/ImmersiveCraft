@@ -3,14 +3,14 @@ package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -18,13 +18,13 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class PacketHitBlock implements IMessage {
     private BlockPos blockPos;
     private EnumFacing side;
-    private Vec3 hitVec;
+    private Vec3d hitVec;
 
     @Override
     public void fromBytes(ByteBuf buf) {
         blockPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
         side = EnumFacing.values()[buf.readShort()];
-        hitVec = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+        hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     }
 
     @Override
@@ -39,25 +39,25 @@ public class PacketHitBlock implements IMessage {
     public PacketHitBlock() {
     }
 
-    public PacketHitBlock(MovingObjectPosition mouseOver) {
+    public PacketHitBlock(RayTraceResult mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
-        hitVec = new Vec3(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
+        hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
     }
 
     public static class Handler implements IMessageHandler<PacketHitBlock, IMessage> {
         @Override
         public IMessage onMessage(PacketHitBlock message, MessageContext ctx) {
-            MinecraftServer.getServer().addScheduledTask(() -> handle(message, ctx));
+            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
             return null;
         }
 
         private void handle(PacketHitBlock message, MessageContext ctx) {
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
-            Block block = player.worldObj.getBlockState(message.blockPos).getBlock();
+            Block block = player.getEntityWorld().getBlockState(message.blockPos).getBlock();
             if (block instanceof GenericBlockWithTE) {
                 GenericBlockWithTE genericBlockWithTE = (GenericBlockWithTE) block;
-                genericBlockWithTE.onClick(player.worldObj, message.blockPos, player, message.side, message.hitVec);
+                genericBlockWithTE.onClick(player.getEntityWorld(), message.blockPos, player);
             }
         }
     }
