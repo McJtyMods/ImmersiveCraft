@@ -49,7 +49,9 @@ public class BookParser {
             if (textElement != null) {
                 for (JsonElement textChild : textElement.getAsJsonArray()) {
                     String string = textChild.getAsString();
-                    if (string.startsWith("#i:")) {
+                    if (string.equals("#")) {
+                        section.addElement(new BookElementNewline());
+                    } else if (string.startsWith("#i:")) {
                         // Item
                     } else {
                         section.addElement(new BookElementText(string));
@@ -62,12 +64,35 @@ public class BookParser {
     }
 
 
-    public List<BookPage> parse(String text, int width, int height) {
+    public List<BookPage> parse(int width, int height) {
         InputStream inputstream = ImmersiveCraft.class.getResourceAsStream("/assets/immcraft/text/examplebook.json");
         List<BookSection> sections = parseSections("builtin", inputstream);
 //        File file = new File(directory.getPath() + File.separator + "rftools", "dimlets.json");
 
         List<BookPage> pages = new ArrayList<>();
+
+        BookPage currentpage = new BookPage();
+        int curh = 0;
+        for (BookSection section : sections) {
+            RenderSection newsection = section.renderAtWidth(width);
+            int h = newsection.getHeight();
+            if (h > height) {
+                // The section is too large. Put in a place holder as an error
+                newsection = new RenderSection();
+                newsection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
+                h = newsection.getHeight();
+            }
+            if (curh + h > height) {
+                // We need a new page
+                pages.add(currentpage);
+                currentpage = new BookPage();
+                currentpage.addSection(newsection);
+                curh = h;
+            } else {
+                currentpage.addSection(newsection);
+                curh += h;
+            }
+        }
 
         return pages;
     }

@@ -2,6 +2,9 @@ package mcjty.immcraft.blocks.book;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.books.BookPage;
+import mcjty.immcraft.books.BookParser;
+import mcjty.immcraft.varia.BookRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -10,6 +13,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
@@ -19,13 +23,25 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
+import java.util.List;
+
 @SideOnly(Side.CLIENT)
 public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
 
     private IModel bookModel;
     private IBakedModel bakedBookModel;
 
+    private List<BookPage> pages = null;
+
     public BookTESR() {
+    }
+
+    private List<BookPage> getPages() {
+        if (pages == null) {
+            BookParser parser = new BookParser();
+            pages = parser.parse(128, 128);
+        }
+        return pages;
     }
 
     private IBakedModel getBakedBookModel() {
@@ -67,5 +83,6 @@ public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
 
         RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
+        BookRenderHelper.renderPage(pages.get(0), EnumFacing.SOUTH, x, y, z, 0.0f);
     }
 }

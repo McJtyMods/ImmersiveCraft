@@ -4,6 +4,20 @@
     "text": [
       "This recipe can be used to craft golden diamonds from wooden rocks", "#",
       "Use ", "#i:minecraft:apple", " to craft with"
-      ]
+    ]
+  },
+  {
+    "section": "Recipe 2",
+    "text": [
+      "This recipe can be used to craft golden diamonds from wooden rocks ",
+      "This is a second very very very very long line. Word wrapping will certainly be needed"
+    ]
+  },
+  {
+    "section": "Recipe 3",
+    "text": [
+      "TESTING TESTING This recipe can be used to craft golden diamonds from wooden rocks ",
+      "This is a second very very very very long line. Word wrapping will certainly be needed"
+    ]
   }
 ]

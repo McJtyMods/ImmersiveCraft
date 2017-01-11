@@ -5,13 +5,13 @@ import java.util.List;
 
 public class BookPage {
 
-    private final List<BookSection> sections = new ArrayList<>();
+    private final List<RenderSection> sections = new ArrayList<>();
 
-    public void addElement(BookSection element) {
-        sections.add(element);
+    public void addSection(RenderSection section) {
+        sections.add(section);
     }
 
-    public List<BookSection> getSections() {
+    public List<RenderSection> getSections() {
         return sections;
     }
 }
