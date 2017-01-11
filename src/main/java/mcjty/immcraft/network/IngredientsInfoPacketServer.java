@@ -1,10 +1,10 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.varia.BlockPosTools;
+import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +35,8 @@ public class IngredientsInfoPacketServer implements InfoPacketServer {
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
         List<String> ingredients = new ArrayList<>();
         List<String> missingIngredients = new ArrayList<>();
-        BlockTools.getTE(null, player.worldObj, pos)
-                .ifPresent(p -> p.calculateIngredients(ingredients, missingIngredients, player.inventory));
+        BlockTools.getTE(null, player.getEntityWorld(), pos)
+                .ifPresent(p -> p.calculateIngredients(ingredients, missingIngredients, player));
         return Optional.of(new IngredientsInfoPacketClient(pos, ingredients, missingIngredients));
     }
 }

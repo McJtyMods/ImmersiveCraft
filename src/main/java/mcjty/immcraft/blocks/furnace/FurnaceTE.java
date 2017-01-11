@@ -1,22 +1,24 @@
 package mcjty.immcraft.blocks.furnace;
 
+import mcjty.immcraft.api.handles.OutputInterfaceHandle;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
-import mcjty.immcraft.blocks.generic.handles.OutputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
-import mcjty.immcraft.varia.NBTHelper;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
@@ -31,9 +33,9 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     public FurnaceTE() {
         super(3);
-        addInterfaceHandle(new FuelInterfaceHandle().slot(SLOT_FUEL).side(EnumFacing.SOUTH).bounds(0, 0, 1, .5f).renderOffset(new Vec3(0, 0.23, 0)));
-        addInterfaceHandle(new SmeltableInterfaceHandle().slot(SLOT_TOBURN).side(EnumFacing.SOUTH).bounds(0, .5f, .5f, 1).renderOffset(new Vec3(-.2, 0.7, 0)));
-        addInterfaceHandle(new OutputInterfaceHandle().slot(SLOT_OUTPUT).side(EnumFacing.SOUTH).bounds(.5f, .5f, 1, 1).renderOffset(new Vec3(.2, 0.7, 0)));
+        addInterfaceHandle(new FuelInterfaceHandle("fuel").slot(SLOT_FUEL));
+        addInterfaceHandle(new SmeltableInterfaceHandle("input").slot(SLOT_TOBURN));
+        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT));
     }
 
     @Override
@@ -46,18 +48,18 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     @Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
         super.onDataPacket(net, packet);
-        if (worldObj.isRemote) {
+        if (getWorld().isRemote) {
             // If needed send a render update.
             // @todo try to check if it is really needed
-            worldObj.markBlockRangeForRenderUpdate(getPos(), getPos());
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
 
     @Override
     public int[] getSlotsForFace(EnumFacing side) {
-        EnumFacing direction = ModBlocks.furnaceBlock.worldToBlockSpace(worldObj, getPos(), side);
+        EnumFacing direction = ModBlocks.furnaceBlock.worldToBlockSpace(getWorld(), getPos(), side);
         if (direction == EnumFacing.UP) {
             return new int[] { SLOT_FUEL };
         } else if (direction == EnumFacing.DOWN) {
@@ -94,12 +96,12 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                     ItemStack tosmelt = inventoryHelper.decrStackSize(SLOT_TOBURN, 1);
                     ItemStack result = FurnaceRecipes.instance().getSmeltingResult(tosmelt);
                     boolean undo = false;
-                    if (result != null) {
+                    if (ItemStackTools.isValid(result)) {
                         if (!inventoryHelper.hasStack(SLOT_OUTPUT)) {
                             inventoryHelper.setInventorySlotContents(result.getMaxStackSize(), SLOT_OUTPUT, result.copy());
                         } else if (result.isItemEqual(inventoryHelper.getStackInSlot(SLOT_OUTPUT))) {
-                            if (result.stackSize + inventoryHelper.getStackInSlot(SLOT_OUTPUT).stackSize <= result.getMaxStackSize()) {
-                                inventoryHelper.getStackInSlot(SLOT_OUTPUT).stackSize += result.stackSize;
+                            if (ItemStackTools.getStackSize(result) + ItemStackTools.getStackSize(inventoryHelper.getStackInSlot(SLOT_OUTPUT)) <= result.getMaxStackSize()) {
+                                ItemStackTools.incStackSize(inventoryHelper.getStackInSlot(SLOT_OUTPUT), ItemStackTools.getStackSize(result));
                             } else {
                                 undo = true;
                                 cookTime = 40;   // Try again
@@ -111,9 +113,9 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
                     if (undo) {
                         cookTime = 40;   // Try again
-                        // Error, put back our item
+                        // Error, put back our block
                         if (inventoryHelper.hasStack(SLOT_TOBURN)) {
-                            inventoryHelper.getStackInSlot(SLOT_TOBURN).stackSize++;
+                            ItemStackTools.incStackSize(inventoryHelper.getStackInSlot(SLOT_TOBURN), 1);
                         } else {
                             inventoryHelper.setStackInSlot(SLOT_TOBURN, tosmelt);
                         }
@@ -128,17 +130,17 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     @Override
-    public boolean onActivate(EntityPlayer player, EnumFacing worldSide, EnumFacing side, Vec3 hitVec) {
-        if (player.getHeldItem() != null && player.getHeldItem().getItem() == Items.flint_and_steel) {
+    public boolean onActivate(EntityPlayer player) {
+        if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
             markDirtyClient();
-            player.getHeldItem().damageItem(1, player);
+            player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
             return true;
         } else {
-            return super.onActivate(player, worldSide, side, hitVec);
+            return super.onActivate(player);
         }
     }
 

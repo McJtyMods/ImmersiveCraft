@@ -2,26 +2,27 @@ package mcjty.immcraft.blocks.chest;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.rendering.HandleTESR;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
-import net.minecraftforge.client.model.TRSRTransformation;
+import net.minecraftforge.common.model.TRSRTransformation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
-import java.io.IOException;
+import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class ChestTESR extends HandleTESR<ChestTE> {
@@ -31,18 +32,26 @@ public class ChestTESR extends HandleTESR<ChestTE> {
 
     public ChestTESR() {
         super(ModBlocks.chestBlock);
-        try {
-            lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "block/chestLid.obj"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        textOffset = new Vec3d(0, 0, -.2);
+    }
 
-        textOffset = new Vec3(0, .1, -.2);
+    @Nonnull
+    @Override
+    protected IImmersiveCraft getApi() {
+        return ImmersiveCraft.api;
     }
 
     private IBakedModel getBakedLidModel() {
+        // Since we cannot bake in preInit() we do lazy baking of the model as soon as we need it
+        // for rendering
         if (bakedLidModel == null) {
-            bakedLidModel = lidModel.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM, location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
+            try {
+                lidModel = ModelLoaderRegistry.getModel(new ResourceLocation(ImmersiveCraft.MODID, "block/chestlid.obj"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            bakedLidModel = lidModel.bake(TRSRTransformation.identity(), DefaultVertexFormats.ITEM,
+                    location -> Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString()));
         }
         return bakedLidModel;
     }
@@ -74,7 +83,7 @@ public class ChestTESR extends HandleTESR<ChestTE> {
         // To fix the lighting at the underside of the lid we render it one block higher but offset so it ends up one block lower again
         GlStateManager.translate(-tileEntity.getPos().getX(), -tileEntity.getPos().getY() - 1, -tileEntity.getPos().getZ());
         RenderHelper.disableStandardItemLighting();
-        this.bindTexture(TextureMap.locationBlocksTexture);
+        this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
         if (Minecraft.isAmbientOcclusionEnabled()) {
             GlStateManager.shadeModel(GL11.GL_SMOOTH);
         } else {
@@ -83,10 +92,10 @@ public class ChestTESR extends HandleTESR<ChestTE> {
 
         World world = tileEntity.getWorld();
         Tessellator tessellator = Tessellator.getInstance();
-        tessellator.getWorldRenderer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+        tessellator.getBuffer().begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
         Minecraft.getMinecraft().getBlockRendererDispatcher().getBlockModelRenderer().renderModel(world, getBakedLidModel(), world.getBlockState(tileEntity.getPos()),
                 tileEntity.getPos().up(),       // To fix chest lid lighting on the underside
-                Tessellator.getInstance().getWorldRenderer());
+                Tessellator.getInstance().getBuffer(), true);
         tessellator.draw();
 
         RenderHelper.enableStandardItemLighting();

@@ -1,12 +1,12 @@
 package mcjty.immcraft.cables;
 
 import mcjty.immcraft.api.cable.*;
-import mcjty.immcraft.varia.BlockPosTools;
-import mcjty.immcraft.varia.NBTHelper;
-import mcjty.immcraft.api.util.Vector;
+import mcjty.immcraft.api.helpers.BlockPosTools;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class CableSection implements ICableSection {
@@ -18,18 +18,18 @@ public class CableSection implements ICableSection {
 
     private ConnectionInfo[] info = new ConnectionInfo[] { new ConnectionInfo(), new ConnectionInfo() };
 
-    private final Vector vector;
+    private final Vec3d vector;
 
     public CableSection(NBTTagCompound tagCompound) {
         type = CableRegistry.getTypeByID(tagCompound.getString("type"));
         subType = type.getSubTypeByID(tagCompound.getString("subtype"));
         id = tagCompound.getInteger("id");
-        vector = new Vector(tagCompound.getFloat("vx"), tagCompound.getFloat("vy"), tagCompound.getFloat("vz"));
+        vector = new Vec3d(tagCompound.getFloat("vx"), tagCompound.getFloat("vy"), tagCompound.getFloat("vz"));
         info[0].readFromNBT(tagCompound, "0");
         info[1].readFromNBT(tagCompound, "1");
     }
 
-    public CableSection(ICableType type, ICableSubType subType, int id, Vector vector) {
+    public CableSection(ICableType type, ICableSubType subType, int id, Vec3d vector) {
         this.id = id;
         this.type = type;
         this.subType = subType;
@@ -37,10 +37,10 @@ public class CableSection implements ICableSection {
     }
 
     public CableSectionRender getRenderer(BlockPos pos) {
-        Vector v1 = getVector(0);
-        Vector v2 = getVector(1);
+        Vec3d v1 = getVector(0);
+        Vec3d v2 = getVector(1);
 
-        return new CableSectionRender(subType, vector.subtract(pos), v1 == null ? null : v1.subtract(pos), v2 == null ? null : v2.subtract(pos));
+        return new CableSectionRender(subType, vector.subtract(pos.getX(), pos.getY(), pos.getZ()), v1 == null ? null : v1.subtract(pos.getX(), pos.getY(), pos.getZ()), v2 == null ? null : v2.subtract(pos.getX(), pos.getY(), pos.getZ()));
     }
 
     public void setId(int id) {
@@ -62,7 +62,7 @@ public class CableSection implements ICableSection {
         return subType;
     }
 
-    public void setConnection(int directionId, BlockPos connection, Vector vector, int connectorId) {
+    public void setConnection(int directionId, BlockPos connection, Vec3d vector, int connectorId) {
         info[directionId].setConnection(connection);
         info[directionId].setVector(vector);
         info[directionId].setConnectorId(connectorId);
@@ -72,11 +72,11 @@ public class CableSection implements ICableSection {
         return info[directionId].getConnection();
     }
 
-    public Vector getVector() {
+    public Vec3d getVector() {
         return vector;
     }
 
-    public Vector getVector(int directionId) {
+    public Vec3d getVector(int directionId) {
         return info[directionId].getVector();
     }
 
@@ -109,15 +109,15 @@ public class CableSection implements ICableSection {
     }
 
     private static class ConnectionInfo {
-        private Vector vector;
+        private Vec3d vector;
         private BlockPos connection;
         private int connectorId;
 
-        public Vector getVector() {
+        public Vec3d getVector() {
             return vector;
         }
 
-        public void setVector(Vector vector) {
+        public void setVector(Vec3d vector) {
             this.vector = vector;
         }
 
@@ -159,7 +159,7 @@ public class CableSection implements ICableSection {
         public void readFromNBT(NBTTagCompound tagCompound, String suffix) {
             String vk = "v"+suffix;
             if (tagCompound.hasKey(vk+"x")) {
-                vector = new Vector(tagCompound.getFloat(vk + "x"), tagCompound.getFloat(vk + "y"), tagCompound.getFloat(vk + "z"));
+                vector = new Vec3d(tagCompound.getFloat(vk + "x"), tagCompound.getFloat(vk + "y"), tagCompound.getFloat(vk + "z"));
             } else {
                 vector = null;
             }

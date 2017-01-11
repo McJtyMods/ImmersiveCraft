@@ -1,6 +1,8 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.PacketBufferTools;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
@@ -15,14 +17,14 @@ public class NetworkTools {
     public static ItemStack readItemStack(ByteBuf dataIn) {
         PacketBuffer buf = new PacketBuffer(dataIn);
         try {
-            NBTTagCompound nbt = buf.readNBTTagCompoundFromBuffer();
-            ItemStack stack = ItemStack.loadItemStackFromNBT(nbt);
-            stack.stackSize = buf.readInt();
+            NBTTagCompound nbt = PacketBufferTools.readCompoundTag(buf);
+            ItemStack stack = ItemStackTools.loadFromNBT(nbt);
+            ItemStackTools.setStackSize(stack, buf.readInt());
             return stack;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return ItemStackTools.getEmptyStack();
     }
 
     /// This function supports itemstacks with more then 64 items.
@@ -30,8 +32,8 @@ public class NetworkTools {
         PacketBuffer buf = new PacketBuffer(dataOut);
         NBTTagCompound nbt = new NBTTagCompound();
         itemStack.writeToNBT(nbt);
-        buf.writeNBTTagCompoundToBuffer(nbt);
-        buf.writeInt(itemStack.stackSize);
+        PacketBufferTools.writeCompoundTag(buf, nbt);
+        buf.writeInt(ItemStackTools.getStackSize(itemStack));
     }
 
     public static String readString(ByteBuf dataIn) {

@@ -1,15 +1,16 @@
 package mcjty.immcraft.blocks.foliage;
 
-import mcjty.immcraft.blocks.generic.GenericBlock;
+import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -17,13 +18,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-public class RockBlock extends GenericBlock {
+public class RockBlock extends GenericImmcraftBlock {
+
+    public static final AxisAlignedBB AABB = new AxisAlignedBB(.2f, 0, .2f, .8f, .4f, .8f);
 
     public RockBlock() {
-        super(Material.ground, "rock");
+        super(Material.GROUND, "rock", null, RockItemBlock.class, true);
         setHardness(0.0f);
-        setStepSound(soundTypeStone);
-        setBlockBounds(.2f, 0, .2f, .8f, .4f, .8f);
+        setSoundType(SoundType.STONE);
+    }
+
+    @Override
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        return AABB;
     }
 
     @Override
@@ -32,42 +39,42 @@ public class RockBlock extends GenericBlock {
         return Block.EnumOffsetType.XZ;
     }
 
-    @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    @Override
+    public boolean shouldSideBeRendered(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
         return false;
     }
 
     @Override
-    public boolean isBlockNormalCube() {
+    public boolean isBlockNormalCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullBlock() {
+    public boolean isFullBlock(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube() {
+    public boolean isFullCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube() {
+    public boolean isOpaqueCube(IBlockState state) {
         return false;
     }
 
     @Override
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
+    public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
     }
 
     @Override
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-        if (!canBlockStay(worldIn, pos)) {
+    protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+        super.clOnNeighborChanged(state, worldIn, pos, blockIn);
+        if (!canBlockStay(worldIn, pos.down())) {
             dropBlockAsItem(worldIn, pos, state, 0);
-            worldIn.setBlockState(pos, Blocks.air.getDefaultState(), 3);
+            worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);
         }
     }
 
