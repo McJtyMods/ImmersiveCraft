@@ -1,5 +1,6 @@
 package mcjty.immcraft.books;
 
+import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -19,6 +20,7 @@ public class RenderElementText implements RenderElement {
 
     @Override
     public void render(int dy) {
-        fontRenderer.drawString(text, x, y + dy, 0xffffffff);
+        ClientProxy.font.drawString(x, y + dy, text, 1.0f, 1.0f);
+//        fontRenderer.drawString(text, x, y + dy, 0xffffffff);
     }
 }

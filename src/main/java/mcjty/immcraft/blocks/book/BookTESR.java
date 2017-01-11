@@ -39,7 +39,7 @@ public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
     private List<BookPage> getPages() {
         if (pages == null) {
             BookParser parser = new BookParser();
-            pages = parser.parse(128, 128);
+            pages = parser.parse(512, 512);
         }
         return pages;
     }
@@ -84,6 +84,6 @@ public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
         RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
         getPages();
-        BookRenderHelper.renderPage(pages.get(0), EnumFacing.SOUTH, x, y, z, 1.0f);
+        BookRenderHelper.renderPage(pages.get(0), EnumFacing.SOUTH, x, y, z, 0.25f);
     }
 }

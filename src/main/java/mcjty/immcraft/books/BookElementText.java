@@ -1,5 +1,7 @@
 package mcjty.immcraft.books;
 
+import mcjty.immcraft.font.TrueTypeFont;
+import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -24,12 +26,14 @@ public class BookElementText implements BookElement {
 
     @Override
     public int getWidth() {
-        return fontRenderer.getStringWidth(text);
+        return (int) ClientProxy.font.getWidth(text);
+//        return fontRenderer.getStringWidth(text);
     }
 
     @Override
     public int getHeight() {
-        return fontRenderer.FONT_HEIGHT;
+        return (int) ClientProxy.font.getHeight();
+//        return fontRenderer.FONT_HEIGHT;
     }
 
     @Nonnull
@@ -41,7 +45,7 @@ public class BookElementText implements BookElement {
     }
 
     private void split(int curwidth, int maxwidth, List<BookElement> result, String str) {
-        int i = this.sizeStringToWidth(fontRenderer, str, curwidth);
+        int i = this.sizeStringToWidth(ClientProxy.font, str, curwidth);
         if (str.length() <= i) {
             result.add(new BookElementText(str));
             return;
@@ -79,6 +83,63 @@ public class BookElementText implements BookElement {
                     l = k;
                 default:
                     j += fontRenderer.getCharWidth(c0);
+
+                    if (flag) {
+                        ++j;
+                    }
+
+                    break;
+                case '\u00a7':
+
+                    if (k < i - 1) {
+                        ++k;
+                        char c1 = str.charAt(k);
+
+                        if (c1 != 108 && c1 != 76) {
+                            if (c1 == 114 || c1 == 82 || isFormatColor(c1)) {
+                                flag = false;
+                            }
+                        } else {
+                            flag = true;
+                        }
+                    }
+            }
+
+            if (c0 == 10) {
+                ++k;
+                l = k;
+                break;
+            }
+
+            if (j > wrapWidth) {
+                break;
+            }
+        }
+
+        return k != i && l != -1 && l < k ? l : k;
+    }
+
+    /**
+     * Determines how many characters from the string will fit into the specified width.
+     * Code mostly copied from FontRenderer
+     */
+    private int sizeStringToWidth(TrueTypeFont font, String str, int wrapWidth) {
+        int i = str.length();
+        int j = 0;
+        int l = -1;
+        int k = 0;
+        boolean flag = false;
+        for (; k < i ; ++k) {
+            char c0 = str.charAt(k);
+
+            switch (c0) {
+                case '\n':
+                    --k;
+                    break;
+                case ' ':
+                    l = k;
+                default:
+                    j += font.getWidth(String.valueOf(c0));
 
                     if (flag) {
                         ++j;
