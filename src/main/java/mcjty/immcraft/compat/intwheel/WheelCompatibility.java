@@ -51,6 +51,9 @@ public class WheelCompatibility {
 
                 @Override
                 public void updateWheelActions(@Nonnull Set<String> actions, @Nonnull EntityPlayer player, World world, @Nullable BlockPos pos) {
+                    if (pos == null) {
+                        return;
+                    }
                     TileEntity tileEntity = world.getTileEntity(pos);
                     Block block = world.getBlockState(pos).getBlock();
                     if (tileEntity instanceof GenericTE && block instanceof GenericBlock) {
