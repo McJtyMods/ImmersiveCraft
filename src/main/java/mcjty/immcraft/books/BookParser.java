@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.book.logic;
+package mcjty.immcraft.books;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

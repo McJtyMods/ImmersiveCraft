@@ -1,4 +1,4 @@
-package mcjty.immcraft.blocks.book.logic;
+package mcjty.immcraft.books;
 
 public interface BookElement {
 
