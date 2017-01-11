@@ -57,53 +57,98 @@ public class BookSection {
         return maxheight;
     }
 
-    public RenderSection renderAtWidth(int newwidth) {
-        RenderSection resizedSection = new RenderSection();
+    public static class Cursor {
+        private final int maxwidth;
 
-        int curx = 0;
-        int cury = 0;
-        int maxh = 0;
-        int maxw = 0;
+        private int curx = 0;
+        private int cury = 0;
+        private int maxh = 0;
+        private int maxw = 0;
+
+        public Cursor(int maxwidth) {
+            this.maxwidth = maxwidth;
+        }
+
+        public int getX() {
+            return curx;
+        }
+
+        public int getY() {
+            return cury;
+        }
+
+        public int getMaxh() {
+            return maxh;
+        }
+
+        public int getMaxw() {
+            return maxw;
+        }
+
+        public void newline() {
+            cury += maxh;
+            maxh = 0;
+            curx = 0;
+        }
+
+        public void add(int w, int h) {
+            curx += w;
+            if (curx > maxw) {
+                maxw = curx;
+            }
+            if (h > maxh) {
+                maxh = h;
+            }
+        }
+
+        public boolean fits(int w) {
+            return curx + w <= maxwidth;
+        }
+
+        public int remaining() {
+            return maxwidth - curx;
+        }
+
+        public int max() {
+            return maxwidth;
+        }
+
+        public void consolidate() {
+            if (curx > 0) {
+                newline();
+            }
+        }
+    }
+
+    public RenderSection renderAtWidth(int maxwidth) {
+        RenderSection renderSection = new RenderSection();
+
+        Cursor cursor = new Cursor(maxwidth);
         for (BookElement element : elements) {
             int w = element.getWidth();
             int h = element.getHeight();
             if (w == -1) {
-                cury += maxh;
-                maxh = 0;
-                curx = 0;
-            } else if (w <= curx + newwidth) {
-                resizedSection.addElement(element.createRenderElement(curx, cury));
-                if (h > maxh) {
-                    maxh = h;
-                }
-                curx += element.getWidth();
+                cursor.newline();
+            } else if (cursor.fits(w)) {
+                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                cursor.add(w, h);
             } else {
-                BookElement[] splitted = element.split(newwidth - curx);
-                if (splitted.length == 1) {
-                    // Element cannot be split. Move to next line
-                    curx = 0;
-                    cury += maxh;
-                    resizedSection.addElement(splitted[0].createRenderElement(curx, cury));
-                    curx = splitted[0].getWidth();
-                    maxh = splitted[0].getHeight();
-                } else {
-                    resizedSection.addElement(splitted[0].createRenderElement(curx, cury));
-                    if (curx + w > maxw) {
-                        maxw = curx + w;
+                List<BookElement> splitted = element.split(cursor.remaining(), cursor.max());
+                for (BookElement s : splitted) {
+                    w = s.getWidth();
+                    h = s.getHeight();
+                    if (w == -1) {
+                        cursor.newline();
+                    } else {
+                        renderSection.addElement(s.createRenderElement(cursor.getX(), cursor.getY()));
+                        cursor.add(w, h);
                     }
-                    cury += maxh;
-                    curx = 0;
-                    resizedSection.addElement(splitted[1].createRenderElement(curx, cury));
-                    curx = splitted[1].getWidth();
-                    maxh = splitted[1].getHeight();
                 }
-            }
-            if (curx > maxw) {
-                maxw = curx;
             }
         }
-        resizedSection.setWidth(maxw);
-        resizedSection.setHeight(cury);
-        return resizedSection;
+        cursor.consolidate();;
+        renderSection.setWidth(cursor.getMaxw());
+        renderSection.setHeight(cursor.getY());
+        return renderSection;
     }
 }

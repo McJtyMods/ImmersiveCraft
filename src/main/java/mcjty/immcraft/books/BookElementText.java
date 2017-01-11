@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BookElementText implements BookElement {
 
@@ -32,22 +34,29 @@ public class BookElementText implements BookElement {
 
     @Nonnull
     @Override
-    public BookElement[] split(int maxwidth) {
-        int i = this.sizeStringToWidth(fontRenderer, text, maxwidth);
-        if (text.length() <= i) {
-            return new BookElement[] { this };
-        }
-
-        String s = text.substring(0, i);
-        char c0 = text.charAt(i);
-        boolean flag = c0 == 32 || c0 == 10;
-        String s1 = fontRenderer.getFormatFromString(s) + text.substring(i + (flag ? 1 : 0));
-
-        BookElement[] result = new BookElement[2];
-        result[0] = new BookElementText(s);
-        result[1] = new BookElementText(s1);
+    public List<BookElement> split(int curwidth, int maxwidth) {
+        List<BookElement> result = new ArrayList<>();
+        split(curwidth, maxwidth, result, text);
         return result;
     }
+
+    private void split(int curwidth, int maxwidth, List<BookElement> result, String str) {
+        int i = this.sizeStringToWidth(fontRenderer, str, curwidth);
+        if (str.length() <= i) {
+            result.add(new BookElementText(str));
+            return;
+        }
+
+        String s = str.substring(0, i);
+        result.add(new BookElementText(s));
+        result.add(new BookElementNewline());
+
+        char c0 = str.charAt(i);
+        boolean flag = c0 == 32 || c0 == 10;
+        String s1 = fontRenderer.getFormatFromString(s) + str.substring(i + (flag ? 1 : 0));
+        split(maxwidth, maxwidth, result, s1);
+    }
+
 
     /**
      * Determines how many characters from the string will fit into the specified width.

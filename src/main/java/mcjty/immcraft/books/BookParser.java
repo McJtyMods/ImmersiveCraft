@@ -45,6 +45,7 @@ public class BookParser {
                 return Collections.emptyList();
             }
             BookSection section = new BookSection(sectionElement.getAsString());
+            sections.add(section);
             JsonElement textElement = object.get("text");
             if (textElement != null) {
                 for (JsonElement textChild : textElement.getAsJsonArray()) {
@@ -72,24 +73,26 @@ public class BookParser {
         List<BookPage> pages = new ArrayList<>();
 
         BookPage currentpage = new BookPage();
+        pages.add(currentpage);
+
         int curh = 0;
         for (BookSection section : sections) {
-            RenderSection newsection = section.renderAtWidth(width);
-            int h = newsection.getHeight();
+            RenderSection renderSection = section.renderAtWidth(width);
+            int h = renderSection.getHeight();
             if (h > height) {
                 // The section is too large. Put in a place holder as an error
-                newsection = new RenderSection();
-                newsection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
-                h = newsection.getHeight();
+                renderSection = new RenderSection();
+                renderSection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
+                h = renderSection.getHeight();
             }
             if (curh + h > height) {
                 // We need a new page
-                pages.add(currentpage);
                 currentpage = new BookPage();
-                currentpage.addSection(newsection);
+                pages.add(currentpage);
+                currentpage.addSection(renderSection);
                 curh = h;
             } else {
-                currentpage.addSection(newsection);
+                currentpage.addSection(renderSection);
                 curh += h;
             }
         }

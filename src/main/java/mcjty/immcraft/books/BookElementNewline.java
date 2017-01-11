@@ -3,6 +3,8 @@ package mcjty.immcraft.books;
 import net.minecraft.client.Minecraft;
 
 import javax.annotation.Nonnull;
+import java.util.Collections;
+import java.util.List;
 
 public class BookElementNewline implements BookElement {
 
@@ -18,8 +20,8 @@ public class BookElementNewline implements BookElement {
 
     @Nonnull
     @Override
-    public BookElement[] split(int maxwidth) {
-        return new BookElement[] { this };
+    public List<BookElement> split(int curwidth, int maxwidth) {
+        return Collections.singletonList(this);
     }
 
     @Override

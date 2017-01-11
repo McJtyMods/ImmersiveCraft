@@ -1,6 +1,7 @@
 package mcjty.immcraft.books;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public interface BookElement {
 
@@ -11,12 +12,13 @@ public interface BookElement {
     int getHeight();
 
     /**
-     * If possible split this element so that the first part fits the given width.
-     * Returns an array of two elements if possible. Otherwise it returns this element
-     * in a single element array.
+     * If possible split this element so that the first part fits the given width and the
+     * rest is split over the full width. The first width parameter indicates what is left
+     * on the current line while the second width parameter indicates the full width of
+     * a line. Returns an array of BookElements
      */
     @Nonnull
-    BookElement[] split(int maxwidth);
+    List<BookElement> split(int curwidth, int maxwidth);
 
     RenderElement createRenderElement(int x, int y);
 }
