@@ -84,6 +84,6 @@ public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
         RenderHelper.enableStandardItemLighting();
         GlStateManager.popMatrix();
         getPages();
-        BookRenderHelper.renderPage(pages.get(0), EnumFacing.SOUTH, x, y, z, 0.25f);
+        BookRenderHelper.renderPage(pages.get(0), x, y, z, 0.25f);
     }
 }

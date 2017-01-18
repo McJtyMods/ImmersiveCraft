@@ -334,7 +334,9 @@ public class TrueTypeFont {
     public void drawString(float x, float y, String whatchars, int startIndex, int endIndex, float scaleX, float scaleY, int format, float... rgba) {
         if (rgba.length == 0) rgba = new float[]{1f, 1f, 1f, 1f};
         GlStateManager.pushMatrix();
-        GlStateManager.scale(scaleX, scaleY, 1.0f);
+        GlStateManager.scale(-scaleX, -scaleY, 1.0f);
+        GlStateManager.rotate(180, 0, 1, 0);
+        GlStateManager.translate(0, -512, 0);
 
         FloatObject floatObject = null;
         int charCurrent;
@@ -377,7 +379,7 @@ public class TrueTypeFont {
             }
 
         }
-        GlStateManager.cullFace(GlStateManager.CullFace.FRONT);
+//        GlStateManager.cullFace(GlStateManager.CullFace.FRONT);
         GlStateManager.bindTexture(fontTextureID);
         //WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
         //worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
@@ -432,7 +434,7 @@ public class TrueTypeFont {
         GlStateManager.glEnd();
 
         GlStateManager.popMatrix();
-        GlStateManager.cullFace(GlStateManager.CullFace.BACK);
+//        GlStateManager.cullFace(GlStateManager.CullFace.BACK);
     }
 
     public static int loadImage(BufferedImage bufferedImage) {

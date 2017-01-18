@@ -20,7 +20,11 @@ public class RenderElementText implements RenderElement {
 
     @Override
     public void render(int dy) {
-        ClientProxy.font.drawString(x, y + dy, text, 1.0f, 1.0f);
-//        fontRenderer.drawString(text, x, y + dy, 0xffffffff);
+        long l = System.currentTimeMillis();
+        if ((l / 2000) % 2 == 0) {
+            ClientProxy.font.drawString(x, 512 - (y + dy), text, 1.0f, 1.0f);
+        } else {
+            fontRenderer.drawString(text, x, y + dy, 0xffffffff);
+        }
     }
 }
