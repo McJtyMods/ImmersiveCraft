@@ -47,7 +47,13 @@ public class PacketSendKey implements IMessage {
     public PacketSendKey(KeyType keyType) {
         this.keyType = keyType;
         RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
+        if (mouseOver == null) {
+            return;
+        }
         blockPos = mouseOver.getBlockPos();
+        if (blockPos == null) {
+            return;
+        }
         side = mouseOver.sideHit;
         hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
     }
