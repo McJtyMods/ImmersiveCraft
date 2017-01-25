@@ -1,10 +1,9 @@
 package mcjty.immcraft.books;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,7 +33,14 @@ public class BookElementItem implements BookElement {
     @Nonnull
     @Override
     public List<BookElement> split(int curwidth, int maxwidth) {
-        return Collections.singletonList(this);
+        if ((curwidth + getWidth()) < maxwidth) {
+            return Collections.singletonList(this);
+        }
+
+        List<BookElement> result = new ArrayList<>();
+        result.add(new BookElementNewline());
+        result.add(this);
+        return result;
     }
 
 }
