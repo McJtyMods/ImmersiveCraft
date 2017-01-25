@@ -35,10 +35,10 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
     public BookStandTESR() {
     }
 
-    private List<BookPage> getPages() {
+    private List<BookPage> getPages() {pages = null;
         if (pages == null) {
             BookParser parser = new BookParser();
-            pages = parser.parse(768, 768*2);
+            pages = parser.parse(768, 1024);
         }
         return pages;
     }

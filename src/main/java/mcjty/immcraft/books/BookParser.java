@@ -4,6 +4,10 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mcjty.immcraft.ImmersiveCraft;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import org.apache.logging.log4j.Level;
 
 import java.io.*;
@@ -53,7 +57,10 @@ public class BookParser {
                     if (string.equals("#")) {
                         section.addElement(new BookElementNewline());
                     } else if (string.startsWith("#i:")) {
-                        // Item
+                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string.substring(3)));
+                        if (item != null) {
+                            section.addElement(new BookElementItem(new ItemStack(item)));
+                        }
                     } else {
                         section.addElement(new BookElementText(string));
                     }
