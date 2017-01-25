@@ -17,7 +17,7 @@
     "section": "Recipe 3",
     "text": [
       "This recipe can be used to craft golden diamonds from wooden rocks ",
-      "This is a second very very very very long line. Word wrapping will certainly be needed"
+      "This is a second very very very very long line. Word ", "#i:minecraft:torch", "wrapping will certainly be needed"
     ]
   },
   {
