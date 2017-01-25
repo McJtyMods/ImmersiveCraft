@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.IModel;
@@ -26,20 +25,20 @@ import org.lwjgl.opengl.GL11;
 import java.util.List;
 
 @SideOnly(Side.CLIENT)
-public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
+public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
 
     private IModel bookModel;
     private IBakedModel bakedBookModel;
 
     private List<BookPage> pages = null;
 
-    public BookTESR() {
+    public BookStandTESR() {
     }
 
     private List<BookPage> getPages() {
         if (pages == null) {
             BookParser parser = new BookParser();
-            pages = parser.parse(512, 512);
+            pages = parser.parse(768, 768*2);
         }
         return pages;
     }
@@ -60,7 +59,7 @@ public class BookTESR extends TileEntitySpecialRenderer<BookTE> {
     }
 
     @Override
-    public void renderTileEntityAt(BookTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(BookStandTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
         super.renderTileEntityAt(tileEntity, x, y, z, partialTicks, destroyStage);
         GlStateManager.pushMatrix();
         GlStateManager.translate(-.5f, .9f, -.5f);

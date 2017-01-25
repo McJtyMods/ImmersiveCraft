@@ -1,7 +1,7 @@
 package mcjty.immcraft.blocks;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.blocks.book.BookBlock;
+import mcjty.immcraft.blocks.book.BookStandBlock;
 import mcjty.immcraft.blocks.bundle.BundleBlock;
 import mcjty.immcraft.blocks.shelf.BookshelfBlock;
 import mcjty.immcraft.blocks.chest.ChestBlock;
@@ -44,7 +44,7 @@ public class ModBlocks {
     public static CupboardBlock cupboardBlock;
     public static ShelfBlock shelfBlock;
     public static BookshelfBlock bookshelfBlock;
-    public static BookBlock bookBlock;
+    public static BookStandBlock bookStandBlock;
 
     public static BundleBlock bundleBlock;
 
@@ -63,7 +63,7 @@ public class ModBlocks {
         cupboardBlock = new CupboardBlock();
         shelfBlock = new ShelfBlock();
         bookshelfBlock = new BookshelfBlock();
-        bookBlock = new BookBlock();
+        bookStandBlock = new BookStandBlock();
     }
 
     public static void initCrafting() {
@@ -92,7 +92,7 @@ public class ModBlocks {
         cupboardBlock.initModel();
         shelfBlock.initModel();
         bookshelfBlock.initModel();
-        bookBlock.initModel();
+        bookStandBlock.initModel();
 
         EntityTools.registerModEntity(new ResourceLocation(ImmersiveCraft.MODID, "immcraft_rock"), EntityRock.class, "immcraft_rock", 1, ImmersiveCraft.MODID, 100, 5, true);
 

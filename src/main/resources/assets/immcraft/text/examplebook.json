@@ -16,6 +16,12 @@
   {
     "section": "Recipe 3",
     "text": [
+      "More text and text and text "
+    ]
+  },
+  {
+    "section": "Recipe 4",
+    "text": [
       "TESTING TESTING This recipe can be used to craft golden diamonds from wooden rocks ",
       "This is a second very very very very long line. Word wrapping will certainly be needed"
     ]

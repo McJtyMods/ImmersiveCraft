@@ -13,7 +13,9 @@ public class BookRenderHelper {
     public static void renderPage(BookPage page, double x, double y, double z, float scale) {
         GlStateManager.pushMatrix();
 
-        GlStateManager.translate((float) x + 0.5F, (float) y + 0.5F, (float) z + 0.5F);
+        GlStateManager.translate((float) x + 0.5F, (float) y + 0.56F, (float) z + 0.63F);
+        GlStateManager.rotate(-33, 1, 0, 0);
+        GlStateManager.scale(.6, .6, .6);
 
         net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
         Minecraft.getMinecraft().entityRenderer.disableLightmap();
@@ -33,10 +35,10 @@ public class BookRenderHelper {
 
     private static void renderText(BookPage page, float scale) {
         GlStateManager.translate(-0.5F, 0.5F, 0.07F);
-        float f3 = 0.0075F;
+        float f3 = 0.0075F/1.5f;
         GlStateManager.scale(f3 * scale, -f3 * scale, f3);
         GlStateManager.glNormal3f(0.0F, 0.0F, 1.0F);
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
 
         int cury = 0;
         for (RenderSection section : page.getSections()) {
