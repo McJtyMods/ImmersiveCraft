@@ -20,7 +20,7 @@ public class BookElementNewline implements BookElement {
 
     @Nonnull
     @Override
-    public List<BookElement> split(int curwidth, int maxwidth) {
+    public List<BookElement> split(int remaining, int maxwidth) {
         return Collections.singletonList(this);
     }
 

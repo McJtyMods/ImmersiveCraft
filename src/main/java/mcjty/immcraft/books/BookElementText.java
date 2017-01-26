@@ -38,14 +38,14 @@ public class BookElementText implements BookElement {
 
     @Nonnull
     @Override
-    public List<BookElement> split(int curwidth, int maxwidth) {
+    public List<BookElement> split(int remaining, int maxwidth) {
         List<BookElement> result = new ArrayList<>();
-        split(curwidth, maxwidth, result, text);
+        split(remaining, maxwidth, result, text);
         return result;
     }
 
-    private void split(int curwidth, int maxwidth, List<BookElement> result, String str) {
-        int i = this.sizeStringToWidth(ClientProxy.font, str, curwidth);
+    private void split(int remaining, int maxwidth, List<BookElement> result, String str) {
+        int i = this.sizeStringToWidth(ClientProxy.font, str, remaining);
         if (str.length() <= i) {
             result.add(new BookElementText(str));
             return;

@@ -32,8 +32,8 @@ public class BookElementItem implements BookElement {
 
     @Nonnull
     @Override
-    public List<BookElement> split(int curwidth, int maxwidth) {
-        if ((curwidth + getWidth()) < maxwidth) {
+    public List<BookElement> split(int remaining, int maxwidth) {
+        if ((remaining + getWidth()) < maxwidth) {
             return Collections.singletonList(this);
         }
 

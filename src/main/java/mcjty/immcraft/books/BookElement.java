@@ -18,7 +18,7 @@ public interface BookElement {
      * a line. Returns an array of BookElements
      */
     @Nonnull
-    List<BookElement> split(int curwidth, int maxwidth);
+    List<BookElement> split(int remaining, int maxwidth);
 
     RenderElement createRenderElement(int x, int y);
 }
