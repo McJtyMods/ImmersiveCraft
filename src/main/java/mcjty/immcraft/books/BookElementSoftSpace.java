@@ -2,11 +2,11 @@ package mcjty.immcraft.books;
 
 import mcjty.immcraft.proxy.ClientProxy;
 
-public class BookElementNewline implements BookElement {
+public class BookElementSoftSpace implements BookElement {
 
     @Override
     public int getWidth() {
-        return -1;
+        return (int) ClientProxy.font.getWidth(" ");
     }
 
     @Override

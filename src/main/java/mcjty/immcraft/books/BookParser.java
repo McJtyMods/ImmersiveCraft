@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 
 import java.io.*;
@@ -51,18 +52,27 @@ public class BookParser {
             BookSection section = new BookSection(sectionElement.getAsString());
             sections.add(section);
             JsonElement textElement = object.get("text");
+            boolean lastIsText = false;
             if (textElement != null) {
                 for (JsonElement textChild : textElement.getAsJsonArray()) {
                     String string = textChild.getAsString();
                     if (string.equals("#")) {
                         section.addElement(new BookElementNewline());
+                        lastIsText = false;
                     } else if (string.startsWith("#i:")) {
                         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string.substring(3)));
                         if (item != null) {
                             section.addElement(new BookElementItem(new ItemStack(item)));
                         }
+                        lastIsText = false;
                     } else {
-                        section.addElement(new BookElementText(string));
+                        for (String s : StringUtils.split(string)) {
+                            if (lastIsText) {
+                                section.addElement(new BookElementSoftSpace());
+                            }
+                            section.addElement(new BookElementText(s));
+                            lastIsText = true;
+                        }
                     }
                 }
             }

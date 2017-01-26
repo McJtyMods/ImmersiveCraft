@@ -2,11 +2,6 @@ package mcjty.immcraft.books;
 
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class BookElementItem implements BookElement {
 
     private final ItemStack item;
@@ -29,18 +24,4 @@ public class BookElementItem implements BookElement {
     public int getHeight() {
         return 80;
     }
-
-    @Nonnull
-    @Override
-    public List<BookElement> split(int remaining, int maxwidth) {
-        if ((remaining + getWidth()) < maxwidth) {
-            return Collections.singletonList(this);
-        }
-
-        List<BookElement> result = new ArrayList<>();
-        result.add(new BookElementNewline());
-        result.add(this);
-        return result;
-    }
-
 }

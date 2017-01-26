@@ -133,17 +133,9 @@ public class BookSection {
                 renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.add(w, h);
             } else {
-                List<BookElement> splitted = element.split(cursor.remaining(), cursor.max());
-                for (BookElement s : splitted) {
-                    w = s.getWidth();
-                    h = s.getHeight();
-                    if (w == -1) {
-                        cursor.newline();
-                    } else {
-                        renderSection.addElement(s.createRenderElement(cursor.getX(), cursor.getY()));
-                        cursor.add(w, h);
-                    }
-                }
+                cursor.newline();
+                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                cursor.add(w, h);
             }
         }
         cursor.consolidate();;
