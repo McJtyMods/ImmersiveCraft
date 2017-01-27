@@ -4,7 +4,7 @@ package mcjty.immcraft.blocks.book;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookParser;
-import mcjty.immcraft.varia.BookRenderHelper;
+import mcjty.immcraft.books.BookRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;

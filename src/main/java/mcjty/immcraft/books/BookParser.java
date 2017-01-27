@@ -18,6 +18,8 @@ import java.util.List;
 
 public class BookParser {
 
+    public static final int SECTION_MARGIN = 40;
+
     private List<BookSection> parseSections(File file) {
         FileInputStream inputstream;
         try {
@@ -58,6 +60,10 @@ public class BookParser {
                     String string = textChild.getAsString();
                     if (string.equals("#")) {
                         section.addElement(new BookElementNewline());
+                        lastIsText = false;
+                    } else if (string.equals("#>")) {
+                        section.addElement(new BookElementNewline());
+                        section.addElement(new BookElementIndent());
                         lastIsText = false;
                     } else if (string.startsWith("#i:")) {
                         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string.substring(3)));
@@ -107,10 +113,10 @@ public class BookParser {
                 currentpage = new BookPage();
                 pages.add(currentpage);
                 currentpage.addSection(renderSection);
-                curh = h;
+                curh = h + SECTION_MARGIN;
             } else {
                 currentpage.addSection(renderSection);
-                curh += h;
+                curh += h + SECTION_MARGIN;
             }
         }
 

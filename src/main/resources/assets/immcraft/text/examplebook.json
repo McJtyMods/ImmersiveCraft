@@ -16,15 +16,15 @@
   {
     "section": "Recipe 3",
     "text": [
-      "This recipe can be used to craft golden diamonds from wooden rocks ",
-      "This is a second very very very very long line. Word ", "#i:minecraft:torch", "wrapping will certainly be needed"
+      "Items needed:",
+      "#>", "3 diamonds (", "#i:minecraft:diamond", ")",
+      "#>", "1 obsidian (", "#i:minecraft:obsidian", ")"
     ]
   },
   {
     "section": "Recipe 4",
     "text": [
-      "TESTING TESTING This recipe can be used to craft golden diamonds from wooden rocks ",
-      "This is a second very very very very long line. Word wrapping will certainly be needed"
+      "TESTING TESTING This recipe can be used to craft golden diamonds from wooden rocks "
     ]
   }
 ]
