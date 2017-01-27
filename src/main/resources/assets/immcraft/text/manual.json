@@ -1,0 +1,22 @@
+[
+  {
+    "section": "Bread",
+    "text": [
+      "Make some bread: ", "#i6:minecraft:bread", "#",
+      "In furnace " , "#i:minecraft:furnace", "#",
+      "#>", "1 wheat (", "#i:minecraft:wheat", ")",
+      "##", "#-", "##"
+    ]
+  },
+  {
+    "section": "Cake",
+    "text": [
+      "Tasty cake!", "#i6:minecraft:cake", "#",
+      "Crafting table ", "#i:minecraft:crafting_table", "#",
+      "#>", "3 milk (", "#i:minecraft:milk_bucket", ")",
+      "#>", "2 sugar (", "#i:minecraft:sugar", ")",
+      "#>", "1 egg (", "#i:minecraft:egg", ")",
+      "#>", "3 wheat (", "#i:minecraft:wheat", ")"
+    ]
+  }
+]

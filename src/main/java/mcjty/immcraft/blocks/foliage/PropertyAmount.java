@@ -14,7 +14,7 @@ public class PropertyAmount extends PropertyEnum<EnumAmount> {
     }
 
     public static PropertyAmount create(String name) {
-        return create(name, Predicates.<EnumAmount>alwaysTrue());
+        return create(name, Predicates.alwaysTrue());
     }
 
     public static PropertyAmount create(String name, Predicate<EnumAmount> filter) {

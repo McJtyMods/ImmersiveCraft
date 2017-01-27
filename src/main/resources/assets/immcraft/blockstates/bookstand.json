@@ -19,7 +19,13 @@
       "south": {"y": 180},
       "west": {"y": 270},
       "east": {"y": 90}
+    },
+    "state": {
+      "empty": {"model": "immcraft:bookstand.obj"},
+      "closed": {"model": "immcraft:bookstand_withbook_closed.obj"},
+      "open": {"model": "immcraft:bookstand_withbook.obj"}
     }
+
   }
 
 }
