@@ -99,7 +99,7 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
         GlStateManager.translate(x + .5, y+0.56, z + .5);
         BlockRenderHelper.rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
         GlStateManager.translate(0, 0, 0.13F);
-        BookRenderHelper.renderPage(pages.get(0), x, y, z, 0.25f);
+        BookRenderHelper.renderPage(pages, 0, x, y, z, 0.25f);
         GlStateManager.popMatrix();
     }
 }
