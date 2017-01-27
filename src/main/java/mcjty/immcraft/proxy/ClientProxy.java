@@ -40,6 +40,7 @@ public class ClientProxy extends CommonProxy {
         KeyBindings.init();
         ModBlocks.initItemModels();
 
-        font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false, new char[] { '•' });
+        font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false,
+                new char[] { '\u2022', '\u2014' });
     }
 }

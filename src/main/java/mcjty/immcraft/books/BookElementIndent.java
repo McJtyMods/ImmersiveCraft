@@ -4,9 +4,11 @@ import mcjty.immcraft.proxy.ClientProxy;
 
 public class BookElementIndent implements BookElement {
 
+    public static final String INDENTSTRING = "     " + '\u2022';
+
     @Override
     public int getWidth() {
-        return (int) ClientProxy.font.getWidth("     •");
+        return (int) ClientProxy.font.getWidth(INDENTSTRING);
     }
 
     @Override

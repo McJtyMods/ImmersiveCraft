@@ -3,6 +3,8 @@ package mcjty.immcraft.books;
 import java.util.ArrayList;
 import java.util.List;
 
+import static mcjty.immcraft.books.BookElement.*;
+
 public class BookSection {
 
     private final String name;
@@ -29,7 +31,7 @@ public class BookSection {
 
         int curw = 0;
         for (BookElement element : elements) {
-            if (element.getWidth() == -1) {
+            if (element.getWidth() == WIDTH_NEWLINE) {
                 curw = 0;
             } else {
                 curw += element.getWidth();
@@ -48,7 +50,16 @@ public class BookSection {
         int curh = 0;
         for (BookElement element : elements) {
             curh = Math.max(curh, element.getHeight());
-            if (element.getWidth() == -1) {
+            if (element.getWidth() == WIDTH_NEWLINE) {
+                maxheight += curh;
+                curh = 0;
+            } else if (element.getWidth() == WIDTH_FULLWIDTH) {
+                maxheight += curh;
+                curh = 0;
+            } else if (element.getWidth() == WIDTH_NEWPARAGRAPH) {
+                if (curh == 0) {
+                    curh = element.getHeight();
+                }
                 maxheight += curh;
                 curh = 0;
             }
@@ -127,7 +138,15 @@ public class BookSection {
         for (BookElement element : elements) {
             int w = element.getWidth();
             int h = element.getHeight();
-            if (w == -1) {
+            if (w == WIDTH_NEWLINE) {
+                cursor.newline();
+            } else if (w == WIDTH_NEWPARAGRAPH) {
+                if (cursor.getMaxh() == 0) {
+                    cursor.add(1, element.getHeight());
+                }
+                cursor.newline();
+            } else if (w == WIDTH_FULLWIDTH) {
+                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.newline();
             } else if (cursor.fits(w)) {
                 renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
@@ -138,7 +157,7 @@ public class BookSection {
                 cursor.add(w, h);
             }
         }
-        cursor.consolidate();;
+        cursor.consolidate();
         renderSection.setWidth(cursor.getMaxw());
         renderSection.setHeight(cursor.getY());
         return renderSection;

@@ -1,11 +1,7 @@
 package mcjty.immcraft.books;
 
-import mcjty.immcraft.books.BookPage;
-import mcjty.immcraft.books.RenderElement;
-import mcjty.immcraft.books.RenderSection;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.EnumFacing;
 import org.lwjgl.opengl.GL11;
 
 import static mcjty.immcraft.books.BookParser.SECTION_MARGIN;

@@ -65,10 +65,25 @@ public class BookParser {
                         section.addElement(new BookElementNewline());
                         section.addElement(new BookElementIndent());
                         lastIsText = false;
-                    } else if (string.startsWith("#i:")) {
-                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(string.substring(3)));
+                    } else if (string.equals("##")) {
+                        section.addElement(new BookElementNewParagraph());
+                        lastIsText = false;
+                    } else if (string.equals("#-")) {
+                        section.addElement(new BookElementRuler());
+                        lastIsText = false;
+                    } else if (string.startsWith("#i")) {
+                        String regName;
+                        float scale;
+                        if (string.charAt(2) == ':') {
+                            scale = 1.0f;
+                            regName = string.substring(3);
+                        } else {
+                            scale = 0.5f + ((string.charAt(2)-'0')) * .2f;
+                            regName = string.substring(4);
+                        }
+                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
                         if (item != null) {
-                            section.addElement(new BookElementItem(new ItemStack(item)));
+                            section.addElement(new BookElementItem(new ItemStack(item), scale));
                         }
                         lastIsText = false;
                     } else {
