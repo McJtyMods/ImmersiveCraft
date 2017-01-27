@@ -13,9 +13,6 @@ import static mcjty.immcraft.books.BookParser.SECTION_MARGIN;
 public class BookRenderHelper {
 
     public static void renderPage(BookPage page, double x, double y, double z, float scale) {
-        GlStateManager.pushMatrix();
-
-        GlStateManager.translate((float) x + 0.5F, (float) y + 0.56F, (float) z + 0.63F);
         GlStateManager.rotate(-33, 1, 0, 0);
         GlStateManager.scale(.6, .6, .6);
 
@@ -31,8 +28,6 @@ public class BookRenderHelper {
         GlStateManager.enableLighting();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-        GlStateManager.popMatrix();
     }
 
     private static void renderText(BookPage page, float scale) {
