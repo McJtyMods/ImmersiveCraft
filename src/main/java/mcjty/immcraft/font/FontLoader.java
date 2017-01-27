@@ -43,17 +43,17 @@ public class FontLoader {
         return out;
     }
 
-    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias) {
-        return createFont(res, defSize, antialias, Font.TRUETYPE_FONT);
+    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias, char[] additionalChars) {
+        return createFont(res, defSize, antialias, Font.TRUETYPE_FONT, additionalChars);
     }
 
-    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias, int type) {
+    public static TrueTypeFont createFont(ResourceLocation res, float defSize, boolean antialias, int type, char[] additionalChars) {
         Font font;
         TrueTypeFont out = null;
         try {
             font = Font.createFont(type, Minecraft.getMinecraft().getResourceManager().getResource(res).getInputStream());
             font = font.deriveFont(defSize);
-            out = new TrueTypeFont(font, antialias);
+            out = new TrueTypeFont(font, antialias, additionalChars);
         } catch (Exception e) {
             e.printStackTrace();
         }

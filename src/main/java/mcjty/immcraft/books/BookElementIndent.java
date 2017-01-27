@@ -6,7 +6,7 @@ public class BookElementIndent implements BookElement {
 
     @Override
     public int getWidth() {
-        return (int) ClientProxy.font.getWidth("     *");
+        return (int) ClientProxy.font.getWidth("     •");
     }
 
     @Override

@@ -17,9 +17,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-/**
- * Created by jorrit on 16.12.16.
- */
 public class ClientProxy extends CommonProxy {
 
     public static TrueTypeFont font;
@@ -43,6 +40,6 @@ public class ClientProxy extends CommonProxy {
         KeyBindings.init();
         ModBlocks.initItemModels();
 
-        font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false);
+        font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false, new char[] { '•' });
     }
 }
