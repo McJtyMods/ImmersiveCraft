@@ -4,10 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mcjty.immcraft.ImmersiveCraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
 
@@ -103,8 +106,14 @@ public class BookParser {
     }
 
 
-    public List<BookPage> parse(int width, int height) {
-        InputStream inputstream = ImmersiveCraft.class.getResourceAsStream("/assets/immcraft/text/examplebook.json");
+    @SideOnly(Side.CLIENT)
+    public List<BookPage> parse(ResourceLocation location, int width, int height) {
+        InputStream inputstream = null;
+        try {
+            inputstream = Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         List<BookSection> sections = parseSections("builtin", inputstream);
 //        File file = new File(directory.getPath() + File.separator + "rftools", "dimlets.json");
 

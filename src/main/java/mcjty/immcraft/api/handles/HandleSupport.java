@@ -132,6 +132,14 @@ public class HandleSupport {
 //        if (te.getWorld().isRemote) {
 //            return true;
 //        }
+
+        if (handle.getAction() != null) {
+            boolean rc = handle.getAction().test(player);
+            if (rc) {
+                return true;
+            }
+        }
+
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
 
         boolean sneaking = player.isSneaking();

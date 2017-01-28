@@ -4,10 +4,10 @@ import mcjty.immcraft.api.input.KeyType;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
+import java.util.function.Predicate;
 
 public interface IInterfaceHandle {
     float getScale();
@@ -46,6 +46,10 @@ public interface IInterfaceHandle {
 
     // True if this is a crafting handle
     boolean isCrafting();
+
+    default Predicate<EntityPlayer> getAction() {
+        return null;
+    }
 
     // Extract output, if amount is -1 all will be extracted. Otherwise the specific amount.
     ItemStack extractOutput(TileEntity te, EntityPlayer player, int amount);

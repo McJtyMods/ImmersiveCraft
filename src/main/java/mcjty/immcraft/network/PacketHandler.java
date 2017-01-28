@@ -69,6 +69,7 @@ public class PacketHandler {
 
         // Client side
         INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, nextID(), Side.CLIENT);
 
         register(nextPacketID(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
         register(nextPacketID(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);

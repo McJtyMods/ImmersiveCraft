@@ -1,12 +1,15 @@
 package mcjty.immcraft.blocks.book;
 
+import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
@@ -31,7 +34,10 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
 
     public BookStandBlock() {
         super(Material.WOOD, "bookstand", BookStandTE.class, false);
+        addSelector(new HandleSelector("l", new AxisAlignedBB(0.15f, 0.23f, 0.8f, 0.25f, 0.33f, 0.9f)));
+        addSelector(new HandleSelector("r", new AxisAlignedBB(0.75f, 0.23f, 0.8f, 0.85f, 0.33f, 0.9f)));
     }
+
 
     @SideOnly(Side.CLIENT)
     @Override
