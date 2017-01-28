@@ -11,7 +11,7 @@ import static mcjty.immcraft.books.BookParser.SECTION_MARGIN;
 
 public class BookRenderHelper {
 
-    public static void renderPage(List<BookPage> pages, int index, double x, double y, double z, float scale) {
+    public static void renderPage(List<BookPage> pages, int index, float scale) {
         GlStateManager.rotate(-33, 1, 0, 0);
         GlStateManager.scale(.6, .6, .6);
 
@@ -26,9 +26,11 @@ public class BookRenderHelper {
         GlStateManager.glNormal3f(0.0F, 0.0F, 1.0F);
         GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
 
-        renderText(pages.get(index), scale);
+        renderText(pages.get(index));
 
-        ClientProxy.font.drawString(700.0f, -650.0f, (index+1) + "/" + pages.size(), 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
+        if (index > 0) {
+            ClientProxy.font.drawString(700.0f, -650.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
+        }
 
 
         Minecraft.getMinecraft().entityRenderer.enableLightmap();
@@ -39,7 +41,7 @@ public class BookRenderHelper {
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
     }
 
-    private static void renderText(BookPage page, float scale) {
+    private static void renderText(BookPage page) {
         int cury = 0;
         for (RenderSection section : page.getSections()) {
             for (RenderElement element : section.getElements()) {

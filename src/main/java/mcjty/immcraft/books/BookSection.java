@@ -1,5 +1,6 @@
 package mcjty.immcraft.books;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +11,17 @@ public class BookSection {
     private final String name;
     private final List<BookElement> elements = new ArrayList<>();
 
-    public BookSection(String name) {
+    // If name is null this means a page break
+    public BookSection(@Nullable String name) {
         this.name = name;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isPagebreak() {
+        return name == null;
     }
 
     public void addElement(BookElement element) {

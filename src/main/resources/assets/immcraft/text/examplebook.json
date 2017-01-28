@@ -1,5 +1,14 @@
 [
   {
+    "section": "Title",
+    "text": [
+      "The ImmersiveCraft Manual"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
     "section": "Bread",
     "text": [
       "Make some bread: ", "#i6:minecraft:bread", "#",

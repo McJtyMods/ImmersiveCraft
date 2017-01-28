@@ -61,7 +61,7 @@ public class BookStandTE extends GenericImmcraftTE {
             BookParser parser = new BookParser();
             pages = parser.parse(json, 768, 1024);
             if (pageNumber >= pages.size()) {
-                pageNumber = -1;
+                pageNumber = 0;
                 markDirtyClient();
             }
         }
@@ -88,23 +88,24 @@ public class BookStandTE extends GenericImmcraftTE {
 
     public void pageDecClient() {
         System.out.println("pageNumber = " + pageNumber);
-        if (pageNumber >= 0) {
+        if (pageNumber > 0) {
             pageNumber--;
-            markDirtyClient();
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
 
     public void pageIncClient() {
         System.out.println("pageNumber = " + pageNumber + ", " + pages.size());
-        if (pages != null && pageNumber < pages.size()) {
+        if (pages != null && pageNumber < pages.size()-1) {
             pageNumber++;
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
 
     public EnumStandState getState() {
         if (ItemStackTools.isEmpty(currentBook)) {
             return EnumStandState.EMPTY;
-        } else if (pageNumber == -1) {
+        } else if (pageNumber == 0) {
             return EnumStandState.CLOSED;
         } else {
             return EnumStandState.OPEN;
@@ -157,7 +158,7 @@ public class BookStandTE extends GenericImmcraftTE {
                 currentBook = heldItem.splitStack(1);
                 player.openContainer.detectAndSendChanges();
                 pages = null;
-                pageNumber = -1;
+                pageNumber = 0;
                 markDirtyClient();
                 return true;
             } else {

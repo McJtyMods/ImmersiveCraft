@@ -49,56 +49,59 @@ public class BookParser {
         JsonElement element = parser.parse(br);
         for (JsonElement entry : element.getAsJsonArray()) {
             JsonObject object = entry.getAsJsonObject();
+
             JsonElement sectionElement = object.get("section");
-            if (sectionElement == null) {
-                ImmersiveCraft.logger.log(Level.ERROR, "Missing section name in: " + name);
-                return Collections.emptyList();
-            }
-            BookSection section = new BookSection(sectionElement.getAsString());
-            sections.add(section);
-            JsonElement textElement = object.get("text");
-            boolean lastIsText = false;
-            if (textElement != null) {
-                for (JsonElement textChild : textElement.getAsJsonArray()) {
-                    String string = textChild.getAsString();
-                    if (string.equals("#")) {
-                        section.addElement(new BookElementNewline());
-                        lastIsText = false;
-                    } else if (string.equals("#>")) {
-                        section.addElement(new BookElementNewline());
-                        section.addElement(new BookElementIndent());
-                        lastIsText = false;
-                    } else if (string.equals("##")) {
-                        section.addElement(new BookElementNewParagraph());
-                        lastIsText = false;
-                    } else if (string.equals("#-")) {
-                        section.addElement(new BookElementRuler());
-                        lastIsText = false;
-                    } else if (string.startsWith("#i")) {
-                        String regName;
-                        float scale;
-                        if (string.charAt(2) == ':') {
-                            scale = 1.0f;
-                            regName = string.substring(3);
-                        } else {
-                            scale = 0.5f + ((string.charAt(2)-'0')) * .2f;
-                            regName = string.substring(4);
-                        }
-                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
-                        if (item != null) {
-                            section.addElement(new BookElementItem(new ItemStack(item), scale));
-                        }
-                        lastIsText = false;
-                    } else {
-                        for (String s : StringUtils.split(string)) {
-                            if (lastIsText) {
-                                section.addElement(new BookElementSoftSpace());
+            if (sectionElement != null) {
+                BookSection section = new BookSection(sectionElement.getAsString());
+                sections.add(section);
+                JsonElement textElement = object.get("text");
+                boolean lastIsText = false;
+                if (textElement != null) {
+                    for (JsonElement textChild : textElement.getAsJsonArray()) {
+                        String string = textChild.getAsString();
+                        if (string.equals("#")) {
+                            section.addElement(new BookElementNewline());
+                            lastIsText = false;
+                        } else if (string.equals("#>")) {
+                            section.addElement(new BookElementNewline());
+                            section.addElement(new BookElementIndent());
+                            lastIsText = false;
+                        } else if (string.equals("##")) {
+                            section.addElement(new BookElementNewParagraph());
+                            lastIsText = false;
+                        } else if (string.equals("#-")) {
+                            section.addElement(new BookElementRuler());
+                            lastIsText = false;
+                        } else if (string.startsWith("#i")) {
+                            String regName;
+                            float scale;
+                            if (string.charAt(2) == ':') {
+                                scale = 1.0f;
+                                regName = string.substring(3);
+                            } else {
+                                scale = 0.5f + ((string.charAt(2)-'0')) * .2f;
+                                regName = string.substring(4);
                             }
-                            section.addElement(new BookElementText(s));
-                            lastIsText = true;
+                            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
+                            if (item != null) {
+                                section.addElement(new BookElementItem(new ItemStack(item), scale));
+                            }
+                            lastIsText = false;
+                        } else {
+                            for (String s : StringUtils.split(string)) {
+                                if (lastIsText) {
+                                    section.addElement(new BookElementSoftSpace());
+                                }
+                                section.addElement(new BookElementText(s));
+                                lastIsText = true;
+                            }
                         }
                     }
                 }
+            }
+
+            if (object.has("page")) {
+                sections.add(new BookSection(null));    // Next page
             }
         }
 
@@ -121,26 +124,35 @@ public class BookParser {
 
         BookPage currentpage = new BookPage();
         pages.add(currentpage);
+        System.out.println("1: Adding page");
 
         int curh = 0;
         for (BookSection section : sections) {
-            RenderSection renderSection = section.renderAtWidth(width);
-            int h = renderSection.getHeight();
-            if (h > height) {
-                // The section is too large. Put in a place holder as an error
-                renderSection = new RenderSection();
-                renderSection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
-                h = renderSection.getHeight();
-            }
-            if (curh + h > height) {
-                // We need a new page
+            if (section.isPagebreak()) {
                 currentpage = new BookPage();
                 pages.add(currentpage);
-                currentpage.addSection(renderSection);
-                curh = h + SECTION_MARGIN;
+                System.out.println("2: Adding page");
+                curh = 0;
             } else {
-                currentpage.addSection(renderSection);
-                curh += h + SECTION_MARGIN;
+                RenderSection renderSection = section.renderAtWidth(width);
+                int h = renderSection.getHeight();
+                if (h > height) {
+                    // The section is too large. Put in a place holder as an error
+                    renderSection = new RenderSection();
+                    renderSection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
+                    h = renderSection.getHeight();
+                }
+                if (curh + h > height) {
+                    // We need a new page
+                    currentpage = new BookPage();
+                    pages.add(currentpage);
+                    System.out.println("3: Adding page");
+                    currentpage.addSection(renderSection);
+                    curh = h + SECTION_MARGIN;
+                } else {
+                    currentpage.addSection(renderSection);
+                    curh += h + SECTION_MARGIN;
+                }
             }
         }
 
