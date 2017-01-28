@@ -79,7 +79,7 @@ public class BookParser {
                                 scale = 1.0f;
                                 regName = string.substring(3);
                             } else {
-                                scale = 0.5f + ((string.charAt(2)-'0')) * .2f;
+                                scale = 0.5f + ((string.charAt(2) - '0')) * .2f;
                                 regName = string.substring(4);
                             }
                             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
@@ -87,14 +87,18 @@ public class BookParser {
                                 section.addElement(new BookElementItem(new ItemStack(item), scale));
                             }
                             lastIsText = false;
-                        } else {
-                            for (String s : StringUtils.split(string)) {
-                                if (lastIsText) {
-                                    section.addElement(new BookElementSoftSpace());
-                                }
-                                section.addElement(new BookElementText(s));
-                                lastIsText = true;
+                        } else if (string.startsWith("#:")) {
+                            String fmtString = string.substring(2);
+                            if (fmtString.contains(":")) {
+                                int idx = fmtString.indexOf(':');
+                                String fmt = fmtString.substring(0, idx);
+                                String text = fmtString.substring(idx+1);
+                                lastIsText = handleText(section, lastIsText, text, fmt);
+                            } else {
+                                lastIsText = handleText(section, lastIsText, fmtString, "");
                             }
+                        } else {
+                            lastIsText = handleText(section, lastIsText, string, "");
                         }
                     }
                 }
@@ -106,6 +110,17 @@ public class BookParser {
         }
 
         return sections;
+    }
+
+    private boolean handleText(BookSection section, boolean lastIsText, String string, String fmt) {
+        for (String s : StringUtils.split(string)) {
+            if (lastIsText) {
+                section.addElement(new BookElementSoftSpace());
+            }
+            section.addElement(new BookElementText(s, fmt));
+            lastIsText = true;
+        }
+        return lastIsText;
     }
 
 
@@ -139,7 +154,7 @@ public class BookParser {
                 if (h > height) {
                     // The section is too large. Put in a place holder as an error
                     renderSection = new RenderSection();
-                    renderSection.addElement(new BookElementText("<NO FIT>").createRenderElement(0, 0));
+                    renderSection.addElement(new BookElementText("<NO FIT>", "").createRenderElement(0, 0));
                     h = renderSection.getHeight();
                 }
                 if (curh + h > height) {
