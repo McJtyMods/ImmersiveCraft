@@ -2,7 +2,14 @@
   {
     "section": "Title",
     "text": [
-      "#:7:The ImmersiveCraft Manual"
+      "##",
+      "##",
+      "#I9:immcraft:textures/gui/title.png",
+      "##",
+      "#:3,white,c:The", "##", "#:3,white,c:ImmersiveCraft", "##", "#:3,white,c:Manual",
+      "##",
+      "##",
+      "#:1,white,c:By McJty "
     ]
   },
   {
@@ -11,7 +18,7 @@
   {
     "section": "Bread",
     "text": [
-      "Make some bread: ", "#i6:minecraft:bread", "#",
+      "Make some bread: ", "#i3:minecraft:bread", "#",
       "In furnace " , "#i:minecraft:furnace", "#",
       "#>", "1 wheat (", "#i:minecraft:wheat", ")",
       "##", "#-", "##"
@@ -20,7 +27,7 @@
   {
     "section": "Cake",
     "text": [
-      "Tasty cake!", "#i6:minecraft:cake", "#",
+      "Tasty cake!", "#i3:minecraft:cake", "#",
       "Crafting table ", "#i:minecraft:crafting_table", "#",
       "#>", "3 milk (", "#i:minecraft:milk_bucket", ")",
       "#>", "2 sugar (", "#i:minecraft:sugar", ")",

@@ -3,33 +3,35 @@ package mcjty.immcraft.books;
 import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.item.EnumDyeColor;
+import org.apache.commons.lang3.StringUtils;
 
 public class BookElementText implements BookElement {
 
     private final String text;
-    private final float scale;
+    private final TextElementFormat fmt;
 
-    public BookElementText(String text, String fmt) {
+    public BookElementText(String text, TextElementFormat fmt) {
         this.text = text;
-        if (fmt.isEmpty()) {
-            scale = 1.0f;
-        } else {
-            scale = 0.5f + ((fmt.charAt(0) - '0')) * .2f;
-        }
+        this.fmt = fmt;
     }
 
     @Override
     public RenderElement createRenderElement(int x, int y) {
-        return new RenderElementText(text, x, y, scale);
+        return new RenderElementText(text, x, y, fmt.getScale(), fmt.getColor(), fmt.getAlign());
     }
 
     @Override
     public int getWidth() {
-        return (int) (ClientProxy.font.getWidth(text) * scale);
+        if (fmt.getAlign() == -1) {
+            return (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
+        } else {
+            return WIDTH_FULLWIDTH;
+        }
     }
 
     @Override
     public int getHeight() {
-        return (int) (ClientProxy.font.getHeight() * scale);
+        return (int) (ClientProxy.font.getHeight() * fmt.getScale());
     }
 }

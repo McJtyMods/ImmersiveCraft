@@ -79,13 +79,25 @@ public class BookParser {
                                 scale = 1.0f;
                                 regName = string.substring(3);
                             } else {
-                                scale = 0.5f + ((string.charAt(2) - '0')) * .2f;
+                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
                                 regName = string.substring(4);
                             }
                             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
                             if (item != null) {
                                 section.addElement(new BookElementItem(new ItemStack(item), scale));
                             }
+                            lastIsText = false;
+                        } else if (string.startsWith("#I")) {
+                            String regName;
+                            float scale;
+                            if (string.charAt(2) == ':') {
+                                scale = 1.0f;
+                                regName = string.substring(3);
+                            } else {
+                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                                regName = string.substring(4);
+                            }
+                            section.addElement(new BookElementImage(new ResourceLocation(regName), 0, 0, 64, 64, 64, 64, scale));
                             lastIsText = false;
                         } else if (string.startsWith("#:")) {
                             String fmtString = string.substring(2);
@@ -113,13 +125,22 @@ public class BookParser {
     }
 
     private boolean handleText(BookSection section, boolean lastIsText, String string, String fmt) {
-        for (String s : StringUtils.split(string)) {
-            if (lastIsText) {
-                section.addElement(new BookElementSoftSpace());
+        TextElementFormat format = new TextElementFormat(fmt);
+        if (format.getAlign() == -1) {
+            // Default left alignment. Split in words here
+            for (String s : StringUtils.split(string)) {
+                if (lastIsText) {
+                    section.addElement(new BookElementSoftSpace());
+                }
+                section.addElement(new BookElementText(s, format));
+                lastIsText = true;
             }
-            section.addElement(new BookElementText(s, fmt));
+        } else {
+            // The text is a single element now
+            section.addElement(new BookElementText(string, format));
             lastIsText = true;
         }
+
         return lastIsText;
     }
 
@@ -133,20 +154,17 @@ public class BookParser {
             throw new RuntimeException(e);
         }
         List<BookSection> sections = parseSections("builtin", inputstream);
-//        File file = new File(directory.getPath() + File.separator + "rftools", "dimlets.json");
 
         List<BookPage> pages = new ArrayList<>();
 
         BookPage currentpage = new BookPage();
         pages.add(currentpage);
-        System.out.println("1: Adding page");
 
         int curh = 0;
         for (BookSection section : sections) {
             if (section.isPagebreak()) {
                 currentpage = new BookPage();
                 pages.add(currentpage);
-                System.out.println("2: Adding page");
                 curh = 0;
             } else {
                 RenderSection renderSection = section.renderAtWidth(width);
@@ -154,14 +172,13 @@ public class BookParser {
                 if (h > height) {
                     // The section is too large. Put in a place holder as an error
                     renderSection = new RenderSection();
-                    renderSection.addElement(new BookElementText("<NO FIT>", "").createRenderElement(0, 0));
+                    renderSection.addElement(new BookElementText("<NO FIT>", TextElementFormat.DEFAULT).createRenderElement(0, 0));
                     h = renderSection.getHeight();
                 }
                 if (curh + h > height) {
                     // We need a new page
                     currentpage = new BookPage();
                     pages.add(currentpage);
-                    System.out.println("3: Adding page");
                     currentpage.addSection(renderSection);
                     curh = h + SECTION_MARGIN;
                 } else {

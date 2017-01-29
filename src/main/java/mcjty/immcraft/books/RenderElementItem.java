@@ -40,7 +40,6 @@ public class RenderElementItem implements RenderElement {
             return;
         }
         RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         GlStateManager.depthMask(true);
 
@@ -55,7 +54,7 @@ public class RenderElementItem implements RenderElement {
         GlStateManager.popMatrix();
 
         GlStateManager.disableLighting();
-        RenderHelper.enableStandardItemLighting();
+        RenderHelper.disableStandardItemLighting();
     }
 
     private void renderSlot(ItemStack itm, int x, int currenty) {

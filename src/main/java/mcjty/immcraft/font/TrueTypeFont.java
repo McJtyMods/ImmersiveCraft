@@ -336,7 +336,7 @@ public class TrueTypeFont {
         GlStateManager.pushMatrix();
         GlStateManager.scale(-scaleX, -scaleY, 1.0f);
         GlStateManager.rotate(180, 0, 1, 0);
-        GlStateManager.translate(0, -512, 0);
+        GlStateManager.translate(0, -512/scaleY, 0);
 
         FloatObject floatObject = null;
         int charCurrent;

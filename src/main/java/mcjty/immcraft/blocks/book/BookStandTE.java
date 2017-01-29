@@ -39,11 +39,12 @@ public class BookStandTE extends GenericImmcraftTE {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        EnumStandState oldState = getState();
+        boolean oldBook = ItemStackTools.isValid(currentBook);
         super.onDataPacket(net, packet);
         if (getWorld().isRemote) {
             // If needed send a render update.
-            if (oldState != getState()) {
+            boolean newBook = ItemStackTools.isValid(currentBook);
+            if (oldBook != newBook) {
                 getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
             }
         }
@@ -87,7 +88,6 @@ public class BookStandTE extends GenericImmcraftTE {
     }
 
     public void pageDecClient() {
-        System.out.println("pageNumber = " + pageNumber);
         if (pageNumber > 0) {
             pageNumber--;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
@@ -95,7 +95,6 @@ public class BookStandTE extends GenericImmcraftTE {
     }
 
     public void pageIncClient() {
-        System.out.println("pageNumber = " + pageNumber + ", " + pages.size());
         if (pages != null && pageNumber < pages.size()-1) {
             pageNumber++;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
@@ -119,6 +118,8 @@ public class BookStandTE extends GenericImmcraftTE {
             currentBook = ItemStackTools.loadFromNBT(compound.getCompoundTag("book"));
         } else {
             currentBook = ItemStackTools.getEmptyStack();
+            pages = null;
+            pageNumber = 0;
         }
     }
 
@@ -146,8 +147,6 @@ public class BookStandTE extends GenericImmcraftTE {
         if (ItemStackTools.isValid(currentBook)) {
             InventoryHelper.giveItemToPlayer(player, currentBook);
             currentBook = ItemStackTools.getEmptyStack();
-            pages = null;
-            pageNumber = 0;
             markDirtyClient();
             return true;
         }
@@ -157,8 +156,6 @@ public class BookStandTE extends GenericImmcraftTE {
             if (heldItem.getItem() instanceof IBook) {
                 currentBook = heldItem.splitStack(1);
                 player.openContainer.detectAndSendChanges();
-                pages = null;
-                pageNumber = 0;
                 markDirtyClient();
                 return true;
             } else {
