@@ -41,7 +41,7 @@ public class Plane {
 
     private static DecimalFormat dfCommas = new DecimalFormat("###.##");
 
-    private String v(Vec3d v) {
+    public static String v(Vec3d v) {
         return dfCommas.format(v.xCoord) + " " + dfCommas.format(v.yCoord) + " " + dfCommas.format(v.zCoord);
     }
 
@@ -49,8 +49,8 @@ public class Plane {
         System.out.println("Plane[" + v(s1) + " | " + v(s2) + " | " + v(s3) + " | " + v(s4) + "]");
         System.out.println("    Ray[" + v(r1) + " | " + v(r2) + "]");
 
-        Vec3d dS21 = s3.subtract(s1);
-        Vec3d dS31 = s2.subtract(s1);
+        Vec3d dS21 = s2.subtract(s1);
+        Vec3d dS31 = s3.subtract(s1);
         Vec3d n = dS21.crossProduct(dS31);
 
         // 2.

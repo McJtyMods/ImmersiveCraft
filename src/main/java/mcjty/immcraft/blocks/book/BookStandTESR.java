@@ -44,45 +44,62 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
             return;
         }
 
-        GlStateManager.enableAlpha();
-        GlStateManager.alphaFunc(516, 0.1F);
 
         if (tileEntity.hasBook()) {
             List<BookPage> pages = tileEntity.getPages();
             int pageNumber = tileEntity.getPageNumber();
             if (pageNumber >= 0) {
+                GlStateManager.enableAlpha();
+                GlStateManager.alphaFunc(516, 0.1F);
+
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x + .5, y + 0.56, z + .5);
                 BlockRenderHelper.rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
                 GlStateManager.translate(0, 0, 0.13F);
 
                 Plane plane = rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
+                System.out.println("xyz = " + x +"," + y + "," + z);
                 plane = plane.offset(new Vec3d(x, y, z));
 
-                Vec2f intersection = calculateIntersection(tileEntity, (GenericBlock) block, plane, x, y, z);
+                Vec3d p = new Vec3d(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ());
+                Vec3d start = getStart(new Vec3d(0, 0, 0), partialTicks);
+                Vec3d end = getEnd(p, partialTicks);
+
+                Vec2f intersection = plane.intersect(start, end);
                 System.out.println("intersection = " + intersection);
 
                 BookRenderHelper.renderPage(pages, pageNumber, 0.25f);
                 GlStateManager.popMatrix();
 
-                BlockRenderHelper.renderPlaneOutline(plane, partialTicks);
+                BlockRenderHelper.renderPlaneOutline(plane);
+
+                BlockRenderHelper.renderLine(start, end);
+
+                Vec3d origin = tr(new Vec3d(0, 0, 0), p, partialTicks);
+//                BlockRenderHelper.renderLine(origin, start);
+//                BlockRenderHelper.renderLine(origin, end);
+
+                BlockRenderHelper.renderLine(origin, tr(new Vec3d(1, 0, 0), p, partialTicks));
+                BlockRenderHelper.renderLine(origin, tr(new Vec3d(0, 1, 0), p, partialTicks));
+                BlockRenderHelper.renderLine(origin, tr(new Vec3d(0, 0, 1), p, partialTicks));
             }
         }
     }
 
+    private static Vec3d tr(Vec3d v, Vec3d p, float partialTicks) {
+        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        Vec3d e = player.getPositionEyes(partialTicks);
+        return p.add(v).subtract(e).add(new Vec3d(0, player.eyeHeight, 0));
+    }
 
-    private Vec2f calculateIntersection(BookStandTE tileEntity, GenericBlock block, Plane plane, double x, double y, double z) {
-        if (Minecraft.getMinecraft().objectMouseOver != null) {
 
-            EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
-            WorldClient world = MinecraftTools.getWorld(Minecraft.getMinecraft());
-            double doubleX = player.prevPosX + (player.posX - player.prevPosX);
-            double doubleY = player.prevPosY + (player.posY - player.prevPosY) + (world.isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight()); // isRemote check to revert changes to ray trace position due to adding the eye height clientside and player yOffset differences
-            double doubleZ = player.prevPosZ + (player.posZ - player.prevPosZ);
-            Vec3d start = new Vec3d(doubleX, doubleY, doubleZ);
-            return plane.intersect(start, Minecraft.getMinecraft().objectMouseOver.hitVec);
-        }
-        return null;
+    private Vec3d getEnd(Vec3d p, float partialTicks) {
+        return tr(Minecraft.getMinecraft().objectMouseOver.hitVec.subtract(p), p, partialTicks);
+    }
+
+    private Vec3d getStart(Vec3d p, float partialTicks) {
+        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        return tr(player.getPositionVector(), p, partialTicks);
     }
 
     public static Plane rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {

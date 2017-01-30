@@ -391,9 +391,7 @@ public final class BlockRenderHelper {
         }
     }
 
-    public static void renderPlaneOutline(Plane plane, double partialTicks) {
-//        GlStateManager.enableBlend();
-//        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+    public static void renderPlaneOutline(Plane plane) {
         GlStateManager.glLineWidth(4.0F);
         GlStateManager.disableTexture2D();
         GlStateManager.depthMask(false);
@@ -411,6 +409,28 @@ public final class BlockRenderHelper {
         drawLine(vertexbuffer, plane.getS2(), plane.getS4());
         drawLine(vertexbuffer, plane.getS4(), plane.getS3());
         drawLine(vertexbuffer, plane.getS3(), plane.getS1());
+        tessellator.draw();
+
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+//        GlStateManager.disableBlend();
+    }
+
+    public static void renderLine(Vec3d s1, Vec3d s2) {
+        GlStateManager.glLineWidth(4.0F);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+
+        GlStateManager.disableBlend();
+        GlStateManager.disableLighting();
+        GlStateManager.disableAlpha();
+
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+        drawLine(vertexbuffer, s1, s2);
         tessellator.draw();
 
         GlStateManager.depthMask(true);
