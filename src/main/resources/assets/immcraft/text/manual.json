@@ -16,6 +16,16 @@
     "page": true
   },
   {
+    "section": "TOC",
+    "text": [
+      "#>", "#l:Bread",
+      "#>", "#l:Cake"
+    ]
+  },
+  {
+    "page": true
+  },
+  {
     "section": "Bread",
     "text": [
       "Make some bread: ", "#i3:minecraft:bread", "#",

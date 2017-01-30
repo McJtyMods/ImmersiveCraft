@@ -72,6 +72,18 @@ public class BookParser {
                         } else if (string.equals("#-")) {
                             section.addElement(new BookElementRuler());
                             lastIsText = false;
+                        } else if (string.startsWith("#l")) {
+                            String sec;
+                            float scale;
+                            if (string.charAt(2) == ':') {
+                                scale = 1.0f;
+                                sec = string.substring(3);
+                            } else {
+                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                                sec = string.substring(4);
+                            }
+                            section.addElement(new BookElementLink(sec, scale));
+                            lastIsText = true;
                         } else if (string.startsWith("#i")) {
                             String regName;
                             float scale;
