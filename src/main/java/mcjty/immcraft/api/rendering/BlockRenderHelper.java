@@ -6,6 +6,7 @@ import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.varia.Plane;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.state.IBlockState;
@@ -388,5 +389,37 @@ public final class BlockRenderHelper {
                 }
             }
         }
+    }
+
+    public static void renderPlaneOutline(Plane plane, double partialTicks) {
+//        GlStateManager.enableBlend();
+//        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.glLineWidth(4.0F);
+        GlStateManager.disableTexture2D();
+        GlStateManager.depthMask(false);
+
+        GlStateManager.disableBlend();
+        GlStateManager.disableLighting();
+        GlStateManager.disableAlpha();
+
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
+
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
+        drawLine(vertexbuffer, plane.getS1(), plane.getS2());
+        drawLine(vertexbuffer, plane.getS2(), plane.getS4());
+        drawLine(vertexbuffer, plane.getS4(), plane.getS3());
+        drawLine(vertexbuffer, plane.getS3(), plane.getS1());
+        tessellator.draw();
+
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+//        GlStateManager.disableBlend();
+    }
+
+    private static void drawLine(VertexBuffer buffer, Vec3d p1, Vec3d p2) {
+        buffer.pos(p1.xCoord, p1.yCoord, p1.zCoord).color(1,1,0,1).endVertex();
+        buffer.pos(p2.xCoord, p2.yCoord, p2.zCoord).color(1,1,0,1).endVertex();
     }
 }

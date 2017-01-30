@@ -3,6 +3,8 @@ package mcjty.immcraft.varia;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
+import java.text.DecimalFormat;
+
 public class Plane {
 
     private final Vec3d s1;
@@ -37,9 +39,18 @@ public class Plane {
         return s4;
     }
 
+    private static DecimalFormat dfCommas = new DecimalFormat("###.##");
+
+    private String v(Vec3d v) {
+        return dfCommas.format(v.xCoord) + " " + dfCommas.format(v.yCoord) + " " + dfCommas.format(v.zCoord);
+    }
+
     public Vec2f intersect(Vec3d r1, Vec3d r2) {
-        Vec3d dS21 = s2.subtract(s1);
-        Vec3d dS31 = s3.subtract(s1);
+        System.out.println("Plane[" + v(s1) + " | " + v(s2) + " | " + v(s3) + " | " + v(s4) + "]");
+        System.out.println("    Ray[" + v(r1) + " | " + v(r2) + "]");
+
+        Vec3d dS21 = s3.subtract(s1);
+        Vec3d dS31 = s2.subtract(s1);
         Vec3d n = dS21.crossProduct(dS31);
 
         // 2.
@@ -59,12 +70,12 @@ public class Plane {
         double u = dMS1.dotProduct(dS21);
         double v = dMS1.dotProduct(dS31);
 
-        System.out.println("u = " + u + "," + v);
-        System.out.println("M = " + M);
+        System.out.println("    u = " + u + "," + v);
+        System.out.println("    M = " + v(M));
 
         // 4.
-        if (u >= 0.0 && u <= dS21.dotProduct(dS21)
-                && v >= 0.0 && v <= dS31.dotProduct(dS31)) {
+        if (u >= 0.0 && u <= dS21.dotProduct(dS21) &&
+                v >= 0.0 && v <= dS31.dotProduct(dS31)) {
             return new Vec2f((float)u, (float)v);
         } else {
             return null;
