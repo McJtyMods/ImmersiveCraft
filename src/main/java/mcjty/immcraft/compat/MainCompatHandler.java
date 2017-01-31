@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Loader;
 public class MainCompatHandler {
 
     public static void registerWaila() {
-        if (Loader.isModLoaded("Waila")) {
+        if (Loader.isModLoaded("waila") || Loader.isModLoaded("Waila")) {
             WailaCompatibility.register();
         }
     }

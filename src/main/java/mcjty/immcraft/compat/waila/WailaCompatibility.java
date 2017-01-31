@@ -1,6 +1,7 @@
 package mcjty.immcraft.compat.waila;
 
 import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
+import mcjty.lib.CompatLayer;
 import mcjty.lib.tools.ItemStackTools;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -44,7 +45,11 @@ public class WailaCompatibility implements IWailaDataProvider {
         if (registered)
             return;
         registered = true;
-        FMLInterModComms.sendMessage("Waila", "register", "mcjty.immcraft.compat.waila.WailaCompatibility.load");
+        if (CompatLayer.isV10()) {
+            FMLInterModComms.sendMessage("Waila", "register", "mcjty.immcraft.compat.waila.WailaCompatibility.load");
+        } else {
+            FMLInterModComms.sendMessage("waila", "register", "mcjty.immcraft.compat.waila.WailaCompatibility.load");
+        }
     }
 
     @Override

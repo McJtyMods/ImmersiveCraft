@@ -68,7 +68,7 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         super.getWailaBody(itemStack, currenttip, accessor, config);
-        TileEntity te = accessor.getTileEntity();
+        TileEntity te = accessor.getWorld().getTileEntity(accessor.getPosition());
         if (te instanceof BookStandTE) {
             if (((BookStandTE) te).hasBook()) {
                 currenttip.add(TextFormatting.BLUE + "Use sneak-right click to remove book");
