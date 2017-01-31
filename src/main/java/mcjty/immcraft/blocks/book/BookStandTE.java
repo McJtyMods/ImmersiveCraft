@@ -6,8 +6,10 @@ import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookParser;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketPageFlip;
+import mcjty.immcraft.sound.SoundController;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
@@ -79,11 +81,13 @@ public class BookStandTE extends GenericImmcraftTE {
 
     private boolean pageDec(EntityPlayer player) {
         PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), -1), (EntityPlayerMP) player);
+        playPageTurn();
         return true;
     }
 
     private boolean pageInc(EntityPlayer player) {
         PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), 1), (EntityPlayerMP) player);
+        playPageTurn();
         return true;
     }
 
@@ -100,6 +104,21 @@ public class BookStandTE extends GenericImmcraftTE {
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
         }
     }
+
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        if (getWorld().isRemote) {
+            SoundController.stopSound(getWorld(), getPos());
+        }
+    }
+
+    public void playPageTurn() {
+        if (GeneralConfiguration.basePageTurnVolume > 0.01f) {
+            SoundController.playPageturn(getWorld(), getPos(), GeneralConfiguration.basePageTurnVolume);
+        }
+    }
+
 
     public EnumStandState getState() {
         if (ItemStackTools.isEmpty(currentBook)) {

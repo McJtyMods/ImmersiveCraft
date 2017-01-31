@@ -32,11 +32,16 @@ public class GeneralConfiguration {
     public static boolean showDebugHandles = false;
     public static boolean createWorkbench = false;
 
+    public static float basePageTurnVolume = 1.0f;   // Use 0 to turn off
+
     public static Map<String,String> validBooks = new HashMap<>();
 
 
     public static void init(Configuration cfg) {
         setupBookConfig(cfg);
+
+        basePageTurnVolume = (float) cfg.get(CATEGORY_GENERAL, "basePageTurnVolume", basePageTurnVolume,
+                "The volume for the page turning sound (0.0 is off)").getDouble();
 
         worldgen = cfg.getBoolean("worldgen", CATEGORY_GENERAL, worldgen, "Enable worldgen for rocks and sticks");
         rockRecipe = cfg.getBoolean("rockRecipe", CATEGORY_GENERAL, rockRecipe, "Enable recipe for rocks");

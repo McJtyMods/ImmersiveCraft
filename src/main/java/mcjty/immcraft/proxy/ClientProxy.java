@@ -10,6 +10,7 @@ import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
 import mcjty.immcraft.items.ModItems;
+import mcjty.immcraft.sound.SoundController;
 import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,6 +39,7 @@ public class ClientProxy extends CommonProxy {
 
         ModBlocks.initModels();
         ModItems.initModels();
+        SoundController.init();
     }
 
     @Override
