@@ -11,7 +11,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -58,49 +57,29 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                 GlStateManager.translate(0, 0, 0.13F);
 
                 Plane plane = rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
-                System.out.println("xyz = " + x +"," + y + "," + z);
                 plane = plane.offset(new Vec3d(x, y, z));
 
-                Vec3d p = new Vec3d(tileEntity.getPos().getX(), tileEntity.getPos().getY(), tileEntity.getPos().getZ());
-                Vec3d start = getStart(new Vec3d(0, 0, 0), partialTicks);
-                Vec3d end = getEnd(p, partialTicks);
+                EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+                Vec3d e = player.getPositionEyes(partialTicks);
+
+                Vec3d start = player.getPositionVector().add(new Vec3d(0, player.eyeHeight*2, 0)).subtract(e);
+                Vec3d end = player.getLook(partialTicks).add(new Vec3d(0, player.eyeHeight, 0));
 
                 Vec2f intersection = plane.intersect(start, end);
-                System.out.println("intersection = " + intersection);
+                float pagex = -1;
+                float pagey = -1;
+                if (intersection != null) {
+                    pagex = (0.5f - intersection.x) * 2;
+                    pagey = intersection.y * 1.588f;
+                    System.out.println("intersection = " + pagex + "," + pagey);
+                }
 
-                BookRenderHelper.renderPage(pages, pageNumber, 0.25f);
+                BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
                 GlStateManager.popMatrix();
-
-                BlockRenderHelper.renderPlaneOutline(plane);
-
-                BlockRenderHelper.renderLine(start, end);
-
-                Vec3d origin = tr(new Vec3d(0, 0, 0), p, partialTicks);
-//                BlockRenderHelper.renderLine(origin, start);
-//                BlockRenderHelper.renderLine(origin, end);
-
-                BlockRenderHelper.renderLine(origin, tr(new Vec3d(1, 0, 0), p, partialTicks));
-                BlockRenderHelper.renderLine(origin, tr(new Vec3d(0, 1, 0), p, partialTicks));
-                BlockRenderHelper.renderLine(origin, tr(new Vec3d(0, 0, 1), p, partialTicks));
             }
         }
     }
 
-    private static Vec3d tr(Vec3d v, Vec3d p, float partialTicks) {
-        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
-        Vec3d e = player.getPositionEyes(partialTicks);
-        return p.add(v).subtract(e).add(new Vec3d(0, player.eyeHeight, 0));
-    }
-
-
-    private Vec3d getEnd(Vec3d p, float partialTicks) {
-        return tr(Minecraft.getMinecraft().objectMouseOver.hitVec.subtract(p), p, partialTicks);
-    }
-
-    private Vec3d getStart(Vec3d p, float partialTicks) {
-        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
-        return tr(player.getPositionVector(), p, partialTicks);
-    }
 
     public static Plane rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
         EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));

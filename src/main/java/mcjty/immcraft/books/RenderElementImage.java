@@ -3,7 +3,6 @@ package mcjty.immcraft.books;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderElementImage implements RenderElement {
@@ -33,7 +32,7 @@ public class RenderElementImage implements RenderElement {
     }
 
     @Override
-    public void render(int dy) {
+    public void render(int dy, float ix, float iy) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0, -h * scale, -50);
         GlStateManager.scale(scale, scale, 1.0f);

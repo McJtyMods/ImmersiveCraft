@@ -14,7 +14,7 @@ public class RenderElementRuler implements RenderElement {
     }
 
     @Override
-    public void render(int dy) {
+    public void render(int dy, float ix, float iy) {
         float charw = ClientProxy.font.getWidth("" + '\u2014');
         int repeat = (int) ((768 - x) / charw);
         String s = StringUtils.repeat('\u2014', repeat);

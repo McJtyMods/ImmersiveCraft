@@ -35,7 +35,7 @@ public class RenderElementItem implements RenderElement {
     }
 
     @Override
-    public void render(int dy) {
+    public void render(int dy, float ix, float iy) {
         if (ItemStackTools.isEmpty(item)) {
             return;
         }

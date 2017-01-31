@@ -46,8 +46,8 @@ public class Plane {
     }
 
     public Vec2f intersect(Vec3d r1, Vec3d r2) {
-        System.out.println("Plane[" + v(s1) + " | " + v(s2) + " | " + v(s3) + " | " + v(s4) + "]");
-        System.out.println("    Ray[" + v(r1) + " | " + v(r2) + "]");
+//        System.out.println("Plane[" + v(s1) + " | " + v(s2) + " | " + v(s3) + " | " + v(s4) + "]");
+//        System.out.println("    Ray[" + v(r1) + " | " + v(r2) + "]");
 
         Vec3d dS21 = s2.subtract(s1);
         Vec3d dS31 = s3.subtract(s1);
@@ -70,8 +70,8 @@ public class Plane {
         double u = dMS1.dotProduct(dS21);
         double v = dMS1.dotProduct(dS31);
 
-        System.out.println("    u = " + u + "," + v);
-        System.out.println("    M = " + v(M));
+//        System.out.println("    u = " + u + "," + v);
+//        System.out.println("    M = " + v(M));
 
         // 4.
         if (u >= 0.0 && u <= dS21.dotProduct(dS21) &&
