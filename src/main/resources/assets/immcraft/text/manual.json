@@ -18,12 +18,47 @@
   {
     "section": "TOC",
     "text": [
-      "#>", "#l:Bread",
-      "#>", "#l:Cake"
+      "#:2:Table of Contents",
+      "##",
+      "#>", "#l:Introduction",
+      "#>", "#l:The World",
+      "#>", "#l:Getting Fire",
+      "#>", "#l:Working with handles",
+      "#>", "#l:Aqua Munda"
     ]
   },
   {
     "page": true
+  },
+  {
+    "section": "Introduction",
+    "text": [
+      "#:2:Introduction"
+    ]
+  },
+  {
+    "section": "The World",
+    "text": [
+      "#:2:The World around You"
+    ]
+  },
+  {
+    "section": "Getting Fire",
+    "text": [
+      "#:2:Getting Fire"
+    ]
+  },
+  {
+    "section": "Working with handles",
+    "text": [
+      "#:2:Working with handles"
+    ]
+  },
+  {
+    "section": "Aqua Munda",
+    "text": [
+      "#:2:Aqua Munda"
+    ]
   },
   {
     "section": "Bread",
@@ -43,6 +78,17 @@
       "#>", "2 sugar (", "#i:minecraft:sugar", ")",
       "#>", "1 egg (", "#i:minecraft:egg", ")",
       "#>", "3 wheat (", "#i:minecraft:wheat", ")"
+    ]
+  },
+  {
+  "section": "Cake 2",
+  "text": [
+    "Tasty cake!", "#i3:minecraft:cake", "#",
+    "Crafting table ", "#i:minecraft:crafting_table", "#",
+    "#>", "3 milk (", "#i:minecraft:milk_bucket", ")",
+    "#>", "2 sugar (", "#i:minecraft:sugar", ")",
+    "#>", "1 egg (", "#i:minecraft:egg", ")",
+    "#>", "3 wheat (", "#i:minecraft:wheat", ")"
     ]
   }
 ]

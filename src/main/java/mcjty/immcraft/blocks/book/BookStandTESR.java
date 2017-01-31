@@ -71,7 +71,6 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                 if (intersection != null) {
                     pagex = (0.5f - intersection.x) * 2;
                     pagey = intersection.y * 1.588f;
-                    System.out.println("intersection = " + pagex + "," + pagey);
                 }
 
                 BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
