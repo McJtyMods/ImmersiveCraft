@@ -138,13 +138,17 @@ public class BookStandTE extends GenericImmcraftTE {
     public boolean onActivate(EntityPlayer player) {
         boolean rc = super.onActivate(player);
         if (getWorld().isRemote) {
+            if (pageNumber == 0 && !player.isSneaking()) {
+                pageIncClient();
+                return true;
+            }
             return false;
         }
         if (rc) {
             return rc;
         }
 
-        if (ItemStackTools.isValid(currentBook)) {
+        if (ItemStackTools.isValid(currentBook) && player.isSneaking()) {
             InventoryHelper.giveItemToPlayer(player, currentBook);
             currentBook = ItemStackTools.getEmptyStack();
             markDirtyClient();
