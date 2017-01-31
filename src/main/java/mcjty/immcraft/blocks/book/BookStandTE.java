@@ -148,10 +148,12 @@ public class BookStandTE extends GenericImmcraftTE {
             return rc;
         }
 
-        if (ItemStackTools.isValid(currentBook) && player.isSneaking()) {
-            InventoryHelper.giveItemToPlayer(player, currentBook);
-            currentBook = ItemStackTools.getEmptyStack();
-            markDirtyClient();
+        if (ItemStackTools.isValid(currentBook)) {
+            if (player.isSneaking()) {
+                InventoryHelper.giveItemToPlayer(player, currentBook);
+                currentBook = ItemStackTools.getEmptyStack();
+                markDirtyClient();
+            }
             return true;
         }
 
