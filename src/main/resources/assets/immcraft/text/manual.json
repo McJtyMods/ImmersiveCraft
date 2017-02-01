@@ -43,15 +43,21 @@
       "or you can use it by placing the book in a bookstand (",
       "#i:immcraft:bookstand",
       ").",
-      "#",
+    ]
+  },
+  {
+    "text": [
       "If you use it in the bookstand you can interact with the book directly in the world."
     ]
   },
   {
-    "section": "Using This Manual 2",
     "text": [
       "You can right click on links to go to that page or you can right click on the two handles at the bottom corners",
-      "of the book to flip a page left or right.", "#",
+      "of the book to flip a page left or right."
+    ]
+  },
+  {
+    "text": [
       "Use sneak-rightclick on the book to remove it from the bookstand."
     ]
   },
@@ -69,7 +75,6 @@
     ]
   },
   {
-    "section": "Introduction 2",
     "text": [
       "Usage of handles should be intuitive. In most cases you rightclick with the right item on a specific handle",
       "and if it is the right item it should fit in. If there is already an item there you can remove it."

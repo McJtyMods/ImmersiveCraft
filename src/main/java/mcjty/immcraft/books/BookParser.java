@@ -52,94 +52,98 @@ public class BookParser {
             JsonObject object = entry.getAsJsonObject();
 
             JsonElement sectionElement = object.get("section");
+            BookSection section;
             if (sectionElement != null) {
-                BookSection section = new BookSection(sectionElement.getAsString());
-                sections.add(section);
-                JsonElement textElement = object.get("text");
-                boolean lastIsText = false;
-                if (textElement != null) {
-                    for (JsonElement textChild : textElement.getAsJsonArray()) {
-                        if ((!textChild.isJsonPrimitive()) || !textChild.getAsJsonPrimitive().isString()) {
-                            ImmersiveCraft.logger.log(Level.WARN, "File " + name + " has a problem in section " + section.getName());
-                            continue;
-                        }
-                        String string = textChild.getAsString();
-                        if (string.equals("#")) {
-                            section.addElement(new BookElementNewline());
-                            lastIsText = false;
-                        } else if (string.equals("#>")) {
-                            section.addElement(new BookElementNewline());
-                            section.addElement(new BookElementIndent());
-                            lastIsText = false;
-                        } else if (string.equals("##")) {
-                            section.addElement(new BookElementNewParagraph());
-                            lastIsText = false;
-                        } else if (string.equals("#-")) {
-                            section.addElement(new BookElementRuler());
-                            lastIsText = false;
-                        } else if (string.startsWith("#l")) {
-                            String sec;
-                            float scale;
-                            if (string.charAt(2) == ':') {
-                                scale = 1.0f;
-                                sec = string.substring(3);
-                            } else {
-                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
-                                sec = string.substring(4);
-                            }
-                            section.addElement(new BookElementLink(sec, scale));
-                            lastIsText = true;
-                        } else if (string.startsWith("#i")) {
-                            String regName;
-                            float scale;
-                            if (string.charAt(2) == ':') {
-                                scale = 1.0f;
-                                regName = string.substring(3);
-                            } else {
-                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
-                                regName = string.substring(4);
-                            }
-                            Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
-                            if (item != null) {
-                                section.addElement(new BookElementItem(new ItemStack(item), scale));
-                            }
-                            lastIsText = false;
-                        } else if (string.startsWith("#I")) {
-                            String regName;
-                            float scale;
-                            if (string.charAt(2) == ':') {
-                                scale = 1.0f;
-                                regName = string.substring(3);
-                            } else {
-                                scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
-                                regName = string.substring(4);
-                            }
-                            int colon = regName.lastIndexOf(':');
-                            if (colon != -1) {
-                                String[] split = StringUtils.split(regName.substring(colon + 1), ',');
-                                regName = regName.substring(0, colon);
-                                int u = toIntSafe(split, 0, 0);
-                                int v = toIntSafe(split, 1, 0);
-                                int w = toIntSafe(split, 2, 16);
-                                int h = toIntSafe(split, 3, 16);
-                                int tw = toIntSafe(split, 4, 256);
-                                int th = toIntSafe(split, 5, 256);
-                                section.addElement(new BookElementImage(new ResourceLocation(regName), u, v, w, h, tw, th, scale));
-                            }
-                            lastIsText = false;
-                        } else if (string.startsWith("#:")) {
-                            String fmtString = string.substring(2);
-                            if (fmtString.contains(":")) {
-                                int idx = fmtString.indexOf(':');
-                                String fmt = fmtString.substring(0, idx);
-                                String text = fmtString.substring(idx+1);
-                                lastIsText = handleText(section, lastIsText, text, fmt);
-                            } else {
-                                lastIsText = handleText(section, lastIsText, fmtString, "");
-                            }
+                section = new BookSection(sectionElement.getAsString());
+            } else {
+                section = new BookSection("");
+            }
+            sections.add(section);
+
+            JsonElement textElement = object.get("text");
+            boolean lastIsText = false;
+            if (textElement != null) {
+                for (JsonElement textChild : textElement.getAsJsonArray()) {
+                    if ((!textChild.isJsonPrimitive()) || !textChild.getAsJsonPrimitive().isString()) {
+                        ImmersiveCraft.logger.log(Level.WARN, "File " + name + " has a problem in section " + section.getName());
+                        continue;
+                    }
+                    String string = textChild.getAsString();
+                    if (string.equals("#")) {
+                        section.addElement(new BookElementNewline());
+                        lastIsText = false;
+                    } else if (string.equals("#>")) {
+                        section.addElement(new BookElementNewline());
+                        section.addElement(new BookElementIndent());
+                        lastIsText = false;
+                    } else if (string.equals("##")) {
+                        section.addElement(new BookElementNewParagraph());
+                        lastIsText = false;
+                    } else if (string.equals("#-")) {
+                        section.addElement(new BookElementRuler());
+                        lastIsText = false;
+                    } else if (string.startsWith("#l")) {
+                        String sec;
+                        float scale;
+                        if (string.charAt(2) == ':') {
+                            scale = 1.0f;
+                            sec = string.substring(3);
                         } else {
-                            lastIsText = handleText(section, lastIsText, string, "");
+                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                            sec = string.substring(4);
                         }
+                        section.addElement(new BookElementLink(sec, scale));
+                        lastIsText = true;
+                    } else if (string.startsWith("#i")) {
+                        String regName;
+                        float scale;
+                        if (string.charAt(2) == ':') {
+                            scale = 1.0f;
+                            regName = string.substring(3);
+                        } else {
+                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                            regName = string.substring(4);
+                        }
+                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
+                        if (item != null) {
+                            section.addElement(new BookElementItem(new ItemStack(item), scale));
+                        }
+                        lastIsText = false;
+                    } else if (string.startsWith("#I")) {
+                        String regName;
+                        float scale;
+                        if (string.charAt(2) == ':') {
+                            scale = 1.0f;
+                            regName = string.substring(3);
+                        } else {
+                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                            regName = string.substring(4);
+                        }
+                        int colon = regName.lastIndexOf(':');
+                        if (colon != -1) {
+                            String[] split = StringUtils.split(regName.substring(colon + 1), ',');
+                            regName = regName.substring(0, colon);
+                            int u = toIntSafe(split, 0, 0);
+                            int v = toIntSafe(split, 1, 0);
+                            int w = toIntSafe(split, 2, 16);
+                            int h = toIntSafe(split, 3, 16);
+                            int tw = toIntSafe(split, 4, 256);
+                            int th = toIntSafe(split, 5, 256);
+                            section.addElement(new BookElementImage(new ResourceLocation(regName), u, v, w, h, tw, th, scale));
+                        }
+                        lastIsText = false;
+                    } else if (string.startsWith("#:")) {
+                        String fmtString = string.substring(2);
+                        if (fmtString.contains(":")) {
+                            int idx = fmtString.indexOf(':');
+                            String fmt = fmtString.substring(0, idx);
+                            String text = fmtString.substring(idx+1);
+                            lastIsText = handleText(section, lastIsText, text, fmt);
+                        } else {
+                            lastIsText = handleText(section, lastIsText, fmtString, "");
+                        }
+                    } else {
+                        lastIsText = handleText(section, lastIsText, string, "");
                     }
                 }
             }
