@@ -21,7 +21,7 @@ import java.util.List;
 public class GuiManual extends GuiScreen {
 
     private static final int WIDTH = 200;
-    private static final int HEIGHT = 210;
+    private static final int HEIGHT = 220;
     private int guiLeft;
     private int guiTop;
 

@@ -59,6 +59,10 @@ public class BookParser {
                 boolean lastIsText = false;
                 if (textElement != null) {
                     for (JsonElement textChild : textElement.getAsJsonArray()) {
+                        if ((!textChild.isJsonPrimitive()) || !textChild.getAsJsonPrimitive().isString()) {
+                            ImmersiveCraft.logger.log(Level.WARN, "File " + name + " has a problem in section " + section.getName());
+                            continue;
+                        }
                         String string = textChild.getAsString();
                         if (string.equals("#")) {
                             section.addElement(new BookElementNewline());
@@ -204,7 +208,7 @@ public class BookParser {
                 if (h > height) {
                     // The section is too large. Put in a place holder as an error
                     renderSection = new RenderSection(section.getName());
-                    renderSection.addElement(new BookElementText("<NO FIT>", TextElementFormat.DEFAULT).createRenderElement(0, 0));
+                    renderSection.addElement(new BookElementText("<NO FIT: " + h + "/" + height + ">", TextElementFormat.DEFAULT).createRenderElement(0, 0));
                     h = renderSection.getHeight();
                 }
                 if (curh + h > height) {
