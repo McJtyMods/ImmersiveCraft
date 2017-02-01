@@ -1,4 +1,6 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.elements;
+
+import mcjty.immcraft.books.renderers.RenderElement;
 
 public interface BookElement {
 

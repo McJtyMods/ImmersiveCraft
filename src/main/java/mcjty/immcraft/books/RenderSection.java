@@ -1,5 +1,7 @@
 package mcjty.immcraft.books;
 
+import mcjty.immcraft.books.renderers.RenderElement;
+
 import java.util.ArrayList;
 import java.util.List;
 

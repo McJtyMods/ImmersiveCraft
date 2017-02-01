@@ -1,4 +1,4 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.renderers;
 
 public class RenderElementNone implements RenderElement {
     @Override

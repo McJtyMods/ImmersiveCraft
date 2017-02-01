@@ -1,4 +1,4 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.item.EnumDyeColor;

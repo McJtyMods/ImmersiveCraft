@@ -1,10 +1,9 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.elements;
 
+import mcjty.immcraft.books.renderers.RenderElement;
+import mcjty.immcraft.books.renderers.RenderElementText;
+import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.proxy.ClientProxy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.item.EnumDyeColor;
-import org.apache.commons.lang3.StringUtils;
 
 public class BookElementText implements BookElement {
 

@@ -1,5 +1,7 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.elements;
 
+import mcjty.immcraft.books.renderers.RenderElement;
+import mcjty.immcraft.books.renderers.RenderElementItem;
 import net.minecraft.item.ItemStack;
 
 public class BookElementItem implements BookElement {

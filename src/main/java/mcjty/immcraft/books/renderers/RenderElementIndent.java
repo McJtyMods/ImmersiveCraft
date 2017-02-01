@@ -1,8 +1,8 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.proxy.ClientProxy;
 
-import static mcjty.immcraft.books.BookElementIndent.INDENTSTRING;
+import static mcjty.immcraft.books.elements.BookElementIndent.INDENTSTRING;
 
 public class RenderElementIndent implements RenderElement {
 

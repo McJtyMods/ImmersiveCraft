@@ -1,10 +1,12 @@
 package mcjty.immcraft.books;
 
+import mcjty.immcraft.books.elements.BookElement;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static mcjty.immcraft.books.BookElement.*;
+import static mcjty.immcraft.books.elements.BookElement.*;
 
 public class BookSection {
 

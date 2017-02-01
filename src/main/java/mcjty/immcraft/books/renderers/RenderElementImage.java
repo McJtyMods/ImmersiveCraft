@@ -1,4 +1,4 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import net.minecraft.client.Minecraft;

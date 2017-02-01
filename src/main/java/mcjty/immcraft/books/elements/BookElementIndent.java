@@ -1,5 +1,7 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.elements;
 
+import mcjty.immcraft.books.renderers.RenderElement;
+import mcjty.immcraft.books.renderers.RenderElementIndent;
 import mcjty.immcraft.proxy.ClientProxy;
 
 public class BookElementIndent implements BookElement {

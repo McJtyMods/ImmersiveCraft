@@ -1,5 +1,7 @@
-package mcjty.immcraft.books;
+package mcjty.immcraft.books.elements;
 
+import mcjty.immcraft.books.renderers.RenderElement;
+import mcjty.immcraft.books.renderers.RenderElementImage;
 import net.minecraft.util.ResourceLocation;
 
 public class BookElementImage implements BookElement {
