@@ -6,6 +6,7 @@ import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -53,7 +54,8 @@ public final class SoundController {
 
 
     public static void playPageturn(World worldObj, BlockPos pos, float volume) {
-        playSound(worldObj, pos, pageturn, volume, GeneralConfiguration.basePageTurnVolume, false);
+//        playSound(worldObj, pos, pageturn, volume, GeneralConfiguration.basePageTurnVolume, false);
+        worldObj.playSound((double) pos.getX(), (double) pos.getY(), (double) pos.getZ(), pageturn, SoundCategory.BLOCKS, volume, 1.0f, false);
     }
 
 

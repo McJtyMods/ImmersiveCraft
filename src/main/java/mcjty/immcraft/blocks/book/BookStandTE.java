@@ -12,6 +12,7 @@ import mcjty.immcraft.network.PacketPageFlip;
 import mcjty.immcraft.sound.SoundController;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -81,13 +82,11 @@ public class BookStandTE extends GenericImmcraftTE {
 
     private boolean pageDec(EntityPlayer player) {
         PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), -1), (EntityPlayerMP) player);
-        playPageTurn();
         return true;
     }
 
     private boolean pageInc(EntityPlayer player) {
         PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), 1), (EntityPlayerMP) player);
-        playPageTurn();
         return true;
     }
 
@@ -95,6 +94,7 @@ public class BookStandTE extends GenericImmcraftTE {
         if (pageNumber > 0) {
             pageNumber--;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+            playPageTurn();
         }
     }
 
@@ -102,6 +102,7 @@ public class BookStandTE extends GenericImmcraftTE {
         if (pages != null && pageNumber < pages.size()-1) {
             pageNumber++;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+            playPageTurn();
         }
     }
 
