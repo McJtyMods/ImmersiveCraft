@@ -31,6 +31,7 @@ public class GuiManual extends GuiScreen {
     private String result = null;
 
     private static final ResourceLocation background = new ResourceLocation(ImmersiveCraft.MODID, "textures/gui/manual_paper.png");
+    private static final ResourceLocation backgroundFront = new ResourceLocation(ImmersiveCraft.MODID, "textures/gui/manual_front.png");
 
     public GuiManual() {
     }
@@ -109,7 +110,11 @@ public class GuiManual extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        mc.getTextureManager().bindTexture(background);
+        if (pageNumber == 0) {
+            mc.getTextureManager().bindTexture(backgroundFront);
+        } else {
+            mc.getTextureManager().bindTexture(background);
+        }
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, WIDTH, HEIGHT);
 
         result = BookRenderHelper.renderPageForGUI(pages, pageNumber, 1.0f, mouseX - guiLeft, mouseY - guiTop, guiLeft, guiTop);
