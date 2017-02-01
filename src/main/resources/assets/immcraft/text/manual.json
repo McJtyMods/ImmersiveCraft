@@ -20,6 +20,7 @@
     "text": [
       "#:2:Table of Contents",
       "##",
+      "#>", "#l:Using This Manual",
       "#>", "#l:Introduction",
       "#>", "#l:The World",
       "#>", "#l:Getting Fire",
@@ -31,10 +32,34 @@
     "page": true
   },
   {
+    "section": "Using This Manual",
+    "text": [
+      "#:2:Using This Manual", "##",
+      "There are two ways that you can use this manual.",
+      "You can use it simply by right clicking this book item (", "#i:immcraft:manual", ") and viewing it in a regular GUI",
+      "or you can use it by placing the book in a bookstand (", "#i:immcraft:bookstand", ").", "#",
+      "If you use it in the bookstand you can interact with the book directly in the world.",
+      "You can right click on links to go to that page or you can right click on the two handles at the bottom corners",
+      "of the book to flip a page left or right.", "#",
+      "Use sneak-rightclick on the book to remove it from the bookstand."
+    ]
+  },
+  {
+    "page": true
+  },
+  {
     "section": "Introduction",
     "text": [
-      "#:2:Introduction"
+      "#:2:Introduction", "##",
+      "ImmersiveCraft is a mod that tries to bring more immersion to the Minecraft world.",
+      "It tries to avoid GUI's as much as possible and instead allows you to interact with machines directly by",
+      "placing and removing items in handles.", "#",
+      "Usage of handles should be intuitive. In most cases you rightclick with the right item on a specific handle",
+      "and if it is the right item it should fit in. If there is already an item there you can remove it."
     ]
+  },
+  {
+    "page": true
   },
   {
     "section": "The World",
