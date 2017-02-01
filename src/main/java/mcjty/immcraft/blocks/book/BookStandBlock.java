@@ -42,8 +42,8 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
 
     public BookStandBlock() {
         super(Material.WOOD, "bookstand", BookStandTE.class, false);
-        addSelector(new HandleSelector("l", new AxisAlignedBB(0.15f, 0.23f, 0.8f, 0.25f, 0.33f, 0.9f)));
-        addSelector(new HandleSelector("r", new AxisAlignedBB(0.75f, 0.23f, 0.8f, 0.85f, 0.33f, 0.9f)));
+        addSelector(new HandleSelector("l", new AxisAlignedBB(0.15f, 0.13f, 0.8f, 0.25f, 0.23f, 0.9f)));
+        addSelector(new HandleSelector("r", new AxisAlignedBB(0.75f, 0.13f, 0.8f, 0.85f, 0.23f, 0.9f)));
     }
 
 
