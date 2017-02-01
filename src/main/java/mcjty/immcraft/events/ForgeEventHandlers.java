@@ -9,12 +9,14 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.immcraft.varia.SoundTools;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -44,7 +46,7 @@ public class ForgeEventHandlers {
         Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
         Item item = heldItem.getItem();
         if (item == Items.STICK) {
-            placeSticks(event, player, block);
+            placeSticksOrCreateFire(event, player, block);
         } else if (item == Item.getItemFromBlock(ModBlocks.rockBlock)) {
             spawnAxe(event, player, block);
         } else if (item == Items.STONE_AXE && (block == Blocks.LOG || block == Blocks.LOG2)) {
@@ -109,19 +111,41 @@ public class ForgeEventHandlers {
         }
     }
 
-    private void placeSticks(PlayerInteractEvent event, EntityPlayer player, Block block) {
-        if (block == ModBlocks.sticksBlock) {
+    private void placeSticksOrCreateFire(PlayerInteractEvent event, EntityPlayer player, Block block) {
+        if (block == ModBlocks.rockBlock) {
+            SoundTools.playSound(event.getWorld(), SoundEvents.ITEM_FLINTANDSTEEL_USE, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(),
+                    1.0, random.nextFloat() * 0.4F + 0.8F);
+            if (random.nextFloat() < GeneralConfiguration.rockStickFireChance) {
+                InventoryHelper.spawnItemStack(event.getWorld(), event.getPos(), new ItemStack(ModBlocks.rockBlock));
+                BlockTools.placeBlock(event.getWorld(), event.getPos(), ModBlocks.sticksBlock, player);
+                TileEntity te = event.getWorld().getTileEntity(event.getPos());
+                if (te instanceof SticksTE) {
+                    SticksTE sticksTE = (SticksTE) te;
+                    addSticks(player, sticksTE);
+                    sticksTE.startBurn();
+                }
+            } else {
+                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            }
+        }
+        else if (block == ModBlocks.sticksBlock) {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if (te instanceof SticksTE) {
                 SticksTE sticksTE = (SticksTE) te;
                 addSticks(player, sticksTE);
             }
-        } else if (event.getWorld().isAirBlock(event.getPos().up()) && BlockTools.isTopValidAndSolid(event.getWorld(), event.getPos())) {
+        } else if (isValidPlacementSpot(event)) {
             BlockTools.placeBlock(event.getWorld(), event.getPos().up(), ModBlocks.sticksBlock, player);
             TileEntity te = event.getWorld().getTileEntity(event.getPos().up());
-            SticksTE sticksTE = (SticksTE) te;
-            addSticks(player, sticksTE);
+            if (te instanceof SticksTE) {
+                SticksTE sticksTE = (SticksTE) te;
+                addSticks(player, sticksTE);
+            }
         }
+    }
+
+    private boolean isValidPlacementSpot(PlayerInteractEvent event) {
+        return event.getWorld().isAirBlock(event.getPos().up()) && BlockTools.isTopValidAndSolid(event.getWorld(), event.getPos());
     }
 
     private boolean canBePlaced(Item item) {

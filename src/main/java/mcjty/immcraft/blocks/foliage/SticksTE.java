@@ -28,6 +28,11 @@ public class SticksTE extends GenericImmcraftTE implements ITickable {
         markDirtyClient();
     }
 
+    public void startBurn() {
+        this.burnTime = BURNTIME_STICK;
+        markDirtyClient();
+    }
+
     public int getBurnTime() {
         return burnTime;
     }
