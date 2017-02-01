@@ -76,6 +76,7 @@ public class ModBlocks {
         GameRegistry.addShapedRecipe(new ItemStack(cupboardBlock), "ccc", "ccc", "crc", 'c', Blocks.PLANKS, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(shelfBlock), "crc", "ccc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
         GameRegistry.addShapedRecipe(new ItemStack(bookshelfBlock), "crc", "cbc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock, 'b', Items.BOOK);
+        GameRegistry.addShapedRecipe(new ItemStack(bookStandBlock), " t ", "tbt", "sss", 's', Blocks.WOODEN_SLAB, 't', Items.STICK, 'b', Items.BOOK);
     }
 
     @SideOnly(Side.CLIENT)
