@@ -5,7 +5,7 @@ import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookRenderHelper;
-import mcjty.immcraft.varia.Plane;
+import mcjty.immcraft.api.util.Plane;
 import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

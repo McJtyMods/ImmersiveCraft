@@ -1,4 +1,4 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.util;
 
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
