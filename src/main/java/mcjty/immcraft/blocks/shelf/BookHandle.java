@@ -1,5 +1,6 @@
 package mcjty.immcraft.blocks.shelf;
 
+import mcjty.immcraft.api.book.IBook;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.items.BookType;
@@ -25,6 +26,9 @@ public class BookHandle extends InputInterfaceHandle {
     public boolean acceptAsInput(ItemStack stack) {
         if (ItemStackTools.isValid(stack)) {
             Item item = stack.getItem();
+            if (item instanceof IBook) {
+                return true;
+            }
             ResourceLocation registryName = item.getRegistryName();
             return GeneralConfiguration.validBooks.containsKey(registryName.toString());
         }
@@ -46,7 +50,9 @@ public class BookHandle extends InputInterfaceHandle {
             Item item = stack.getItem();
             ResourceLocation registryName = item.getRegistryName();
             String type = GeneralConfiguration.validBooks.get(registryName.toString());
-            if ("*".equals(type)) {
+            if (type == null) {
+                bookType = BookType.BOOK_YELLOW;
+            } else if ("*".equals(type)) {
                 bookType = BookType.values()[random.nextInt(8)];
             } else {
                 bookType = BookType.getTypeByName(type);
