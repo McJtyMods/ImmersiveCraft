@@ -2,7 +2,6 @@ package mcjty.immcraft.items;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.book.IBook;
-import mcjty.immcraft.proxy.GuiProxy;
 import mcjty.lib.compat.CompatItem;
 import mcjty.lib.tools.ChatTools;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -52,7 +51,7 @@ public class ImmersiveCraftManual extends CompatItem implements IBook {
     protected ActionResult<ItemStack> clOnItemRightClick(World world, EntityPlayer player, EnumHand hand) {
         ItemStack stack = player.getHeldItem(hand);
         if (world.isRemote) {
-            player.openGui(ImmersiveCraft.instance, GuiProxy.GUI_MANUAL, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
+            ImmersiveCraft.api.openManual(player);
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
         }
         return new ActionResult<>(EnumActionResult.SUCCESS, stack);

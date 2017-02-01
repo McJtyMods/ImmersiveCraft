@@ -1,7 +1,13 @@
 package mcjty.immcraft.books;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.api.book.IBook;
+import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.MinecraftTools;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
@@ -13,7 +19,7 @@ public class GuiManual extends GuiScreen {
     private int guiLeft;
     private int guiTop;
 
-    private ResourceLocation manualText;
+    private ResourceLocation json;
 
     private static final ResourceLocation background = new ResourceLocation(ImmersiveCraft.MODID, "textures/gui/manual_paper.png");
 
@@ -27,6 +33,13 @@ public class GuiManual extends GuiScreen {
         guiLeft = (this.width - WIDTH) / 2;
         guiTop = (this.height - HEIGHT) / 2;
 
+        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        ItemStack book = player.getHeldItemMainhand();
+        if (ItemStackTools.isValid(book) && book.getItem() instanceof IBook) {
+            json = ((IBook) book.getItem()).getJson();
+        } else {
+            json = null;    // Shouldn't be possible
+        }
     }
 
     @Override

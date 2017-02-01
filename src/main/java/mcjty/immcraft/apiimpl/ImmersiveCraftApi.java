@@ -1,5 +1,6 @@
 package mcjty.immcraft.apiimpl;
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.cable.IBundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
@@ -20,7 +21,9 @@ import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
+import mcjty.immcraft.proxy.GuiProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -96,5 +99,10 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     @Override
     public double getMaxHandleRenderDistanceSquared() {
         return GeneralConfiguration.maxRenderDistanceSquared;
+    }
+
+    @Override
+    public void openManual(EntityPlayer player) {
+        player.openGui(ImmersiveCraft.instance, GuiProxy.GUI_MANUAL, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
     }
 }
