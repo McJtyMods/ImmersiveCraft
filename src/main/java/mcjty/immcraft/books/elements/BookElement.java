@@ -9,7 +9,7 @@ public interface BookElement {
     int WIDTH_NEWPARAGRAPH = -3;
 
     // Get the width of this element. Returns -1 for newline
-    int getWidth();
+    int getWidth(int curw);
 
     // Get the height of this element
     int getHeight();

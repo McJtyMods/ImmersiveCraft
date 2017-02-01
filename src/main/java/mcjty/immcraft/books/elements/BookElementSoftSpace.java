@@ -7,7 +7,10 @@ import mcjty.immcraft.proxy.ClientProxy;
 public class BookElementSoftSpace implements BookElement {
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
+        if (curw == 0) {
+            return 0;
+        }
         return (int) ClientProxy.font.getWidth(" ");
     }
 

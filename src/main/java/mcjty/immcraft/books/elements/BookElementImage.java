@@ -27,7 +27,7 @@ public class BookElementImage implements BookElement {
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         return (int) (w * scale);
     }
 

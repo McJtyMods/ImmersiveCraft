@@ -9,7 +9,7 @@ public class BookElementIndent implements BookElement {
     public static final String INDENTSTRING = "     " + '\u2022';
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         return (int) ClientProxy.font.getWidth(INDENTSTRING);
     }
 

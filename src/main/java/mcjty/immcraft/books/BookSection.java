@@ -39,10 +39,10 @@ public class BookSection {
 
         int curw = 0;
         for (BookElement element : elements) {
-            if (element.getWidth() == WIDTH_NEWLINE) {
+            if (element.getWidth(curw) == WIDTH_NEWLINE) {
                 curw = 0;
             } else {
-                curw += element.getWidth();
+                curw += element.getWidth(curw);
                 if (curw > maxwidth) {
                     maxwidth = curw;
                 }
@@ -58,13 +58,13 @@ public class BookSection {
         int curh = 0;
         for (BookElement element : elements) {
             curh = Math.max(curh, element.getHeight());
-            if (element.getWidth() == WIDTH_NEWLINE) {
+            if (element.getWidth(0) == WIDTH_NEWLINE) {
                 maxheight += curh;
                 curh = 0;
-            } else if (element.getWidth() == WIDTH_FULLWIDTH) {
+            } else if (element.getWidth(0) == WIDTH_FULLWIDTH) {
                 maxheight += curh;
                 curh = 0;
-            } else if (element.getWidth() == WIDTH_NEWPARAGRAPH) {
+            } else if (element.getWidth(0) == WIDTH_NEWPARAGRAPH) {
                 if (curh == 0) {
                     curh = element.getHeight();
                 }
@@ -144,7 +144,7 @@ public class BookSection {
 
         Cursor cursor = new Cursor(maxwidth);
         for (BookElement element : elements) {
-            int w = element.getWidth();
+            int w = element.getWidth(cursor.curx);
             int h = element.getHeight();
             if (w == WIDTH_NEWLINE) {
                 cursor.newline();
@@ -162,7 +162,7 @@ public class BookSection {
             } else {
                 cursor.newline();
                 renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
-                cursor.add(w, h);
+                cursor.add(element.getWidth(cursor.curx), h);
             }
         }
         cursor.consolidate();

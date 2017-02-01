@@ -21,7 +21,7 @@ public class BookElementText implements BookElement {
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         if (fmt.getAlign() == -1) {
             return (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
         } else {

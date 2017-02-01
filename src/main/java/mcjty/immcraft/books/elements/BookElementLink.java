@@ -21,7 +21,7 @@ public class BookElementLink implements BookElement {
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         return (int) (ClientProxy.font.getWidth(text) * scale);
     }
 

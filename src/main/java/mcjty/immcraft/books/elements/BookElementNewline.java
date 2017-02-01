@@ -7,7 +7,7 @@ import mcjty.immcraft.proxy.ClientProxy;
 public class BookElementNewline implements BookElement {
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         return WIDTH_NEWLINE;
     }
 

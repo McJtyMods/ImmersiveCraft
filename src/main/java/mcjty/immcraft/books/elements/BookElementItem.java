@@ -20,7 +20,7 @@ public class BookElementItem implements BookElement {
     }
 
     @Override
-    public int getWidth() {
+    public int getWidth(int curw) {
         return (int) (80 * scale);
     }
 
