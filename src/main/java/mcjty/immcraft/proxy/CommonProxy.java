@@ -1,6 +1,7 @@
 package mcjty.immcraft.proxy;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ForgeEventHandlers;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import java.util.concurrent.Callable;
 
@@ -27,6 +29,7 @@ public class CommonProxy {
     }
 
     public void init(FMLInitializationEvent e) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         ModBlocks.initCrafting();
         ModItems.initCrafting();
