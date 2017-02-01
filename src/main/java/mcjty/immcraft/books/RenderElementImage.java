@@ -32,7 +32,7 @@ public class RenderElementImage implements RenderElement {
     }
 
     @Override
-    public void render(int dy, float ix, float iy) {
+    public String render(int dy, float ix, float iy) {
         GlStateManager.pushMatrix();
         GlStateManager.translate(0, -h * scale, -50);
         GlStateManager.scale(scale, scale, 1.0f);
@@ -40,6 +40,7 @@ public class RenderElementImage implements RenderElement {
         Minecraft.getMinecraft().getTextureManager().bindTexture(image);
         BlockRenderHelper.drawTexturedModalRect((int) (x / scale), (int) ((y+dy) / scale), u, v, w, h, totw, toth);
         GlStateManager.popMatrix();
+        return null;
     }
 
 

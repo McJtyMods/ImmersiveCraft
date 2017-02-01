@@ -11,7 +11,7 @@ import static mcjty.immcraft.books.BookParser.SECTION_MARGIN;
 
 public class BookRenderHelper {
 
-    public static void renderPage(List<BookPage> pages, int index, float scale, float ix, float iy) {
+    public static String renderPage(List<BookPage> pages, int index, float scale, float ix, float iy) {
         GlStateManager.rotate(-33, 1, 0, 0);
         GlStateManager.scale(.6, .6, .6);
 
@@ -26,7 +26,7 @@ public class BookRenderHelper {
         GlStateManager.glNormal3f(0.0F, 0.0F, 1.0F);
         GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);
 
-        renderText(pages.get(index), ix, iy);
+        String result = renderText(pages.get(index), ix, iy);
 
         if (index > 0) {
             ClientProxy.font.drawString(700.0f, -400.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -39,15 +39,21 @@ public class BookRenderHelper {
         GlStateManager.enableLighting();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        return result;
     }
 
-    private static void renderText(BookPage page, float ix, float iy) {
+    private static String renderText(BookPage page, float ix, float iy) {
         int cury = 0;
+        String result = null;
         for (RenderSection section : page.getSections()) {
             for (RenderElement element : section.getElements()) {
-                element.render(cury, ix, iy);
+                String rc = element.render(cury, ix, iy);
+                if (rc != null) {
+                    result = rc;
+                }
             }
             cury += section.getHeight() + SECTION_MARGIN;
         }
+        return result;
     }
 }

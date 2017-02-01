@@ -27,11 +27,12 @@ public class RenderElementText implements RenderElement {
     }
 
     @Override
-    public void render(int dy, float ix, float iy) {
+    public String render(int dy, float ix, float iy) {
         float red = this.r;
         float green = this.g;
         float blue = this.b;
         renderText(dy, red, green, blue);
+        return null;
     }
 
     protected void renderText(int dy, float red, float green, float blue) {

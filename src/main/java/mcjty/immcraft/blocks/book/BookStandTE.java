@@ -6,6 +6,7 @@ import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookParser;
+import mcjty.immcraft.books.RenderSection;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketPageFlip;
@@ -34,6 +35,7 @@ public class BookStandTE extends GenericImmcraftTE {
     // Pages and pageNumber are client side only
     private List<BookPage> pages = null;
     private int pageNumber = 0;
+    private String result = null;       // Last result from rendering an element
 
     public BookStandTE() {
         addInterfaceHandle(new ActionInterfaceHandle("l").action(this::pageDec).scale(.60f));
@@ -106,12 +108,35 @@ public class BookStandTE extends GenericImmcraftTE {
         }
     }
 
-    @Override
-    public void invalidate() {
-        super.invalidate();
-        if (getWorld().isRemote) {
-            SoundController.stopSound(getWorld(), getPos());
+    private int findPageForSection(String section) {
+        for (int i = 0 ; i < pages.size() ; i++) {
+            for (RenderSection s : pages.get(i).getSections()) {
+                if (section.equals(s.getName())) {
+                    return i;
+                }
+            }
+
         }
+        return -1;
+    }
+
+    private void gotoPageClient(String section) {
+        if (pages != null) {
+            int number = findPageForSection(section);
+            if (number != -1 && number < pages.size()) {
+                pageNumber = number;
+                getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+                playPageTurn();
+            }
+        }
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public void playPageTurn() {
@@ -140,6 +165,7 @@ public class BookStandTE extends GenericImmcraftTE {
             currentBook = ItemStackTools.getEmptyStack();
             pages = null;
             pageNumber = 0;
+            result = null;
         }
     }
 
@@ -160,6 +186,10 @@ public class BookStandTE extends GenericImmcraftTE {
         if (getWorld().isRemote) {
             if (pageNumber == 0 && !player.isSneaking()) {
                 pageIncClient();
+                return true;
+            }
+            if (result != null && !player.isSneaking()) {
+                gotoPageClient(result);
                 return true;
             }
             return false;

@@ -5,8 +5,17 @@ import java.util.List;
 
 public class RenderSection {
 
+    private final String name;
     private int width;
     private int height;
+
+    public RenderSection(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     private final List<RenderElement> elements = new ArrayList<>();
 

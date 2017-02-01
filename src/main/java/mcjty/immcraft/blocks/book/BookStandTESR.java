@@ -43,7 +43,7 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
             return;
         }
 
-
+        tileEntity.setResult(null);
         if (tileEntity.hasBook()) {
             List<BookPage> pages = tileEntity.getPages();
             int pageNumber = tileEntity.getPageNumber();
@@ -73,7 +73,8 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                     pagey = intersection.y * 1.588f;
                 }
 
-                BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
+                String result = BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
+                tileEntity.setResult(result);
                 GlStateManager.popMatrix();
             }
         }

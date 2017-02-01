@@ -138,7 +138,7 @@ public class BookSection {
     }
 
     public RenderSection renderAtWidth(int maxwidth) {
-        RenderSection renderSection = new RenderSection();
+        RenderSection renderSection = new RenderSection(name);
 
         Cursor cursor = new Cursor(maxwidth);
         for (BookElement element : elements) {

@@ -18,18 +18,19 @@ public class RenderElementLink extends RenderElementText {
     }
 
     @Override
-    public void render(int dy, float ix, float iy) {
+    public String render(int dy, float ix, float iy) {
 //        x, 512 - (y + dy)
         int w = (int) (ClientProxy.font.getWidth(text) * scale);
         int h = (int) (ClientProxy.font.getHeight() * scale);
         ix = (float) (ix * 768 * 1.2 - 105);
         iy = (float) (iy * 1024 * 1.08 - 65);
-        System.out.println("ix/iy = " + (int)ix + "," + (int)iy + "         x,y = " + x +"," + y + " (" + w + "," + h + ")");
 
         if (ix >= x && ix <= x+w && iy >= y && iy <= y+h) {
             renderText(dy, sr, sg, sb);
+            return text;
         } else {
             super.render(dy, ix, iy);
+            return null;
         }
     }
 }

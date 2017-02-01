@@ -35,9 +35,9 @@ public class RenderElementItem implements RenderElement {
     }
 
     @Override
-    public void render(int dy, float ix, float iy) {
+    public String render(int dy, float ix, float iy) {
         if (ItemStackTools.isEmpty(item)) {
-            return;
+            return null;
         }
         RenderHelper.enableGUIStandardItemLighting();
 
@@ -55,6 +55,7 @@ public class RenderElementItem implements RenderElement {
 
         GlStateManager.disableLighting();
         RenderHelper.disableStandardItemLighting();
+        return null;
     }
 
     private void renderSlot(ItemStack itm, int x, int currenty) {

@@ -183,7 +183,7 @@ public class BookParser {
                 int h = renderSection.getHeight();
                 if (h > height) {
                     // The section is too large. Put in a place holder as an error
-                    renderSection = new RenderSection();
+                    renderSection = new RenderSection(section.getName());
                     renderSection.addElement(new BookElementText("<NO FIT>", TextElementFormat.DEFAULT).createRenderElement(0, 0));
                     h = renderSection.getHeight();
                 }

@@ -15,7 +15,8 @@ public class RenderElementIndent implements RenderElement {
     }
 
     @Override
-    public void render(int dy, float ix, float iy) {
+    public String render(int dy, float ix, float iy) {
         ClientProxy.font.drawString(x, 512 - (y + dy), INDENTSTRING, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+        return null;
     }
 }
