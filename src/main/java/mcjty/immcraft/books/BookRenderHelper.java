@@ -43,14 +43,16 @@ public class BookRenderHelper {
         return result;
     }
 
-    public static String renderPageForGUI(List<BookPage> pages, int index, float scale, float ix, float iy) {
+    public static String renderPageForGUI(List<BookPage> pages, int index, float scale, float ix, float iy, int guiLeft, int guiTop) {
         GlStateManager.pushMatrix();
         net.minecraft.client.renderer.RenderHelper.disableStandardItemLighting();
         Minecraft.getMinecraft().entityRenderer.disableLightmap();
         GlStateManager.disableBlend();
         GlStateManager.disableLighting();
 
-        GlStateManager.translate(130.0F, 52.0F, 1F);
+        GlStateManager.translate(guiLeft + 20, guiTop + 20, 1F);
+
+//        GlStateManager.translate(130.0F, 52.0F, 1F);
         GlStateManager.scale(0.2f, 0.2f, 1.0f);
         GlStateManager.glNormal3f(0.0F, 0.0F, 1.0F);
         GlStateManager.color(0.0F, 0.0F, 0.0F, 1.0F);

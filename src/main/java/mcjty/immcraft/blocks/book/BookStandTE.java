@@ -22,8 +22,10 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 
 import java.util.Collections;
 import java.util.List;
@@ -96,7 +98,7 @@ public class BookStandTE extends GenericImmcraftTE {
         if (pageNumber > 0) {
             pageNumber--;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
-            playPageTurn();
+            playPageTurn(getWorld(), getPos());
         }
     }
 
@@ -104,11 +106,11 @@ public class BookStandTE extends GenericImmcraftTE {
         if (pages != null && pageNumber < pages.size()-1) {
             pageNumber++;
             getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
-            playPageTurn();
+            playPageTurn(getWorld(), getPos());
         }
     }
 
-    private int findPageForSection(String section) {
+    public static int findPageForSection(List<BookPage> pages, String section) {
         for (int i = 0 ; i < pages.size() ; i++) {
             for (RenderSection s : pages.get(i).getSections()) {
                 if (section.equals(s.getName())) {
@@ -122,11 +124,13 @@ public class BookStandTE extends GenericImmcraftTE {
 
     private void gotoPageClient(String section) {
         if (pages != null) {
-            int number = findPageForSection(section);
+            int number = findPageForSection(pages, section);
             if (number != -1 && number < pages.size()) {
-                pageNumber = number;
-                getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
-                playPageTurn();
+                if (pageNumber != number) {
+                    pageNumber = number;
+                    getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+                    playPageTurn(getWorld(), getPos());
+                }
             }
         }
     }
@@ -139,9 +143,9 @@ public class BookStandTE extends GenericImmcraftTE {
         this.result = result;
     }
 
-    public void playPageTurn() {
+    public static void playPageTurn(World world, BlockPos pos) {
         if (GeneralConfiguration.basePageTurnVolume > 0.01f) {
-            SoundController.playPageturn(getWorld(), getPos(), GeneralConfiguration.basePageTurnVolume);
+            SoundController.playPageturn(world, pos, GeneralConfiguration.basePageTurnVolume);
         }
     }
 
