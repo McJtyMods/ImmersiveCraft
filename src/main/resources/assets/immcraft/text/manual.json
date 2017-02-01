@@ -4,7 +4,7 @@
     "text": [
       "##",
       "##",
-      "#I9:immcraft:textures/gui/title.png",
+      "#I9:immcraft:textures/gui/title.png:0,0,64,64,64,64",
       "##",
       "#:3,white,c:The", "##", "#:3,white,c:ImmersiveCraft", "##", "#:3,white,c:Manual",
       "##",

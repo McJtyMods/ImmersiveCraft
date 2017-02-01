@@ -110,7 +110,18 @@ public class BookParser {
                                 scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
                                 regName = string.substring(4);
                             }
-                            section.addElement(new BookElementImage(new ResourceLocation(regName), 0, 0, 64, 64, 64, 64, scale));
+                            int colon = regName.lastIndexOf(':');
+                            if (colon != -1) {
+                                String[] split = StringUtils.split(regName.substring(colon + 1), ',');
+                                regName = regName.substring(0, colon);
+                                int u = toIntSafe(split, 0, 0);
+                                int v = toIntSafe(split, 1, 0);
+                                int w = toIntSafe(split, 2, 16);
+                                int h = toIntSafe(split, 3, 16);
+                                int tw = toIntSafe(split, 4, 256);
+                                int th = toIntSafe(split, 5, 256);
+                                section.addElement(new BookElementImage(new ResourceLocation(regName), u, v, w, h, tw, th, scale));
+                            }
                             lastIsText = false;
                         } else if (string.startsWith("#:")) {
                             String fmtString = string.substring(2);
@@ -135,6 +146,14 @@ public class BookParser {
         }
 
         return sections;
+    }
+
+    private static int toIntSafe(String[] splitted, int idx, int def) {
+        try {
+            return Integer.parseInt(splitted[idx]);
+        } catch (Exception e) {
+            return def;
+        }
     }
 
     private boolean handleText(BookSection section, boolean lastIsText, String string, String fmt) {

@@ -50,7 +50,7 @@ public class BookRenderHelper {
         GlStateManager.disableBlend();
         GlStateManager.disableLighting();
 
-        GlStateManager.translate(guiLeft + 20, guiTop + 20, 1F);
+        GlStateManager.translate(guiLeft + 20, guiTop + 25, 1F);
 
 //        GlStateManager.translate(130.0F, 52.0F, 1F);
         GlStateManager.scale(0.2f, 0.2f, 1.0f);
