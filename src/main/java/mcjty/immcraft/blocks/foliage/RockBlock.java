@@ -1,14 +1,21 @@
 package mcjty.immcraft.blocks.foliage;
 
+import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -72,6 +79,17 @@ public class RockBlock extends GenericImmcraftBlock {
 
     @Override
     public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+    }
+
+    @Override
+    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
+        ItemStack heldItem = player.getHeldItem(hand);
+        if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.FLINT && GeneralConfiguration.flintOnRockMakesFlintAndSteel) {
+            world.destroyBlock(pos, false);
+            InventoryHelper.spawnItemStack(world, pos, new ItemStack(Items.FLINT_AND_STEEL));
+            return true;
+        }
+        return super.clOnBlockActivated(world, pos, state, player, hand, side, sx, sy, sz);
     }
 
     @Override

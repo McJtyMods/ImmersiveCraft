@@ -125,7 +125,13 @@
   },
   {
     "text": [
-      "You can also place them back on the ground and use them for various crafting recipes"
+      "You can also place them back on the ground or use them for various crafting recipes"
+    ]
+  },
+  {
+    "text": [
+      "Right clicking with a flint (", "#i:minecraft:flint", ") on a rock on the ground will create flint and steel (",
+      "#i:minecraft:flint_and_steel", ")"
     ]
   },
   {
