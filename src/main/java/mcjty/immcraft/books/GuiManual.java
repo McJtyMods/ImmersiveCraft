@@ -117,6 +117,8 @@ public class GuiManual extends GuiScreen {
         }
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, WIDTH, HEIGHT);
 
-        result = BookRenderHelper.renderPageForGUI(pages, pageNumber, 1.0f, mouseX - guiLeft, mouseY - guiTop, guiLeft, guiTop);
+        float ix = (float) (mouseX - guiLeft) / WIDTH;
+        float iy = (float) (mouseY - guiTop) / HEIGHT;
+        result = BookRenderHelper.renderPageForGUI(pages, pageNumber, 1.0f, ix, iy, guiLeft, guiTop);
     }
 }
