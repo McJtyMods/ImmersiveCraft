@@ -203,7 +203,7 @@
   },
   {
     "text": [
-      "#i9:immcraft:bookstand", "Bookstand", "#",
+      "#i9:immcraft:bookstand", "#:2:Bookstand", "#",
       "The bookstand can hold a single manual (provided it supports this mod) and allows you to read it in-world.",
       "Just right click the book on the stand and sneak-right click to remove it again."
     ]

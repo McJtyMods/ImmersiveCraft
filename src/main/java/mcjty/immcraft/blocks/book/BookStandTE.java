@@ -67,7 +67,7 @@ public class BookStandTE extends GenericImmcraftTE {
             ResourceLocation json = ((IBook) currentBook.getItem()).getJson();
 
             BookParser parser = new BookParser();
-            pages = parser.parse(json, 768, 1024);
+            pages = parser.parse(json, 768, 900);
             if (pageNumber >= pages.size()) {
                 pageNumber = 0;
                 markDirtyClient();

@@ -48,7 +48,7 @@ public class GuiManual extends GuiScreen {
         if (ItemStackTools.isValid(book) && book.getItem() instanceof IBook) {
             json = ((IBook) book.getItem()).getJson();
             BookParser parser = new BookParser();
-            pages = parser.parse(json, 768, 1024);
+            pages = parser.parse(json, 768, 900);
             pageNumber = 0;
             result = null;
         } else {

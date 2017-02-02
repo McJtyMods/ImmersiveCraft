@@ -14,6 +14,18 @@
             "scale": 2,
             "translation": [0,0.6,0],
             "rotation": [{"x": 15},{"y": 45}]
+          },
+          "ground": {
+            "scale": 0.65,
+            "translation": [0,0.3,0]
+          },
+          "firstperson": {
+            "scale": 0.75,
+            "translation": [0,0.2,0]
+          },
+          "thirdperson": {
+            "scale": 0.75,
+            "translation": [0,0.2,0]
           }
         }
       }

@@ -10,7 +10,16 @@
       "transform": {
         "gui": {
           "scale": 0.65,
-          "rotation": [{"x": 15},{"y": -45}]
+          "rotation": [{"x": 15},{"y": 145}]
+        },
+        "ground": {
+          "scale": 0.45
+        },
+        "firstperson": {
+          "scale": 0.45
+        },
+        "thirdperson": {
+          "scale": 0.45
         }
       }
     }],
