@@ -84,67 +84,13 @@ public class BookParser {
                         section.addElement(new BookElementRuler());
                         lastIsText = false;
                     } else if (string.startsWith("#l")) {
-                        String sec;
-                        TextElementFormat fmt;
-                        if (string.charAt(2) == ':') {
-                            sec = string.substring(3);
-                            fmt = new TextElementFormat("");
-                        } else {
-                            sec = string.substring(4);
-                            // @todo better formatting options
-                            fmt = new TextElementFormat(string.substring(2, 3));
-                        }
-                        fmt.setColor(EnumDyeColor.BLUE);
-                        section.addElement(new BookElementLink(sec, fmt));
-                        lastIsText = true;
+                        lastIsText = parseLink(section, string);
                     } else if (string.startsWith("#i")) {
-                        String regName;
-                        float scale;
-                        if (string.charAt(2) == ':') {
-                            scale = 1.0f;
-                            regName = string.substring(3);
-                        } else {
-                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
-                            regName = string.substring(4);
-                        }
-                        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
-                        if (item != null) {
-                            section.addElement(new BookElementItem(new ItemStack(item), scale));
-                        }
-                        lastIsText = false;
+                        lastIsText = parseItem(section, string);
                     } else if (string.startsWith("#I")) {
-                        String regName;
-                        float scale;
-                        if (string.charAt(2) == ':') {
-                            scale = 1.0f;
-                            regName = string.substring(3);
-                        } else {
-                            scale = 0.5f + ((string.charAt(2) - '0')) * .6f;
-                            regName = string.substring(4);
-                        }
-                        int colon = regName.lastIndexOf(':');
-                        if (colon != -1) {
-                            String[] split = StringUtils.split(regName.substring(colon + 1), ',');
-                            regName = regName.substring(0, colon);
-                            int u = toIntSafe(split, 0, 0);
-                            int v = toIntSafe(split, 1, 0);
-                            int w = toIntSafe(split, 2, 16);
-                            int h = toIntSafe(split, 3, 16);
-                            int tw = toIntSafe(split, 4, 256);
-                            int th = toIntSafe(split, 5, 256);
-                            section.addElement(new BookElementImage(new ResourceLocation(regName), u, v, w, h, tw, th, scale));
-                        }
-                        lastIsText = false;
+                        lastIsText = parseImage(section, string);
                     } else if (string.startsWith("#:")) {
-                        String fmtString = string.substring(2);
-                        if (fmtString.contains(":")) {
-                            int idx = fmtString.indexOf(':');
-                            String fmt = fmtString.substring(0, idx);
-                            String text = fmtString.substring(idx+1);
-                            lastIsText = handleText(section, lastIsText, text, fmt);
-                        } else {
-                            lastIsText = handleText(section, lastIsText, fmtString, "");
-                        }
+                        lastIsText = parseFormattedText(section, lastIsText, string);
                     } else {
                         lastIsText = handleText(section, lastIsText, string, "");
                     }
@@ -157,6 +103,93 @@ public class BookParser {
         }
 
         return sections;
+    }
+
+    private boolean parseLink(BookSection section, String string) {
+        boolean lastIsText;
+        String sec;
+        TextElementFormat fmt;
+        if (string.charAt(2) == ':') {
+            sec = string.substring(3);
+            fmt = new TextElementFormat("");
+        } else {
+            sec = string.substring(4);
+            // @todo better formatting options
+            fmt = new TextElementFormat(string.substring(2, 3));
+        }
+        fmt.setColor(EnumDyeColor.BLUE);
+        section.addElement(new BookElementLink(sec, fmt));
+        lastIsText = true;
+        return lastIsText;
+    }
+
+    private boolean parseFormattedText(BookSection section, boolean lastIsText, String string) {
+        String fmtString = string.substring(2);
+        if (fmtString.contains(":")) {
+            int idx = fmtString.indexOf(':');
+            String fmt = fmtString.substring(0, idx);
+            String text = fmtString.substring(idx+1);
+            lastIsText = handleText(section, lastIsText, text, fmt);
+        } else {
+            lastIsText = handleText(section, lastIsText, fmtString, "");
+        }
+        return lastIsText;
+    }
+
+    private boolean parseImage(BookSection section, String string) {
+        boolean lastIsText;
+        String regName;
+        float scale;
+        if (string.charAt(2) == ':') {
+            scale = 1.0f;
+            regName = string.substring(3);
+        } else {
+            scale = 0.5f + ((string.charAt(2) - '0')) * .6f;
+            regName = string.substring(4);
+        }
+        int colon = regName.lastIndexOf(':');
+        if (colon != -1) {
+            String[] split = StringUtils.split(regName.substring(colon + 1), ',');
+            regName = regName.substring(0, colon);
+            int u = toIntSafe(split, 0, 0);
+            int v = toIntSafe(split, 1, 0);
+            int w = toIntSafe(split, 2, 16);
+            int h = toIntSafe(split, 3, 16);
+            int tw = toIntSafe(split, 4, 256);
+            int th = toIntSafe(split, 5, 256);
+            section.addElement(new BookElementImage(new ResourceLocation(regName), u, v, w, h, tw, th, scale));
+        }
+        lastIsText = false;
+        return lastIsText;
+    }
+
+    private boolean parseItem(BookSection section, String string) {
+        boolean lastIsText;
+        String regName;
+        float scale;
+        if (string.charAt(2) == ':') {
+            scale = 1.0f;
+            regName = string.substring(3);
+        } else {
+            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+            regName = string.substring(4);
+        }
+        int meta = 0;
+        if (regName.contains("@")) {
+            String[] split = StringUtils.split(regName, "@");
+            regName = split[0];
+            try {
+                meta = Integer.parseInt(split[1]);
+            } catch (NumberFormatException e) {
+                ImmersiveCraft.logger.warn("Bad metadata for item");
+            }
+        }
+        Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));
+        if (item != null) {
+            section.addElement(new BookElementItem(new ItemStack(item, 1, meta), scale));
+        }
+        lastIsText = false;
+        return lastIsText;
     }
 
     private static int toIntSafe(String[] splitted, int idx, int def) {
