@@ -56,7 +56,8 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                 BlockRenderHelper.rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
                 GlStateManager.translate(0, 0, 0.13F);
 
-                Plane plane = getPlane(tileEntity, ((GenericBlock) block).getMetaUsage());
+                EnumFacing orientation = GenericBlock.getFrontDirection(((GenericBlock) block).getMetaUsage(), tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+                Plane plane = getPlane(orientation);
                 plane = plane.offset(new Vec3d(x, y, z));
 
                 EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
@@ -92,8 +93,7 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
     }
 
 
-    public static Plane getPlane(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
-        EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+    public static Plane getPlane(EnumFacing orientation) {
         double y1 = 0.13;
         double y2 = 0.81;
         switch (orientation) {
@@ -102,9 +102,9 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
             case SOUTH:
                 return new Plane(new Vec3d(0.84, y2, 0.45), new Vec3d(0.16, y2, 0.45), new Vec3d(0.84, y1, 0.86), new Vec3d(0.16, y1, 0.86));
             case WEST:
-                return new Plane(new Vec3d(0.55, y2, 0.16), new Vec3d(0.55, y2, 0.84), new Vec3d(0.14, y1, 0.16), new Vec3d(0.14, y1, 0.84));
+                return new Plane(new Vec3d(0.55, y2, 0.84), new Vec3d(0.55, y2, 0.16), new Vec3d(0.14, y1, 0.84), new Vec3d(0.14, y1, 0.16));
             case EAST:
-                return new Plane(new Vec3d(0.45, y2, 0.84), new Vec3d(0.45, y2, 0.16), new Vec3d(0.86, y1, 0.84), new Vec3d(0.86, y1, 0.16));
+                return new Plane(new Vec3d(0.45, y2, 0.16), new Vec3d(0.45, y2, 0.84), new Vec3d(0.86, y1, 0.16), new Vec3d(0.86, y1, 0.84));
             case DOWN:
             case UP:
                 break;

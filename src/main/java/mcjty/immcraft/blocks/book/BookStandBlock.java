@@ -6,6 +6,7 @@ import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -37,6 +38,9 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
 
     public BookStandBlock() {
         super(Material.WOOD, "bookstand", BookStandTE.class, false);
+        setHardness(1.0f);
+        setSoundType(SoundType.WOOD);
+        setHarvestLevel("axe", 0);
     }
 
 
