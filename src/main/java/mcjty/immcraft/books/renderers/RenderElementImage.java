@@ -34,7 +34,7 @@ public class RenderElementImage implements RenderElement {
     @Override
     public String render(int dy, float ix, float iy) {
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0, -h * scale, -50);
+        GlStateManager.translate(0, -h, -50);
         GlStateManager.scale(scale, scale, 1.0f);
         GlStateManager.color(1, 1, 1, 1);
         Minecraft.getMinecraft().getTextureManager().bindTexture(image);

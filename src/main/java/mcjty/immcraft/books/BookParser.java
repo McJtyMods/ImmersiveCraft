@@ -119,7 +119,7 @@ public class BookParser {
                             scale = 1.0f;
                             regName = string.substring(3);
                         } else {
-                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
+                            scale = 0.5f + ((string.charAt(2) - '0')) * .6f;
                             regName = string.substring(4);
                         }
                         int colon = regName.lastIndexOf(':');

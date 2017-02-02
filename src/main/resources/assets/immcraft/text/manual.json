@@ -2,12 +2,10 @@
   {
     "section": "Title",
     "text": [
+      "#I7:immcraft:textures/gui/title.png:0,0,64,64,64,64", "#",
       "##",
-      "##",
-      "#I9:immcraft:textures/gui/title.png:0,0,64,64,64,64",
       "##",
       "#:3,white,center:The", "##", "#:3,white,center:ImmersiveCraft", "##", "#:3,white,center:Manual",
-      "##",
       "##",
       "#:1,white,italic,center:By McJty "
     ]
