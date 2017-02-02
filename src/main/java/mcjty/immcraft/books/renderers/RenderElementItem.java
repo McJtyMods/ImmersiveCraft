@@ -66,17 +66,22 @@ public class RenderElementItem implements RenderElement {
         GlStateManager.disableLighting();
         RenderHelper.disableStandardItemLighting();
 
+        return null;
+    }
+
+    @Override
+    public void render2(int dy, float ix, float iy) {
         ix = (float) (ix * 768 * 1.25 - 105);
         iy = (float) (iy * 1024 * 1.1 - 65);
         if (ix >= x && ix <= x+w && iy >= y && iy <= y+h) {
+            RenderHelper.enableGUIStandardItemLighting();
             GlStateManager.pushMatrix();
-            GlStateManager.scale(6.0, 6.0, 6.0);
+            GlStateManager.scale(6.0, 6.0, 1.0);
             GlStateManager.translate(ix / 6.5, iy / 6.5, 0);
             renderToolTip(item, 0, 0);
             GlStateManager.popMatrix();
+            RenderHelper.disableStandardItemLighting();
         }
-
-        return null;
     }
 
     private void renderToolTip(ItemStack stack, int x, int y) {

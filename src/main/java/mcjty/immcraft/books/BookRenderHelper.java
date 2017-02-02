@@ -86,6 +86,13 @@ public class BookRenderHelper {
             }
             cury += section.getHeight() + SECTION_MARGIN;
         }
+        cury = 0;
+        for (RenderSection section : page.getSections()) {
+            for (RenderElement element : section.getElements()) {
+                element.render2(cury, ix, iy);
+            }
+            cury += section.getHeight() + SECTION_MARGIN;
+        }
         return result;
     }
 }
