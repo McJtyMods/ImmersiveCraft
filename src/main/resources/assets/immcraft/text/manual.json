@@ -210,33 +210,33 @@
   },
   {
     "text": [
-      "#i9:immcraft:chest", "Chest", "#",
+      "#i9:immcraft:chest", "#:2,vcenter:Chest", "#",
       "This is a more immersive chest that can hold 12 stacks.",
       "You can open and close it and place items in it"
     ]
   },
   {
     "text": [
-      "#i9:immcraft:furnace", "Furnace", "#",
+      "#i9:immcraft:furnace", "#:2,vcenter:Furnace", "#",
       "This furnace works like a regular furnace. The only difference is that you need to ignite the fuel using flint and steel (",
       "#i:minecraft:flint_and_steel", ") before it will work"
     ]
   },
   {
     "text": [
-      "#i9:immcraft:shelf", "Shelf", "#",
+      "#i9:immcraft:shelf", "#:2,vcenter:Shelf", "#",
       "A shelf can hold 16 items. It works a bit like a chest except that it is wall mounted and does not have a lid to close it."
     ]
   },
   {
     "text": [
-      "#i9:immcraft:cupboard", "Cupboard", "#",
+      "#i9:immcraft:cupboard", "#:2,vcenter:Cupboard", "#",
       "A cupboard is exactly like a shelf but it can be closed."
     ]
   },
   {
     "text": [
-      "#i9:immcraft:bookshelf", "Bookshelf", "#",
+      "#i9:immcraft:bookshelf", "#:2,vcenter:Bookshelf", "#",
       "A bookshelf can be used to hold various types of books. It has room for 27 books."
     ]
   },

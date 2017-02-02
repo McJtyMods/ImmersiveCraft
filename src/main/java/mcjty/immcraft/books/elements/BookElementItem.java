@@ -15,13 +15,13 @@ public class BookElementItem implements BookElement {
     }
 
     @Override
-    public RenderElement createRenderElement(int x, int y) {
+    public RenderElement createRenderElement(int x, int y, int w, int h) {
         return new RenderElementItem(item, x, y, scale);
     }
 
     @Override
     public int getWidth(int curw) {
-        return (int) (80 * scale);
+        return (int) (70 * scale);
     }
 
     @Override

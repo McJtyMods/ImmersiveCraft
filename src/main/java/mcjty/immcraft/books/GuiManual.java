@@ -4,6 +4,7 @@ import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.book.IBook;
 import mcjty.immcraft.blocks.book.BookStandTE;
 import mcjty.immcraft.books.renderers.RenderElementText;
+import mcjty.immcraft.proxy.ClientProxy;
 import mcjty.lib.tools.ItemStackTools;
 import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
@@ -56,7 +57,7 @@ public class GuiManual extends GuiScreen {
             pages = new ArrayList<>();
             pages.add(new BookPage());
             RenderSection section = new RenderSection("Error");
-            section.addElement(new RenderElementText("Error!", 10, 10, 1.0f, EnumDyeColor.RED, 0, 0));
+            section.addElement(new RenderElementText("Error!", 10, 10, (int) ClientProxy.font.getWidth("Error!"), (int) ClientProxy.font.getHeight(), 1.0f, EnumDyeColor.RED, 0, 0));
             pages.get(0).addSection(section);
             pageNumber = 0;
             result = null;

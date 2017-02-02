@@ -37,7 +37,7 @@ public class BookElementImage implements BookElement {
     }
 
     @Override
-    public RenderElement createRenderElement(int x, int y) {
-        return new RenderElementImage(image, u, v, w, h, totw, toth, x, y, scale);
+    public RenderElement createRenderElement(int x, int y, int w, int h) {
+        return new RenderElementImage(image, u, v, this.w, this.h, totw, toth, x, y, scale);
     }
 }

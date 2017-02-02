@@ -96,7 +96,7 @@ public class RenderElementItem implements RenderElement {
     private void setupGuiTransform(int xPosition, int yPosition, boolean isGui3d) {
         GlStateManager.translate((float) xPosition, (float) yPosition, 100.0F + 50); //@@@this.zLevel);
 //        GlStateManager.translate(8.0F, 8.0F, 0.0F);
-        GlStateManager.translate(40.0F * scale, -36.0F, 0.0F);
+        GlStateManager.translate(30.0F * scale, -36.0F, 0.0F);
         GlStateManager.scale(1.0F, -1.0F, 1.0F);
 //        GlStateManager.scale(16.0F, 16.0F, 16.0F);
         GlStateManager.scale(64.0F * scale, 64.0F * scale, 1.0F);

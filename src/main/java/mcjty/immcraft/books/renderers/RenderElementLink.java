@@ -9,8 +9,8 @@ public class RenderElementLink extends RenderElementText {
     private final float sg;
     private final float sb;
 
-    public RenderElementLink(String text, int x, int y, float scale, EnumDyeColor color, EnumDyeColor selected, int align, int valign) {
-        super(text, x, y, scale, color, align, valign);
+    public RenderElementLink(String text, int x, int y, int w, int h, float scale, EnumDyeColor color, EnumDyeColor selected, int align, int valign) {
+        super(text, x, y, w, h, scale, color, align, valign);
         int value = selected.getMapColor().colorValue;
         sr = ((value >> 16) & 255) / 255.0f;
         sg = ((value >> 8) & 255) / 255.0f;

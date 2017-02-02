@@ -17,7 +17,7 @@ public class BookElementNewParagraph implements BookElement {
     }
 
     @Override
-    public RenderElement createRenderElement(int x, int y) {
+    public RenderElement createRenderElement(int x, int y, int w, int h) {
         return new RenderElementNone();
     }
 }

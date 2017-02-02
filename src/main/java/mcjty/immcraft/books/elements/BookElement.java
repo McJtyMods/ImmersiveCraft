@@ -14,5 +14,5 @@ public interface BookElement {
     // Get the height of this element
     int getHeight();
 
-    RenderElement createRenderElement(int x, int y);
+    RenderElement createRenderElement(int x, int y, int w, int h);
 }

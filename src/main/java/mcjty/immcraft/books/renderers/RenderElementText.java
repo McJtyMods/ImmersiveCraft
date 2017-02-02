@@ -8,6 +8,8 @@ public class RenderElementText implements RenderElement {
     protected final String text;
     protected final int x;
     protected final int y;
+    protected final int w;
+    protected final int h;
     protected final float scale;
     private final float r;
     private final float g;
@@ -15,10 +17,12 @@ public class RenderElementText implements RenderElement {
     private final int align;
     private final int valign;
 
-    public RenderElementText(String text, int x, int y, float scale, EnumDyeColor color, int align, int valign) {
+    public RenderElementText(String text, int x, int y, int w, int h, float scale, EnumDyeColor color, int align, int valign) {
         this.text = text;
         this.x = x;
         this.y = y;
+        this.w = w;
+        this.h = h;
         this.scale = scale;
         int value = color.getMapColor().colorValue;
         r = ((value >> 16) & 255) / 255.0f;
@@ -52,10 +56,8 @@ public class RenderElementText implements RenderElement {
         if (valign == -1) {
             yy = y;
         } else if (valign == 1) {
-            int h = 1024 - y;
             yy = (int) (y + h - ClientProxy.font.getHeight() * scale);
         } else {
-            int h = 1024 - y;
             yy = (int) (y + (h - ClientProxy.font.getHeight() * scale) / 2);
         }
         ClientProxy.font.drawString(xx, 512 - (yy + dy), text, scale, scale, red, green, blue, 1.0f);

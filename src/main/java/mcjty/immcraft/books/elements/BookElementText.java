@@ -16,8 +16,8 @@ public class BookElementText implements BookElement {
     }
 
     @Override
-    public RenderElement createRenderElement(int x, int y) {
-        return new RenderElementText(text, x, y, fmt.getScale(), fmt.getColor(), fmt.getAlign(), fmt.getValign());
+    public RenderElement createRenderElement(int x, int y, int w, int h) {
+        return new RenderElementText(text, x, y, w, h, fmt.getScale(), fmt.getColor(), fmt.getAlign(), fmt.getValign());
     }
 
     @Override

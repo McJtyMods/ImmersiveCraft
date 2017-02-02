@@ -142,8 +142,9 @@ public class BookSection {
     private void process(RenderSection renderSection, List<BookElement> lineRender, Cursor cursor) {
         int x = 0;
         for (BookElement element : lineRender) {
-            renderSection.addElement(element.createRenderElement(x, cursor.getY()));
-            x += element.getWidth(x);
+            int width = element.getWidth(x);
+            renderSection.addElement(element.createRenderElement(x, cursor.getY(), width, cursor.getMaxh()));
+            x += width;
         }
         lineRender.clear();
     }
@@ -167,18 +168,15 @@ public class BookSection {
                 cursor.newline();
             } else if (w == WIDTH_FULLWIDTH) {
                 lineRender.add(element);
-//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 process(renderSection, lineRender, cursor);
                 cursor.newline();
             } else if (cursor.fits(w)) {
                 lineRender.add(element);
-//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.add(w, h);
             } else {
                 process(renderSection, lineRender, cursor);
                 cursor.newline();
                 lineRender.add(element);
-//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.add(element.getWidth(cursor.curx), h);
             }
         }
