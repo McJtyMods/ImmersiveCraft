@@ -76,7 +76,7 @@ public class RenderElementItem implements RenderElement {
         if (ix >= x && ix <= x+w && iy >= (y + dy) && iy <= y+dy+h) {
             RenderHelper.enableGUIStandardItemLighting();
             GlStateManager.pushMatrix();
-            GlStateManager.scale(6.0, 6.0, 1.0);
+            GlStateManager.scale(6.0, 6.0, 0.0);
             GlStateManager.translate(ix / 6.5, iy / 6.5, 0);
             renderToolTip(item, 0, 0);
             GlStateManager.popMatrix();
