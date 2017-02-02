@@ -74,10 +74,18 @@ public class GuiManual extends GuiScreen {
     protected void mouseClicked(int x, int y, int button) throws IOException {
         super.mouseClicked(x, y, button);
         if (result != null) {
-            int number = BookStandTE.findPageForSection(pages, result);
-            if (number != -1 && number != pageNumber) {
-                pageNumber = number;
-                playPageTurn();
+            if ("<".equals(result)) {
+                pageDec();
+            } else if (">".equals(result)) {
+                pageInc();
+            } else if ("^".equals(result)) {
+                pageFront();
+            } else {
+                int number = BookStandTE.findPageForSection(pages, result);
+                if (number != -1 && number != pageNumber) {
+                    pageNumber = number;
+                    playPageTurn();
+                }
             }
         }
     }
@@ -86,20 +94,32 @@ public class GuiManual extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         super.keyTyped(typedChar, keyCode);
         if (keyCode == Keyboard.KEY_SPACE || keyCode == Keyboard.KEY_RIGHT) {
-            if (pageNumber < pages.size()-1) {
-                pageNumber++;
-                playPageTurn();
-            }
+            pageInc();
         } else if (keyCode == Keyboard.KEY_LEFT || keyCode == Keyboard.KEY_BACK) {
-            if (pageNumber > 0) {
-                pageNumber--;
-                playPageTurn();
-            }
+            pageDec();
         } else if (keyCode == Keyboard.KEY_HOME) {
-            if (pageNumber != 0) {
-                pageNumber = 0;
-                playPageTurn();
-            }
+            pageFront();
+        }
+    }
+
+    private void pageFront() {
+        if (pageNumber != 0) {
+            pageNumber = 0;
+            playPageTurn();
+        }
+    }
+
+    private void pageInc() {
+        if (pageNumber < pages.size()-1) {
+            pageNumber++;
+            playPageTurn();
+        }
+    }
+
+    private void pageDec() {
+        if (pageNumber > 0) {
+            pageNumber--;
+            playPageTurn();
         }
     }
 
@@ -120,6 +140,18 @@ public class GuiManual extends GuiScreen {
 
         float ix = (float) (mouseX - guiLeft) / WIDTH;
         float iy = (float) (mouseY - guiTop) / HEIGHT;
-        result = BookRenderHelper.renderPageForGUI(pages, pageNumber, 1.0f, ix, iy, guiLeft, guiTop);
+        if (ix < .15f) {
+            result = "<";
+        } else if (ix > 1-.1f) {
+            result = ">";
+        } else if (iy < .15f) {
+            result = "^";
+        } else {
+            result = null;
+        }
+        String rc = BookRenderHelper.renderPageForGUI(pages, pageNumber, 1.0f, ix, iy, guiLeft, guiTop);
+        if (rc != null) {
+            result = rc;
+        }
     }
 }
