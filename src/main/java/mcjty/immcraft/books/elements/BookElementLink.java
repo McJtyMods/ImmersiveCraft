@@ -3,7 +3,6 @@ package mcjty.immcraft.books.elements;
 import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.books.renderers.RenderElement;
 import mcjty.immcraft.books.renderers.RenderElementLink;
-import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.item.EnumDyeColor;
 
 public class BookElementLink implements BookElement {
@@ -23,11 +22,11 @@ public class BookElementLink implements BookElement {
 
     @Override
     public int getWidth(int curw) {
-        return (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
+        return (int) (fmt.getFont().getWidth(text) * fmt.getScale());
     }
 
     @Override
     public int getHeight() {
-        return (int) (ClientProxy.font.getHeight() * fmt.getScale());
+        return (int) (fmt.getFont().getHeight() * fmt.getScale());
     }
 }

@@ -3,7 +3,6 @@ package mcjty.immcraft.books.elements;
 import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.books.renderers.RenderElement;
 import mcjty.immcraft.books.renderers.RenderElementText;
-import mcjty.immcraft.proxy.ClientProxy;
 
 public class BookElementText implements BookElement {
 
@@ -23,7 +22,7 @@ public class BookElementText implements BookElement {
     @Override
     public int getWidth(int curw) {
         if (fmt.getAlign() == -1) {
-            return (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
+            return (int) (fmt.getFont().getWidth(text) * fmt.getScale());
         } else {
             return WIDTH_FULLWIDTH;
         }
@@ -31,6 +30,6 @@ public class BookElementText implements BookElement {
 
     @Override
     public int getHeight() {
-        return (int) (ClientProxy.font.getHeight() * fmt.getScale());
+        return (int) (fmt.getFont().getHeight() * fmt.getScale());
     }
 }

@@ -1,7 +1,6 @@
 package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.books.TextElementFormat;
-import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.item.EnumDyeColor;
 
 public class RenderElementLink extends RenderElementText {
@@ -21,8 +20,8 @@ public class RenderElementLink extends RenderElementText {
     @Override
     public String render(int dy, float ix, float iy) {
 //        x, 512 - (y + dy)
-        int w = (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
-        int h = (int) (ClientProxy.font.getHeight() * fmt.getScale());
+        int w = (int) (fmt.getFont().getWidth(text) * fmt.getScale());
+        int h = (int) (fmt.getFont().getHeight() * fmt.getScale());
         ix = (float) (ix * 768 * 1.2 - 105);
         iy = (float) (iy * 1024 * 1.08 - 65);
 

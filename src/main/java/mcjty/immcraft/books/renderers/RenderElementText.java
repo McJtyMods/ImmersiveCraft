@@ -2,8 +2,6 @@ package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.font.TrueTypeFont;
-import mcjty.immcraft.proxy.ClientProxy;
-import net.minecraft.item.EnumDyeColor;
 
 public class RenderElementText implements RenderElement {
 
@@ -45,12 +43,7 @@ public class RenderElementText implements RenderElement {
         int valign = fmt.getValign();
         float scale = fmt.getScale();
 
-        TrueTypeFont font = ClientProxy.font;
-        if (fmt.isBold()) {
-            font = ClientProxy.font_bold;
-        } else if (fmt.isItalic()) {
-            font = ClientProxy.font_italic;
-        }
+        TrueTypeFont font = fmt.getFont();
 
         if (align == -1) {
             xx = x;
