@@ -1,7 +1,9 @@
 package mcjty.immcraft.books;
 
+import mcjty.immcraft.ImmersiveCraft;
 import net.minecraft.item.EnumDyeColor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 
 public class TextElementFormat {
 
@@ -9,6 +11,8 @@ public class TextElementFormat {
     private EnumDyeColor color = EnumDyeColor.BLACK;
     private int align = -1;         // -1 = left, 0 = center, 1 = right
     private int valign = -1;        // Vertical alignment
+    private boolean bold = false;
+    private boolean italic = false;
 
     public static final TextElementFormat DEFAULT = new TextElementFormat("");
 
@@ -31,11 +35,23 @@ public class TextElementFormat {
                     valign = 0;
                 } else if ("bottom".equals(s) || "b".equals(s)) {
                     valign = 1;
+                } else if ("bold".equals(s)) {
+                    bold = true;
+                } else if ("italic".equals(s)) {
+                    italic = true;
                 } else {
-                    color = EnumDyeColor.valueOf(s.toUpperCase());
+                    try {
+                        color = EnumDyeColor.valueOf(s.toUpperCase());
+                    } catch (IllegalArgumentException e) {
+                        ImmersiveCraft.logger.log(Level.WARN, "Bad format for text: '" + fmt + "'!");
+                    }
                 }
             }
         }
+    }
+
+    public void setColor(EnumDyeColor color) {
+        this.color = color;
     }
 
     public float getScale() {
@@ -52,5 +68,13 @@ public class TextElementFormat {
 
     public int getValign() {
         return valign;
+    }
+
+    public boolean isBold() {
+        return bold;
+    }
+
+    public boolean isItalic() {
+        return italic;
     }
 }

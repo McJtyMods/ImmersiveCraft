@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.books.elements.*;
 import net.minecraft.client.Minecraft;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -84,15 +85,17 @@ public class BookParser {
                         lastIsText = false;
                     } else if (string.startsWith("#l")) {
                         String sec;
-                        float scale;
+                        TextElementFormat fmt;
                         if (string.charAt(2) == ':') {
-                            scale = 1.0f;
                             sec = string.substring(3);
+                            fmt = new TextElementFormat("");
                         } else {
-                            scale = 0.5f + ((string.charAt(2) - '0')) * .4f;
                             sec = string.substring(4);
+                            // @todo better formatting options
+                            fmt = new TextElementFormat(string.substring(2, 3));
                         }
-                        section.addElement(new BookElementLink(sec, scale));
+                        fmt.setColor(EnumDyeColor.BLUE);
+                        section.addElement(new BookElementLink(sec, fmt));
                         lastIsText = true;
                     } else if (string.startsWith("#i")) {
                         String regName;

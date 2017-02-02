@@ -6,10 +6,10 @@
       "##",
       "#I9:immcraft:textures/gui/title.png:0,0,64,64,64,64",
       "##",
-      "#:3,white,c:The", "##", "#:3,white,c:ImmersiveCraft", "##", "#:3,white,c:Manual",
+      "#:3,white,center:The", "##", "#:3,white,center:ImmersiveCraft", "##", "#:3,white,center:Manual",
       "##",
       "##",
-      "#:1,white,c:By McJty "
+      "#:1,white,italic,center:By McJty "
     ]
   },
   {
@@ -54,8 +54,26 @@
   },
   {
     "text": [
-      "You can right click on links to go to that page or you can right click on the two handles at the bottom corners",
-      "of the book to flip a page left or right.",
+      "You can right click on links to go to the corresponding page."
+    ]
+  },
+  {
+    "text": [
+      "Right clicking the left border of the page will flip the page to the previous page."
+    ]
+  },
+  {
+    "text": [
+      "Right clicking the right border of the page will flip to the next page."
+    ]
+  },
+  {
+    "text": [
+      "Right clicking the top border will go navigate back to the cover page."
+    ]
+  },
+  {
+    "text": [
       "In the GUI you can also use the arrow left/right keys or backspace/space/home to navigate."
     ]
   },
@@ -72,14 +90,14 @@
     "text": [
       "#:2:Introduction",
       "##",
-      "ImmersiveCraft is a mod that tries to bring more immersion to the Minecraft world.",
+      "#:bold:ImmersiveCraft", "is a mod that tries to bring more immersion to the Minecraft world.",
       "It tries to avoid GUI's as much as possible and instead allows you to interact with machines directly by",
       "placing and removing items in handles."
     ]
   },
   {
     "text": [
-      "Usage of handles should be intuitive. In most cases you rightclick with the right item on a specific handle",
+      "Usage of", "#:italic:handles", "should be intuitive. In most cases you rightclick with the right item on a specific handle",
       "and if it is the right item it should fit in. If there is already an item there you can remove it."
     ]
   },
@@ -203,40 +221,40 @@
   },
   {
     "text": [
-      "#i9:immcraft:bookstand", "#:2,vcenter:Bookstand", "#",
+      "#i9:immcraft:bookstand", "#:2,vcenter,bold:Bookstand", "#",
       "The bookstand can hold a single manual (provided it supports this mod) and allows you to read it in-world.",
       "Just right click the book on the stand and sneak-right click to remove it again."
     ]
   },
   {
     "text": [
-      "#i9:immcraft:chest", "#:2,vcenter:Chest", "#",
+      "#i9:immcraft:chest", "#:2,vcenter,bold:Chest", "#",
       "This is a more immersive chest that can hold 12 stacks.",
       "You can open and close it and place items in it"
     ]
   },
   {
     "text": [
-      "#i9:immcraft:furnace", "#:2,vcenter:Furnace", "#",
+      "#i9:immcraft:furnace", "#:2,vcenter,bold:Furnace", "#",
       "This furnace works like a regular furnace. The only difference is that you need to ignite the fuel using flint and steel (",
       "#i:minecraft:flint_and_steel", ") before it will work"
     ]
   },
   {
     "text": [
-      "#i9:immcraft:shelf", "#:2,vcenter:Shelf", "#",
+      "#i9:immcraft:shelf", "#:2,vcenter,bold:Shelf", "#",
       "A shelf can hold 16 items. It works a bit like a chest except that it is wall mounted and does not have a lid to close it."
     ]
   },
   {
     "text": [
-      "#i9:immcraft:cupboard", "#:2,vcenter:Cupboard", "#",
+      "#i9:immcraft:cupboard", "#:2,vcenter,bold:Cupboard", "#",
       "A cupboard is exactly like a shelf but it can be closed."
     ]
   },
   {
     "text": [
-      "#i9:immcraft:bookshelf", "#:2,vcenter:Bookshelf", "#",
+      "#i9:immcraft:bookshelf", "#:2,vcenter,bold:Bookshelf", "#",
       "A bookshelf can be used to hold various types of books. It has room for 27 books."
     ]
   },

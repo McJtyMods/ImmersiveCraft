@@ -1,7 +1,6 @@
 package mcjty.immcraft.blocks.book;
 
 import mcjty.immcraft.api.book.IBook;
-import mcjty.immcraft.api.handles.ActionInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.books.BookPage;
@@ -13,7 +12,6 @@ import mcjty.immcraft.network.PacketPageFlip;
 import mcjty.immcraft.sound.SoundController;
 import mcjty.lib.tools.ChatTools;
 import mcjty.lib.tools.ItemStackTools;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -40,8 +38,6 @@ public class BookStandTE extends GenericImmcraftTE {
     private String result = null;       // Last result from rendering an element
 
     public BookStandTE() {
-        addInterfaceHandle(new ActionInterfaceHandle("l").action(this::pageDec).scale(.60f));
-        addInterfaceHandle(new ActionInterfaceHandle("r").action(this::pageInc).scale(.60f));
     }
 
     @Override
@@ -124,12 +120,24 @@ public class BookStandTE extends GenericImmcraftTE {
 
     private void gotoPageClient(String section) {
         if (pages != null) {
-            int number = findPageForSection(pages, section);
-            if (number != -1 && number < pages.size()) {
-                if (pageNumber != number) {
-                    pageNumber = number;
+            if ("<".equals(section)) {
+                pageDecClient();
+            } else if (">".equals(section)) {
+                pageIncClient();
+            } else if ("^".equals(section)) {
+                if (pageNumber != 0) {
+                    pageNumber = 0;
                     getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
                     playPageTurn(getWorld(), getPos());
+                }
+            } else {
+                int number = findPageForSection(pages, section);
+                if (number != -1 && number < pages.size()) {
+                    if (pageNumber != number) {
+                        pageNumber = number;
+                        getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+                        playPageTurn(getWorld(), getPos());
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package mcjty.immcraft.books.renderers;
 
+import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.item.EnumDyeColor;
 
@@ -9,8 +10,8 @@ public class RenderElementLink extends RenderElementText {
     private final float sg;
     private final float sb;
 
-    public RenderElementLink(String text, int x, int y, int w, int h, float scale, EnumDyeColor color, EnumDyeColor selected, int align, int valign) {
-        super(text, x, y, w, h, scale, color, align, valign);
+    public RenderElementLink(String text, int x, int y, int w, int h, TextElementFormat fmt, EnumDyeColor selected) {
+        super(text, x, y, w, h, fmt);
         int value = selected.getMapColor().colorValue;
         sr = ((value >> 16) & 255) / 255.0f;
         sg = ((value >> 8) & 255) / 255.0f;
@@ -20,8 +21,8 @@ public class RenderElementLink extends RenderElementText {
     @Override
     public String render(int dy, float ix, float iy) {
 //        x, 512 - (y + dy)
-        int w = (int) (ClientProxy.font.getWidth(text) * scale);
-        int h = (int) (ClientProxy.font.getHeight() * scale);
+        int w = (int) (ClientProxy.font.getWidth(text) * fmt.getScale());
+        int h = (int) (ClientProxy.font.getHeight() * fmt.getScale());
         ix = (float) (ix * 768 * 1.2 - 105);
         iy = (float) (iy * 1024 * 1.08 - 65);
 

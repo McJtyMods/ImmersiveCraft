@@ -10,7 +10,6 @@ import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -57,7 +56,8 @@ public class GuiManual extends GuiScreen {
             pages = new ArrayList<>();
             pages.add(new BookPage());
             RenderSection section = new RenderSection("Error");
-            section.addElement(new RenderElementText("Error!", 10, 10, (int) ClientProxy.font.getWidth("Error!"), (int) ClientProxy.font.getHeight(), 1.0f, EnumDyeColor.RED, 0, 0));
+            TextElementFormat fmt = new TextElementFormat("red,bold");
+            section.addElement(new RenderElementText("Error!", 10, 10, (int) ClientProxy.font.getWidth("Error!"), (int) ClientProxy.font.getHeight(), fmt));
             pages.get(0).addSection(section);
             pageNumber = 0;
             result = null;

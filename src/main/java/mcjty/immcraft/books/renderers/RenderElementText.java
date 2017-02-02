@@ -1,5 +1,7 @@
 package mcjty.immcraft.books.renderers;
 
+import mcjty.immcraft.books.TextElementFormat;
+import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.proxy.ClientProxy;
 import net.minecraft.item.EnumDyeColor;
 
@@ -10,26 +12,22 @@ public class RenderElementText implements RenderElement {
     protected final int y;
     protected final int w;
     protected final int h;
-    protected final float scale;
     private final float r;
     private final float g;
     private final float b;
-    private final int align;
-    private final int valign;
+    protected TextElementFormat fmt;
 
-    public RenderElementText(String text, int x, int y, int w, int h, float scale, EnumDyeColor color, int align, int valign) {
+    public RenderElementText(String text, int x, int y, int w, int h, TextElementFormat fmt) {
         this.text = text;
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
-        this.scale = scale;
-        int value = color.getMapColor().colorValue;
+        this.fmt = fmt;
+        int value = fmt.getColor().getMapColor().colorValue;
         r = ((value >> 16) & 255) / 255.0f;
         g = ((value >> 8) & 255) / 255.0f;
         b = (value & 255) / 255.0f;
-        this.align = align;
-        this.valign = valign;
     }
 
     @Override
@@ -43,23 +41,34 @@ public class RenderElementText implements RenderElement {
 
     protected void renderText(int dy, float red, float green, float blue) {
         int xx;
+        int align = fmt.getAlign();
+        int valign = fmt.getValign();
+        float scale = fmt.getScale();
+
+        TrueTypeFont font = ClientProxy.font;
+        if (fmt.isBold()) {
+            font = ClientProxy.font_bold;
+        } else if (fmt.isItalic()) {
+            font = ClientProxy.font_italic;
+        }
+
         if (align == -1) {
             xx = x;
         } else if (align == 1) {
             int w = 768 - x;
-            xx = (int) (x + w - ClientProxy.font.getWidth(text) * scale);
+            xx = (int) (x + w - font.getWidth(text) * scale);
         } else {
             int w = 768 - x;
-            xx = (int) (x + (w - ClientProxy.font.getWidth(text) * scale) / 2);
+            xx = (int) (x + (w - font.getWidth(text) * scale) / 2);
         }
         int yy;
         if (valign == -1) {
             yy = y;
         } else if (valign == 1) {
-            yy = (int) (y + h - ClientProxy.font.getHeight() * scale);
+            yy = (int) (y + h - font.getHeight() * scale);
         } else {
-            yy = (int) (y + (h - ClientProxy.font.getHeight() * scale) / 2);
+            yy = (int) (y + (h - font.getHeight() * scale) / 2);
         }
-        ClientProxy.font.drawString(xx, 512 - (yy + dy), text, scale, scale, red, green, blue, 1.0f);
+        font.drawString(xx, 512 - (yy + dy), text, scale, scale, red, green, blue, 1.0f);
     }
 }

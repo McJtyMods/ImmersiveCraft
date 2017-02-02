@@ -73,9 +73,18 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                     pagey = intersection.y * 1.588f;
                 }
 
-//                System.out.println("pagex,pagey = " + pagex + "," + pagey);
-
-                String result = BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
+                String result = null;
+                if (pagex < .15f) {
+                    result = "<";
+                } else if (pagex > 1-.1f) {
+                    result = ">";
+                } else if (pagey < .15f) {
+                    result = "^";
+                }
+                String rc = BookRenderHelper.renderPage(pages, pageNumber, 0.25f, pagex, pagey);
+                if (rc != null) {
+                    result = rc;
+                }
                 tileEntity.setResult(result);
                 GlStateManager.popMatrix();
             }

@@ -1,7 +1,5 @@
 package mcjty.immcraft.blocks.book;
 
-import mcjty.immcraft.api.handles.HandleSelector;
-import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -15,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -32,8 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static mcjty.immcraft.blocks.foliage.EnumAmount.*;
-
 public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
 
     public static final PropertyStandState STATE = PropertyStandState.create("state", (Collection<EnumStandState>) Arrays.stream(EnumStandState.values()).collect(Collectors.toList()));
@@ -42,8 +37,6 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
 
     public BookStandBlock() {
         super(Material.WOOD, "bookstand", BookStandTE.class, false);
-        addSelector(new HandleSelector("l", new AxisAlignedBB(0.15f, 0.13f, 0.8f, 0.25f, 0.23f, 0.9f)));
-        addSelector(new HandleSelector("r", new AxisAlignedBB(0.75f, 0.13f, 0.8f, 0.85f, 0.23f, 0.9f)));
     }
 
 

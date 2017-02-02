@@ -28,6 +28,8 @@ import java.util.concurrent.Callable;
 public class ClientProxy extends CommonProxy {
 
     public static TrueTypeFont font;
+    public static TrueTypeFont font_bold;
+    public static TrueTypeFont font_italic;
 
     @Override
     public void preInit(FMLPreInitializationEvent e) {
@@ -50,6 +52,10 @@ public class ClientProxy extends CommonProxy {
         ModBlocks.initItemModels();
 
         font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false,
+                new char[] { '\u2022', '\u2014' });
+        font_bold = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_bold.ttf"), 64, false,
+                new char[] { '\u2022', '\u2014' });
+        font_italic = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_italic.ttf"), 64, false,
                 new char[] { '\u2022', '\u2014' });
     }
 

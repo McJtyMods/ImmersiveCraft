@@ -10,7 +10,7 @@
       "transform": {
         "gui": {
           "scale": 0.65,
-          "rotation": [{"x": 15},{"y": 145}]
+          "rotation": [{"x": 5},{"y": 220}]
         },
         "ground": {
           "scale": 0.45

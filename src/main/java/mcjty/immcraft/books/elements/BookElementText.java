@@ -1,8 +1,8 @@
 package mcjty.immcraft.books.elements;
 
+import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.books.renderers.RenderElement;
 import mcjty.immcraft.books.renderers.RenderElementText;
-import mcjty.immcraft.books.TextElementFormat;
 import mcjty.immcraft.proxy.ClientProxy;
 
 public class BookElementText implements BookElement {
@@ -17,7 +17,7 @@ public class BookElementText implements BookElement {
 
     @Override
     public RenderElement createRenderElement(int x, int y, int w, int h) {
-        return new RenderElementText(text, x, y, w, h, fmt.getScale(), fmt.getColor(), fmt.getAlign(), fmt.getValign());
+        return new RenderElementText(text, x, y, w, h, fmt);
     }
 
     @Override
