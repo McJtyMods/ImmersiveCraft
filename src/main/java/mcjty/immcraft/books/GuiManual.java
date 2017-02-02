@@ -56,7 +56,7 @@ public class GuiManual extends GuiScreen {
             pages = new ArrayList<>();
             pages.add(new BookPage());
             RenderSection section = new RenderSection("Error");
-            section.addElement(new RenderElementText("Error!", 10, 10, 1.0f, EnumDyeColor.RED, 0));
+            section.addElement(new RenderElementText("Error!", 10, 10, 1.0f, EnumDyeColor.RED, 0, 0));
             pages.get(0).addSection(section);
             pageNumber = 0;
             result = null;

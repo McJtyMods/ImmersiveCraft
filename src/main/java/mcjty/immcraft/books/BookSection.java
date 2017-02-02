@@ -139,32 +139,51 @@ public class BookSection {
         }
     }
 
+    private void process(RenderSection renderSection, List<BookElement> lineRender, Cursor cursor) {
+        int x = 0;
+        for (BookElement element : lineRender) {
+            renderSection.addElement(element.createRenderElement(x, cursor.getY()));
+            x += element.getWidth(x);
+        }
+        lineRender.clear();
+    }
+
     public RenderSection renderAtWidth(int maxwidth) {
         RenderSection renderSection = new RenderSection(name);
 
+        List<BookElement> lineRender = new ArrayList<>();
         Cursor cursor = new Cursor(maxwidth);
         for (BookElement element : elements) {
             int w = element.getWidth(cursor.curx);
             int h = element.getHeight();
             if (w == WIDTH_NEWLINE) {
+                process(renderSection, lineRender, cursor);
                 cursor.newline();
             } else if (w == WIDTH_NEWPARAGRAPH) {
                 if (cursor.getMaxh() == 0) {
                     cursor.add(1, element.getHeight());
                 }
+                process(renderSection, lineRender, cursor);
                 cursor.newline();
             } else if (w == WIDTH_FULLWIDTH) {
-                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                lineRender.add(element);
+//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                process(renderSection, lineRender, cursor);
                 cursor.newline();
             } else if (cursor.fits(w)) {
-                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                lineRender.add(element);
+//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.add(w, h);
             } else {
+                process(renderSection, lineRender, cursor);
                 cursor.newline();
-                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
+                lineRender.add(element);
+//                renderSection.addElement(element.createRenderElement(cursor.getX(), cursor.getY()));
                 cursor.add(element.getWidth(cursor.curx), h);
             }
         }
+        process(renderSection, lineRender, cursor);
+
         cursor.consolidate();
         renderSection.setWidth(cursor.getMaxw());
         renderSection.setHeight(cursor.getY());

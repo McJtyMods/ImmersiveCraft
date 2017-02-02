@@ -8,6 +8,7 @@ public class TextElementFormat {
     private float scale = 1.0f;
     private EnumDyeColor color = EnumDyeColor.BLACK;
     private int align = -1;         // -1 = left, 0 = center, 1 = right
+    private int valign = -1;        // Vertical alignment
 
     public static final TextElementFormat DEFAULT = new TextElementFormat("");
 
@@ -24,6 +25,12 @@ public class TextElementFormat {
                     align = 0;
                 } else if ("right".equals(s) || "r".equals(s)) {
                     align = 1;
+                } else if ("top".equals(s) || "t".equals(s)) {
+                    valign = -1;
+                } else if ("vcenter".equals(s) || "vc".equals(s)) {
+                    valign = 0;
+                } else if ("bottom".equals(s) || "b".equals(s)) {
+                    valign = 1;
                 } else {
                     color = EnumDyeColor.valueOf(s.toUpperCase());
                 }
@@ -41,5 +48,9 @@ public class TextElementFormat {
 
     public int getAlign() {
         return align;
+    }
+
+    public int getValign() {
+        return valign;
     }
 }
