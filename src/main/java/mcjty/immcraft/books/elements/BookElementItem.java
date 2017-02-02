@@ -26,6 +26,6 @@ public class BookElementItem implements BookElement {
 
     @Override
     public int getHeight() {
-        return (int) (80 * scale);
+        return (int) (60 * scale);
     }
 }

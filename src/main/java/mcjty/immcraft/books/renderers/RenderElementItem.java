@@ -47,7 +47,7 @@ public class RenderElementItem implements RenderElement {
         GlStateManager.enableDepth();
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(0, 0, -150);
+        GlStateManager.translate(0, scale * 25 - 25, -150);
 
         renderSlot(item, x, y + dy);
 

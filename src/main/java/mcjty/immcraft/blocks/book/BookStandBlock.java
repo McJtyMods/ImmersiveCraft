@@ -60,7 +60,7 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
         TileEntity te = world.getTileEntity(data.getPos());
         if (te instanceof BookStandTE) {
             if (((BookStandTE) te).hasBook()) {
-                probeInfo.text(TextFormatting.BLUE + "Use sneak-right click to remove book");
+                probeInfo.text(TextFormatting.BLUE + "Sneak-right click to remove book");
             }
         }
     }
@@ -71,7 +71,7 @@ public class BookStandBlock extends GenericBlockWithTE<BookStandTE> {
         TileEntity te = accessor.getWorld().getTileEntity(accessor.getPosition());
         if (te instanceof BookStandTE) {
             if (((BookStandTE) te).hasBook()) {
-                currenttip.add(TextFormatting.BLUE + "Use sneak-right click to remove book");
+                currenttip.add(TextFormatting.BLUE + "Sneak-right click to remove book");
             }
         }
         return currenttip;
