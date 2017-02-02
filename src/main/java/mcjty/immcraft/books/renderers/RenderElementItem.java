@@ -1,33 +1,43 @@
 package mcjty.immcraft.books.renderers;
 
 import mcjty.lib.tools.ItemStackTools;
+import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class RenderElementItem implements RenderElement {
 
     private final ItemStack item;
     private final int x;
     private final int y;
+    private final int w;
+    private final int h;
     private final float scale;
 
     private final ItemModelMesher itemModelMesher;
     private final TextureManager textureManager;
 
 
-    public RenderElementItem(ItemStack item, int x, int y, float scale) {
+    public RenderElementItem(ItemStack item, int x, int y, int w, int h, float scale) {
         this.item = item;
         this.x = x;
         this.y = y;
+        this.w = w;
+        this.h = h;
         this.scale = scale;
 
         itemModelMesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
@@ -55,8 +65,39 @@ public class RenderElementItem implements RenderElement {
 
         GlStateManager.disableLighting();
         RenderHelper.disableStandardItemLighting();
+
+        ix = (float) (ix * 768 * 1.25 - 105);
+        iy = (float) (iy * 1024 * 1.1 - 65);
+        if (ix >= x && ix <= x+w && iy >= y && iy <= y+h) {
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(6.0, 6.0, 6.0);
+            GlStateManager.translate(ix / 6.5, iy / 6.5, 0);
+            renderToolTip(item, 0, 0);
+            GlStateManager.popMatrix();
+        }
+
         return null;
     }
+
+    private void renderToolTip(ItemStack stack, int x, int y) {
+        Minecraft mc = Minecraft.getMinecraft();
+        List<String> list = stack.getTooltip(MinecraftTools.getPlayer(mc), mc.gameSettings.advancedItemTooltips);
+
+        for (int i = 0; i < list.size(); ++i) {
+            if (i == 0) {
+                list.set(i, stack.getRarity().rarityColor + list.get(i));
+            } else {
+                list.set(i, TextFormatting.GRAY + list.get(i));
+            }
+        }
+
+        FontRenderer font = stack.getItem().getFontRenderer(stack);
+        net.minecraftforge.fml.client.config.GuiUtils.preItemToolTip(stack);
+        FontRenderer font1 = (font == null ? mc.fontRendererObj : font);
+        net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(list, x, y, 600, 500, -1, font1);
+        net.minecraftforge.fml.client.config.GuiUtils.postItemToolTip();
+    }
+
 
     private void renderSlot(ItemStack itm, int x, int currenty) {
         try {
@@ -107,7 +148,6 @@ public class RenderElementItem implements RenderElement {
             GlStateManager.disableLighting();
         }
     }
-
 
 
 }

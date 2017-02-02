@@ -19,7 +19,6 @@ public class RenderElementLink extends RenderElementText {
 
     @Override
     public String render(int dy, float ix, float iy) {
-//        x, 512 - (y + dy)
         int w = (int) (fmt.getFont().getWidth(text) * fmt.getScale());
         int h = (int) (fmt.getFont().getHeight() * fmt.getScale());
         ix = (float) (ix * 768 * 1.2 - 105);

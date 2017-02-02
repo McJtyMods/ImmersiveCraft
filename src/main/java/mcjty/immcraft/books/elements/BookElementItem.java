@@ -16,7 +16,7 @@ public class BookElementItem implements BookElement {
 
     @Override
     public RenderElement createRenderElement(int x, int y, int w, int h) {
-        return new RenderElementItem(item, x, y, scale);
+        return new RenderElementItem(item, x, y, w, h, scale);
     }
 
     @Override
