@@ -17,7 +17,7 @@ public class BookElementLink implements BookElement {
 
     @Override
     public RenderElement createRenderElement(int x, int y, int w, int h) {
-        return new RenderElementLink(text, x, y, w, h, fmt, EnumDyeColor.WHITE);
+        return new RenderElementLink(text, x, y, w, h, fmt, EnumDyeColor.CYAN);
     }
 
     @Override
