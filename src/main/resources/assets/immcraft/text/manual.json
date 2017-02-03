@@ -182,7 +182,7 @@
       "#:2:The Axe",
       "##",
       "If you place a stick (", "#i:minecraft:stick",
-      ") on the ground and right click it with a rock",
+      ") on the ground and right click it with a rock (",
       "#i:immcraft:rock", ") you get a stone axe (",
       "#i:minecraft:stone_axe", ")"
     ]
