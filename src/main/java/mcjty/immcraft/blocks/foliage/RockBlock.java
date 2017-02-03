@@ -85,8 +85,10 @@ public class RockBlock extends GenericImmcraftBlock {
     protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
         ItemStack heldItem = player.getHeldItem(hand);
         if (ItemStackTools.isValid(heldItem) && heldItem.getItem() == Items.FLINT && GeneralConfiguration.flintOnRockMakesFlintAndSteel) {
-            world.destroyBlock(pos, false);
-            InventoryHelper.spawnItemStack(world, pos, new ItemStack(Items.FLINT_AND_STEEL));
+            if (!world.isRemote) {
+                world.destroyBlock(pos, false);
+                InventoryHelper.spawnItemStack(world, pos, new ItemStack(Items.FLINT_AND_STEEL));
+            }
             return true;
         }
         return super.clOnBlockActivated(world, pos, state, player, hand, side, sx, sy, sz);
