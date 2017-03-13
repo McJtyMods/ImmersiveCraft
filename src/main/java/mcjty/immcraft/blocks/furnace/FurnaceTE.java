@@ -42,7 +42,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     @Override
     public void update() {
         if (burnTime > 0) {
-            markDirty();
+            markDirtyQuick();
             handleMelt();
             handleBurn();
         }
@@ -161,7 +161,23 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                 .set("cookTime", cookTime);
     }
 
+    @Override
+    public ItemStack decrStackSize(int index, int amount) {
+        markDirtyClient();
+        return super.decrStackSize(index, amount);
+    }
 
+    @Override
+    public void setInventorySlotContents(int index, ItemStack stack) {
+        markDirtyClient();
+        super.setInventorySlotContents(index, stack);
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        markDirtyClient();
+        return super.removeStackFromSlot(index);
+    }
 
     private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
     private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);

@@ -66,8 +66,14 @@ public class GenericTE extends TileEntity {
         return new SPacketUpdateTileEntity(getPos(), 1, nbtTag);
     }
 
+    public void markDirtyQuick() {
+        if (getWorld() != null) {
+            getWorld().markChunkDirty(this.pos, this);
+        }
+    }
+
     public void markDirtyClient() {
-        markDirty();
+        markDirtyQuick();
         if (getWorld() != null) {
             IBlockState state = getWorld().getBlockState(getPos());
             getWorld().notifyBlockUpdate(getPos(), state, state, 3);
