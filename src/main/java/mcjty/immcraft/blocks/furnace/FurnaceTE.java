@@ -6,9 +6,12 @@ import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
+import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -62,11 +65,11 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public int[] getSlotsForFace(EnumFacing side) {
         EnumFacing direction = ModBlocks.furnaceBlock.worldToBlockSpace(getWorld(), getPos(), side);
         if (direction == EnumFacing.UP) {
-            return new int[] { SLOT_FUEL };
+            return new int[]{SLOT_FUEL};
         } else if (direction == EnumFacing.DOWN) {
-            return new int[] { SLOT_OUTPUT };
+            return new int[]{SLOT_OUTPUT};
         } else {
-            return new int[] { SLOT_TOBURN };
+            return new int[]{SLOT_TOBURN};
         }
     }
 
@@ -139,6 +142,18 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
             }
             markDirtyClient();
             player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
+            return true;
+        } else if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Item.getItemFromBlock(Blocks.TORCH) && GeneralConfiguration.lightingFurnaceWithTorch) {
+            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
+            if (burnTime > 0) {
+                decrStackSize(SLOT_FUEL, 1);
+            }
+            markDirtyClient();
+            if (GeneralConfiguration.lightingFurnaceWithTorchConsumesTorch) {
+                ItemStack result = ItemStackTools.incStackSize(player.getHeldItem(EnumHand.MAIN_HAND), -1);
+                player.setHeldItem(EnumHand.MAIN_HAND, result);
+                player.openContainer.detectAndSendChanges();
+            }
             return true;
         } else {
             return super.onActivate(player);

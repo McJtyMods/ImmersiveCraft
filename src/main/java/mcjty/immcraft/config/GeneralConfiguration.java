@@ -31,6 +31,8 @@ public class GeneralConfiguration {
     public static int worldgenRockAttemptsPerChunk = 10;
 
     public static boolean flintOnRockMakesFlintAndSteel = true;
+    public static boolean lightingFurnaceWithTorch = true;
+    public static boolean lightingFurnaceWithTorchConsumesTorch = false;
 
     public static boolean showDebugHandles = false;
     public static boolean createWorkbench = false;
@@ -51,6 +53,8 @@ public class GeneralConfiguration {
         rockDamage = cfg.getFloat("rockDamage", CATEGORY_GENERAL, rockDamage, 0.0f, 1000000.0f, "How much damage does a thrown rock do");
         rockStickFireChance = cfg.getFloat("rockStickFireChance", CATEGORY_GENERAL, rockStickFireChance, 0.0f, 1.0f, "The chance that right clicking a stick on a rock will start a fire");
         flintOnRockMakesFlintAndSteel = cfg.getBoolean("flintOnRockMakesFlintAndSteel", CATEGORY_GENERAL, flintOnRockMakesFlintAndSteel, "If true then right clicking a flint on a rock will make flint and steel");
+        lightingFurnaceWithTorch = cfg.getBoolean("lightingFurnaceWithTorch", CATEGORY_GENERAL, lightingFurnaceWithTorch, "If true then right clicking a torch on a furnace will light the fuel");
+        lightingFurnaceWithTorchConsumesTorch = cfg.getBoolean("lightingFurnaceWithTorchConsumesTorch", CATEGORY_GENERAL, lightingFurnaceWithTorchConsumesTorch, "If true then lighting a torch this way will consume the torch");
 
         allowRightClickPlacement = cfg.getBoolean("allowRightClickPlacement", CATEGORY_GENERAL, allowRightClickPlacement, "If true then right clicking a tool on a block will place it. If disabled then only the placement hotkey will work");
         leavesDropSticksChance = cfg.getFloat("leavesDropSticksChance", CATEGORY_GENERAL, leavesDropSticksChance, 0.0f, 1.0f, "Chance that destroying a leaf block will spawn sticks (0 to disable this)");
