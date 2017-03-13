@@ -65,11 +65,11 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public int[] getSlotsForFace(EnumFacing side) {
         EnumFacing direction = ModBlocks.furnaceBlock.worldToBlockSpace(getWorld(), getPos(), side);
         if (direction == EnumFacing.UP) {
-            return new int[]{SLOT_FUEL};
+            return new int[]{SLOT_TOBURN};
         } else if (direction == EnumFacing.DOWN) {
             return new int[]{SLOT_OUTPUT};
         } else {
-            return new int[]{SLOT_TOBURN};
+            return new int[]{SLOT_FUEL};
         }
     }
 
