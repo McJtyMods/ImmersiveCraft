@@ -18,7 +18,8 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
@@ -158,5 +159,24 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
         helper
                 .set("burnTime", burnTime)
                 .set("cookTime", cookTime);
+    }
+
+
+
+    private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
+    private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.SOUTH);
+
+    @Override
+    protected IItemHandler getItemHandlerForSide(EnumFacing facing) {
+        if (facing == EnumFacing.UP) {
+            return handlerUp;
+        } else if (facing == EnumFacing.DOWN) {
+            return handlerDown;
+        } else if (facing != null) {
+            return handlerSide;
+        } else {
+            return super.getItemHandlerForSide(null);
+        }
     }
 }

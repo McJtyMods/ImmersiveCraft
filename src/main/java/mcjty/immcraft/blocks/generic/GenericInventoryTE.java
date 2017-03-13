@@ -178,7 +178,7 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
         helper.set("Items", bufferTagList);
     }
 
-    IItemHandler invHandler = new InvWrapper(this);
+    private IItemHandler invHandler = new InvWrapper(this);
 
     @Override
     public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -189,10 +189,14 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
     }
 
     @Override
-    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, net.minecraft.util.EnumFacing facing) {
+    public <T> T getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, EnumFacing facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return (T) invHandler;
+            return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(getItemHandlerForSide(facing));
         }
         return super.getCapability(capability, facing);
+    }
+
+    protected IItemHandler getItemHandlerForSide(EnumFacing facing) {
+        return invHandler;
     }
 }
