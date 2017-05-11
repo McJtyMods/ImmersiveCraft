@@ -42,8 +42,8 @@ public class PacketGetInfoFromServer implements IMessage {
     public static class Handler implements IMessageHandler<PacketGetInfoFromServer, IMessage> {
         @Override
         public IMessage onMessage(PacketGetInfoFromServer message, MessageContext ctx) {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> message.packet.onMessageServer(ctx.getServerHandler().playerEntity)
-                    .ifPresent(p -> sendReplyToClient(p, ctx.getServerHandler().playerEntity)));
+            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> message.packet.onMessageServer(ctx.getServerHandler().player)
+                    .ifPresent(p -> sendReplyToClient(p, ctx.getServerHandler().player)));
             return null;
         }
 

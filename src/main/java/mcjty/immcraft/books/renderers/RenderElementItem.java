@@ -98,7 +98,7 @@ public class RenderElementItem implements RenderElement {
 
         FontRenderer font = stack.getItem().getFontRenderer(stack);
         net.minecraftforge.fml.client.config.GuiUtils.preItemToolTip(stack);
-        FontRenderer font1 = (font == null ? mc.fontRendererObj : font);
+        FontRenderer font1 = (font == null ? mc.fontRenderer : font);
         net.minecraftforge.fml.client.config.GuiUtils.drawHoveringText(list, x, y, 600, 500, -1, font1);
         net.minecraftforge.fml.client.config.GuiUtils.postItemToolTip();
     }

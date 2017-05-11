@@ -273,7 +273,7 @@ public final class BlockRenderHelper {
             float f3 = 0.0075F;
             float factor = 1.5f;
             GlStateManager.scale(f3 * factor, -f3 * factor, f3);
-            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
             GlStateManager.disableLighting();
             GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
             GlStateManager.disableDepth();

@@ -39,8 +39,8 @@ public class ImmCraftGenerator implements IWorldGenerator {
         // Spawn above ground
         if (GeneralConfiguration.worldgenRockAttemptsPerChunk > 0) {
             for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenRockAttemptsPerChunk); i++) {
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);
+                int x = chunkX * 16 + random.nextInt(16) + 8;
+                int z = chunkZ * 16 + random.nextInt(16) + 8;
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
                 Block block = world.getBlockState(pos).getBlock();
                 if (isRockSpawnable(block)) {
@@ -52,8 +52,8 @@ public class ImmCraftGenerator implements IWorldGenerator {
         }
         if (GeneralConfiguration.worldgenStickAttemptsPerChunk > 0) {
             for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenStickAttemptsPerChunk); i++) {
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);
+                int x = chunkX * 16 + random.nextInt(16) + 8;
+                int z = chunkZ * 16 + random.nextInt(16) + 8;
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
                 Block block = world.getBlockState(pos).getBlock();
                 if (isStickSpawnable(block)) {
@@ -65,8 +65,8 @@ public class ImmCraftGenerator implements IWorldGenerator {
         // Spawn in caves
         if (GeneralConfiguration.worldgenRockAttemptsPerChunk > 0) {
             for (int i = 0; i < random.nextInt(GeneralConfiguration.worldgenRockAttemptsPerChunk); i++) {
-                int x = chunkX * 16 + random.nextInt(16);
-                int z = chunkZ * 16 + random.nextInt(16);
+                int x = chunkX * 16 + random.nextInt(16) + 8;
+                int z = chunkZ * 16 + random.nextInt(16) + 8;
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
                 int y = findCaveSpot(world, pos);
                 pos = new BlockPos(x, y, z);

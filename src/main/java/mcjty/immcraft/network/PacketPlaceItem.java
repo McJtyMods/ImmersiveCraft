@@ -60,7 +60,7 @@ public class PacketPlaceItem implements IMessage {
         }
 
         private void handle(PacketPlaceItem message, MessageContext ctx) {
-            EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+            EntityPlayerMP player = ctx.getServerHandler().player;
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (ItemStackTools.isEmpty(heldItem)) {
