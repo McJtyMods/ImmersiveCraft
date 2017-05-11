@@ -19,7 +19,7 @@ public class GeneralConfiguration {
     public static boolean rockRecipe = true;
     public static float leavesDropSticksChance = .1f;
 
-    public static boolean allowRightClickPlacement = true;
+    public static boolean allowRightClickPlacement = false;
 
     public static float maxRenderDistance = 16.0f;
     public static double maxRenderDistanceSquared;
