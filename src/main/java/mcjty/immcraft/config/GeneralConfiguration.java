@@ -20,6 +20,7 @@ public class GeneralConfiguration {
     public static float leavesDropSticksChance = .1f;
 
     public static boolean allowRightClickPlacement = false;
+    public static boolean allowMakingStoneAxe = false;
 
     public static float maxRenderDistance = 16.0f;
     public static double maxRenderDistanceSquared;
@@ -57,6 +58,7 @@ public class GeneralConfiguration {
         lightingFurnaceWithTorchConsumesTorch = cfg.getBoolean("lightingFurnaceWithTorchConsumesTorch", CATEGORY_GENERAL, lightingFurnaceWithTorchConsumesTorch, "If true then lighting a torch this way will consume the torch");
 
         allowRightClickPlacement = cfg.getBoolean("allowRightClickPlacement", CATEGORY_GENERAL, allowRightClickPlacement, "If true then right clicking a tool on a block will place it. If disabled then only the placement hotkey will work");
+        allowMakingStoneAxe = cfg.getBoolean("allowMakingStoneAxe", CATEGORY_GENERAL, allowMakingStoneAxe, "If true then right clicking a rock on a stick will give a stone axe");
         leavesDropSticksChance = cfg.getFloat("leavesDropSticksChance", CATEGORY_GENERAL, leavesDropSticksChance, 0.0f, 1.0f, "Chance that destroying a leaf block will spawn sticks (0 to disable this)");
         createWorkbench = cfg.getBoolean("createWorkbench", CATEGORY_GENERAL, createWorkbench, "If true then right clicking a stone axe on two logs will create a workbench. Currently disabled because workbench isn't working properly");
 

@@ -95,6 +95,9 @@ public class ForgeEventHandlers {
     }
 
     private void spawnAxe(PlayerInteractEvent event, EntityPlayer player, Block block) {
+        if (!GeneralConfiguration.allowMakingStoneAxe) {
+            return;
+        }
         if (block == ModBlocks.sticksBlock) {
             TileEntity te = event.getWorld().getTileEntity(event.getPos());
             if (te instanceof SticksTE) {
