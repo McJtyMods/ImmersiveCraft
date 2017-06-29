@@ -31,9 +31,9 @@ public class PacketHitBlock implements IMessage {
     public void toBytes(ByteBuf buf) {
         BlockPosTools.toBytes(blockPos, buf);
         buf.writeShort(side.ordinal());
-        buf.writeDouble(hitVec.xCoord);
-        buf.writeDouble(hitVec.yCoord);
-        buf.writeDouble(hitVec.zCoord);
+        buf.writeDouble(hitVec.x);
+        buf.writeDouble(hitVec.y);
+        buf.writeDouble(hitVec.z);
     }
 
     public PacketHitBlock() {
@@ -42,7 +42,7 @@ public class PacketHitBlock implements IMessage {
     public PacketHitBlock(RayTraceResult mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
-        hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
+        hitVec = new Vec3d(mouseOver.hitVec.x - blockPos.getX(), mouseOver.hitVec.y - blockPos.getY(), mouseOver.hitVec.z - blockPos.getZ());
     }
 
     public static class Handler implements IMessageHandler<PacketHitBlock, IMessage> {

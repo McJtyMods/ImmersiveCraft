@@ -2,7 +2,6 @@ package mcjty.immcraft.sound;
 
 import com.google.common.collect.Maps;
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSound;
 import net.minecraft.util.ResourceLocation;
@@ -10,9 +9,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.FMLControlledNamespacedRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Map;
@@ -22,15 +21,16 @@ public final class SoundController {
 
     private static SoundEvent pageturn;
 
-    public static void init() {
-        pageturn = registerSound(new ResourceLocation(ImmersiveCraft.MODID, "pageturn"));
-    }
-
     private static final Map<Pair<Integer, BlockPos>, ImmersiveSound> sounds = Maps.newHashMap();
 
-    private static SoundEvent registerSound(ResourceLocation rl){
+    public static void init(IForgeRegistry<SoundEvent> registry) {
+        pageturn = registerSound(registry, new ResourceLocation(ImmersiveCraft.MODID, "pageturn"));
+    }
+
+
+    private static SoundEvent registerSound(IForgeRegistry<SoundEvent> registry, ResourceLocation rl) {
         SoundEvent ret = new SoundEvent(rl).setRegistryName(rl);
-        ((FMLControlledNamespacedRegistry) SoundEvent.REGISTRY).register(ret);
+        registry.register(ret);
         return ret;
     }
 

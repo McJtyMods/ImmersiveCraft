@@ -48,9 +48,9 @@ public class CableItemBlockHelper implements ICableItemBlockHelper {
 
                     if (movingObjectPosition != null) {
                         EnumFacing side = movingObjectPosition.sideHit;
-                        float hitX = (float) movingObjectPosition.hitVec.xCoord - movingObjectPosition.getBlockPos().getX();
-                        float hitY = (float) movingObjectPosition.hitVec.yCoord - movingObjectPosition.getBlockPos().getY();
-                        float hitZ = (float) movingObjectPosition.hitVec.zCoord - movingObjectPosition.getBlockPos().getZ();
+                        float hitX = (float) movingObjectPosition.hitVec.x - movingObjectPosition.getBlockPos().getX();
+                        float hitY = (float) movingObjectPosition.hitVec.y - movingObjectPosition.getBlockPos().getY();
+                        float hitZ = (float) movingObjectPosition.hitVec.z - movingObjectPosition.getBlockPos().getZ();
 
                         addCable(world, pos, side, hitX, hitY, hitZ);
                         return false;

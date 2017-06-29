@@ -2,6 +2,7 @@ package mcjty.immcraft.items;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.lib.compat.CompatItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -24,7 +25,7 @@ public class ItemDummyBook extends CompatItem {
         setUnlocalizedName(ImmersiveCraft.MODID + ".dummybook");
         setRegistryName("dummybook");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        GameRegistry.register(this);
+        McJtyRegister.registerLater(this, ImmersiveCraft.MODID);
     }
 
     @SideOnly(Side.CLIENT)

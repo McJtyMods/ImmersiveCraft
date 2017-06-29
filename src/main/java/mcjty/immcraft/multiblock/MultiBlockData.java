@@ -2,7 +2,7 @@ package mcjty.immcraft.multiblock;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldSavedData;
+import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.HashMap;
 import java.util.Map;

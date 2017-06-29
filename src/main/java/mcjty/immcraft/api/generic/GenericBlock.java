@@ -1,13 +1,14 @@
 package mcjty.immcraft.api.generic;
 
 
+import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.lib.compat.CompatBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -24,13 +25,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,23 +80,7 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
     protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         setRegistryName(name);
         setUnlocalizedName(modid + "." + name);
-        GameRegistry.register(this);
-        if (itemBlockClass != null) {
-            GameRegistry.register(createItemBlock(itemBlockClass), getRegistryName());
-        } else {
-            GameRegistry.register(new ItemBlock(this), getRegistryName());
-        }
-    }
-
-    private ItemBlock createItemBlock(Class<? extends ItemBlock> itemBlockClass) {
-        try {
-            Class<?>[] ctorArgClasses = new Class<?>[1];
-            ctorArgClasses[0] = Block.class;
-            Constructor<? extends ItemBlock> itemCtor = itemBlockClass.getConstructor(ctorArgClasses);
-            return itemCtor.newInstance(this);
-        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+        McJtyRegister.registerLater(this, ImmersiveCraft.MODID, itemBlockClass, clazz);
     }
 
     @Override

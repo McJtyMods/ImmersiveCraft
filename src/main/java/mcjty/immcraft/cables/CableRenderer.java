@@ -2,8 +2,8 @@ package mcjty.immcraft.cables;
 
 import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.api.helpers.IntersectionTools;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
@@ -17,7 +17,7 @@ public class CableRenderer {
             Vec3d vector = section.getVector();
             Vec3d vector1 = section.getVector(0);
             if (vector1 == null) {
-                vector1 = new Vec3d(vector.xCoord + .2f, vector.yCoord + .2f, vector.zCoord + .2f);
+                vector1 = new Vec3d(vector.x + .2f, vector.y + .2f, vector.z + .2f);
             }
             Vec3d vector2 = section.getVector(1);
 
@@ -69,12 +69,12 @@ public class CableRenderer {
 
     public static void renderCable(Vec3d player, CableSection section) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer buffer = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
 
         Vec3d vector = section.getVector();
         Vec3d vector1 = section.getVector(0);
         if (vector1 == null) {
-            vector1 = new Vec3d(vector.xCoord + .2f, vector.yCoord + .2f, vector.zCoord + .2f);
+            vector1 = new Vec3d(vector.x + .2f, vector.y + .2f, vector.z + .2f);
         }
         Vec3d vector2 = section.getVector(1);
 

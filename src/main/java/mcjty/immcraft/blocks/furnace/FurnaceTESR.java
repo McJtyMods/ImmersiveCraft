@@ -3,10 +3,10 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.api.rendering.HandleTESR;
+import mcjty.immcraft.blocks.ModBlocks;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -40,7 +40,7 @@ public class FurnaceTESR extends HandleTESR<FurnaceTE> {
             double vAdd2 = 1.0/8.0;
             Tessellator tessellator = Tessellator.getInstance();
             bindTexture(fireTexture);
-            VertexBuffer buffer = tessellator.getBuffer();
+            BufferBuilder buffer = tessellator.getBuffer();
             buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
             float scale = .25f;
             buffer.pos(-scale, +scale + .2f, .15).tex(0, 0 + vAdd1).endVertex();

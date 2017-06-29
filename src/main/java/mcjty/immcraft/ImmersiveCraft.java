@@ -1,8 +1,6 @@
 package mcjty.immcraft;
 
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
@@ -16,6 +14,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 @Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME,
         dependencies =

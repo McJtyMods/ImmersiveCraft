@@ -22,9 +22,9 @@ public class ModItems {
     }
 
     public static void initCrafting() {
-        GameRegistry.addShapedRecipe(new ItemStack(saw), " sr", "sr ", "s  ", 's', Items.STICK, 'r', ModBlocks.rockBlock);
-        GameRegistry.addShapedRecipe(new ItemStack(chisel), "  r", " r ", "s  ", 's', Items.STICK, 'r', ModBlocks.rockBlock);
-        GameRegistry.addShapedRecipe(new ItemStack(manual), "br", 'b', Items.BOOK, 'r', ModBlocks.rockBlock);
+//        GameRegistry.addShapedRecipe(new ItemStack(saw), " sr", "sr ", "s  ", 's', Items.STICK, 'r', ModBlocks.rockBlock);
+//        GameRegistry.addShapedRecipe(new ItemStack(chisel), "  r", " r ", "s  ", 's', Items.STICK, 'r', ModBlocks.rockBlock);
+//        GameRegistry.addShapedRecipe(new ItemStack(manual), "br", 'b', Items.BOOK, 'r', ModBlocks.rockBlock);
     }
 
     @SideOnly(Side.CLIENT)

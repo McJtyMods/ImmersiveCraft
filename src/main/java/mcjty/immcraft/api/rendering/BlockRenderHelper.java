@@ -363,7 +363,7 @@ public final class BlockRenderHelper {
         double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double)partialTicks;
         double d1 = player.lastTickPosY + (player.posY - player.lastTickPosY) * (double)partialTicks;
         double d2 = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * (double)partialTicks;
-        RenderGlobal.drawSelectionBoundingBox(box.expandXyz(0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
+        RenderGlobal.drawSelectionBoundingBox(box.expand(0.0020000000949949026D, 0.0020000000949949026D, 0.0020000000949949026D).offset(-d0, -d1, -d2), r, g, b, a);
 
         GlStateManager.depthMask(true);
         GlStateManager.enableTexture2D();
@@ -403,7 +403,7 @@ public final class BlockRenderHelper {
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
         drawLine(vertexbuffer, plane.getS1(), plane.getS2());
         drawLine(vertexbuffer, plane.getS2(), plane.getS4());
@@ -428,7 +428,7 @@ public final class BlockRenderHelper {
         OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240, 240);
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
         drawLine(vertexbuffer, s1, s2);
         tessellator.draw();
@@ -438,8 +438,8 @@ public final class BlockRenderHelper {
 //        GlStateManager.disableBlend();
     }
 
-    private static void drawLine(VertexBuffer buffer, Vec3d p1, Vec3d p2) {
-        buffer.pos(p1.xCoord, p1.yCoord, p1.zCoord).color(1,1,0,1).endVertex();
-        buffer.pos(p2.xCoord, p2.yCoord, p2.zCoord).color(1,1,0,1).endVertex();
+    private static void drawLine(BufferBuilder buffer, Vec3d p1, Vec3d p2) {
+        buffer.pos(p1.x, p1.y, p1.z).color(1,1,0,1).endVertex();
+        buffer.pos(p2.x, p2.y, p2.z).color(1,1,0,1).endVertex();
     }
 }

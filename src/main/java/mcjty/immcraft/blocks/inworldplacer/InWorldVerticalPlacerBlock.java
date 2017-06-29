@@ -66,10 +66,11 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
         return false;
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
+    // @todo
+//    @Override
+//    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+//        return false;
+//    }
 
     @Override
     public boolean isBlockNormalCube(IBlockState state) {

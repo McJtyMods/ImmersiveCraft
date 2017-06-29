@@ -60,9 +60,9 @@ public class NBTHelper {
 
     public NBTHelper set(String name, Vec3d c) {
         if (c != null) {
-            tag.setFloat(name + "x", (float) c.xCoord);
-            tag.setFloat(name + "y", (float) c.yCoord);
-            tag.setFloat(name + "z", (float) c.zCoord);
+            tag.setFloat(name + "x", (float) c.x);
+            tag.setFloat(name + "y", (float) c.y);
+            tag.setFloat(name + "z", (float) c.z);
         }
         return this;
     }

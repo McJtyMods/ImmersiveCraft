@@ -1,6 +1,5 @@
 package mcjty.immcraft.blocks.bundle;
 
-import com.google.common.base.Function;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.util.Vector;
 import mcjty.immcraft.cables.CableSectionRender;
@@ -18,6 +17,7 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class BundleISBM implements IBakedModel {
 

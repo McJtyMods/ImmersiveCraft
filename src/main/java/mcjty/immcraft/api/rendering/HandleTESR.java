@@ -32,7 +32,7 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
     protected abstract IImmersiveCraft getApi();
 
     @Override
-    public void renderTileEntityAt(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(T tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 
         IBlockState state = tileEntity.getWorld().getBlockState(tileEntity.getPos());
         if (!(state.getBlock() instanceof GenericBlock)) {

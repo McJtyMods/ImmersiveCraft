@@ -36,7 +36,7 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
     @Override
     protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super.register(modid, name, clazz, itemBlockClass);
-        GameRegistry.registerTileEntityWithAlternatives(clazz, ImmersiveCraft.MODID + name + "TE", name + "TE");
+        GameRegistry.registerTileEntity(clazz, ImmersiveCraft.MODID + name + "TE");
     }
 
     @Override
