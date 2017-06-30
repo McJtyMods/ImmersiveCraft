@@ -57,10 +57,11 @@ public class ChestBlock extends GenericBlockWithTE<ChestTE> {
         return false;
     }
 
-    @Override
-    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
-        return false;
-    }
+    // @todo
+//    @Override
+//    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+//        return false;
+//    }
 
     @Override
     public boolean isBlockNormalCube(IBlockState state) {

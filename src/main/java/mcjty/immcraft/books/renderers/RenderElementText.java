@@ -22,7 +22,7 @@ public class RenderElementText implements RenderElement {
         this.w = w;
         this.h = h;
         this.fmt = fmt;
-        int value = fmt.getColor().getMapColor().colorValue;
+        int value = fmt.getColor().getColorValue();
         r = ((value >> 16) & 255) / 255.0f;
         g = ((value >> 8) & 255) / 255.0f;
         b = (value & 255) / 255.0f;

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.texture.TextureMap;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -86,7 +87,8 @@ public class RenderElementItem implements RenderElement {
 
     private void renderToolTip(ItemStack stack, int x, int y) {
         Minecraft mc = Minecraft.getMinecraft();
-        List<String> list = stack.getTooltip(MinecraftTools.getPlayer(mc), mc.gameSettings.advancedItemTooltips);
+        ITooltipFlag flag = mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL;
+        List<String> list = stack.getTooltip(MinecraftTools.getPlayer(mc), flag);
 
         for (int i = 0; i < list.size(); ++i) {
             if (i == 0) {

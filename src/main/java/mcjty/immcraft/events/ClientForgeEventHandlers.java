@@ -77,7 +77,7 @@ public class ClientForgeEventHandlers {
             double doubleY = p.lastTickPosY + (p.posY - p.lastTickPosY) * time;
             double doubleZ = p.lastTickPosZ + (p.posZ - p.lastTickPosZ) * time;
             Vec3d player = new Vec3d((float) doubleX, (float) doubleY, (float) doubleZ);
-            Vec3d hitVec = new Vec3d((float) target.hitVec.xCoord, (float) target.hitVec.yCoord, (float) target.hitVec.zCoord);
+            Vec3d hitVec = new Vec3d((float) target.hitVec.x, (float) target.hitVec.y, (float) target.hitVec.z);
 
             BundleTE bundleTE = BlockTools.getTE(BundleTE.class, world, pos).get();
             CableSection closestSection = CableRenderer.findSelectedCable(player, hitVec, bundleTE);

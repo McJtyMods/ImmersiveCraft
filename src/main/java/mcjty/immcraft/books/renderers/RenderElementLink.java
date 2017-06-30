@@ -11,7 +11,7 @@ public class RenderElementLink extends RenderElementText {
 
     public RenderElementLink(String text, int x, int y, int w, int h, TextElementFormat fmt, EnumDyeColor selected) {
         super(text, x, y, w, h, fmt);
-        int value = selected.getMapColor().colorValue;
+        int value = selected.getColorValue();
         sr = ((value >> 16) & 255) / 255.0f;
         sg = ((value >> 8) & 255) / 255.0f;
         sb = (value & 255) / 255.0f;

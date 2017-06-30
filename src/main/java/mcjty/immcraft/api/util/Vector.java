@@ -7,12 +7,12 @@ public class Vector {
     // Given two vectors, calculate a vector that is perpendicular to this while keeping on an axis
     public static Pair<Vec3d,Vec3d> calculatePerpendicularVector(Vec3d v1, Vec3d v2) {
         Vec3d d = v2.subtract(v1);
-        if (d.xCoord >= d.yCoord && d.xCoord >= d.zCoord) {
+        if (d.x >= d.y && d.x >= d.z) {
             // X is the biggest distance.
             Vec3d vectorZ = d.crossProduct(new Vec3d(0, 1, 0));
             Vec3d vectorY = d.crossProduct(vectorZ);
             return Pair.of(vectorY, vectorZ);
-        } else if (d.zCoord >= d.yCoord) {
+        } else if (d.z >= d.y) {
             // Z is the biggest distance.
             Vec3d vectorX = d.crossProduct(new Vec3d(0, 1, 0));
             Vec3d vectorY = d.crossProduct(vectorX);

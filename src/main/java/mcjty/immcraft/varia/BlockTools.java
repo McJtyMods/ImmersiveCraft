@@ -69,9 +69,10 @@ public class BlockTools {
     public static boolean isTopValidAndSolid(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        if (!block.isBlockSolid(world, pos, UP)) {
-            return false;
-        }
+        // @todo
+//        if (!block.isBlockSolid(world, pos, UP)) {
+//            return false;
+//        }
         if (!block.getMaterial(state).isSolid()) {
             return false;
         }
@@ -83,9 +84,10 @@ public class BlockTools {
 
     public static boolean isSideValidAndSolid(World world, BlockPos pos, EnumFacing side, Block block) {
         IBlockState state = world.getBlockState(pos);
-        if (!block.isBlockSolid(world, pos, side)) {
-            return false;
-        }
+        // @todo
+//        if (!block.isBlockSolid(world, pos, side)) {
+//            return false;
+//        }
         if (!block.getMaterial(state).isSolid()) {
             return false;
         }

@@ -41,7 +41,6 @@ public class ClientProxy extends CommonProxy {
 
         ModBlocks.initModels();
         ModItems.initModels();
-        SoundController.init();
     }
 
     @Override

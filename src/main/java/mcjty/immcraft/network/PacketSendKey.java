@@ -36,9 +36,9 @@ public class PacketSendKey implements IMessage {
         buf.writeShort(keyType.ordinal());
         BlockPosTools.toBytes(blockPos, buf);
         buf.writeShort(side.ordinal());
-        buf.writeDouble(hitVec.xCoord);
-        buf.writeDouble(hitVec.yCoord);
-        buf.writeDouble(hitVec.zCoord);
+        buf.writeDouble(hitVec.x);
+        buf.writeDouble(hitVec.y);
+        buf.writeDouble(hitVec.z);
     }
 
     public PacketSendKey() {
@@ -55,7 +55,7 @@ public class PacketSendKey implements IMessage {
             return;
         }
         side = mouseOver.sideHit;
-        hitVec = new Vec3d(mouseOver.hitVec.xCoord - blockPos.getX(), mouseOver.hitVec.yCoord - blockPos.getY(), mouseOver.hitVec.zCoord - blockPos.getZ());
+        hitVec = new Vec3d(mouseOver.hitVec.x - blockPos.getX(), mouseOver.hitVec.y - blockPos.getY(), mouseOver.hitVec.z - blockPos.getZ());
     }
 
     public KeyType getKeyType() {

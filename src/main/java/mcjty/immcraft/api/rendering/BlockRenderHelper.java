@@ -237,7 +237,7 @@ public final class BlockRenderHelper {
         }
         if (ItemStackTools.isValid(stack)) {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
-            GlStateManager.translate(offset.xCoord, offset.yCoord, offset.zCoord);
+            GlStateManager.translate(offset.x, offset.y, offset.z);
 
             boolean ghostly = ItemStackTools.isValid(ghosted) || crafting;
             if (ghostly) {
@@ -257,7 +257,7 @@ public final class BlockRenderHelper {
                 GlStateManager.disableBlend();
             }
 
-            GlStateManager.translate(-offset.xCoord, -offset.yCoord, -offset.zCoord);
+            GlStateManager.translate(-offset.x, -offset.y, -offset.z);
         }
     }
 
@@ -269,7 +269,7 @@ public final class BlockRenderHelper {
             net.minecraft.client.renderer.RenderHelper.enableStandardItemLighting();
 
             GlStateManager.pushMatrix();
-            GlStateManager.translate(offset.xCoord + -0.5 + textOffset.xCoord, offset.yCoord + 0.5 + textOffset.yCoord, offset.zCoord + 0.2 + textOffset.zCoord);
+            GlStateManager.translate(offset.x + -0.5 + textOffset.x, offset.y + 0.5 + textOffset.y, offset.z + 0.2 + textOffset.z);
             float f3 = 0.0075F;
             float factor = 1.5f;
             GlStateManager.scale(f3 * factor, -f3 * factor, f3);
@@ -342,7 +342,7 @@ public final class BlockRenderHelper {
         float f1 = 1.0f/toth;
         double zLevel = 50;
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        BufferBuilder vertexbuffer = tessellator.getBuffer();
         vertexbuffer.begin(7, DefaultVertexFormats.POSITION_TEX);
         vertexbuffer.pos((double)(x + 0), (double)(y + height), zLevel).tex((double)((float)(textureX + 0) *  f), (double)((float)(textureY + height) * f1)).endVertex();
         vertexbuffer.pos((double)(x + width), (double)(y + height), zLevel).tex((double)((float)(textureX + width) * f), (double)((float)(textureY + height) * f1)).endVertex();

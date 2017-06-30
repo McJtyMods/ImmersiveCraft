@@ -204,24 +204,24 @@ public class OrientationTools {
 
     public static Vec3d blockToWorldSpace(Vec3d v, EnumFacing side) {
         switch (side) {
-            case DOWN: return new Vec3d(v.xCoord, v.zCoord, v.yCoord);        // @todo check: most likely wrong
-            case UP:  return new Vec3d(v.xCoord, v.zCoord, v.yCoord);         // @todo check: most likely wrong
-            case NORTH: return new Vec3d(1-v.xCoord, v.yCoord, 1-v.zCoord);
+            case DOWN: return new Vec3d(v.x, v.z, v.y);        // @todo check: most likely wrong
+            case UP:  return new Vec3d(v.x, v.z, v.y);         // @todo check: most likely wrong
+            case NORTH: return new Vec3d(1-v.x, v.y, 1-v.z);
             case SOUTH: return v;
-            case WEST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
-            case EAST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
+            case WEST: return new Vec3d(1-v.z, v.y, v.x);
+            case EAST: return new Vec3d(v.z, v.y, 1-v.x);
             default: return v;
         }
     }
 
     public static Vec3d worldToBlockSpace(Vec3d v, EnumFacing side) {
         switch (side) {
-            case DOWN: return new Vec3d(v.xCoord, v.zCoord, v.yCoord);        // @todo check: most likely wrong
-            case UP:  return new Vec3d(v.xCoord, v.zCoord, v.yCoord);         // @todo check: most likely wrong
-            case NORTH: return new Vec3d(1-v.xCoord, v.yCoord, 1-v.zCoord);
+            case DOWN: return new Vec3d(v.x, v.z, v.y);        // @todo check: most likely wrong
+            case UP:  return new Vec3d(v.x, v.z, v.y);         // @todo check: most likely wrong
+            case NORTH: return new Vec3d(1-v.x, v.y, 1-v.z);
             case SOUTH: return v;
-            case WEST: return new Vec3d(v.zCoord, v.yCoord, 1-v.xCoord);
-            case EAST: return new Vec3d(1-v.zCoord, v.yCoord, v.xCoord);
+            case WEST: return new Vec3d(v.z, v.y, 1-v.x);
+            case EAST: return new Vec3d(1-v.z, v.y, v.x);
             default: return v;
         }
     }

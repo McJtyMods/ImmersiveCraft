@@ -45,7 +45,7 @@ public class Plane {
     private static DecimalFormat dfCommas = new DecimalFormat("###.##");
 
     public static String v(Vec3d v) {
-        return dfCommas.format(v.xCoord) + " " + dfCommas.format(v.yCoord) + " " + dfCommas.format(v.zCoord);
+        return dfCommas.format(v.x) + " " + dfCommas.format(v.y) + " " + dfCommas.format(v.z);
     }
 
     public Vec2f intersect(Vec3d r1, Vec3d r2) {

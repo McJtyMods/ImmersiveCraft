@@ -31,8 +31,8 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
     }
 
     @Override
-    public void renderTileEntityAt(BookStandTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage) {
-        super.renderTileEntityAt(tileEntity, x, y, z, partialTicks, destroyStage);
+    public void render(BookStandTE tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+        super.render(tileEntity, x, y, z, partialTicks, destroyStage, alpha);
         RenderHelper.enableStandardItemLighting();
 
         IBlockState state = tileEntity.getWorld().getBlockState(tileEntity.getPos());

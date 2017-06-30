@@ -97,19 +97,19 @@ public class IntersectionTools {
     }
 
     public static List<RayTraceResult> rayTest(World world, Vec3d start, Vec3d end, boolean stopOnLiquid, boolean ignoreBlocksWithoutBoundingbox, boolean returnLastUncollidableBlock) {
-//        if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) {
+//        if (Double.isNaN(start.x) || Double.isNaN(start.y) || Double.isNaN(start.z)) {
 //            return Collections.emptyList();
 //        }
-//        if (Double.isNaN(end.xCoord) || Double.isNaN(end.yCoord) || Double.isNaN(end.zCoord)) {
+//        if (Double.isNaN(end.x) || Double.isNaN(end.y) || Double.isNaN(end.z)) {
 //            return Collections.emptyList();
 //        }
 //
-//        int endx = MathHelper.floor_double(end.xCoord);
-//        int endy = MathHelper.floor_double(end.yCoord);
-//        int endz = MathHelper.floor_double(end.zCoord);
-//        int startx = MathHelper.floor_double(start.xCoord);
-//        int starty = MathHelper.floor_double(start.yCoord);
-//        int startz = MathHelper.floor_double(start.zCoord);
+//        int endx = MathHelper.floor_double(end.x);
+//        int endy = MathHelper.floor_double(end.y);
+//        int endz = MathHelper.floor_double(end.z);
+//        int startx = MathHelper.floor_double(start.x);
+//        int starty = MathHelper.floor_double(start.y);
+//        int startz = MathHelper.floor_double(start.z);
 //
 //        BlockPos startPos = new BlockPos(startx, starty, startz);
 //        IBlockState startState = world.getBlockState(startPos);
@@ -133,7 +133,7 @@ public class IntersectionTools {
 //        int cnt = 200;
 //
 //        while (cnt-- >= 0) {
-//            if (Double.isNaN(start.xCoord) || Double.isNaN(start.yCoord) || Double.isNaN(start.zCoord)) {
+//            if (Double.isNaN(start.x) || Double.isNaN(start.y) || Double.isNaN(start.z)) {
 //                return positions;
 //            }
 //
@@ -180,20 +180,20 @@ public class IntersectionTools {
 //            double d3 = 999.0D;
 //            double d4 = 999.0D;
 //            double d5 = 999.0D;
-//            double d6 = end.xCoord - start.xCoord;
-//            double d7 = end.yCoord - start.yCoord;
-//            double d8 = end.zCoord - start.zCoord;
+//            double d6 = end.x - start.x;
+//            double d7 = end.y - start.y;
+//            double d8 = end.z - start.z;
 //
 //            if (flag6) {
-//                d3 = (d0 - start.xCoord) / d6;
+//                d3 = (d0 - start.x) / d6;
 //            }
 //
 //            if (flag3) {
-//                d4 = (d1 - start.yCoord) / d7;
+//                d4 = (d1 - start.y) / d7;
 //            }
 //
 //            if (flag4) {
-//                d5 = (d2 - start.zCoord) / d8;
+//                d5 = (d2 - start.z) / d8;
 //            }
 //
 //            byte b0;
@@ -205,7 +205,7 @@ public class IntersectionTools {
 //                    b0 = 5;
 //                }
 //
-//                start = new Vec3(d0, start.yCoord + d7 * d3, start.zCoord + d8 * d3);
+//                start = new Vec3(d0, start.y + d7 * d3, start.z + d8 * d3);
 //            } else if (d4 < d5) {
 //                if (endy > starty) {
 //                    b0 = 0;
@@ -213,7 +213,7 @@ public class IntersectionTools {
 //                    b0 = 1;
 //                }
 //
-//                start = new Vec3(start.xCoord + d6 * d4, d1, start.zCoord + d8 * d4);
+//                start = new Vec3(start.x + d6 * d4, d1, start.z + d8 * d4);
 //            } else {
 //                if (endz > startz) {
 //                    b0 = 2;
@@ -221,30 +221,30 @@ public class IntersectionTools {
 //                    b0 = 3;
 //                }
 //
-//                start = new Vec3(start.xCoord + d6 * d5, start.yCoord + d7 * d5, d2);
+//                start = new Vec3(start.x + d6 * d5, start.y + d7 * d5, d2);
 //            }
 //
-//            Vec3 vec32 = new Vec3(start.xCoord, start.yCoord, start.zCoord);
+//            Vec3 vec32 = new Vec3(start.x, start.y, start.z);
 //
-//            startx = (int) (vec32.xCoord = (double) MathHelper.floor_double(start.xCoord));
+//            startx = (int) (vec32.x = (double) MathHelper.floor_double(start.x));
 //
 //            if (b0 == 5) {
 //                --startx;
-//                ++vec32.xCoord;
+//                ++vec32.x;
 //            }
 //
-//            starty = (int) (vec32.yCoord = (double) MathHelper.floor_double(start.yCoord));
+//            starty = (int) (vec32.y = (double) MathHelper.floor_double(start.y));
 //
 //            if (b0 == 1) {
 //                --starty;
-//                ++vec32.yCoord;
+//                ++vec32.y;
 //            }
 //
-//            startz = (int) (vec32.zCoord = (double) MathHelper.floor_double(start.zCoord));
+//            startz = (int) (vec32.z = (double) MathHelper.floor_double(start.z));
 //
 //            if (b0 == 3) {
 //                --startz;
-//                ++vec32.zCoord;
+//                ++vec32.z;
 //            }
 //
 //            Block block1 = world.getBlock(startx, starty, startz);
@@ -281,8 +281,8 @@ public class IntersectionTools {
             } else {
                 yval = c1.getY();
             }
-            float r = (float) ((yval - v1.yCoord) / (v2.yCoord - v1.yCoord));
-            return new Vec3d(r * (v2.xCoord - v1.xCoord) + v1.xCoord, yval, r * (v2.zCoord - v1.zCoord) + v1.zCoord);
+            float r = (float) ((yval - v1.y) / (v2.y - v1.y));
+            return new Vec3d(r * (v2.x - v1.x) + v1.x, yval, r * (v2.z - v1.z) + v1.z);
         } else if (c1.getX() == c2.getX() && c1.getY() == c2.getY()) {
             float zval;
             if (c1.getZ() < c2.getZ()) {
@@ -290,8 +290,8 @@ public class IntersectionTools {
             } else {
                 zval = c1.getZ();
             }
-            float r = (float) ((zval - v1.zCoord) / (v2.zCoord - v1.zCoord));
-            return new Vec3d(r * (v2.xCoord - v1.xCoord) + v1.xCoord, r * (v2.yCoord - v1.yCoord) + v1.yCoord, zval);
+            float r = (float) ((zval - v1.z) / (v2.z - v1.z));
+            return new Vec3d(r * (v2.x - v1.x) + v1.x, r * (v2.y - v1.y) + v1.y, zval);
         } else if (c1.getY() == c2.getY() && c1.getZ() == c2.getZ()) {
             float xval;
             if (c1.getX() < c2.getX()) {
@@ -299,10 +299,10 @@ public class IntersectionTools {
             } else {
                 xval = c1.getX();
             }
-            float r = (float) ((xval - v1.xCoord) / (v2.xCoord - v1.xCoord));
-            return new Vec3d(xval, r * (v2.yCoord - v1.yCoord) + v1.yCoord, r * (v2.zCoord - v1.zCoord) + v1.zCoord);
+            float r = (float) ((xval - v1.x) / (v2.x - v1.x));
+            return new Vec3d(xval, r * (v2.y - v1.y) + v1.y, r * (v2.z - v1.z) + v1.z);
         } else {
-            return new Vec3d((v1.xCoord + v2.xCoord) / 2, (v1.yCoord + v2.yCoord) / 2, (v1.zCoord + v2.zCoord) / 2);
+            return new Vec3d((v1.x + v2.x) / 2, (v1.y + v2.y) / 2, (v1.z + v2.z) / 2);
         }
 
     }

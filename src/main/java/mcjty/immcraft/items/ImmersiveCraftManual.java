@@ -1,6 +1,7 @@
 package mcjty.immcraft.items;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.book.IBook;
 import mcjty.lib.compat.CompatItem;
 import mcjty.lib.tools.ChatTools;
@@ -12,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -23,7 +23,7 @@ public class ImmersiveCraftManual extends CompatItem implements IBook {
         setRegistryName("manual");
         setUnlocalizedName(ImmersiveCraft.MODID + ".manual");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        GameRegistry.register(this);
+        McJtyRegister.registerLater(this, ImmersiveCraft.MODID);
     }
 
     @Override
