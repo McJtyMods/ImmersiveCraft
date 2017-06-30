@@ -32,8 +32,6 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent e) {
         NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
-        ModBlocks.initCrafting();
-        ModItems.initCrafting();
     }
 
     public void postInit(FMLPostInitializationEvent e) {

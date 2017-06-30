@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "immcraft:shelf"
+  },
+  "pattern": [
+    "crc",
+    "ccc",
+    "ccc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "c": {
+      "item": "minecraft:planks",
+      "data": 0
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "immcraft:saw"
+  },
+  "pattern": [
+    " sr",
+    "sr ",
+    "s  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}

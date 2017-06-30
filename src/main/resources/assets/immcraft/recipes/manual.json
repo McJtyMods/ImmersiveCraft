@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "immcraft:manual"
+  },
+  "pattern": [
+    "br"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:book"
+    },
+    "r": {
+      "item": "immcraft:rock"
+    }
+  }
+}

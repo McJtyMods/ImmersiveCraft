@@ -17,6 +17,7 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchBlock;
 import mcjty.immcraft.blocks.workbench.WorkbenchSecondaryBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
+import mcjty.immcraft.varia.MyGameReg;
 import mcjty.lib.tools.EntityTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -64,19 +65,6 @@ public class ModBlocks {
         shelfBlock = new ShelfBlock();
         bookshelfBlock = new BookshelfBlock();
         bookStandBlock = new BookStandBlock();
-    }
-
-    public static void initCrafting() {
-//        if (GeneralConfiguration.rockRecipe) {
-//            GameRegistry.addShapelessRecipe(new ItemStack(rockBlock, 9), new ItemStack(Blocks.COBBLESTONE));
-//        }
-//
-//        GameRegistry.addShapedRecipe(new ItemStack(furnaceBlock), "ccc", "crc", "ccc", 'c', Blocks.COBBLESTONE, 'r', rockBlock);
-//        GameRegistry.addShapedRecipe(new ItemStack(chestBlock), "ccc", "crc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
-//        GameRegistry.addShapedRecipe(new ItemStack(cupboardBlock), "ccc", "ccc", "crc", 'c', Blocks.PLANKS, 'r', rockBlock);
-//        GameRegistry.addShapedRecipe(new ItemStack(shelfBlock), "crc", "ccc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock);
-//        GameRegistry.addShapedRecipe(new ItemStack(bookshelfBlock), "crc", "cbc", "ccc", 'c', Blocks.PLANKS, 'r', rockBlock, 'b', Items.BOOK);
-//        GameRegistry.addShapedRecipe(new ItemStack(bookStandBlock), " t ", "tbt", "sss", 's', Blocks.WOODEN_SLAB, 't', Items.STICK, 'b', Items.BOOK);
     }
 
     @SideOnly(Side.CLIENT)

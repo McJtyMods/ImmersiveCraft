@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "immcraft:bookshelf"
+  },
+  "pattern": [
+    "crc",
+    "cbc",
+    "ccc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "b": {
+      "item": "minecraft:book"
+    },
+    "c": {
+      "item": "minecraft:planks",
+      "data": 0
+    }
+  }
+}

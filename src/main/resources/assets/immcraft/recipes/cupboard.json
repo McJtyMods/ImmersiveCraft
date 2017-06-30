@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "immcraft:cupboard"
+  },
+  "pattern": [
+    "ccc",
+    "ccc",
+    "crc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "c": {
+      "item": "minecraft:planks",
+      "data": 0
+    }
+  }
+}

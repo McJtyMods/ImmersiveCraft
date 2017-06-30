@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "immcraft:furnace"
+  },
+  "pattern": [
+    "ccc",
+    "crc",
+    "ccc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "c": {
+      "item": "minecraft:cobblestone"
+    }
+  }
+}

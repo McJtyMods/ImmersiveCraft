@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "immcraft:chisel"
+  },
+  "pattern": [
+    "  r",
+    " r ",
+    "s  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "immcraft:rock"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  }
+}
