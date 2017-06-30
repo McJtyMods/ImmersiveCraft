@@ -4,7 +4,6 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
 import mcjty.immcraft.schemas.Schema;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -43,8 +42,8 @@ public class GenericImmcraftTE extends GenericTE {
                     ICraftingContainer container = (ICraftingContainer) this;
                     List<ItemStack> inventory = container.getInventory();
                     Schema schema = container.getCurrentSchema();
-                    schema.getPresent(inventory, player).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
-                    schema.getMissing(inventory, player).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + ItemStackTools.getStackSize(p) + ")"));
+                    schema.getPresent(inventory, player).stream().forEach(p -> ingredients.add(p.getDisplayName() + " (" + p.getCount() + ")"));
+                    schema.getMissing(inventory, player).stream().forEach(p -> missingIngredients.add(p.getDisplayName() + " (" + p.getCount() + ")"));
                 }
             }
         }

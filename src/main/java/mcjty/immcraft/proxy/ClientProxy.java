@@ -9,9 +9,6 @@ import mcjty.immcraft.font.FontLoader;
 import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
-import mcjty.immcraft.items.ModItems;
-import mcjty.immcraft.sound.SoundController;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -63,12 +60,12 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public World getClientWorld() {
-        return MinecraftTools.getWorld(Minecraft.getMinecraft());
+        return Minecraft.getMinecraft().world;
     }
 
     @Override
     public EntityPlayer getClientPlayer() {
-        return MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        return Minecraft.getMinecraft().player;
     }
 
     @Override

@@ -6,14 +6,13 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.intwheel.api.IWheelAction;
 import mcjty.intwheel.api.WheelActionElement;
-import mcjty.lib.tools.ChatTools;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -47,16 +46,26 @@ public class HandlePlaceOneAction implements IWheelAction {
             IInterfaceHandle selectedHandle = te.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-                if (ItemStackTools.isValid(heldItem)) {
+                if (!heldItem.isEmpty()) {
                     if (selectedHandle.acceptAsInput(heldItem)) {
                         ItemStack togive = heldItem.splitStack(1);
                         int i = selectedHandle.insertInput(te, togive);
                         if (i > 0) {
-                            ChatTools.addChatMessage(player, new TextComponentString("This item doesn't fit here!"));
+                            ITextComponent component = new TextComponentString("This item doesn't fit here!");
+                            if (player instanceof EntityPlayer) {
+                                ((EntityPlayer) player).sendStatusMessage(component, false);
+                            } else {
+                                player.sendMessage(component);
+                            }
                             InventoryHelper.giveItemToPlayer(player, togive);
                         }
                     } else {
-                        ChatTools.addChatMessage(player, new TextComponentString("This item is not accepted here!"));
+                        ITextComponent component = new TextComponentString("This item is not accepted here!");
+                        if (player instanceof EntityPlayer) {
+                            ((EntityPlayer) player).sendStatusMessage(component, false);
+                        } else {
+                            player.sendMessage(component);
+                        }
                     }
                 }
             }

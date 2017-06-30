@@ -2,8 +2,8 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.immcraft.api.helpers.BlockPosTools;
+import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;

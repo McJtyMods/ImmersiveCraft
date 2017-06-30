@@ -2,7 +2,6 @@ package mcjty.immcraft.cables;
 
 
 import mcjty.immcraft.api.cable.ICableSubType;
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.util.math.Vec3d;
 
 /**

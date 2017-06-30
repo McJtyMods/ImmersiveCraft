@@ -1,6 +1,5 @@
 package mcjty.immcraft.api.cable;
 
-import mcjty.immcraft.api.util.Vector;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec3d;
 

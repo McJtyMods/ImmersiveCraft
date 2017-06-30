@@ -3,10 +3,9 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.handles.HandleSelector;
-import mcjty.immcraft.api.handles.InputInterfaceHandle;
+import mcjty.immcraft.api.rendering.HandleTESR;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.api.rendering.HandleTESR;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,7 +14,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -23,6 +21,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
@@ -123,6 +122,6 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
     }
 
     @Override
-    public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
     }
 }

@@ -5,8 +5,6 @@ import mcjty.immcraft.api.book.IBook;
 import mcjty.immcraft.blocks.book.BookStandTE;
 import mcjty.immcraft.books.renderers.RenderElementText;
 import mcjty.immcraft.proxy.ClientProxy;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
@@ -43,9 +41,9 @@ public class GuiManual extends GuiScreen {
         guiLeft = (this.width - WIDTH) / 2;
         guiTop = (this.height - HEIGHT) / 2;
 
-        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
         ItemStack book = player.getHeldItemMainhand();
-        if (ItemStackTools.isValid(book) && book.getItem() instanceof IBook) {
+        if (!book.isEmpty() && book.getItem() instanceof IBook) {
             json = ((IBook) book.getItem()).getJson();
             BookParser parser = new BookParser();
             pages = parser.parse(json, 768, 900);
@@ -124,8 +122,8 @@ public class GuiManual extends GuiScreen {
     }
 
     private void playPageTurn() {
-        EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
-        BookStandTE.playPageTurn(MinecraftTools.getWorld(Minecraft.getMinecraft()), player.getPosition());
+        EntityPlayerSP player = Minecraft.getMinecraft().player;
+        BookStandTE.playPageTurn(Minecraft.getMinecraft().world, player.getPosition());
     }
 
     @Override

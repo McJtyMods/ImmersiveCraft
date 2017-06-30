@@ -2,9 +2,8 @@ package mcjty.immcraft.blocks.generic;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.compat.CompatSidedInventory;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,7 +18,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.Optional;
 
-public class GenericInventoryTE extends GenericImmcraftTE implements CompatSidedInventory {
+public class GenericInventoryTE extends GenericImmcraftTE implements ISidedInventory {
 
     protected InventoryHelper inventoryHelper;
     private int[] accessible;
@@ -79,7 +78,6 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
         return 64;
     }
 
-    @Override
     public boolean isUsable(EntityPlayer player) {
         return !this.isInvalid() && (player.getDistanceSq(this.getPos().getX() + 0.5D, this.getPos().getY() + 0.5D, (double) this.getPos().getZ() + 0.5D) <= 64.0D);
     }
@@ -92,7 +90,7 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
     @Override
     public ItemStack removeStackFromSlot(int index) {
         ItemStack stack = inventoryHelper.getStackInSlot(index);
-        inventoryHelper.setStackInSlot(index, ItemStackTools.getEmptyStack());
+        inventoryHelper.setStackInSlot(index, ItemStack.EMPTY);
         return stack;
     }
 
@@ -155,7 +153,7 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
         NBTTagList bufferTagList = tagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0 ; i < bufferTagList.tagCount() ; i++) {
             NBTTagCompound nbtTagCompound = bufferTagList.getCompoundTagAt(i);
-            setStack(i, ItemStackTools.loadFromNBT(nbtTagCompound));
+            setStack(i, new ItemStack(nbtTagCompound));
         }
     }
 
@@ -170,7 +168,7 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
         for (int i = 0 ; i < inventoryHelper.getCount() ; i++) {
             ItemStack stack = inventoryHelper.getStackInSlot(i);
             NBTTagCompound nbtTagCompound = new NBTTagCompound();
-            if (ItemStackTools.isValid(stack)) {
+            if (!stack.isEmpty()) {
                 stack.writeToNBT(nbtTagCompound);
             }
             bufferTagList.appendTag(nbtTagCompound);
@@ -198,5 +196,15 @@ public class GenericInventoryTE extends GenericImmcraftTE implements CompatSided
 
     protected IItemHandler getItemHandlerForSide(EnumFacing facing) {
         return invHandler;
+    }
+
+    @Override
+    public boolean isUsableByPlayer(EntityPlayer player) {
+        return isUsable(player);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
     }
 }

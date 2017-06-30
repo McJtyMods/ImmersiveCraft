@@ -14,7 +14,6 @@ import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -39,11 +38,11 @@ public class ClientForgeEventHandlers {
     public void onMouseInput(MouseEvent event) {
         int dWheel = Mouse.getDWheel();
         if (dWheel != 0) {
-            EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+            EntityPlayerSP player = Minecraft.getMinecraft().player;
             if (player.isSneaking()) {
                 RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
                 if (mouseOver != null && mouseOver.getBlockPos() != null) {
-                    BlockTools.getTE(null, MinecraftTools.getWorld(Minecraft.getMinecraft()), mouseOver.getBlockPos())
+                    BlockTools.getTE(null, Minecraft.getMinecraft().world, mouseOver.getBlockPos())
                             .ifPresent(p -> handleWheel(p, dWheel, event));
                 }
             }

@@ -7,9 +7,7 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class GeneralConfiguration {
     public static final String CATEGORY_GENERAL = "general";

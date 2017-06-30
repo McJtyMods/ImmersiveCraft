@@ -127,7 +127,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
 
     @Override
-    protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_) {
         TileEntity te = worldIn.getTileEntity(pos);
         if (te instanceof BundleTE) {
             ((BundleTE) te).checkConnections();
@@ -170,7 +170,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     }
 
     @Override
-    public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
     }
 
     @Override

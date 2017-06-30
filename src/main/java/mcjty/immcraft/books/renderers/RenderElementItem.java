@@ -1,7 +1,5 @@
 package mcjty.immcraft.books.renderers;
 
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -47,7 +45,7 @@ public class RenderElementItem implements RenderElement {
 
     @Override
     public String render(int dy, float ix, float iy) {
-        if (ItemStackTools.isEmpty(item)) {
+        if (item.isEmpty()) {
             return null;
         }
         RenderHelper.enableGUIStandardItemLighting();
@@ -88,7 +86,7 @@ public class RenderElementItem implements RenderElement {
     private void renderToolTip(ItemStack stack, int x, int y) {
         Minecraft mc = Minecraft.getMinecraft();
         ITooltipFlag flag = mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL;
-        List<String> list = stack.getTooltip(MinecraftTools.getPlayer(mc), flag);
+        List<String> list = stack.getTooltip(mc.player, flag);
 
         for (int i = 0; i < list.size(); ++i) {
             if (i == 0) {

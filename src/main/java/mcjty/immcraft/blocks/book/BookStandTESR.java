@@ -3,10 +3,9 @@ package mcjty.immcraft.blocks.book;
 
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
+import mcjty.immcraft.api.util.Plane;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookRenderHelper;
-import mcjty.immcraft.api.util.Plane;
-import mcjty.lib.tools.MinecraftTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -14,7 +13,6 @@ import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
@@ -60,7 +58,7 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
                 Plane plane = getPlane(orientation);
                 plane = plane.offset(new Vec3d(x, y, z));
 
-                EntityPlayerSP player = MinecraftTools.getPlayer(Minecraft.getMinecraft());
+                EntityPlayerSP player = Minecraft.getMinecraft().player;
                 Vec3d e = player.getPositionEyes(partialTicks);
 
                 Vec3d start = player.getPositionVector().add(new Vec3d(0, player.eyeHeight*2, 0)).subtract(e);

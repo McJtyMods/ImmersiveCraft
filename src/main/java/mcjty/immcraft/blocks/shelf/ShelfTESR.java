@@ -3,8 +3,8 @@ package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.api.rendering.HandleTESR;
+import mcjty.immcraft.blocks.ModBlocks;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

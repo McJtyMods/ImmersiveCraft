@@ -1,6 +1,5 @@
 package mcjty.immcraft.api.handles;
 
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +16,7 @@ public class ActionInterfaceHandle extends DefaultInterfaceHandle<ActionInterfac
 
     @Override
     public ItemStack getRenderStack(TileEntity inventoryTE, ItemStack stack) {
-        return ItemStackTools.getEmptyStack();
+        return ItemStack.EMPTY;
     }
 
     public ActionInterfaceHandle action(Predicate<EntityPlayer> action) {

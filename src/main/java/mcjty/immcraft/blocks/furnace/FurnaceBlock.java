@@ -2,7 +2,6 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;

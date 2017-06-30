@@ -13,7 +13,6 @@ import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.sound.SoundController;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.SoundTools;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,7 +44,7 @@ public class ForgeEventHandlers {
 
         EntityPlayer player = event.getEntityPlayer();
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (heldItem.isEmpty()) {
             return;
         }
         Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
@@ -163,7 +162,7 @@ public class ForgeEventHandlers {
     private void addSticks(EntityPlayer player, SticksTE sticksTE) {
         int amount;
         if (player.isSneaking()) {
-            amount = Math.min(64-sticksTE.getSticks(), ItemStackTools.getStackSize(player.getHeldItem(EnumHand.MAIN_HAND)));
+            amount = Math.min(64-sticksTE.getSticks(), player.getHeldItem(EnumHand.MAIN_HAND).getCount());
         } else {
             amount = Math.min(64-sticksTE.getSticks(), 1);
         }

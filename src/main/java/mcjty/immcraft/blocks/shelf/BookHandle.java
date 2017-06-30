@@ -5,7 +5,6 @@ import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.items.BookType;
 import mcjty.immcraft.items.ModItems;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -24,7 +23,7 @@ public class BookHandle extends InputInterfaceHandle {
 
     @Override
     public boolean acceptAsInput(ItemStack stack) {
-        if (ItemStackTools.isValid(stack)) {
+        if (!stack.isEmpty()) {
             Item item = stack.getItem();
             if (item instanceof IBook) {
                 return true;
@@ -36,7 +35,7 @@ public class BookHandle extends InputInterfaceHandle {
     }
 
     public void clearCachedBook(TileEntity genericTE) {
-        if (ItemStackTools.isEmpty(getCurrentStack(genericTE))) {
+        if (getCurrentStack(genericTE).isEmpty()) {
             bookType = null;    // Clear bookType for a new randomized look
             cachedBookItem = null;
         }
@@ -63,7 +62,7 @@ public class BookHandle extends InputInterfaceHandle {
 
     @Override
     public ItemStack getRenderStack(TileEntity inventoryTE, ItemStack stack) {
-        if (ItemStackTools.isEmpty(stack)) {
+        if (stack.isEmpty()) {
             return stack;
         }
         if (cachedBookItem == null) {

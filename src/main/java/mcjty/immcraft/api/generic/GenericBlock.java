@@ -8,7 +8,7 @@ import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
-import mcjty.lib.compat.CompatBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class GenericBlock extends CompatBlock implements IOrientedBlock {
+public abstract class GenericBlock extends Block implements IOrientedBlock {
 
     public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
@@ -259,7 +259,7 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
     }
 
     @Override
-    protected boolean clOnBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float sx, float sy, float sz) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         TileEntity te = world.getTileEntity(pos);
         if (te instanceof GenericTE) {
             ((GenericTE) te).onActivate(player);

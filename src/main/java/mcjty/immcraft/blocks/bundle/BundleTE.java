@@ -2,15 +2,15 @@ package mcjty.immcraft.blocks.bundle;
 
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.cable.*;
+import mcjty.immcraft.api.helpers.IntersectionTools;
 import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.multiblock.MultiBlockCableHelper;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.api.helpers.IntersectionTools;
-import mcjty.immcraft.api.helpers.NBTHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;

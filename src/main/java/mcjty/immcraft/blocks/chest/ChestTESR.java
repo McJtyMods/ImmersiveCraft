@@ -3,8 +3,8 @@ package mcjty.immcraft.blocks.chest;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.api.rendering.HandleTESR;
+import mcjty.immcraft.blocks.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;

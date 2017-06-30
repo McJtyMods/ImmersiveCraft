@@ -18,10 +18,10 @@ package mcjty.immcraft.font;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.awt.Font;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
+
+import java.awt.*;
 
 public class FontLoader {
 

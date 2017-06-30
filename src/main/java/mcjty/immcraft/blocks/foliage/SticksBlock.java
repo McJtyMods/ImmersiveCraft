@@ -36,6 +36,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -108,14 +109,13 @@ public class SticksBlock extends GenericBlockWithTE<SticksTE> {
         return false;
     }
 
-
     @Override
-    public void clAddCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn) {
+    public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean p_185477_7_) {
     }
 
     @Override
-    protected void clOnNeighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {
-        super.clOnNeighborChanged(state, worldIn, pos, blockIn);
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos p_189540_5_) {
+        super.neighborChanged(state, worldIn, pos, blockIn, p_189540_5_);
         if (!canBlockStay(worldIn, pos.down())) {
             dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockState(pos, Blocks.AIR.getDefaultState(), 3);

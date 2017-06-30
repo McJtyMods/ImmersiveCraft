@@ -10,8 +10,6 @@ import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketPageFlip;
 import mcjty.immcraft.sound.SoundController;
-import mcjty.lib.tools.ChatTools;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -21,6 +19,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -30,7 +29,7 @@ import java.util.List;
 
 public class BookStandTE extends GenericImmcraftTE {
 
-    private ItemStack currentBook = ItemStackTools.getEmptyStack();
+    private ItemStack currentBook = ItemStack.EMPTY;
 
     // Pages and pageNumber are client side only
     private List<BookPage> pages = null;
@@ -42,11 +41,11 @@ public class BookStandTE extends GenericImmcraftTE {
 
     @Override
     public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        boolean oldBook = ItemStackTools.isValid(currentBook);
+        boolean oldBook = !currentBook.isEmpty();
         super.onDataPacket(net, packet);
         if (getWorld().isRemote) {
             // If needed send a render update.
-            boolean newBook = ItemStackTools.isValid(currentBook);
+            boolean newBook = !currentBook.isEmpty();
             if (oldBook != newBook) {
                 getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
             }
@@ -56,7 +55,7 @@ public class BookStandTE extends GenericImmcraftTE {
     // Only use clientside
     public List<BookPage> getPages() {
         if (pages == null) {
-            if (ItemStackTools.isEmpty(currentBook)) {
+            if (currentBook.isEmpty()) {
                 pages = Collections.emptyList();
                 return pages;
             }
@@ -73,7 +72,7 @@ public class BookStandTE extends GenericImmcraftTE {
     }
 
     public boolean hasBook() {
-        return ItemStackTools.isValid(currentBook);
+        return !currentBook.isEmpty();
     }
 
     public int getPageNumber() {
@@ -159,7 +158,7 @@ public class BookStandTE extends GenericImmcraftTE {
 
 
     public EnumStandState getState() {
-        if (ItemStackTools.isEmpty(currentBook)) {
+        if (currentBook.isEmpty()) {
             return EnumStandState.EMPTY;
         } else if (pageNumber == 0) {
             return EnumStandState.CLOSED;
@@ -172,9 +171,9 @@ public class BookStandTE extends GenericImmcraftTE {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         if (compound.hasKey("book")) {
-            currentBook = ItemStackTools.loadFromNBT(compound.getCompoundTag("book"));
+            currentBook = new ItemStack(compound.getCompoundTag("book"));
         } else {
-            currentBook = ItemStackTools.getEmptyStack();
+            currentBook = ItemStack.EMPTY;
             pages = null;
             pageNumber = 0;
             result = null;
@@ -184,7 +183,7 @@ public class BookStandTE extends GenericImmcraftTE {
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        if (ItemStackTools.isValid(currentBook)) {
+        if (!currentBook.isEmpty()) {
             NBTTagCompound compound = new NBTTagCompound();
             currentBook.writeToNBT(compound);
             tagCompound.setTag("book", compound);
@@ -210,24 +209,29 @@ public class BookStandTE extends GenericImmcraftTE {
             return rc;
         }
 
-        if (ItemStackTools.isValid(currentBook)) {
+        if (!currentBook.isEmpty()) {
             if (player.isSneaking()) {
                 InventoryHelper.giveItemToPlayer(player, currentBook);
-                currentBook = ItemStackTools.getEmptyStack();
+                currentBook = ItemStack.EMPTY;
                 markDirtyClient();
             }
             return true;
         }
 
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (ItemStackTools.isValid(heldItem)) {
+        if (!heldItem.isEmpty()) {
             if (heldItem.getItem() instanceof IBook) {
                 currentBook = heldItem.splitStack(1);
                 player.openContainer.detectAndSendChanges();
                 markDirtyClient();
                 return true;
             } else {
-                ChatTools.addChatMessage(player, new TextComponentString(TextFormatting.YELLOW + "This is not a supported book!"));
+                ITextComponent component = new TextComponentString(TextFormatting.YELLOW + "This is not a supported book!");
+                if (player instanceof EntityPlayer) {
+                    ((EntityPlayer) player).sendStatusMessage(component, false);
+                } else {
+                    player.sendMessage(component);
+                }
                 return false;
             }
         }

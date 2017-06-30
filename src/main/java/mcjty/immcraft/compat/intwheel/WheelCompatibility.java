@@ -7,7 +7,6 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.intwheel.api.IInteractionWheel;
 import mcjty.intwheel.api.IWheelActionProvider;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -62,7 +61,7 @@ public class WheelCompatibility {
                         if (selectedHandle != null) {
                             actions.add(HandleGetOneAction.ACTION_GETONE);
                             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-                            if (ItemStackTools.isValid(heldItem)) {
+                            if (!heldItem.isEmpty()) {
                                 actions.add(HandlePlaceOneAction.ACTION_PLACEONE);
                             }
                         }

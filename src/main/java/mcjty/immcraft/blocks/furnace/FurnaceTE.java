@@ -7,7 +7,6 @@ import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -100,12 +99,12 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                     ItemStack tosmelt = inventoryHelper.decrStackSize(SLOT_TOBURN, 1);
                     ItemStack result = FurnaceRecipes.instance().getSmeltingResult(tosmelt);
                     boolean undo = false;
-                    if (ItemStackTools.isValid(result)) {
+                    if (!result.isEmpty()) {
                         if (!inventoryHelper.hasStack(SLOT_OUTPUT)) {
                             inventoryHelper.setInventorySlotContents(result.getMaxStackSize(), SLOT_OUTPUT, result.copy());
                         } else if (result.isItemEqual(inventoryHelper.getStackInSlot(SLOT_OUTPUT))) {
-                            if (ItemStackTools.getStackSize(result) + ItemStackTools.getStackSize(inventoryHelper.getStackInSlot(SLOT_OUTPUT)) <= result.getMaxStackSize()) {
-                                ItemStackTools.incStackSize(inventoryHelper.getStackInSlot(SLOT_OUTPUT), ItemStackTools.getStackSize(result));
+                            if (result.getCount() + inventoryHelper.getStackInSlot(SLOT_OUTPUT).getCount() <= result.getMaxStackSize()) {
+                                inventoryHelper.getStackInSlot(SLOT_OUTPUT).grow(result.getCount());
                             } else {
                                 undo = true;
                                 cookTime = 40;   // Try again
@@ -119,7 +118,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                         cookTime = 40;   // Try again
                         // Error, put back our block
                         if (inventoryHelper.hasStack(SLOT_TOBURN)) {
-                            ItemStackTools.incStackSize(inventoryHelper.getStackInSlot(SLOT_TOBURN), 1);
+                            inventoryHelper.getStackInSlot(SLOT_TOBURN).grow(1);
                         } else {
                             inventoryHelper.setStackInSlot(SLOT_TOBURN, tosmelt);
                         }
@@ -135,7 +134,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     @Override
     public boolean onActivate(EntityPlayer player) {
-        if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
+        if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
@@ -143,14 +142,15 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
             markDirtyClient();
             player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
             return true;
-        } else if (ItemStackTools.isValid(player.getHeldItem(EnumHand.MAIN_HAND)) && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Item.getItemFromBlock(Blocks.TORCH) && GeneralConfiguration.lightingFurnaceWithTorch) {
+        } else if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Item.getItemFromBlock(Blocks.TORCH) && GeneralConfiguration.lightingFurnaceWithTorch) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
             markDirtyClient();
             if (GeneralConfiguration.lightingFurnaceWithTorchConsumesTorch) {
-                ItemStack result = ItemStackTools.incStackSize(player.getHeldItem(EnumHand.MAIN_HAND), -1);
+                ItemStack result = player.getHeldItem(EnumHand.MAIN_HAND);
+                result.shrink(1);
                 player.setHeldItem(EnumHand.MAIN_HAND, result);
                 player.openContainer.detectAndSendChanges();
             }

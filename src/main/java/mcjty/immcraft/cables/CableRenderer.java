@@ -1,7 +1,7 @@
 package mcjty.immcraft.cables;
 
-import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.api.helpers.IntersectionTools;
+import mcjty.immcraft.blocks.bundle.BundleTE;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;

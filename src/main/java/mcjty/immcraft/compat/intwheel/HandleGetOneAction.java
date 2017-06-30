@@ -6,7 +6,6 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.intwheel.api.IWheelAction;
 import mcjty.intwheel.api.WheelActionElement;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -44,7 +43,7 @@ public class HandleGetOneAction implements IWheelAction {
             IInterfaceHandle selectedHandle = te.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack stack = selectedHandle.extractOutput(te, player, 1);
-                if (ItemStackTools.isValid(stack)) {
+                if (!stack.isEmpty()) {
                     InventoryHelper.giveItemToPlayer(player, stack);
                 }
             }

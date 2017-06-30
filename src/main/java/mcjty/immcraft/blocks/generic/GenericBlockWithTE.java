@@ -4,7 +4,6 @@ package mcjty.immcraft.blocks.generic;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
-import mcjty.lib.tools.ItemStackTools;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -45,8 +44,8 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
             IInterfaceHandle selectedHandle = immcraftTE.getHandle(player);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(immcraftTE);
-                if (ItemStackTools.isValid(currentStack)) {
-                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
+                if (!currentStack.isEmpty()) {
+                    probeInfo.text(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.getCount() + ")");
                 }
             }
         }
@@ -61,8 +60,8 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
             IInterfaceHandle selectedHandle = BlockRenderHelper.getFacingInterfaceHandle(te, this);
             if (selectedHandle != null) {
                 ItemStack currentStack = selectedHandle.getCurrentStack(te);
-                if (ItemStackTools.isValid(currentStack)) {
-                    currenttip.add(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + ItemStackTools.getStackSize(currentStack) + ")");
+                if (!currentStack.isEmpty()) {
+                    currenttip.add(TextFormatting.GREEN + currentStack.getDisplayName() + " (" + currentStack.getCount() + ")");
                 }
             }
         }

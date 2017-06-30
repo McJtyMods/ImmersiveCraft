@@ -3,20 +3,17 @@ package mcjty.immcraft.items;
 
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.McJtyRegister;
-import mcjty.lib.compat.CompatItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.List;
-
-public class ItemDummyBook extends CompatItem {
+public class ItemDummyBook extends Item {
 
 
     public ItemDummyBook() {
@@ -36,9 +33,11 @@ public class ItemDummyBook extends CompatItem {
     }
 
     @Override
-    protected void clGetSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
-        for (BookType type : BookType.values()) {
-            subItems.add(new ItemStack(this, 1, type.ordinal()));
+    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> subItems) {
+        if (isInCreativeTab(tab)) {
+            for (BookType type : BookType.values()) {
+                subItems.add(new ItemStack(this, 1, type.ordinal()));
+            }
         }
     }
 }

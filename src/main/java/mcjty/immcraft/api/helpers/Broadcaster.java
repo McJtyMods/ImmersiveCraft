@@ -1,8 +1,8 @@
 package mcjty.immcraft.api.helpers;
 
-import mcjty.lib.tools.ChatTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
@@ -27,7 +27,12 @@ public class Broadcaster {
             EntityPlayer player = (EntityPlayer) p;
             double sqdist = player.getDistanceSq(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5);
             if (sqdist < radius) {
-                ChatTools.addChatMessage(player, new TextComponentString(message));
+                ITextComponent component = new TextComponentString(message);
+                if (player instanceof EntityPlayer) {
+                    ((EntityPlayer) player).sendStatusMessage(component, false);
+                } else {
+                    player.sendMessage(component);
+                }
             }
         }
     }

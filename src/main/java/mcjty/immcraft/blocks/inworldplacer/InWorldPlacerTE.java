@@ -3,7 +3,6 @@ package mcjty.immcraft.blocks.inworldplacer;
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.config.GeneralConfiguration;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -37,7 +36,7 @@ public class InWorldPlacerTE extends GenericInventoryTE {
     public static void addItems(GenericInventoryTE inventory, EntityPlayer player, ItemStack heldItem) {
         inventory.setInventorySlotContents(SLOT_INPUT1, heldItem);
         inventory.markDirtyClient();
-        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
+        player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
         player.openContainer.detectAndSendChanges();
     }
 

@@ -1,24 +1,22 @@
 package mcjty.immcraft.blocks.workbench;
 
+import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.api.helpers.InventoryHelper;
+import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
+import mcjty.immcraft.blocks.generic.GenericInventoryTE;
 import mcjty.immcraft.blocks.generic.handles.CraftingInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.ICraftingContainer;
-import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.schemas.Schema;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.immcraft.api.helpers.NBTHelper;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +94,8 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
                 IInventory inv = (IInventory) te.get();
                 for (int i = 0 ; i < 4 ; i++) {
                     ItemStack itemStack = inventory.get(i);
-                    if (ItemStackTools.isEmpty(itemStack)) {
-                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, ItemStackTools.getEmptyStack());
+                    if (itemStack.isEmpty()) {
+                        inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, ItemStack.EMPTY);
                     } else {
                         inv.setInventorySlotContents(WorkbenchTE.SLOT_INPUT1+i, itemStack);
                     }
@@ -109,7 +107,7 @@ public class WorkbenchSecondaryTE extends GenericInventoryTE implements ICraftin
 
     private Schema[] getActiveSchemas() {
         ItemStack tool = inventoryHelper.getStackInSlot(SLOT_TOOL);
-        if (ItemStackTools.isEmpty(tool)) {
+        if (tool.isEmpty()) {
             return baseSchemas;
         } else if (tool.getItem() == ModItems.chisel) {
             return chiselSchemas;

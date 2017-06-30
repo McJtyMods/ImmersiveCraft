@@ -1,12 +1,11 @@
 package mcjty.immcraft.api.handles;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.lib.tools.ChatTools;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nullable;
@@ -54,13 +53,17 @@ public class HandleSupport {
             ItemStack itemStack;
             if (amount == -1) {
                 itemStack = heldItem;
-                player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStackTools.getEmptyStack());
+                player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
             } else {
                 itemStack = player.inventory.decrStackSize(player.inventory.currentItem, amount);
             }
             int remaining = handle.insertInput(te, itemStack);
             if (remaining != 0) {
-                ItemStackTools.setStackSize(itemStack, remaining);
+                if (remaining <= 0) {
+                    itemStack.setCount(0);
+                } else {
+                    itemStack.setCount(remaining);
+                }
                 player.inventory.setInventorySlotContents(player.inventory.currentItem, itemStack);
                 player.openContainer.detectAndSendChanges();
                 return false;
@@ -75,7 +78,7 @@ public class HandleSupport {
     private boolean getItemFromHandle(TileEntity te, EntityPlayer player, IInterfaceHandle handle, int amount, boolean exactSlot) {
         if (!player.getEntityWorld().isRemote) {
             ItemStack itemStack = handle.extractOutput(te, player, amount);
-            if (ItemStackTools.isEmpty(itemStack)) {
+            if (itemStack.isEmpty()) {
                 return false;
             }
             // @todo check and test!
@@ -99,11 +102,11 @@ public class HandleSupport {
                 return false;
             }
             ItemStack itemStack = handle.extractOutput(te, player, 1);
-            if (ItemStackTools.isEmpty(itemStack)) {
+            if (itemStack.isEmpty()) {
                 return false;
             }
 
-            heldItem = ItemStackTools.incStackSize(heldItem, -1);
+            heldItem.shrink(1);
             player.setHeldItem(EnumHand.MAIN_HAND, heldItem);
 
             InventoryHelper.giveItemToPlayer(player, itemStack);
@@ -113,7 +116,7 @@ public class HandleSupport {
 
     public boolean handleClick(TileEntity te, EntityPlayer player, IInterfaceHandle handle) {
         ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (heldItem.isEmpty()) {
             // Nothing happens if the player doesn't have anything in his/her hand
             return false;
         }
@@ -159,14 +162,19 @@ public class HandleSupport {
                     }
                 } else {
                     if (!te.getWorld().isRemote) {
-                        ChatTools.addChatMessage(player, new TextComponentString(handle.getExtractionMessage()));
+                        ITextComponent component = new TextComponentString(handle.getExtractionMessage());
+                        if (player instanceof EntityPlayer) {
+                            ((EntityPlayer) player).sendStatusMessage(component, false);
+                        } else {
+                            player.sendMessage(component);
+                        }
                     }
                 }
                 return true;
             }
         }
 
-        if (ItemStackTools.isEmpty(heldItem)) {
+        if (heldItem.isEmpty()) {
             int amount = handle.getExtractAmount(sneaking);
             return getItemFromHandle(te, player, handle, amount, true);
         } else if (handle.acceptAsInput(heldItem)) {

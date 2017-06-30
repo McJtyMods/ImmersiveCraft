@@ -1,7 +1,6 @@
 package mcjty.immcraft.api.helpers;
 
 import mcjty.immcraft.api.generic.GenericBlock;
-import mcjty.lib.tools.MathTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumFacing;
@@ -53,12 +52,14 @@ public class OrientationTools {
                 return DOWN;
             }
         }
-        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int i = (int) ((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D);
+        int l = ((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D < i ? i - 1 : i) & 3;
         return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
     }
 
     public static EnumFacing determineOrientationHoriz(EntityLivingBase entityLivingBase) {
-        int l = MathTools.floor((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        int i = (int) ((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D);
+        int l = ((entityLivingBase.rotationYaw * 4.0F / 360.0F) + 0.5D < i ? i - 1 : i) & 3;
         return l == 0 ? EnumFacing.NORTH : (l == 1 ? EnumFacing.EAST : (l == 2 ? SOUTH : (l == 3 ? EnumFacing.WEST : DOWN)));
     }
 

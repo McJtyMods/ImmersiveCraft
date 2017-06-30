@@ -7,9 +7,8 @@ import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.compat.MainCompatHandler;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.proxy.CommonProxy;
-import mcjty.lib.compat.CompatCreativeTabs;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
@@ -43,10 +42,10 @@ public class ImmersiveCraft {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
         logger = event.getModLog();
-        creativeTab = new CompatCreativeTabs("immcraft") {
+        creativeTab = new CreativeTabs("immcraft") {
             @Override
-            protected Item getItem() {
-                return Item.getItemFromBlock(ModBlocks.rockBlock);
+            public ItemStack getTabIconItem() {
+                return new ItemStack(ModBlocks.rockBlock);
             }
         };
         proxy.preInit(event);

@@ -2,7 +2,6 @@ package mcjty.immcraft.api.handles;
 
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.input.KeyType;
-import mcjty.lib.tools.ItemStackTools;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -42,7 +41,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
         if (inventoryTE instanceof IInventory) {
             return ((IInventory) inventoryTE).getStackInSlot(slot);
         } else {
-            return ItemStackTools.getEmptyStack();
+            return ItemStack.EMPTY;
         }
     }
 
@@ -59,7 +58,7 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     @Override
     public int insertInput(TileEntity te, ItemStack stack) {
         int remaining = InventoryHelper.mergeItemStackSafe((IInventory) te, null, stack, slot, slot + 1, null);
-        if (remaining != ItemStackTools.getStackSize(stack)) {
+        if (remaining != stack.getCount()) {
             IBlockState state = te.getWorld().getBlockState(te.getPos());
             te.getWorld().notifyBlockUpdate(te.getPos(), state, state, 3);
         }
@@ -79,10 +78,10 @@ public class DefaultInterfaceHandle<T extends DefaultInterfaceHandle> implements
     @Override
     public ItemStack extractOutput(TileEntity genericTE, EntityPlayer player, int amount) {
         IInventory te = (IInventory) genericTE;
-        ItemStack stack = ItemStackTools.getEmptyStack();
+        ItemStack stack = ItemStack.EMPTY;
         if (amount == -1) {
             stack = te.getStackInSlot(slot);
-            te.setInventorySlotContents(slot, ItemStackTools.getEmptyStack());
+            te.setInventorySlotContents(slot, ItemStack.EMPTY);
         } else {
             stack = te.decrStackSize(slot, amount);
         }
