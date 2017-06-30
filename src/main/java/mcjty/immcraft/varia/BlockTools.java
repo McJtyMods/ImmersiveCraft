@@ -4,13 +4,9 @@ import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
-import mcjty.lib.tools.ItemStackTools;
-import mcjty.lib.tools.WorldTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,7 +16,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.Optional;
-import java.util.Random;
 
 import static net.minecraft.util.EnumFacing.UP;
 
@@ -69,10 +64,10 @@ public class BlockTools {
     public static boolean isTopValidAndSolid(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        // @todo
-//        if (!block.isBlockSolid(world, pos, UP)) {
-//            return false;
-//        }
+        //@todo block.getBlockFaceShape()
+        if (!block.isSideSolid(state, world, pos, UP)) {
+            return false;
+        }
         if (!block.getMaterial(state).isSolid()) {
             return false;
         }
@@ -84,10 +79,9 @@ public class BlockTools {
 
     public static boolean isSideValidAndSolid(World world, BlockPos pos, EnumFacing side, Block block) {
         IBlockState state = world.getBlockState(pos);
-        // @todo
-//        if (!block.isBlockSolid(world, pos, side)) {
-//            return false;
-//        }
+        if (!block.isSideSolid(state, world, pos, side)) {
+            return false;
+        }
         if (!block.getMaterial(state).isSolid()) {
             return false;
         }

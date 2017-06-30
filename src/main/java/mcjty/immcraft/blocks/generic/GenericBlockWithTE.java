@@ -1,7 +1,6 @@
 package mcjty.immcraft.blocks.generic;
 
 
-import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
@@ -20,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import java.util.List;
 
@@ -36,7 +34,6 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
     @Override
     protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super.register(modid, name, clazz, itemBlockClass);
-        GameRegistry.registerTileEntity(clazz, ImmersiveCraft.MODID + name + "TE");
     }
 
     @Override

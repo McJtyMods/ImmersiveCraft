@@ -21,6 +21,7 @@ import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.concurrent.Callable;
@@ -38,9 +39,6 @@ public class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
         OBJLoader.INSTANCE.addDomain(ImmersiveCraft.MODID);
         ModelLoaderRegistry.registerLoader(new BundleModelLoader());
-
-        ModBlocks.initModels();
-        ModItems.initModels();
     }
 
     @Override
@@ -48,7 +46,6 @@ public class ClientProxy extends CommonProxy {
         super.init(e);
         FMLCommonHandler.instance().bus().register(new InputHandler());
         KeyBindings.init();
-        ModBlocks.initItemModels();
 
         font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false,
                 new char[] { '\u2022', '\u2014' });
@@ -56,6 +53,12 @@ public class ClientProxy extends CommonProxy {
                 new char[] { '\u2022', '\u2014' });
         font_italic = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_italic.ttf"), 64, false,
                 new char[] { '\u2022', '\u2014' });
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent e) {
+        super.postInit(e);
+        ModBlocks.initItemModels();
     }
 
     @Override

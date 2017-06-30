@@ -10,6 +10,7 @@ import mcjty.immcraft.blocks.bundle.BundleTE;
 import mcjty.immcraft.cables.CableRenderer;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.config.GeneralConfiguration;
+import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.varia.BlockTools;
@@ -24,6 +25,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -97,4 +99,11 @@ public class ClientForgeEventHandlers {
             BlockRenderHelper.renderHandleBoxes(id, p, event.getPartialTicks(), pos);
         }
     }
+
+    @SubscribeEvent
+    public void registerModels(ModelRegistryEvent event) {
+        ModBlocks.initModels();
+        ModItems.initModels();
+    }
+
 }

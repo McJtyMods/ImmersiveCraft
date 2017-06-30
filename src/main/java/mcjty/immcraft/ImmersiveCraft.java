@@ -20,18 +20,13 @@ import java.util.function.Function;
 
 @Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME,
         dependencies =
-                "required-after:compatlayer@[" + ImmersiveCraft.COMPATLAYER_VER + ",);" +
-                "after:Forge@[" + ImmersiveCraft.MIN_FORGE10_VER + ",);" +
                 "after:forge@[" + ImmersiveCraft.MIN_FORGE11_VER + ",)",
-        version = ImmersiveCraft.VERSION,
-        acceptedMinecraftVersions = "[1.10,1.12)")
+        version = ImmersiveCraft.VERSION)
 public class ImmersiveCraft {
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
     public static final String VERSION = "1.3.3";
-    public static final String MIN_FORGE10_VER = "12.18.1.2082";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
-    public static final String COMPATLAYER_VER = "0.1.6";
 
     @SidedProxy(clientSide = "mcjty.immcraft.proxy.ClientProxy", serverSide = "mcjty.immcraft.proxy.ServerProxy")
     public static CommonProxy proxy;

@@ -1,6 +1,8 @@
 package mcjty.immcraft.events;
 
 
+import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.immcraft.blocks.ModBlocks;
@@ -192,6 +194,16 @@ public class ForgeEventHandlers {
     @SubscribeEvent
     public void registerSounds(RegistryEvent.Register<SoundEvent> sounds) {
         SoundController.init(sounds.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void registerBlocks(RegistryEvent.Register<Block> event) {
+        McJtyRegister.registerBlocks(ImmersiveCraft.MODID, event.getRegistry());
+    }
+
+    @SubscribeEvent
+    public void registerItems(RegistryEvent.Register<Item> event) {
+        McJtyRegister.registerItems(ImmersiveCraft.MODID, event.getRegistry());
     }
 
 }

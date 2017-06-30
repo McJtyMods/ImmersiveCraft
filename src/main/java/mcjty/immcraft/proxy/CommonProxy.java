@@ -19,7 +19,9 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import java.util.concurrent.Callable;
 
 public class CommonProxy {
+
     public void preInit(FMLPreInitializationEvent e) {
+        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         PacketHandler.registerMessages("immcraft");
 
         ConfigSetup.preInit(e);
@@ -30,7 +32,6 @@ public class CommonProxy {
 
     public void init(FMLInitializationEvent e) {
         NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
-        MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         ModBlocks.initCrafting();
         ModItems.initCrafting();
     }

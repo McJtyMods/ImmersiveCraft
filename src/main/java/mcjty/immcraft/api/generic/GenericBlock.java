@@ -65,11 +65,11 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
     }
 
     public GenericBlock(Material material, String modid, String name, boolean inTab) {
-        this(material, modid, name, null, null);
+        this(material, modid, name, null, ItemBlock.class);
     }
 
     public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz) {
-        this(material, modid, name, clazz, null);
+        this(material, modid, name, clazz, ItemBlock.class);
     }
 
     public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {

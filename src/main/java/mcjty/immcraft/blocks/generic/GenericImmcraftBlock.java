@@ -23,11 +23,11 @@ import java.util.List;
 public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvider, TOPInfoProvider {
 
     public GenericImmcraftBlock(Material material, String name, boolean inTab) {
-        this(material, name, null, null, inTab);
+        this(material, name, null, ItemBlock.class, inTab);
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, boolean inTab) {
-        this(material, name, clazz, null, inTab);
+        this(material, name, clazz, ItemBlock.class, inTab);
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
