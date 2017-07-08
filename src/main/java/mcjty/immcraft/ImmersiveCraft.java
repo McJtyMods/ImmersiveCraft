@@ -24,7 +24,7 @@ import java.util.function.Function;
 public class ImmersiveCraft {
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
-    public static final String VERSION = "1.3.3";
+    public static final String VERSION = "1.3.4";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
     @SidedProxy(clientSide = "mcjty.immcraft.proxy.ClientProxy", serverSide = "mcjty.immcraft.proxy.ServerProxy")
