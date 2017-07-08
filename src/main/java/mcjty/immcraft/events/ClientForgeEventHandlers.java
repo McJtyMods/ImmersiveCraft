@@ -13,12 +13,14 @@ import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
+import mcjty.immcraft.sound.SoundController;
 import mcjty.immcraft.varia.BlockTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -26,6 +28,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.MouseEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -103,6 +106,11 @@ public class ClientForgeEventHandlers {
     public void registerModels(ModelRegistryEvent event) {
         ModBlocks.initModels();
         ModItems.initModels();
+    }
+
+    @SubscribeEvent
+    public void registerSounds(RegistryEvent.Register<SoundEvent> sounds) {
+        SoundController.init(sounds.getRegistry());
     }
 
 }

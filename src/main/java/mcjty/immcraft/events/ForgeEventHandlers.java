@@ -10,7 +10,6 @@ import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
-import mcjty.immcraft.sound.SoundController;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.immcraft.varia.SoundTools;
 import net.minecraft.block.Block;
@@ -25,7 +24,6 @@ import net.minecraft.item.ItemTool;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -188,11 +186,6 @@ public class ForgeEventHandlers {
                 }
             }
         }
-    }
-
-    @SubscribeEvent
-    public void registerSounds(RegistryEvent.Register<SoundEvent> sounds) {
-        SoundController.init(sounds.getRegistry());
     }
 
     @SubscribeEvent
