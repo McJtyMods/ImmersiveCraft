@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
@@ -31,7 +32,7 @@ public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvi
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
-        super(material, ImmersiveCraft.api.getRegistry(), ImmersiveCraft.MODID, name, clazz, itemBlockClass);
+        super(material, McJtyRegister.getRegistry(), ImmersiveCraft.MODID, name, clazz, itemBlockClass);
         if (inTab) {
             setCreativeTab(ImmersiveCraft.creativeTab);
         }

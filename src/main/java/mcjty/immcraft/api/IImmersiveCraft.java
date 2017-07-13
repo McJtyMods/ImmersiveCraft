@@ -4,7 +4,6 @@ import mcjty.immcraft.api.cable.IBundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
-import mcjty.immcraft.api.generic.IGenericRegistry;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
@@ -26,6 +25,7 @@ public interface IImmersiveCraft {
 
     /**
      * Create a helper to work with cable itemblocks
+     *
      * @param type
      * @param subType
      * @return
@@ -34,6 +34,7 @@ public interface IImmersiveCraft {
 
     /**
      * Create a multiblock network for the given factory. If the network already exists nothing happens
+     *
      * @param networkName
      * @param factory
      * @param <T>
@@ -43,6 +44,7 @@ public interface IImmersiveCraft {
 
     /**
      * Create a multiblock network for a cable
+     *
      * @param networkName
      * @param type
      * @param subType
@@ -52,6 +54,7 @@ public interface IImmersiveCraft {
 
     /**
      * Get the bundle at the specific position.
+     *
      * @param world
      * @param pos
      * @return
@@ -80,9 +83,5 @@ public interface IImmersiveCraft {
      * at the client side.
      */
     void openManual(EntityPlayer player);
-
-    /**
-     * Get the registry for registring blocks and items
-     */
-    IGenericRegistry getRegistry();
 }
+

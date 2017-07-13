@@ -1,5 +1,6 @@
 package mcjty.immcraft;
 
+import mcjty.immcraft.api.generic.IGenericRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -17,6 +18,20 @@ public class McJtyRegister {
 
     private static final List<MBlock> blocks = new ArrayList<>();
     private static final List<MItem> items = new ArrayList<>();
+
+    public static IGenericRegistry getRegistry() {
+        return new IGenericRegistry() {
+            @Override
+            public void registerLater(Block block, String modid, @Nullable Class<? extends ItemBlock> itemBlockClass, @Nullable Class<? extends TileEntity> tileEntityClass) {
+                McJtyRegister.registerLater(block, modid, itemBlockClass, tileEntityClass);
+            }
+
+            @Override
+            public void registerLater(Item item, String modid) {
+                McJtyRegister.registerLater(item, modid);
+            }
+        };
+    }
 
     public static void registerLater(Block block, String mod, @Nullable Class<? extends ItemBlock> itemBlockClass, @Nullable Class<? extends TileEntity> tileEntityClass) {
         blocks.add(new MBlock(block, mod, itemBlockClass, tileEntityClass));
