@@ -4,6 +4,7 @@ import mcjty.immcraft.api.cable.IBundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.generic.IGenericRegistry;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
 import mcjty.immcraft.api.multiblock.IMultiBlockNetwork;
@@ -79,4 +80,9 @@ public interface IImmersiveCraft {
      * at the client side.
      */
     void openManual(EntityPlayer player);
+
+    /**
+     * Get the registry for registring blocks and items
+     */
+    IGenericRegistry getRegistry();
 }

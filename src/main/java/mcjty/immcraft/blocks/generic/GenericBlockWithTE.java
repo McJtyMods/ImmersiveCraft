@@ -1,7 +1,6 @@
 package mcjty.immcraft.blocks.generic;
 
 
-import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.theoneprobe.api.IProbeHitData;
@@ -13,7 +12,6 @@ import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.TextFormatting;
@@ -28,11 +26,6 @@ public class GenericBlockWithTE<T extends GenericImmcraftTE> extends GenericImmc
     public GenericBlockWithTE(Material material, String name, Class<? extends GenericImmcraftTE> clazz, boolean inTab) {
         super(material, name, clazz, inTab);
         teClazz = clazz;
-    }
-
-    @Override
-    protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super.register(modid, name, clazz, itemBlockClass);
     }
 
     @Override

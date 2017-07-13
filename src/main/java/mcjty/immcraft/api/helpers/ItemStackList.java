@@ -1,4 +1,4 @@
-package mcjty.immcraft.varia;
+package mcjty.immcraft.api.helpers;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;

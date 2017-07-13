@@ -1,11 +1,13 @@
 package mcjty.immcraft.apiimpl;
 
 import mcjty.immcraft.ImmersiveCraft;
+import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.cable.IBundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
 import mcjty.immcraft.api.cable.ICableSubType;
 import mcjty.immcraft.api.cable.ICableType;
+import mcjty.immcraft.api.generic.IGenericRegistry;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.api.multiblock.IMultiBlockFactory;
@@ -22,13 +24,17 @@ import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.proxy.GuiProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ImmersiveCraftApi implements IImmersiveCraft {
@@ -104,5 +110,20 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
     @Override
     public void openManual(EntityPlayer player) {
         player.openGui(ImmersiveCraft.instance, GuiProxy.GUI_MANUAL, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int) player.posZ);
+    }
+
+    @Override
+    public IGenericRegistry getRegistry() {
+        return new IGenericRegistry() {
+            @Override
+            public void registerLater(Block block, String modid, @Nullable Class<? extends ItemBlock> itemBlockClass, @Nullable Class<? extends TileEntity> tileEntityClass) {
+                McJtyRegister.registerLater(block, modid, itemBlockClass, tileEntityClass);
+            }
+
+            @Override
+            public void registerLater(Item item, String modid) {
+                McJtyRegister.registerLater(item, modid);
+            }
+        };
     }
 }

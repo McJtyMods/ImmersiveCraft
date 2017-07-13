@@ -1,8 +1,6 @@
 package mcjty.immcraft.api.generic;
 
 
-import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
@@ -64,23 +62,15 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
         return MetaUsage.HORIZROTATION;
     }
 
-    public GenericBlock(Material material, String modid, String name, boolean inTab) {
-        this(material, modid, name, null, ItemBlock.class);
-    }
-
-    public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz) {
-        this(material, modid, name, clazz, ItemBlock.class);
-    }
-
-    public GenericBlock(Material material, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+    public GenericBlock(Material material, IGenericRegistry registry, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         super(material);
-        register(modid, name, clazz, itemBlockClass);
+        register(registry, modid, name, clazz, itemBlockClass);
     }
 
-    protected void register(String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
+    protected void register(IGenericRegistry registry, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
         setRegistryName(name);
         setUnlocalizedName(modid + "." + name);
-        McJtyRegister.registerLater(this, ImmersiveCraft.MODID, itemBlockClass, clazz);
+        registry.registerLater(this, modid, itemBlockClass, clazz);
     }
 
     @Override
