@@ -2,6 +2,9 @@ package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.api.handles.InputInterfaceHandle;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -24,6 +27,35 @@ public class ShelfTE extends GenericInventoryTE {
                 i++;
             }
         }
+    }
+
+
+    @Override
+    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
+        super.onDataPacket(net, packet);
+        if (getWorld().isRemote) {
+            // If needed send a render update.
+            // @todo try to check if it is really needed
+            getWorld().markBlockRangeForRenderUpdate(getPos(), getPos());
+        }
+    }
+
+    @Override
+    public ItemStack decrStackSize(int index, int amount) {
+        markDirtyClient();
+        return super.decrStackSize(index, amount);
+    }
+
+    @Override
+    public void setInventorySlotContents(int index, ItemStack stack) {
+        markDirtyClient();
+        super.setInventorySlotContents(index, stack);
+    }
+
+    @Override
+    public ItemStack removeStackFromSlot(int index) {
+        markDirtyClient();
+        return super.removeStackFromSlot(index);
     }
 
     protected InputInterfaceHandle createHandle(int i) {
