@@ -326,7 +326,8 @@ public abstract class GenericBlock extends CompatBlock implements IOrientedBlock
         if (rc != null) {
             return rc;
         }
-
+//        return this.rayTrace(pos, start, end, blockState.getBoundingBox(worldIn, pos));
+//@todo investigate!
         AxisAlignedBB boundingBox = blockState.getBoundingBox(worldIn, pos);
         RayTraceResult raytraceresult = boundingBox.calculateIntercept(start, end);
         return raytraceresult == null ? null : new RayTraceResult(raytraceresult.hitVec.add(p), raytraceresult.sideHit, pos);
