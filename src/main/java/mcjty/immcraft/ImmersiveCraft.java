@@ -20,6 +20,7 @@ import java.util.function.Function;
 @Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME,
         dependencies =
                 "after:forge@[" + ImmersiveCraft.MIN_FORGE11_VER + ",)",
+        acceptedMinecraftVersions = "[1.12,1.13)",
         version = ImmersiveCraft.VERSION)
 public class ImmersiveCraft {
     public static final String MODID = "immcraft";
