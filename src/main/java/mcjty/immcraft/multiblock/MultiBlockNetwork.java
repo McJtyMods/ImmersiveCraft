@@ -2,7 +2,7 @@ package mcjty.immcraft.multiblock;
 
 import mcjty.immcraft.api.multiblock.*;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
-import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.ImmCraftPacketHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -67,7 +67,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
         long time = System.currentTimeMillis();
         if ((!lastUpdateTime.containsKey(id)) || (time - lastUpdateTime.get(id)) > 100) {
             lastUpdateTime.put(id, time);
-            PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new MultiblockInfoPacketServer(networkName, id)));
+            ImmCraftPacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new MultiblockInfoPacketServer(networkName, id)));
         }
     }
 

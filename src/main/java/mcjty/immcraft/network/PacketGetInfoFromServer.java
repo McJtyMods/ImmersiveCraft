@@ -15,7 +15,7 @@ public class PacketGetInfoFromServer implements IMessage {
     @Override
     public void fromBytes(ByteBuf buf) {
         int id = buf.readInt();
-        Class<? extends InfoPacketServer> clazz = PacketHandler.getServerInfoPacket(id);
+        Class<? extends InfoPacketServer> clazz = ImmCraftPacketHandler.getServerInfoPacket(id);
         try {
             packet = clazz.newInstance();
         } catch (InstantiationException e) {
@@ -28,7 +28,7 @@ public class PacketGetInfoFromServer implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(PacketHandler.getServerInfoPacketId(packet.getClass()));
+        buf.writeInt(ImmCraftPacketHandler.getServerInfoPacketId(packet.getClass()));
         packet.toBytes(buf);
     }
 
@@ -48,7 +48,7 @@ public class PacketGetInfoFromServer implements IMessage {
         }
 
         private void sendReplyToClient(InfoPacketClient reply, EntityPlayerMP player) {
-            PacketHandler.INSTANCE.sendTo(new PacketReturnInfoToClient(reply), player);
+            ImmCraftPacketHandler.INSTANCE.sendTo(new PacketReturnInfoToClient(reply), player);
         }
     }
 }

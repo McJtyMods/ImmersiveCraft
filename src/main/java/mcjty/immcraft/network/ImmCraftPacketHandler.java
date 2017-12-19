@@ -3,14 +3,13 @@ package mcjty.immcraft.network;
 
 import mcjty.immcraft.multiblock.MultiblockInfoPacketClient;
 import mcjty.immcraft.multiblock.MultiblockInfoPacketServer;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PacketHandler {
+public class ImmCraftPacketHandler {
     private static int ID = 12;
     private static int packetId = 0;
 
@@ -48,15 +47,15 @@ public class PacketHandler {
         return clientInfoPacketsToId.get(clazz);
     }
 
-    public PacketHandler() {
+    public ImmCraftPacketHandler() {
     }
 
     public static int nextID() {
         return ID++;
     }
 
-    public static void registerMessages(String channelName) {
-        INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(channelName);
+    public static void registerMessages(SimpleNetworkWrapper network) {
+        INSTANCE = network;
         registerMessages();
     }
 

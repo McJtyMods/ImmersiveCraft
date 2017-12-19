@@ -11,7 +11,7 @@ import mcjty.immcraft.cables.CableRenderer;
 import mcjty.immcraft.cables.CableSection;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.items.ModItems;
-import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.network.PacketSendKey;
 import mcjty.immcraft.sound.SoundController;
 import mcjty.immcraft.varia.BlockTools;
@@ -54,9 +54,9 @@ public class ClientForgeEventHandlers {
 
     private void handleWheel(GenericTE genericTE, int dWheel, MouseEvent event) {
         if (dWheel < 0) {
-            PacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_PREVIOUSITEM));
+            ImmCraftPacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_PREVIOUSITEM));
         } else {
-            PacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_NEXTITEM));
+            ImmCraftPacketHandler.INSTANCE.sendToServer(new PacketSendKey(KeyType.KEY_NEXTITEM));
         }
         event.setCanceled(true);
     }

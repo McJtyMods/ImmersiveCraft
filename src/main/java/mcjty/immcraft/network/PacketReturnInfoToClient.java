@@ -11,7 +11,7 @@ public class PacketReturnInfoToClient implements IMessage {
     @Override
     public void fromBytes(ByteBuf buf) {
         int id = buf.readInt();
-        Class<? extends InfoPacketClient> clazz = PacketHandler.getClientInfoPacket(id);
+        Class<? extends InfoPacketClient> clazz = ImmCraftPacketHandler.getClientInfoPacket(id);
         try {
             packet = clazz.newInstance();
         } catch (InstantiationException e) {
@@ -24,7 +24,7 @@ public class PacketReturnInfoToClient implements IMessage {
 
     @Override
     public void toBytes(ByteBuf buf) {
-        buf.writeInt(PacketHandler.getClientInfoPacketId(packet.getClass()));
+        buf.writeInt(ImmCraftPacketHandler.getClientInfoPacketId(packet.getClass()));
         packet.toBytes(buf);
     }
 

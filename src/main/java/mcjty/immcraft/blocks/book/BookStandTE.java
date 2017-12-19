@@ -7,7 +7,7 @@ import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookParser;
 import mcjty.immcraft.books.RenderSection;
 import mcjty.immcraft.config.GeneralConfiguration;
-import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.network.PacketPageFlip;
 import mcjty.immcraft.sound.SoundController;
 import net.minecraft.entity.player.EntityPlayer;
@@ -80,12 +80,12 @@ public class BookStandTE extends GenericImmcraftTE {
     }
 
     private boolean pageDec(EntityPlayer player) {
-        PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), -1), (EntityPlayerMP) player);
+        ImmCraftPacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), -1), (EntityPlayerMP) player);
         return true;
     }
 
     private boolean pageInc(EntityPlayer player) {
-        PacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), 1), (EntityPlayerMP) player);
+        ImmCraftPacketHandler.INSTANCE.sendTo(new PacketPageFlip(getPos(), 1), (EntityPlayerMP) player);
         return true;
     }
 

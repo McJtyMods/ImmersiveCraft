@@ -1,7 +1,6 @@
 package mcjty.immcraft.apiimpl;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.cable.IBundle;
 import mcjty.immcraft.api.cable.ICableItemBlockHelper;
@@ -20,21 +19,16 @@ import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.multiblock.MultiBlockNetwork;
 import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
-import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
 import mcjty.immcraft.proxy.GuiProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.IForgeRegistry;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class ImmersiveCraftApi implements IImmersiveCraft {
@@ -94,12 +88,12 @@ public class ImmersiveCraftApi implements IImmersiveCraft {
 
     @Override
     public void requestIngredients(BlockPos pos) {
-        PacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new IngredientsInfoPacketServer(pos)));
+        ImmCraftPacketHandler.INSTANCE.sendToServer(new PacketGetInfoFromServer(new IngredientsInfoPacketServer(pos)));
     }
 
     @Override
     public void registerBlockClick() {
-        PacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
+        ImmCraftPacketHandler.INSTANCE.sendToServer(new PacketHitBlock(Minecraft.getMinecraft().objectMouseOver));
     }
 
     @Override

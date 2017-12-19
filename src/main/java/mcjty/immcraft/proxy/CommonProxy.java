@@ -6,9 +6,10 @@ import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.config.ConfigSetup;
 import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.items.ModItems;
-import mcjty.immcraft.network.PacketHandler;
+import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.worldgen.WorldGen;
 import mcjty.lib.McJtyLib;
+import mcjty.lib.network.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,6 +17,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 
 import java.util.concurrent.Callable;
 
@@ -24,7 +26,9 @@ public class CommonProxy {
     public void preInit(FMLPreInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         McJtyLib.preInit(e);
-        PacketHandler.registerMessages("immcraft");
+
+        SimpleNetworkWrapper network = PacketHandler.registerMessages(ImmersiveCraft.MODID, "immcraft");
+        ImmCraftPacketHandler.registerMessages(network);
 
         ConfigSetup.preInit(e);
         ModBlocks.init();
