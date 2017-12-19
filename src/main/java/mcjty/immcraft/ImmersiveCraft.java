@@ -7,7 +7,9 @@ import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.compat.MainCompatHandler;
 import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.proxy.CommonProxy;
+import mcjty.lib.base.ModBase;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,12 +21,14 @@ import java.util.function.Function;
 
 @Mod(modid = ImmersiveCraft.MODID, name = ImmersiveCraft.MODNAME,
         dependencies =
+                "required-after:mcjtylib_ng@[" + ImmersiveCraft.MIN_MCJTYLIB_VER + ",);" +
                 "after:forge@[" + ImmersiveCraft.MIN_FORGE11_VER + ",)",
         acceptedMinecraftVersions = "[1.12,1.13)",
         version = ImmersiveCraft.VERSION)
-public class ImmersiveCraft {
+public class ImmersiveCraft implements ModBase {
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
+    public static final String MIN_MCJTYLIB_VER = "2.5.0";
     public static final String VERSION = "1.3.6";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
@@ -80,5 +84,13 @@ public class ImmersiveCraft {
         }
     }
 
+    @Override
+    public String getModId() {
+        return ImmersiveCraft.MODID;
+    }
 
+    @Override
+    public void openManual(EntityPlayer entityPlayer, int i, String s) {
+        // @todo
+    }
 }

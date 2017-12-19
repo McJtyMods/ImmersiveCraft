@@ -8,6 +8,7 @@ import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.PacketHandler;
 import mcjty.immcraft.worldgen.WorldGen;
+import mcjty.lib.McJtyLib;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -22,6 +23,7 @@ public class CommonProxy {
 
     public void preInit(FMLPreInitializationEvent e) {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
+        McJtyLib.preInit(e);
         PacketHandler.registerMessages("immcraft");
 
         ConfigSetup.preInit(e);

@@ -3,7 +3,7 @@ package mcjty.immcraft.multiblock;
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.api.multiblock.IMultiBlockClientInfo;
 import mcjty.immcraft.network.InfoPacketClient;
-import mcjty.immcraft.network.NetworkTools;
+import mcjty.lib.network.NetworkTools;
 import net.minecraft.client.entity.EntityPlayerSP;
 
 public class MultiblockInfoPacketClient implements InfoPacketClient {

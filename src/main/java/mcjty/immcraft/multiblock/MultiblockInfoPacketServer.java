@@ -4,7 +4,7 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.api.multiblock.IMultiBlock;
 import mcjty.immcraft.network.InfoPacketClient;
 import mcjty.immcraft.network.InfoPacketServer;
-import mcjty.immcraft.network.NetworkTools;
+import mcjty.lib.network.NetworkTools;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.Optional;
