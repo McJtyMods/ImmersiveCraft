@@ -29,6 +29,9 @@ repositories {
     maven { // CompatLayer
         url "http://maven.k-4u.nl"
     }
+    maven { // OC Repo
+        url "http://maven.cil.li/"
+    }
     maven { // TOP
         name 'tterrag maven'
         url "http://maven.tterrag.com/"
@@ -59,6 +62,9 @@ dependencies {
     deobfCompile "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.11-5"
     deobfCompile "cofh:RedstoneFlux:1.12-2.0.0.1:universal"
     deobfCompile "com.github.mcjty:intwheel:1.12-1.2.7"
+    deobfCompile "com.github.mcjty:mcjtylib:1.12-2.5.1-SNAPSHOT"
+
+    compile "li.cil.oc:OpenComputers:MC1.12.1-1.7.+:api"
 }
 
 jar {

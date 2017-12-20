@@ -9,6 +9,7 @@ import mcjty.immcraft.font.FontLoader;
 import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
+import mcjty.lib.McJtyLibClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +33,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
         super.preInit(e);
+        McJtyLibClient.preInit(e);
 
         MinecraftForge.EVENT_BUS.register(new ClientForgeEventHandlers());
         OBJLoader.INSTANCE.addDomain(ImmersiveCraft.MODID);
