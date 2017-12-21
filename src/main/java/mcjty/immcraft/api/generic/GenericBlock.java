@@ -46,16 +46,6 @@ public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
         super(ImmersiveCraft.instance, material, name, itemBlockClass);
     }
 
-    protected EnumFacing getOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
-        switch (getRotationType()) {
-            case HORIZROTATION:
-                return OrientationTools.determineOrientationHoriz(entityLivingBase);
-            case ROTATION:
-                return OrientationTools.determineOrientation(x, y, z, entityLivingBase);
-        }
-        return null;
-    }
-
     @Override
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getRotationType()) {
@@ -91,14 +81,6 @@ public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
             default:
                 return v;
         }
-    }
-
-    public static EnumFacing getFacingHoriz(int meta) {
-        return EnumFacing.values()[meta+2];
-    }
-
-    public static EnumFacing getFacing(int meta) {
-        return EnumFacing.values()[meta & 7];
     }
 
     @Override

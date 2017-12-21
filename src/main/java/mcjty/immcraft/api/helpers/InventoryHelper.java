@@ -1,5 +1,6 @@
 package mcjty.immcraft.api.helpers;
 
+import mcjty.lib.varia.ItemStackList;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;

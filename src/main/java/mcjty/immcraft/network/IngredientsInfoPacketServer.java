@@ -1,8 +1,8 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.network.NetworkTools;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.math.BlockPos;
 
@@ -23,12 +23,12 @@ public class IngredientsInfoPacketServer implements InfoPacketServer {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        pos = NetworkTools.readPos(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        BlockPosTools.toBytes(pos, buf);
+        NetworkTools.writePos(buf, pos);
     }
 
     @Override

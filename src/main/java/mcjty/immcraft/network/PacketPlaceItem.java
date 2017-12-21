@@ -2,11 +2,11 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.network.NetworkTools;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -28,14 +28,14 @@ public class PacketPlaceItem implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        blockPos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        blockPos = NetworkTools.readPos(buf);
         side = EnumFacing.values()[buf.readShort()];
         hitVec = new Vec3d(buf.readDouble(), buf.readDouble(), buf.readDouble());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        BlockPosTools.toBytes(blockPos, buf);
+        NetworkTools.writePos(buf, blockPos);
         buf.writeShort(side.ordinal());
         buf.writeDouble(hitVec.x);
         buf.writeDouble(hitVec.y);

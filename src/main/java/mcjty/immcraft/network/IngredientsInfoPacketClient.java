@@ -1,7 +1,6 @@
 package mcjty.immcraft.network;
 
 import io.netty.buffer.ByteBuf;
-import mcjty.immcraft.api.helpers.BlockPosTools;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.network.NetworkTools;
 import net.minecraft.client.Minecraft;
@@ -27,14 +26,14 @@ public class IngredientsInfoPacketClient implements InfoPacketClient {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        pos = new BlockPos(buf.readInt(), buf.readInt(), buf.readInt());
+        pos = NetworkTools.readPos(buf);
         ingredients = NetworkTools.readStringList(buf);
         missingIngredients = NetworkTools.readStringList(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        BlockPosTools.toBytes(pos, buf);
+        NetworkTools.writePos(buf, pos);
         NetworkTools.writeStringList(buf, ingredients);
         NetworkTools.writeStringList(buf, missingIngredients);
     }
