@@ -1,6 +1,6 @@
 package mcjty.immcraft.books.renderers;
 
-import mcjty.immcraft.api.rendering.BlockRenderHelper;
+import mcjty.lib.gui.RenderHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -38,7 +38,7 @@ public class RenderElementImage implements RenderElement {
         GlStateManager.scale(scale, scale, 1.0f);
         GlStateManager.color(1, 1, 1, 1);
         Minecraft.getMinecraft().getTextureManager().bindTexture(image);
-        BlockRenderHelper.drawTexturedModalRect((int) (x / scale), (int) ((y+dy) / scale), u, v, w, h, totw, toth);
+        RenderHelper.drawTexturedModalRect((int) (x / scale), (int) ((y+dy) / scale), u, v, w, h, totw, toth);
         GlStateManager.popMatrix();
         return null;
     }

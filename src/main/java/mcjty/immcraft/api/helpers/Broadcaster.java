@@ -28,11 +28,7 @@ public class Broadcaster {
             double sqdist = player.getDistanceSq(pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5);
             if (sqdist < radius) {
                 ITextComponent component = new TextComponentString(message);
-                if (player instanceof EntityPlayer) {
-                    ((EntityPlayer) player).sendStatusMessage(component, false);
-                } else {
-                    player.sendMessage(component);
-                }
+                player.sendStatusMessage(component, false);
             }
         }
     }
