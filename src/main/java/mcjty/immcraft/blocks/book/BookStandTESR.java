@@ -6,6 +6,7 @@ import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.immcraft.api.util.Plane;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookRenderHelper;
+import mcjty.lib.container.BaseBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -51,10 +52,10 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
 
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x + .5, y + 0.46, z + .5);
-                BlockRenderHelper.rotateFacing(tileEntity, ((GenericBlock) block).getMetaUsage());
+                BlockRenderHelper.rotateFacing(tileEntity, ((BaseBlock) block).getRotationType());
                 GlStateManager.translate(0, 0, 0.13F);
 
-                EnumFacing orientation = GenericBlock.getFrontDirection(((GenericBlock) block).getMetaUsage(), tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+                EnumFacing orientation = BaseBlock.getFrontDirection(((BaseBlock) block).getRotationType(), tileEntity.getWorld().getBlockState(tileEntity.getPos()));
                 Plane plane = getPlane(orientation);
                 plane = plane.offset(new Vec3d(x, y, z));
 

@@ -1,7 +1,7 @@
 package mcjty.immcraft.items;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.ItemTool;
 import net.minecraftforge.client.model.ModelLoader;
@@ -18,7 +18,7 @@ public class ItemChisel extends ItemTool {
         setRegistryName("chisel");
         setUnlocalizedName(ImmersiveCraft.MODID + ".chisel");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        McJtyRegister.registerLater(this, ImmersiveCraft.MODID);
+        McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 
     @SideOnly(Side.CLIENT)

@@ -1,8 +1,8 @@
 package mcjty.immcraft.items;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.book.IBook;
+import mcjty.lib.McJtyRegister;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -23,7 +23,7 @@ public class ImmersiveCraftManual extends Item implements IBook {
         setRegistryName("manual");
         setUnlocalizedName(ImmersiveCraft.MODID + ".manual");
         setCreativeTab(ImmersiveCraft.creativeTab);
-        McJtyRegister.registerLater(this, ImmersiveCraft.MODID);
+        McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 
     @Override

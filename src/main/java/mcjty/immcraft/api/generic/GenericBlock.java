@@ -1,28 +1,26 @@
 package mcjty.immcraft.api.generic;
 
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.immcraft.api.helpers.OrientationTools;
-import net.minecraft.block.Block;
+import mcjty.lib.container.BaseBlock;
+import mcjty.lib.varia.OrientationTools;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -30,17 +28,9 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class GenericBlock extends Block implements IOrientedBlock {
-
-    public static final PropertyDirection FACING_HORIZ = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
-    public static final PropertyDirection FACING = PropertyDirection.create("facing");
+public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
 
     private final Map<String, HandleSelector> selectors = new HashMap<>();
-
-    @SideOnly(Side.CLIENT)
-    public void initModel() {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-    }
 
     protected void addSelector(HandleSelector selector) {
         selectors.put(selector.getId(), selector);
@@ -52,98 +42,12 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
 
     protected abstract IImmersiveCraft getApi();
 
-    public enum MetaUsage {
-        HORIZROTATION,
-        ROTATION,
-        NONE
-    }
-
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.HORIZROTATION;
-    }
-
-    public GenericBlock(Material material, IGenericRegistry registry, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        super(material);
-        register(registry, modid, name, clazz, itemBlockClass);
-    }
-
-    protected void register(IGenericRegistry registry, String modid, String name, Class<? extends GenericTE> clazz, Class<? extends ItemBlock> itemBlockClass) {
-        setRegistryName(name);
-        setUnlocalizedName(modid + "." + name);
-        registry.registerLater(this, modid, itemBlockClass, clazz);
-    }
-
-    @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack itemStack) {
-        switch (getMetaUsage()) {
-            case HORIZROTATION:
-                world.setBlockState(pos, state.withProperty(FACING_HORIZ, placer.getHorizontalFacing().getOpposite()), 2);
-                break;
-            case ROTATION:
-                world.setBlockState(pos, state.withProperty(FACING, getFacingFromEntity(pos, placer)), 2);
-                break;
-            case NONE:
-                break;
-        }
-    }
-
-    public static EnumFacing getFacingFromEntity(BlockPos clickedBlock, EntityLivingBase entityIn) {
-        if (MathHelper.abs((float) entityIn.posX - clickedBlock.getX()) < 2.0F && MathHelper.abs((float) entityIn.posZ - clickedBlock.getZ()) < 2.0F) {
-            double d0 = entityIn.posY + entityIn.getEyeHeight();
-
-            if (d0 - clickedBlock.getY() > 2.0D) {
-                return EnumFacing.UP;
-            }
-
-            if (clickedBlock.getY() - d0 > 0.0D) {
-                return EnumFacing.DOWN;
-            }
-        }
-
-        return entityIn.getHorizontalFacing().getOpposite();
-    }
-
-
-    @Override
-    public EnumFacing getFrontDirection(IBlockState state) {
-        switch (getMetaUsage()) {
-            case HORIZROTATION:
-                return state.getValue(FACING_HORIZ);
-            case ROTATION:
-                return state.getValue(FACING);
-            case NONE:
-                return EnumFacing.NORTH;
-        }
-        return EnumFacing.NORTH;
-    }
-
-    public EnumFacing getRightDirection(IBlockState state) {
-        return getFrontDirection(state).rotateYCCW();
-    }
-
-    public EnumFacing getLeftDirection(IBlockState state) {
-        return getFrontDirection(state).rotateY();
-    }
-
-    public static EnumFacing getFrontDirection(MetaUsage metaUsage, IBlockState state) {
-        EnumFacing orientation;
-        switch (metaUsage) {
-            case HORIZROTATION:
-                orientation = OrientationTools.getOrientationHoriz(state);
-                break;
-            case ROTATION:
-                orientation = OrientationTools.getOrientation(state);
-                break;
-            case NONE:
-            default:
-                orientation = EnumFacing.SOUTH;
-                break;
-        }
-        return orientation;
+    public GenericBlock(Material material, String modid, String name, Class<? extends ItemBlock> itemBlockClass) {
+        super(ImmersiveCraft.instance, material, name, itemBlockClass);
     }
 
     protected EnumFacing getOrientation(int x, int y, int z, EntityLivingBase entityLivingBase) {
-        switch (getMetaUsage()) {
+        switch (getRotationType()) {
             case HORIZROTATION:
                 return OrientationTools.determineOrientationHoriz(entityLivingBase);
             case ROTATION:
@@ -154,7 +58,7 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
 
     @Override
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
-        switch (getMetaUsage()) {
+        switch (getRotationType()) {
             case HORIZROTATION:
                 return OrientationTools.worldToBlockSpaceHoriz(side, world.getBlockState(pos));
             case ROTATION:
@@ -166,7 +70,7 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
     }
 
     public Vec3d blockToWorldSpace(World world, BlockPos pos, Vec3d v) {
-        switch (getMetaUsage()) {
+        switch (getRotationType()) {
             case HORIZROTATION:
                 return OrientationTools.blockToWorldSpaceHoriz(v, world.getBlockState(pos));
             case ROTATION:
@@ -178,7 +82,7 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
     }
 
     public Vec3d worldToBlockSpace(World world, BlockPos pos, Vec3d v) {
-        switch (getMetaUsage()) {
+        switch (getRotationType()) {
             case HORIZROTATION:
                 return OrientationTools.worldToBlockSpaceHoriz(v, world.getBlockState(pos));
             case ROTATION:
@@ -189,51 +93,12 @@ public abstract class GenericBlock extends Block implements IOrientedBlock {
         }
     }
 
-    @Override
-    public IBlockState getStateFromMeta(int meta) {
-        switch (getMetaUsage()) {
-            case HORIZROTATION:
-                return getDefaultState().withProperty(FACING_HORIZ, getFacingHoriz(meta));
-            case ROTATION:
-                return getDefaultState().withProperty(FACING, getFacing(meta));
-            case NONE:
-                return getDefaultState();
-        }
-        return getDefaultState();
-    }
-
     public static EnumFacing getFacingHoriz(int meta) {
         return EnumFacing.values()[meta+2];
     }
 
     public static EnumFacing getFacing(int meta) {
         return EnumFacing.values()[meta & 7];
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        switch (getMetaUsage()) {
-            case HORIZROTATION:
-                return state.getValue(FACING_HORIZ).getIndex()-2;
-            case ROTATION:
-                return state.getValue(FACING).getIndex();
-            case NONE:
-                return 0;
-        }
-        return 0;
-    }
-
-    @Override
-    protected BlockStateContainer createBlockState() {
-        switch (getMetaUsage()) {
-            case HORIZROTATION:
-                return new BlockStateContainer(this, FACING_HORIZ);
-            case ROTATION:
-                return new BlockStateContainer(this, FACING);
-            case NONE:
-                return super.createBlockState();
-        }
-        return super.createBlockState();
     }
 
     @Override

@@ -45,7 +45,7 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
         GlStateManager.translate(x + .5, y, z + .5);
         GlStateManager.disableRescaleNormal();
 
-        BlockRenderHelper.rotateFacing(tileEntity, block.getMetaUsage());
+        BlockRenderHelper.rotateFacing(tileEntity, block.getRotationType());
         renderExtra(tileEntity);
         renderHandles(tileEntity);
 

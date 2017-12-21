@@ -37,6 +37,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.property.ExtendedBlockState;
 import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -57,8 +58,8 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
     }
 
     @Override
-    public MetaUsage getMetaUsage() {
-        return MetaUsage.NONE;
+    public RotationType getRotationType() {
+        return RotationType.NONE;
     }
 
     @Override
@@ -75,7 +76,7 @@ public class BundleBlock extends GenericBlockWithTE<BundleTE> {
 
     @SideOnly(Side.CLIENT)
     public void initItemModel() {
-        Item itemBlock = Item.REGISTRY.getObject(new ResourceLocation(ImmersiveCraft.MODID, "bundle"));
+        Item itemBlock = ForgeRegistries.ITEMS.getValue(new ResourceLocation(ImmersiveCraft.MODID, "bundle"));
         ModelResourceLocation itemModelResourceLocation = new ModelResourceLocation(getRegistryName(), "inventory");
         final int DEFAULT_ITEM_SUBTYPE = 0;
         Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(itemBlock, DEFAULT_ITEM_SUBTYPE, itemModelResourceLocation);

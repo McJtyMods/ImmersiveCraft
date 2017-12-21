@@ -2,15 +2,15 @@ package mcjty.immcraft.events;
 
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.helpers.InventoryHelper;
-import mcjty.immcraft.api.helpers.OrientationTools;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.McJtyRegister;
+import mcjty.lib.varia.OrientationTools;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -188,12 +188,11 @@ public class ForgeEventHandlers {
 
     @SubscribeEvent
     public void registerBlocks(RegistryEvent.Register<Block> event) {
-        McJtyRegister.registerBlocks(ImmersiveCraft.MODID, event.getRegistry());
+        McJtyRegister.registerBlocks(ImmersiveCraft.instance, event.getRegistry());
     }
 
     @SubscribeEvent
     public void registerItems(RegistryEvent.Register<Item> event) {
-        McJtyRegister.registerItems(ImmersiveCraft.MODID, event.getRegistry());
+        McJtyRegister.registerItems(ImmersiveCraft.instance, event.getRegistry());
     }
-
 }

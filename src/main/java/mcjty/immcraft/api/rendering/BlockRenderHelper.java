@@ -7,6 +7,7 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.util.Plane;
+import mcjty.lib.container.BaseBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -123,8 +124,8 @@ public final class BlockRenderHelper {
     }
 
 
-    public static void rotateFacing(TileEntity tileEntity, GenericBlock.MetaUsage metaUsage) {
-        EnumFacing orientation = GenericBlock.getFrontDirection(metaUsage, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
+    public static void rotateFacing(TileEntity tileEntity, BaseBlock.RotationType rotateType) {
+        EnumFacing orientation = BaseBlock.getFrontDirection(rotateType, tileEntity.getWorld().getBlockState(tileEntity.getPos()));
         switch (orientation) {
             case NORTH:
                 GlStateManager.rotate(180, 0, 1, 0);

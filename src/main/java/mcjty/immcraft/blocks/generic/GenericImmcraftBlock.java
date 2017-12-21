@@ -2,11 +2,12 @@ package mcjty.immcraft.blocks.generic;
 
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.McJtyRegister;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
 import mcjty.immcraft.compat.waila.WailaInfoProvider;
+import mcjty.lib.McJtyRegister;
+import mcjty.lib.container.BaseBlock;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -23,6 +24,11 @@ import java.util.List;
 
 public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvider, TOPInfoProvider {
 
+    @Override
+    public RotationType getRotationType() {
+        return RotationType.HORIZROTATION;
+    }
+
     public GenericImmcraftBlock(Material material, String name, boolean inTab) {
         this(material, name, null, ItemBlock.class, inTab);
     }
@@ -32,7 +38,10 @@ public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvi
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
-        super(material, McJtyRegister.getRegistry(), ImmersiveCraft.MODID, name, clazz, itemBlockClass);
+        super(material, ImmersiveCraft.MODID, name, itemBlockClass);
+        if (clazz != null) {
+            McJtyRegister.registerLater(this, clazz);
+        }
         if (inTab) {
             setCreativeTab(ImmersiveCraft.creativeTab);
         }
