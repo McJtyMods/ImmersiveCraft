@@ -1,7 +1,7 @@
 package mcjty.immcraft.books.renderers;
 
 import mcjty.immcraft.books.TextElementFormat;
-import mcjty.immcraft.font.TrueTypeFont;
+import mcjty.lib.font.TrueTypeFont;
 
 public class RenderElementText implements RenderElement {
 

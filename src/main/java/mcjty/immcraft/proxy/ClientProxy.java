@@ -5,11 +5,11 @@ import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleModelLoader;
 import mcjty.immcraft.events.ClientForgeEventHandlers;
-import mcjty.immcraft.font.FontLoader;
-import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.input.InputHandler;
 import mcjty.immcraft.input.KeyBindings;
 import mcjty.lib.McJtyLibClient;
+import mcjty.lib.font.FontLoader;
+import mcjty.lib.font.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.awt.Font;
 import java.util.concurrent.Callable;
 
 public class ClientProxy extends CommonProxy {
@@ -47,11 +48,11 @@ public class ClientProxy extends CommonProxy {
         KeyBindings.init();
 
         font = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu.ttf"), 64, false,
-                new char[] { '\u2022', '\u2014' });
+                Font.TRUETYPE_FONT, new char[] { '\u2022', '\u2014' });
         font_bold = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_bold.ttf"), 64, false,
-                new char[] { '\u2022', '\u2014' });
+                Font.TRUETYPE_FONT, new char[] { '\u2022', '\u2014' });
         font_italic = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_italic.ttf"), 64, false,
-                new char[] { '\u2022', '\u2014' });
+                Font.TRUETYPE_FONT, new char[] { '\u2022', '\u2014' });
     }
 
     @Override

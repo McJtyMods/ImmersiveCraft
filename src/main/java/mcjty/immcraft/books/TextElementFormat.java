@@ -1,8 +1,8 @@
 package mcjty.immcraft.books;
 
 import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.font.TrueTypeFont;
 import mcjty.immcraft.proxy.ClientProxy;
+import mcjty.lib.font.TrueTypeFont;
 import net.minecraft.item.EnumDyeColor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
