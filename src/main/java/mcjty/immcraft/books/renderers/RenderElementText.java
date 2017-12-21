@@ -62,6 +62,6 @@ public class RenderElementText implements RenderElement {
         } else {
             yy = (int) (y + (h - font.getHeight() * scale) / 2);
         }
-        font.drawString(xx, 512 - (yy + dy), text, scale, scale, red, green, blue, 1.0f);
+        font.drawString(xx, 512 - (yy + dy), text, scale, scale, -512.0f/scale, red, green, blue, 1.0f);
     }
 }

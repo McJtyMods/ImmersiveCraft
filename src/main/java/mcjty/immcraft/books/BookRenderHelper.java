@@ -30,7 +30,7 @@ public class BookRenderHelper {
         String result = renderText(pages.get(index), ix, iy);
 
         if (index > 0) {
-            ClientProxy.font.drawString(700.0f, -400.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
+            ClientProxy.font.drawString(700.0f, -400.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, -512/0.5f, 0.0f, 0.0f, 1.0f);
         }
 
 
@@ -60,7 +60,7 @@ public class BookRenderHelper {
         String result = renderText(pages.get(index), ix, iy);
 
         if (index > 0) {
-            ClientProxy.font.drawString(700.0f, -400.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f);
+            ClientProxy.font.drawString(700.0f, -400.0f, index + "/" + (pages.size() - 1), 0.5f, 0.5f, -512/0.5f, 0.0f, 0.0f, 1.0f);
         }
 
 
