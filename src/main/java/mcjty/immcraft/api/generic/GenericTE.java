@@ -6,24 +6,18 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.helpers.IntersectionTools;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.api.input.KeyType;
-import net.minecraft.block.state.IBlockState;
+import mcjty.lib.entity.GenericTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 
-import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
 
-public class GenericTE extends TileEntity {
+public class GenericTE extends GenericTileEntity {
 
     protected HandleSupport handleSupport = new HandleSupport();
 
@@ -47,43 +41,6 @@ public class GenericTE extends TileEntity {
     public void calculateIngredients(List<String> ingredients, List<String> missingIngredients, EntityPlayer player) {
     }
 
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, IBlockState oldState, IBlockState newState) {
-        return oldState.getBlock() != newState.getBlock();
-    }
-
-    @Override
-    public NBTTagCompound getUpdateTag() {
-        return writeToNBT(new NBTTagCompound());
-    }
-
-    @Nullable
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        NBTTagCompound nbtTag = new NBTTagCompound();
-        this.writeToNBT(nbtTag);
-        return new SPacketUpdateTileEntity(getPos(), 1, nbtTag);
-    }
-
-    public void markDirtyQuick() {
-        if (getWorld() != null) {
-            getWorld().markChunkDirty(this.pos, this);
-        }
-    }
-
-    public void markDirtyClient() {
-        markDirtyQuick();
-        if (getWorld() != null) {
-            IBlockState state = getWorld().getBlockState(getPos());
-            getWorld().notifyBlockUpdate(getPos(), state, state, 3);
-        }
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity packet) {
-        this.readFromNBT(packet.getNbtCompound());
-    }
 
     public void addInterfaceHandle(IInterfaceHandle handle) {
         handleSupport.addInterfaceHandle(handle);
