@@ -3,6 +3,7 @@ package mcjty.immcraft.network;
 
 import mcjty.immcraft.multiblock.MultiblockInfoPacketClient;
 import mcjty.immcraft.multiblock.MultiblockInfoPacketServer;
+import mcjty.lib.network.PacketHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -10,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ImmCraftPacketHandler {
-    private static int ID = 12;
     private static int packetId = 0;
 
     public static SimpleNetworkWrapper INSTANCE = null;
@@ -50,10 +50,6 @@ public class ImmCraftPacketHandler {
     public ImmCraftPacketHandler() {
     }
 
-    public static int nextID() {
-        return ID++;
-    }
-
     public static void registerMessages(SimpleNetworkWrapper network) {
         INSTANCE = network;
         registerMessages();
@@ -61,14 +57,14 @@ public class ImmCraftPacketHandler {
 
     public static void registerMessages() {
         // Server side
-        INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, PacketHandler.nextID(), Side.SERVER);
 
         // Client side
-        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, nextID(), Side.CLIENT);
-        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, PacketHandler.nextID(), Side.CLIENT);
 
         register(nextPacketID(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
         register(nextPacketID(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);
