@@ -38,7 +38,7 @@ public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvi
     }
 
     public GenericImmcraftBlock(Material material, String name, Class<? extends GenericImmcraftTE> clazz, Class<? extends ItemBlock> itemBlockClass, boolean inTab) {
-        super(material, ImmersiveCraft.MODID, name, itemBlockClass);
+        super(material, ImmersiveCraft.instance, name, itemBlockClass);
         if (clazz != null) {
             McJtyRegister.registerLater(this, clazz);
         }
