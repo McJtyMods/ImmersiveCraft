@@ -46,6 +46,11 @@ public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
     }
 
     @Override
+    public RotationType getRotationType() {
+        return RotationType.HORIZROTATION;
+    }
+
+    @Override
     public EnumFacing worldToBlockSpace(World world, BlockPos pos, EnumFacing side) {
         switch (getRotationType()) {
             case HORIZROTATION:
