@@ -28,7 +28,7 @@ public class RockItemBlock extends ItemBlock {
 
         if (!worldIn.isRemote) {
             EntityRock entityrock = new EntityRock(worldIn, playerIn);
-            entityrock.setHeadingFromThrower(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+            entityrock.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntity(entityrock);
         }
 
