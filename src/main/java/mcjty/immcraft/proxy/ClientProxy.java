@@ -53,12 +53,12 @@ public class ClientProxy extends CommonProxy {
                 Font.TRUETYPE_FONT, new char[] { '\u2022', '\u2014' });
         font_italic = FontLoader.createFont(new ResourceLocation(ImmersiveCraft.MODID, "fonts/ubuntu_italic.ttf"), 64, false,
                 Font.TRUETYPE_FONT, new char[] { '\u2022', '\u2014' });
+        ModBlocks.initItemModels();
     }
 
     @Override
     public void postInit(FMLPostInitializationEvent e) {
         super.postInit(e);
-        ModBlocks.initItemModels();
     }
 
     @Override

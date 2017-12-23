@@ -82,7 +82,7 @@ public class ModBlocks {
         RenderingRegistry.registerEntityRenderingHandler(EntityRock.class, new IRenderFactory<EntityRock>() {
             @Override
             public Render<? super EntityRock> createRenderFor(RenderManager manager) {
-                return new RenderRock<EntityRock>(manager, rockBlock, Minecraft.getMinecraft().getRenderItem());
+                return new RenderRock<>(manager, rockBlock, Minecraft.getMinecraft().getRenderItem());
             }
         });
     }
