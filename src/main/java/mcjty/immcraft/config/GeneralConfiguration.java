@@ -2,12 +2,15 @@ package mcjty.immcraft.config;
 
 import mcjty.immcraft.items.BookType;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GeneralConfiguration {
     public static final String CATEGORY_GENERAL = "general";
@@ -40,8 +43,12 @@ public class GeneralConfiguration {
 
     public static Map<String,String> validBooks = new HashMap<>();
 
+    public static Set<Item> validIgnitionSources = Collections.newSetFromMap(new IdentityHashMap<>());
+    public static Set<Item> ignitionSourcesConsume = Collections.newSetFromMap(new IdentityHashMap<>());
 
     public static void init(Configuration cfg) {
+        IForgeRegistry<Item> itemRegistry = GameRegistry.findRegistry(Item.class);
+
         setupBookConfig(cfg);
 
         basePageTurnVolume = (float) cfg.get(CATEGORY_GENERAL, "basePageTurnVolume", basePageTurnVolume,
@@ -52,7 +59,7 @@ public class GeneralConfiguration {
         rockDamage = cfg.getFloat("rockDamage", CATEGORY_GENERAL, rockDamage, 0.0f, 1000000.0f, "How much damage does a thrown rock do");
         rockStickFireChance = cfg.getFloat("rockStickFireChance", CATEGORY_GENERAL, rockStickFireChance, 0.0f, 1.0f, "The chance that right clicking a stick on a rock will start a fire");
         flintOnRockMakesFlintAndSteel = cfg.getBoolean("flintOnRockMakesFlintAndSteel", CATEGORY_GENERAL, flintOnRockMakesFlintAndSteel, "If true then right clicking a flint on a rock will make flint and steel");
-        lightingFurnaceWithTorch = cfg.getBoolean("lightingFurnaceWithTorch", CATEGORY_GENERAL, lightingFurnaceWithTorch, "If true then right clicking a torch on a furnace will light the fuel");
+
         lightingFurnaceWithTorchConsumesTorch = cfg.getBoolean("lightingFurnaceWithTorchConsumesTorch", CATEGORY_GENERAL, lightingFurnaceWithTorchConsumesTorch, "If true then lighting a torch this way will consume the torch");
 
         allowRightClickPlacement = cfg.getBoolean("allowRightClickPlacement", CATEGORY_GENERAL, allowRightClickPlacement, "If true then right clicking a tool on a block will place it. If disabled then only the placement hotkey will work");
@@ -65,6 +72,18 @@ public class GeneralConfiguration {
 
         worldgenStickAttemptsPerChunk = cfg.getInt("worldgenStickAttemptsPerChunk", CATEGORY_GENERAL, worldgenStickAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn sticks in a chunk");
         worldgenRockAttemptsPerChunk = cfg.getInt("worldgenRockAttemptsPerChunk", CATEGORY_GENERAL, worldgenRockAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn rocks in a chunk");
+
+        String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "Valid ignition sources for the furnace");
+        String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "Ignition Source Consumption List");
+
+        for(String source : ignitionSourcesStr){
+            validIgnitionSources.add(itemRegistry.getValue(new ResourceLocation(source)));
+        }
+
+        for(String source : ignitionSourcesConsumeStr){
+            ignitionSourcesConsume.add(itemRegistry.getValue(new ResourceLocation(source)));
+        }
+
     }
 
     public static void setupBookConfig(Configuration cfg) {

@@ -2,9 +2,11 @@ package mcjty.immcraft.blocks.foliage;
 
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.generic.GenericImmcraftTE;
+import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -90,10 +92,11 @@ public class SticksTE extends GenericImmcraftTE implements ITickable {
 
     @Override
     public boolean onActivate(EntityPlayer player) {
-        if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+        if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
             burnTime = BURNTIME_STICK;
             markDirtyClient();
-            player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
+            stack.damageItem(1, player);
         }
         return super.onActivate(player);
     }

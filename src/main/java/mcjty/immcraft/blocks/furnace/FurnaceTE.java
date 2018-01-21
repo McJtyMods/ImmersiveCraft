@@ -134,30 +134,21 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     @Override
     public boolean onActivate(EntityPlayer player) {
-        if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Items.FLINT_AND_STEEL) {
+        ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
+        if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
             burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
             markDirtyClient();
-            player.getHeldItem(EnumHand.MAIN_HAND).damageItem(1, player);
-            return true;
-        } else if (!player.getHeldItem(EnumHand.MAIN_HAND).isEmpty() && player.getHeldItem(EnumHand.MAIN_HAND).getItem() == Item.getItemFromBlock(Blocks.TORCH) && GeneralConfiguration.lightingFurnaceWithTorch) {
-            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
-            if (burnTime > 0) {
-                decrStackSize(SLOT_FUEL, 1);
-            }
-            markDirtyClient();
-            if (GeneralConfiguration.lightingFurnaceWithTorchConsumesTorch) {
-                ItemStack result = player.getHeldItem(EnumHand.MAIN_HAND);
-                result.shrink(1);
-                player.setHeldItem(EnumHand.MAIN_HAND, result);
-                player.openContainer.detectAndSendChanges();
+            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())){
+                stack.shrink(1);
+            } else {
+                stack.damageItem(1, player);
             }
             return true;
-        } else {
-            return super.onActivate(player);
         }
+        return super.onActivate(player);
     }
 
     @Override
