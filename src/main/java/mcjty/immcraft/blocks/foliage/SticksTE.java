@@ -96,7 +96,11 @@ public class SticksTE extends GenericImmcraftTE implements ITickable {
         if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
             burnTime = BURNTIME_STICK;
             markDirtyClient();
-            stack.damageItem(1, player);
+            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())){
+                stack.shrink(1);
+            } else {
+                stack.damageItem(1, player);
+            }
         }
         return super.onActivate(player);
     }
