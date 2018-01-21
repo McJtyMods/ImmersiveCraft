@@ -73,16 +73,23 @@ public class GeneralConfiguration {
         worldgenStickAttemptsPerChunk = cfg.getInt("worldgenStickAttemptsPerChunk", CATEGORY_GENERAL, worldgenStickAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn sticks in a chunk");
         worldgenRockAttemptsPerChunk = cfg.getInt("worldgenRockAttemptsPerChunk", CATEGORY_GENERAL, worldgenRockAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn rocks in a chunk");
 
-        String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "Valid ignition sources for the furnace");
-        String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "List for ignition sources that should be consumed");
+        String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "What ignition sources are valid:");
+        String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "What ignition sources should be consumed:");
+        Set<String> newIgnitionSources = new HashSet<>();
 
         for(String source : ignitionSourcesStr){
             validIgnitionSources.add(itemRegistry.getValue(new ResourceLocation(source)));
+            newIgnitionSources.add(source);
         }
 
         for(String source : ignitionSourcesConsumeStr){
-            ignitionSourcesConsume.add(itemRegistry.getValue(new ResourceLocation(source)));
+            Item item = itemRegistry.getValue(new ResourceLocation(source));
+            validIgnitionSources.add(item);
+            ignitionSourcesConsume.add(item);
+            newIgnitionSources.add(source);
         }
+
+        cfg.get(CATEGORY_GENERAL, "validIgnitionSources", ignitionSourcesStr).set(newIgnitionSources.toArray(new String[newIgnitionSources.size()]));
 
     }
 
