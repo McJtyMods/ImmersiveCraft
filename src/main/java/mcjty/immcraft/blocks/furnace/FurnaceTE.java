@@ -38,7 +38,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
         super(3);
         addInterfaceHandle(new FuelInterfaceHandle("fuel").slot(SLOT_FUEL));
         addInterfaceHandle(new SmeltableInterfaceHandle("input").slot(SLOT_TOBURN));
-        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT));
+        addInterfaceHandle(new FurnaceOutputInteractionHandler("output").slot(SLOT_OUTPUT));
     }
 
     @Override
