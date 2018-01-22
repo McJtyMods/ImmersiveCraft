@@ -24,10 +24,10 @@ public class FurnaceOutputInteractionHandler extends DefaultInterfaceHandle {
         return stack;
     }
 
-    public void spawnExperience(EntityPlayer player, ItemStack itemStack) {
+    public void spawnExperience(EntityPlayer player, ItemStack stack) {
         if (player.world.isRemote) {
-            int i = itemStack.getCount();
-            float f = FurnaceRecipes.instance().getSmeltingExperience(itemStack);
+            int i = stack.getCount();
+            float f = FurnaceRecipes.instance().getSmeltingExperience(stack);
 
             if (f == 0.0F) {
                 i = 0;
@@ -47,5 +47,10 @@ public class FurnaceOutputInteractionHandler extends DefaultInterfaceHandle {
                 player.world.spawnEntity(new EntityXPOrb(player.world, player.posX, player.posY + 0.5D, player.posZ + 0.5D, k));
             }
         }
+    }
+
+    @Override
+    public boolean isOutput() {
+        return true;
     }
 }
