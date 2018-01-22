@@ -2,6 +2,7 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -84,6 +85,17 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
             return state.withProperty(BURNING, burning);
         } else {
             return state;
+        }
+        if (GeneralConfiguration.willRainExtinguishTheFurnace){
+            if (te instanceof FurnaceTE){
+                if (true){
+                    if (te.getWorld().isRaining()){
+                        if (te.getWorld().canSeeSky(pos)){
+                            return state;
+                        }
+                    }
+                }
+            }
         }
     }
 
