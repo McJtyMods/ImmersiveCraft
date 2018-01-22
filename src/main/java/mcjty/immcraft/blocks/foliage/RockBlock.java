@@ -72,11 +72,6 @@ public class RockBlock extends GenericImmcraftBlock {
         return false;
     }
 
-    @Override
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos){
-        return true;
-    }
-
 //@todo
 //    @Override
 //    public boolean isBlockSolid(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
