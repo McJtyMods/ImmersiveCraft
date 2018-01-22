@@ -29,6 +29,9 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     private int burnTime = 0;
     private int cookTime = 0;
+    private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
+    private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.SOUTH);
 
     public FurnaceTE() {
         super(3);
@@ -41,8 +44,8 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public void update() {
         if (burnTime > 0) {
             markDirtyQuick();
-            handleMelt();
             handleBurn();
+            handleMelt();
         }
     }
 
@@ -69,9 +72,12 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     private void handleBurn() {
+        int burnValue = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
         burnTime--;
         if (burnTime <= 0) {
-            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
+            if (burnValue > 0) {
+                burnTime = burnValue + 1;
+            }
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
@@ -79,10 +85,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     private void handleMelt() {
-        if (!inventoryHelper.hasStack(SLOT_FUEL)) {
-            burnTime = 0;
-            markDirtyClient();
-        } else if (cookTime <= 0) {
+        if (cookTime <= 0) {
             if (inventoryHelper.hasStack(SLOT_TOBURN)) {
                 // We need to start cooking
                 cookTime = FURNACE_COOKTIME;
@@ -122,6 +125,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                 }
             }
         }
+        markDirtyClient();
     }
 
     public int getBurnTime() {
@@ -132,14 +136,14 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public boolean onActivate(EntityPlayer player) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
-            if (burnTime == 0){
+            if (burnTime == 0) {
                 burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
                 if (burnTime > 0) {
                     decrStackSize(SLOT_FUEL, 1);
                 }
             }
             markDirtyClient();
-            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())){
+            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())) {
                 stack.shrink(1);
             } else {
                 stack.damageItem(1, player);
@@ -182,10 +186,6 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
         markDirtyClient();
         return super.removeStackFromSlot(index);
     }
-
-    private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
-    private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);
-    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.SOUTH);
 
     @Override
     protected IItemHandler getItemHandlerForSide(EnumFacing facing) {
