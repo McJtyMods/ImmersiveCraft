@@ -83,11 +83,7 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
             FurnaceTE furnaceTE = (FurnaceTE) te;
             Boolean burning = furnaceTE.getBurnTime() > 0;
             if (GeneralConfiguration.willRainExtinguishTheFurnace){
-                if (te.getWorld().isRaining()){
-                    if (te.getWorld().canSeeSky(pos)){
-                        burning = false;
-                    }
-                }
+                burning = false;
             }
             return state.withProperty(BURNING, burning);
         } else {
