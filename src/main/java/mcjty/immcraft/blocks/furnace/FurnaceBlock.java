@@ -82,21 +82,18 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
         if (te instanceof FurnaceTE) {
             FurnaceTE furnaceTE = (FurnaceTE) te;
             Boolean burning = furnaceTE.getBurnTime() > 0;
+            if (GeneralConfiguration.willRainExtinguishTheFurnace){
+                if (te.getWorld().isRaining()){
+                    if (te.getWorld().canSeeSky(pos)){
+                        burning = false;
+                    }
+                }
+            }
             return state.withProperty(BURNING, burning);
         } else {
             return state;
         }
-        if (GeneralConfiguration.willRainExtinguishTheFurnace){
-            if (te instanceof FurnaceTE){
-                if (true){
-                    if (te.getWorld().isRaining()){
-                        if (te.getWorld().canSeeSky(pos)){
-                            return state;
-                        }
-                    }
-                }
-            }
-        }
+
     }
 
     @Override
