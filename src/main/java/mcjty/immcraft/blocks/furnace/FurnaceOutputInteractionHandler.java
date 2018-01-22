@@ -25,7 +25,7 @@ public class FurnaceOutputInteractionHandler extends DefaultInterfaceHandle {
     }
 
     public void spawnExperience(EntityPlayer player, ItemStack stack) {
-        if (player.world.isRemote) {
+        if (!player.world.isRemote) {
             int i = stack.getCount();
             float f = FurnaceRecipes.instance().getSmeltingExperience(stack);
 

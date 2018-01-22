@@ -1,6 +1,5 @@
 package mcjty.immcraft.blocks.furnace;
 
-import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
@@ -8,9 +7,6 @@ import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -136,9 +132,11 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public boolean onActivate(EntityPlayer player) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
-            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
-            if (burnTime > 0) {
-                decrStackSize(SLOT_FUEL, 1);
+            if (burnTime == 0){
+                burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
+                if (burnTime > 0) {
+                    decrStackSize(SLOT_FUEL, 1);
+                }
             }
             markDirtyClient();
             if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())){
