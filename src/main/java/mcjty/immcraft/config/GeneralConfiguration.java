@@ -42,7 +42,7 @@ public class GeneralConfiguration {
 
     public static float basePageTurnVolume = 1.0f;   // Use 0 to turn off
 
-    public static Map<String,String> validBooks = new HashMap<>();
+    public static Map<String, String> validBooks = new HashMap<>();
 
     public static Set<Item> validIgnitionSources = Collections.newSetFromMap(new IdentityHashMap<>());
     public static Set<Item> ignitionSourcesConsume = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -81,12 +81,12 @@ public class GeneralConfiguration {
 
         Set<String> newIgnitionSources = new HashSet<>();
 
-        for(String source : ignitionSourcesStr){
+        for (String source : ignitionSourcesStr) {
             validIgnitionSources.add(itemRegistry.getValue(new ResourceLocation(source)));
             newIgnitionSources.add(source);
         }
 
-        for(String source : ignitionSourcesConsumeStr){
+        for (String source : ignitionSourcesConsumeStr) {
             Item item = itemRegistry.getValue(new ResourceLocation(source));
             validIgnitionSources.add(item);
             ignitionSourcesConsume.add(item);

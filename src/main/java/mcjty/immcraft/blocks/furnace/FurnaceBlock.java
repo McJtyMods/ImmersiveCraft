@@ -2,7 +2,6 @@ package mcjty.immcraft.blocks.furnace;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
-import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
@@ -78,18 +77,14 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache) worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
         if (te instanceof FurnaceTE) {
             FurnaceTE furnaceTE = (FurnaceTE) te;
             Boolean burning = furnaceTE.getBurnTime() > 0;
-            if (GeneralConfiguration.willRainExtinguishTheFurnace){
-                burning = false;
-            }
             return state.withProperty(BURNING, burning);
         } else {
             return state;
         }
-
     }
 
     @Override

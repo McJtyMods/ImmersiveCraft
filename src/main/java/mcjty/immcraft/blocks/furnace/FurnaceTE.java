@@ -15,6 +15,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -46,6 +47,10 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
             markDirtyQuick();
             handleBurn();
             handleMelt();
+            if (GeneralConfiguration.willRainExtinguishTheFurnace && this.getWorld().isRaining() && this.getWorld().canSeeSky(this.pos)) {
+                burnTime = 0;
+                this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.getPos().getX() + 0.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 

@@ -3,7 +3,6 @@ package mcjty.immcraft.blocks.furnace;
 import mcjty.immcraft.api.handles.DefaultInterfaceHandle;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntity;
