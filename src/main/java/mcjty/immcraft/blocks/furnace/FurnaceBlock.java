@@ -77,7 +77,7 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
 
     @Override
     public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+        TileEntity te = worldIn instanceof ChunkCache ? ((ChunkCache) worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
         if (te instanceof FurnaceTE) {
             FurnaceTE furnaceTE = (FurnaceTE) te;
             Boolean burning = furnaceTE.getBurnTime() > 0;

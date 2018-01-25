@@ -33,15 +33,16 @@ public class GeneralConfiguration {
     public static int worldgenRockAttemptsPerChunk = 10;
 
     public static boolean flintOnRockMakesFlintAndSteel = true;
-    public static boolean lightingFurnaceWithTorch = true;
     public static boolean lightingFurnaceWithTorchConsumesTorch = false;
 
     public static boolean showDebugHandles = false;
     public static boolean createWorkbench = false;
 
+    public static boolean willRainExtinguishTheFurnace = false;
+
     public static float basePageTurnVolume = 1.0f;   // Use 0 to turn off
 
-    public static Map<String,String> validBooks = new HashMap<>();
+    public static Map<String, String> validBooks = new HashMap<>();
 
     public static Set<Item> validIgnitionSources = Collections.newSetFromMap(new IdentityHashMap<>());
     public static Set<Item> ignitionSourcesConsume = Collections.newSetFromMap(new IdentityHashMap<>());
@@ -73,16 +74,19 @@ public class GeneralConfiguration {
         worldgenStickAttemptsPerChunk = cfg.getInt("worldgenStickAttemptsPerChunk", CATEGORY_GENERAL, worldgenStickAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn sticks in a chunk");
         worldgenRockAttemptsPerChunk = cfg.getInt("worldgenRockAttemptsPerChunk", CATEGORY_GENERAL, worldgenRockAttemptsPerChunk, 0, 100, "Maximum amount of attempts to spawn rocks in a chunk");
 
-        String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "What ignition sources are valid:");
-        String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "What ignition sources should be consumed:");
+        willRainExtinguishTheFurnace = cfg.getBoolean("doesRainExtinguishTheFurnace", CATEGORY_GENERAL, willRainExtinguishTheFurnace, "Will the furnace get extinguished if it's in the rain");
+
+        String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "What ignition sources are valid");
+        String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "What ignition sources should be consumed");
+
         Set<String> newIgnitionSources = new HashSet<>();
 
-        for(String source : ignitionSourcesStr){
+        for (String source : ignitionSourcesStr) {
             validIgnitionSources.add(itemRegistry.getValue(new ResourceLocation(source)));
             newIgnitionSources.add(source);
         }
 
-        for(String source : ignitionSourcesConsumeStr){
+        for (String source : ignitionSourcesConsumeStr) {
             Item item = itemRegistry.getValue(new ResourceLocation(source));
             validIgnitionSources.add(item);
             ignitionSourcesConsume.add(item);

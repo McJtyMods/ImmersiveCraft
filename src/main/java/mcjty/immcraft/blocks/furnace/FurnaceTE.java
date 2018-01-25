@@ -1,6 +1,5 @@
 package mcjty.immcraft.blocks.furnace;
 
-import mcjty.immcraft.api.handles.OutputInterfaceHandle;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericInventoryTE;
@@ -8,9 +7,6 @@ import mcjty.immcraft.blocks.generic.handles.FuelInterfaceHandle;
 import mcjty.immcraft.blocks.generic.handles.SmeltableInterfaceHandle;
 import mcjty.immcraft.config.GeneralConfiguration;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,6 +15,7 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -33,20 +30,27 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
 
     private int burnTime = 0;
     private int cookTime = 0;
+    private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
+    private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.SOUTH);
 
     public FurnaceTE() {
         super(3);
         addInterfaceHandle(new FuelInterfaceHandle("fuel").slot(SLOT_FUEL));
         addInterfaceHandle(new SmeltableInterfaceHandle("input").slot(SLOT_TOBURN));
-        addInterfaceHandle(new OutputInterfaceHandle("output").slot(SLOT_OUTPUT));
+        addInterfaceHandle(new FurnaceOutputInteractionHandler("output").slot(SLOT_OUTPUT));
     }
 
     @Override
     public void update() {
         if (burnTime > 0) {
             markDirtyQuick();
-            handleMelt();
             handleBurn();
+            handleMelt();
+            if (GeneralConfiguration.willRainExtinguishTheFurnace && this.getWorld().isRaining() && this.getWorld().canSeeSky(this.pos)) {
+                burnTime = 0;
+                this.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, this.getPos().getX() + 0.5D, this.getPos().getY() + 1.5D, this.getPos().getZ() + 0.5D, 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 
@@ -73,9 +77,12 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     private void handleBurn() {
+        int burnValue = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
         burnTime--;
         if (burnTime <= 0) {
-            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
+            if (burnValue > 0) {
+                burnTime = burnValue + 1;
+            }
             if (burnTime > 0) {
                 decrStackSize(SLOT_FUEL, 1);
             }
@@ -83,10 +90,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     }
 
     private void handleMelt() {
-        if (!inventoryHelper.hasStack(SLOT_FUEL)) {
-            burnTime = 0;
-            markDirtyClient();
-        } else if (cookTime <= 0) {
+        if (cookTime <= 0) {
             if (inventoryHelper.hasStack(SLOT_TOBURN)) {
                 // We need to start cooking
                 cookTime = FURNACE_COOKTIME;
@@ -126,6 +130,7 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
                 }
             }
         }
+        markDirtyClient();
     }
 
     public int getBurnTime() {
@@ -136,12 +141,14 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
     public boolean onActivate(EntityPlayer player) {
         ItemStack stack = player.getHeldItem(EnumHand.MAIN_HAND);
         if (!stack.isEmpty() && GeneralConfiguration.validIgnitionSources.contains(stack.getItem())) {
-            burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
-            if (burnTime > 0) {
-                decrStackSize(SLOT_FUEL, 1);
+            if (burnTime == 0) {
+                burnTime = TileEntityFurnace.getItemBurnTime(inventoryHelper.getStackInSlot(SLOT_FUEL));
+                if (burnTime > 0) {
+                    decrStackSize(SLOT_FUEL, 1);
+                }
             }
             markDirtyClient();
-            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())){
+            if (GeneralConfiguration.ignitionSourcesConsume.contains(stack.getItem())) {
                 stack.shrink(1);
             } else {
                 stack.damageItem(1, player);
@@ -184,10 +191,6 @@ public class FurnaceTE extends GenericInventoryTE implements ITickable {
         markDirtyClient();
         return super.removeStackFromSlot(index);
     }
-
-    private IItemHandler handlerUp = new SidedInvWrapper(this, EnumFacing.UP);
-    private IItemHandler handlerDown = new SidedInvWrapper(this, EnumFacing.DOWN);
-    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.SOUTH);
 
     @Override
     protected IItemHandler getItemHandlerForSide(EnumFacing facing) {
