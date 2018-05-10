@@ -6,7 +6,7 @@ import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.helpers.IntersectionTools;
 import mcjty.immcraft.api.helpers.NBTHelper;
 import mcjty.immcraft.api.input.KeyType;
-import mcjty.lib.entity.GenericTileEntity;
+import mcjty.lib.tileentity.GenericTileEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

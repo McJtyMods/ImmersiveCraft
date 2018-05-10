@@ -7,7 +7,7 @@ import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
 import mcjty.immcraft.api.util.Plane;
-import mcjty.lib.container.BaseBlock;
+import mcjty.lib.blocks.BaseBlock;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

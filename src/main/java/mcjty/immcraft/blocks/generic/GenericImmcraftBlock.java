@@ -7,7 +7,6 @@ import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.compat.top.TOPInfoProvider;
 import mcjty.immcraft.compat.waila.WailaInfoProvider;
 import mcjty.lib.McJtyRegister;
-import mcjty.lib.container.BaseBlock;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;

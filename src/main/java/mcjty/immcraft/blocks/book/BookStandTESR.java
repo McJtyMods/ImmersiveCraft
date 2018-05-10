@@ -6,7 +6,7 @@ import mcjty.immcraft.api.rendering.BlockRenderHelper;
 import mcjty.immcraft.api.util.Plane;
 import mcjty.immcraft.books.BookPage;
 import mcjty.immcraft.books.BookRenderHelper;
-import mcjty.lib.container.BaseBlock;
+import mcjty.lib.blocks.BaseBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;

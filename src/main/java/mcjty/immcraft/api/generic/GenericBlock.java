@@ -6,7 +6,7 @@ import mcjty.immcraft.api.block.IOrientedBlock;
 import mcjty.immcraft.api.handles.HandleSelector;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.lib.base.ModBase;
-import mcjty.lib.container.BaseBlock;
+import mcjty.lib.blocks.BaseBlock;
 import mcjty.lib.varia.OrientationTools;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
