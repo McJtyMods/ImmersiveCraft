@@ -4,12 +4,12 @@ import net.minecraft.tileentity.TileEntity;
 
 /**
  * Representation of a bundle (a collection of cables). This is implemented by the
- * bundle tile bindings
+ * bundle tile entity
  */
 public interface IBundle {
 
     /**
-     * Get the corresponding tile bindings.
+     * Get the corresponding tile entity.
      * @return
      */
     TileEntity getTileEntity();
