@@ -123,7 +123,7 @@ public class BundleTE extends GenericImmcraftTE implements ITickable, IBundle {
         String networkName = cableHandler.getNetworkName(subType);
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         int id = MultiBlockCableHelper.addBlockToNetwork(network, type, subType, -1, getWorld(), getPos());
-        MultiBlockData.save(getWorld());
+        MultiBlockData.get(world).save();
         CableSection section = new CableSection(type, subType, id, vector);
         cableSections.add(section);
 
@@ -221,7 +221,7 @@ public class BundleTE extends GenericImmcraftTE implements ITickable, IBundle {
         String networkName = cableHandler.getNetworkName(section.getSubType());
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
         MultiBlockCableHelper.removeBlockFromNetwork(network, section.getType(), section.getSubType(), section.getId(), getWorld(), getPos());
-        MultiBlockData.save(getWorld());
+        MultiBlockData.get(world).save();
 
         cableSections.remove(section);
 

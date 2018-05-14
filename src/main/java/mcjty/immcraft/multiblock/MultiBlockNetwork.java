@@ -40,7 +40,7 @@ public class MultiBlockNetwork<T extends IMultiBlock> implements IMultiBlockNetw
 
     @Override
     public void save(World world) {
-        MultiBlockData.save(world);
+        MultiBlockData.get(world).save();
     }
 
     //---------------------------------------------------------------

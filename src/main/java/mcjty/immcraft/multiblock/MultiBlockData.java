@@ -1,38 +1,31 @@
 package mcjty.immcraft.multiblock;
 
+import mcjty.lib.worlddata.AbstractWorldData;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.WorldSavedData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MultiBlockData extends WorldSavedData {
+public class MultiBlockData extends AbstractWorldData<MultiBlockData> {
 
-    public static final String MULTIBLOCK_NETWORK = "ImmCraftMultiBlocks";
-    private static MultiBlockData instance = null;
+    private static final String MULTIBLOCK_NETWORK = "ImmCraftMultiBlocks";
     private static MultiBlockData clientInstance = null;
 
     public static Map<String, MultiBlockNetwork> networks = new HashMap<>();
 
-    public MultiBlockData(String identifier) {
-        super(identifier);
+    public MultiBlockData(String name) {
+        super(name);
     }
 
     public static MultiBlockNetwork getNetwork(String networkName) {
         return MultiBlockData.networks.get(networkName);
     }
 
-    public static void save(World world) {
-        world.getMapStorage().setData(MULTIBLOCK_NETWORK, get(world));
-        get(world).markDirty();
-    }
-
-    public static void clearInstance() {
-        if (instance != null) {
-            instance.networks.values().stream().forEach(MultiBlockNetwork::clear);
-            instance = null;
-        }
+    @Override
+    public void clear() {
+        networks.values().stream().forEach(MultiBlockNetwork::clear);
+        networks.clear();
     }
 
     // This should only be used client-side!
@@ -44,17 +37,7 @@ public class MultiBlockData extends WorldSavedData {
     }
 
     public static MultiBlockData get(World world) {
-        if (world.isRemote) {
-            return null;
-        }
-        if (instance != null) {
-            return instance;
-        }
-        instance = (MultiBlockData) world.getMapStorage().getOrLoadData(MultiBlockData.class, MULTIBLOCK_NETWORK);
-        if (instance == null) {
-            instance = new MultiBlockData(MULTIBLOCK_NETWORK);
-        }
-        return instance;
+        return getData(world, MultiBlockData.class, MULTIBLOCK_NETWORK);
     }
 
     @Override

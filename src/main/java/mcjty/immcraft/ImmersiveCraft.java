@@ -5,7 +5,6 @@ import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.compat.MainCompatHandler;
-import mcjty.immcraft.multiblock.MultiBlockData;
 import mcjty.immcraft.proxy.CommonProxy;
 import mcjty.lib.base.ModBase;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,7 +12,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
@@ -67,11 +69,6 @@ public class ImmersiveCraft implements ModBase {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
         proxy.postInit(e);
-    }
-
-    @Mod.EventHandler
-    public void serverStopped(FMLServerStoppedEvent event) {
-        MultiBlockData.clearInstance();
     }
 
     @Mod.EventHandler
