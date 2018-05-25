@@ -57,14 +57,14 @@ public class ImmCraftPacketHandler {
 
     public static void registerMessages() {
         // Server side
-        INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, PacketHandler.nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, PacketHandler.nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, PacketHandler.nextID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, PacketHandler.nextPacketID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, PacketHandler.nextPacketID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextPacketID(), Side.SERVER);
+        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, PacketHandler.nextPacketID(), Side.SERVER);
 
         // Client side
-        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextID(), Side.CLIENT);
-        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, PacketHandler.nextID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextPacketID(), Side.CLIENT);
+        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, PacketHandler.nextPacketID(), Side.CLIENT);
 
         register(nextPacketID(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
         register(nextPacketID(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);
