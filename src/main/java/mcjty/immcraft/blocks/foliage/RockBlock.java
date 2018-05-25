@@ -30,7 +30,7 @@ public class RockBlock extends GenericImmcraftBlock {
     public static final AxisAlignedBB AABB = new AxisAlignedBB(.2f, 0, .2f, .8f, .4f, .8f);
 
     public RockBlock() {
-        super(Material.GROUND, "rock", null, RockItemBlock.class, true);
+        super(Material.GROUND, "rock", null, RockItemBlock::new, true);
         setHardness(0.0f);
         setSoundType(SoundType.STONE);
     }

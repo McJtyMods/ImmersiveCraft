@@ -8,6 +8,7 @@ import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.lib.base.ModBase;
 import mcjty.lib.blocks.BaseBlock;
 import mcjty.lib.varia.OrientationTools;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
 
@@ -41,8 +43,8 @@ public abstract class GenericBlock extends BaseBlock implements IOrientedBlock {
 
     protected abstract IImmersiveCraft getApi();
 
-    public GenericBlock(Material material, ModBase mod, String name, Class<? extends ItemBlock> itemBlockClass) {
-        super(mod, material, name, itemBlockClass);
+    public GenericBlock(Material material, ModBase mod, String name, Function<Block, ItemBlock> itemBlockFactory) {
+        super(mod, material, name, itemBlockFactory);
     }
 
     @Override
