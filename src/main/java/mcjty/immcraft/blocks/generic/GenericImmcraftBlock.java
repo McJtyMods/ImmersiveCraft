@@ -4,8 +4,6 @@ package mcjty.immcraft.blocks.generic;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
-import mcjty.immcraft.compat.top.TOPInfoProvider;
-import mcjty.immcraft.compat.waila.WailaInfoProvider;
 import mcjty.lib.McJtyRegister;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -23,7 +21,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.function.Function;
 
-public class GenericImmcraftBlock extends GenericBlock implements WailaInfoProvider, TOPInfoProvider {
+public class GenericImmcraftBlock extends GenericBlock {
 
     @Override
     public RotationType getRotationType() {

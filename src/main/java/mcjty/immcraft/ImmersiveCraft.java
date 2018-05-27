@@ -56,8 +56,6 @@ public class ImmersiveCraft implements ModBase {
             }
         };
         proxy.preInit(event);
-        MainCompatHandler.registerWaila();
-        MainCompatHandler.registerTOP();
         MainCompatHandler.registerWheel();
     }
 
