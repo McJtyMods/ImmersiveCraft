@@ -1,0 +1,3 @@
+1.5.0alpha:
+- Made compatible with the latest McJtyLib (3.0.0)
+- Fixed a bug with The One Probe and WAILA integration where all information was shown twice
