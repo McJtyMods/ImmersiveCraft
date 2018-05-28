@@ -150,6 +150,5 @@ curseforge {
             requiredLibrary 'mcjtylib'
             optionalLibrary 'the-one-probe'
         }
-        addArtifact(apiJar)
     }
 }
