@@ -30,7 +30,7 @@ import java.util.function.Function;
 public class ImmersiveCraft implements ModBase {
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
-    public static final String MIN_MCJTYLIB_VER = "3.0.0-alpha";
+    public static final String MIN_MCJTYLIB_VER = "3.0.0";
     public static final String VERSION = "1.5.0-alpha";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
