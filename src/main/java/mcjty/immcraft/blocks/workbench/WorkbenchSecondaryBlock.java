@@ -1,9 +1,7 @@
 package mcjty.immcraft.blocks.workbench;
 
-import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.api.IImmersiveCraft;
-import mcjty.immcraft.api.rendering.HandleTESR;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.rendering.RenderTools;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,11 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import javax.annotation.Nonnull;
 
 public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSecondaryTE> {
 
@@ -30,17 +25,10 @@ public class WorkbenchSecondaryBlock extends GenericBlockWithTE<WorkbenchSeconda
         // @todo define handles
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(WorkbenchSecondaryTE.class, new HandleTESR<WorkbenchSecondaryTE>(this) {
-            @Nonnull
-            @Override
-            protected IImmersiveCraft getApi() {
-                return ImmersiveCraft.api;
-            }
-        });
+        RenderTools.register(this, WorkbenchSecondaryTE.class);
     }
 
     @SideOnly(Side.CLIENT)

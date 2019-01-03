@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -111,4 +112,7 @@ public class BookStandTESR extends TileEntitySpecialRenderer<BookStandTE> {
         return null;
     }
 
+    public static void register() {
+        ClientRegistry.bindTileEntitySpecialRenderer(BookStandTE.class, new BookStandTESR());
+    }
 }

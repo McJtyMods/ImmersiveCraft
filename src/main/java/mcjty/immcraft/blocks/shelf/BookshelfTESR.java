@@ -6,6 +6,7 @@ import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.rendering.HandleTESR;
 import mcjty.immcraft.blocks.ModBlocks;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,5 +29,9 @@ public class BookshelfTESR extends HandleTESR<BookshelfTE> {
     @Override
     protected void renderHandles(BookshelfTE tileEntity) {
         super.renderHandles(tileEntity);
+    }
+
+    public static void register() {
+        ClientRegistry.bindTileEntitySpecialRenderer(BookshelfTE.class, new BookshelfTESR());
     }
 }

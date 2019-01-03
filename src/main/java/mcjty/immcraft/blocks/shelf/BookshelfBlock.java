@@ -2,9 +2,6 @@ package mcjty.immcraft.blocks.shelf;
 
 import mcjty.immcraft.api.handles.HandleSelector;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BookshelfBlock extends GenericShelfBlock<BookshelfTE> {
 
@@ -29,10 +26,9 @@ public class BookshelfBlock extends GenericShelfBlock<BookshelfTE> {
     }
 
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(BookshelfTE.class, new BookshelfTESR());
+        BookshelfTESR.register();
     }
 }

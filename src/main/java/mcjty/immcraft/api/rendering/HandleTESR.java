@@ -1,16 +1,20 @@
 package mcjty.immcraft.api.rendering;
 
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.generic.GenericBlock;
 import mcjty.immcraft.api.generic.GenericTE;
 import mcjty.immcraft.api.handles.IInterfaceHandle;
+import mcjty.immcraft.blocks.ModBlocks;
+import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -66,4 +70,5 @@ public abstract class HandleTESR<T extends GenericTE> extends TileEntitySpecialR
     protected void renderExtra(T tileEntity) {
 
     }
+
 }

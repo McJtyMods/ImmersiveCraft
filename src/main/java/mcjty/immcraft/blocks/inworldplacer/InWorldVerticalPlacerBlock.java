@@ -1,11 +1,9 @@
 package mcjty.immcraft.blocks.inworldplacer;
 
-import mcjty.immcraft.ImmersiveCraft;
-import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.api.handles.HandleSelector;
-import mcjty.immcraft.api.rendering.HandleTESR;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
+import mcjty.immcraft.rendering.RenderTools;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -16,11 +14,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
@@ -47,17 +41,10 @@ public class InWorldVerticalPlacerBlock extends GenericBlockWithTE<InWorldVertic
 
 
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(InWorldVerticalPlacerTE.class, new HandleTESR<InWorldVerticalPlacerTE>(ModBlocks.inWorldVerticalPlacerBlock) {
-            @Nonnull
-            @Override
-            protected IImmersiveCraft getApi() {
-                return ImmersiveCraft.api;
-            }
-        });
+        RenderTools.register(ModBlocks.inWorldVerticalPlacerBlock, InWorldVerticalPlacerTE.class);
     }
 
     @Override

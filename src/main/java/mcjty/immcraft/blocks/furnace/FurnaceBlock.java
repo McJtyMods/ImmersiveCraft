@@ -15,7 +15,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -34,11 +33,10 @@ public class FurnaceBlock extends GenericBlockWithTE<FurnaceTE> {
         addSelector(new HandleSelector("output", new AxisAlignedBB(.51, .51, .3, 1, .99, .8)));
     }
 
-    @SideOnly(Side.CLIENT)
     @Override
     public void initModel() {
         super.initModel();
-        ClientRegistry.bindTileEntitySpecialRenderer(FurnaceTE.class, new FurnaceTESR());
+        FurnaceTESR.register();
     }
 
     @SideOnly(Side.CLIENT)
