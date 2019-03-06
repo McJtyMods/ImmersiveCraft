@@ -21,7 +21,7 @@ public class ItemDummyBook extends Item {
         setMaxStackSize(1);
         setUnlocalizedName(ImmersiveCraft.MODID + ".dummybook");
         setRegistryName("dummybook");
-        setCreativeTab(ImmersiveCraft.creativeTab);
+        setCreativeTab(ImmersiveCraft.setup.getTab());
         McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 

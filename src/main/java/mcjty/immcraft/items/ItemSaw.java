@@ -18,7 +18,7 @@ public class ItemSaw extends ItemTool {
         setMaxStackSize(1);
         setUnlocalizedName(ImmersiveCraft.MODID + ".saw");
         setRegistryName("saw");
-        setCreativeTab(ImmersiveCraft.creativeTab);
+        setCreativeTab(ImmersiveCraft.setup.getTab());
         McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 

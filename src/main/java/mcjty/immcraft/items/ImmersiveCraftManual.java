@@ -22,7 +22,7 @@ public class ImmersiveCraftManual extends Item implements IBook {
         setMaxStackSize(1);
         setRegistryName("manual");
         setUnlocalizedName(ImmersiveCraft.MODID + ".manual");
-        setCreativeTab(ImmersiveCraft.creativeTab);
+        setCreativeTab(ImmersiveCraft.setup.getTab());
         McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 

@@ -1,6 +1,5 @@
 package mcjty.immcraft.proxy;
 
-import com.google.common.util.concurrent.ListenableFuture;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.bundle.BundleModelLoader;
@@ -10,10 +9,8 @@ import mcjty.immcraft.input.KeyBindings;
 import mcjty.lib.McJtyLibClient;
 import mcjty.lib.font.FontLoader;
 import mcjty.lib.font.TrueTypeFont;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import mcjty.lib.setup.DefaultClientProxy;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.common.MinecraftForge;
@@ -23,9 +20,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.awt.Font;
-import java.util.concurrent.Callable;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends DefaultClientProxy {
 
     public static TrueTypeFont font;
     public static TrueTypeFont font_bold;
@@ -59,25 +55,5 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent e) {
         super.postInit(e);
-    }
-
-    @Override
-    public World getClientWorld() {
-        return Minecraft.getMinecraft().world;
-    }
-
-    @Override
-    public EntityPlayer getClientPlayer() {
-        return Minecraft.getMinecraft().player;
-    }
-
-    @Override
-    public <V> ListenableFuture<V> addScheduledTaskClient(Callable<V> callableToSchedule) {
-        return Minecraft.getMinecraft().addScheduledTask(callableToSchedule);
-    }
-
-    @Override
-    public ListenableFuture<Object> addScheduledTaskClient(Runnable runnableToSchedule) {
-        return Minecraft.getMinecraft().addScheduledTask(runnableToSchedule);
     }
 }

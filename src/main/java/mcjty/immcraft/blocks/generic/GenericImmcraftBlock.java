@@ -42,7 +42,7 @@ public class GenericImmcraftBlock extends GenericBlock {
             McJtyRegister.registerLater(this, clazz);
         }
         if (inTab) {
-            setCreativeTab(ImmersiveCraft.creativeTab);
+            setCreativeTab(ImmersiveCraft.setup.getTab());
         }
     }
 

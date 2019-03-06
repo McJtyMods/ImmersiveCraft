@@ -3,20 +3,16 @@ package mcjty.immcraft;
 
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
-import mcjty.immcraft.blocks.ModBlocks;
-import mcjty.immcraft.compat.MainCompatHandler;
-import mcjty.immcraft.proxy.CommonProxy;
+import mcjty.immcraft.proxy.CommonSetup;
 import mcjty.lib.base.ModBase;
-import net.minecraft.creativetab.CreativeTabs;
+import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -35,37 +31,29 @@ public class ImmersiveCraft implements ModBase {
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
     @SidedProxy(clientSide = "mcjty.immcraft.proxy.ClientProxy", serverSide = "mcjty.immcraft.proxy.ServerProxy")
-    public static CommonProxy proxy;
+    public static IProxy proxy;
+    public static CommonSetup setup = new CommonSetup();
 
     @Mod.Instance
     public static ImmersiveCraft instance;
 
     public static ImmersiveCraftApi api = new ImmersiveCraftApi();
 
-    public static CreativeTabs creativeTab;
-
-    public static Logger logger;
-
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        logger = event.getModLog();
-        creativeTab = new CreativeTabs("immcraft") {
-            @Override
-            public ItemStack getTabIconItem() {
-                return new ItemStack(ModBlocks.rockBlock);
-            }
-        };
+        setup.preInit(event);
         proxy.preInit(event);
-        MainCompatHandler.registerWheel();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent e) {
+        setup.init(e);
         proxy.init(e);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent e) {
+        setup.postInit(e);
         proxy.postInit(e);
     }
 

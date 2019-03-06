@@ -45,7 +45,7 @@ public class TextElementFormat {
                     try {
                         color = EnumDyeColor.valueOf(s.toUpperCase());
                     } catch (IllegalArgumentException e) {
-                        ImmersiveCraft.logger.log(Level.WARN, "Bad format for text: '" + fmt + "'!");
+                        ImmersiveCraft.setup.getLogger().log(Level.WARN, "Bad format for text: '" + fmt + "'!");
                     }
                 }
             }

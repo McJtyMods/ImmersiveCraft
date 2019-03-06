@@ -30,7 +30,7 @@ public class BookParser {
         try {
             inputstream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            ImmersiveCraft.logger.log(Level.ERROR, "Error reading file: " + file.getName());
+            ImmersiveCraft.setup.getLogger().log(Level.ERROR, "Error reading file: " + file.getName());
             return Collections.emptyList();
         }
         return parseSections(file.getName(), inputstream);
@@ -41,7 +41,7 @@ public class BookParser {
         try {
             br = new BufferedReader(new InputStreamReader(inputstream, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            ImmersiveCraft.logger.log(Level.ERROR, "Error reading file: " + name);
+            ImmersiveCraft.setup.getLogger().log(Level.ERROR, "Error reading file: " + name);
             return Collections.emptyList();
         }
 
@@ -66,7 +66,7 @@ public class BookParser {
             if (textElement != null) {
                 for (JsonElement textChild : textElement.getAsJsonArray()) {
                     if ((!textChild.isJsonPrimitive()) || !textChild.getAsJsonPrimitive().isString()) {
-                        ImmersiveCraft.logger.log(Level.WARN, "File " + name + " has a problem in section " + section.getName());
+                        ImmersiveCraft.setup.getLogger().log(Level.WARN, "File " + name + " has a problem in section " + section.getName());
                         continue;
                     }
                     String string = textChild.getAsString();
@@ -181,7 +181,7 @@ public class BookParser {
             try {
                 meta = Integer.parseInt(split[1]);
             } catch (NumberFormatException e) {
-                ImmersiveCraft.logger.warn("Bad metadata for item");
+                ImmersiveCraft.setup.getLogger().warn("Bad metadata for item");
             }
         }
         Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(regName));

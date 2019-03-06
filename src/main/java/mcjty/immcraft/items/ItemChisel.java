@@ -17,7 +17,7 @@ public class ItemChisel extends ItemTool {
         setMaxStackSize(1);
         setRegistryName("chisel");
         setUnlocalizedName(ImmersiveCraft.MODID + ".chisel");
-        setCreativeTab(ImmersiveCraft.creativeTab);
+        setCreativeTab(ImmersiveCraft.setup.getTab());
         McJtyRegister.registerLater(this, ImmersiveCraft.instance);
     }
 

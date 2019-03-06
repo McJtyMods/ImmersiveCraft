@@ -41,7 +41,7 @@ public class WheelCompatibility {
         @Override
         public Void apply(IInteractionWheel theWheel) {
             wheel = theWheel;
-            ImmersiveCraft.logger.log(Level.INFO, "Enabled support for The Interaction Wheel");
+            ImmersiveCraft.setup.getLogger().log(Level.INFO, "Enabled support for The Interaction Wheel");
             wheel.registerProvider(new IWheelActionProvider() {
                 @Override
                 public String getID() {
