@@ -2,11 +2,11 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
+import mcjty.lib.thirteen.Context;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.function.Supplier;
 
 public class PacketGetInfoFromServer implements IMessage {
 
@@ -35,20 +35,24 @@ public class PacketGetInfoFromServer implements IMessage {
     public PacketGetInfoFromServer() {
     }
 
+    public PacketGetInfoFromServer(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketGetInfoFromServer(InfoPacketServer packet) {
         this.packet = packet;
     }
 
-    public static class Handler implements IMessageHandler<PacketGetInfoFromServer, IMessage> {
-        @Override
-        public IMessage onMessage(PacketGetInfoFromServer message, MessageContext ctx) {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> message.packet.onMessageServer(ctx.getServerHandler().player)
-                    .ifPresent(p -> sendReplyToClient(p, ctx.getServerHandler().player)));
-            return null;
-        }
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            packet.onMessageServer(ctx.getSender())
+                    .ifPresent(p -> sendReplyToClient(p, ctx.getSender()));
+        });
+        ctx.setPacketHandled(true);
+    }
 
-        private void sendReplyToClient(InfoPacketClient reply, EntityPlayerMP player) {
-            ImmCraftPacketHandler.INSTANCE.sendTo(new PacketReturnInfoToClient(reply), player);
-        }
+    private void sendReplyToClient(InfoPacketClient reply, EntityPlayerMP player) {
+        ImmCraftPacketHandler.INSTANCE.sendTo(new PacketReturnInfoToClient(reply), player);
     }
 }

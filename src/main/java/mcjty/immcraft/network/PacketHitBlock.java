@@ -4,16 +4,16 @@ package mcjty.immcraft.network;
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.blocks.generic.GenericBlockWithTE;
 import mcjty.lib.network.NetworkTools;
+import mcjty.lib.thirteen.Context;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.function.Supplier;
 
 public class PacketHitBlock implements IMessage {
     private BlockPos blockPos;
@@ -39,26 +39,26 @@ public class PacketHitBlock implements IMessage {
     public PacketHitBlock() {
     }
 
+    public PacketHitBlock(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketHitBlock(RayTraceResult mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
         hitVec = new Vec3d(mouseOver.hitVec.x - blockPos.getX(), mouseOver.hitVec.y - blockPos.getY(), mouseOver.hitVec.z - blockPos.getZ());
     }
 
-    public static class Handler implements IMessageHandler<PacketHitBlock, IMessage> {
-        @Override
-        public IMessage onMessage(PacketHitBlock message, MessageContext ctx) {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
-            return null;
-        }
-
-        private void handle(PacketHitBlock message, MessageContext ctx) {
-            EntityPlayerMP player = ctx.getServerHandler().player;
-            Block block = player.getEntityWorld().getBlockState(message.blockPos).getBlock();
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            EntityPlayerMP player = ctx.getSender();
+            Block block = player.getEntityWorld().getBlockState(blockPos).getBlock();
             if (block instanceof GenericBlockWithTE) {
                 GenericBlockWithTE genericBlockWithTE = (GenericBlockWithTE) block;
-                genericBlockWithTE.onClick(player.getEntityWorld(), message.blockPos, player);
+                genericBlockWithTE.onClick(player.getEntityWorld(), blockPos, player);
             }
-        }
+        });
+        ctx.setPacketHandled(true);
     }
 }

@@ -1,11 +1,14 @@
 package mcjty.immcraft.network;
 
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.multiblock.MultiblockInfoPacketClient;
 import mcjty.immcraft.multiblock.MultiblockInfoPacketServer;
 import mcjty.lib.network.PacketHandler;
+import mcjty.lib.thirteen.ChannelBuilder;
+import mcjty.lib.thirteen.SimpleChannel;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +23,7 @@ public class ImmCraftPacketHandler {
     private static Map<Class<? extends InfoPacketClient>,Integer> clientInfoPacketsToId = new HashMap<>();
     private static Map<Class<? extends InfoPacketServer>,Integer> serverInfoPacketsToId = new HashMap<>();
 
-    public static int nextPacketID() {
+    public static int infoId() {
         return packetId++;
     }
 
@@ -50,23 +53,31 @@ public class ImmCraftPacketHandler {
     public ImmCraftPacketHandler() {
     }
 
-    public static void registerMessages(SimpleNetworkWrapper network) {
-        INSTANCE = network;
-        registerMessages();
-    }
+    public static void registerMessages(String name) {
+        SimpleChannel net = ChannelBuilder
+                .named(new ResourceLocation(ImmersiveCraft.MODID, name))
+                .networkProtocolVersion(() -> "1.0")
+                .clientAcceptedVersions(s -> true)
+                .serverAcceptedVersions(s -> true)
+                .simpleChannel();
 
-    public static void registerMessages() {
+        INSTANCE = net.getNetwork();
+
         // Server side
-        INSTANCE.registerMessage(PacketSendKey.Handler.class, PacketSendKey.class, PacketHandler.nextPacketID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketPlaceItem.Handler.class, PacketPlaceItem.class, PacketHandler.nextPacketID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketGetInfoFromServer.Handler.class, PacketGetInfoFromServer.class, PacketHandler.nextPacketID(), Side.SERVER);
-        INSTANCE.registerMessage(PacketHitBlock.Handler.class, PacketHitBlock.class, PacketHandler.nextPacketID(), Side.SERVER);
+        net.registerMessageServer(id(), PacketSendKey.class, PacketSendKey::toBytes, PacketSendKey::new, PacketSendKey::handle);
+        net.registerMessageServer(id(), PacketPlaceItem.class, PacketPlaceItem::toBytes, PacketPlaceItem::new, PacketPlaceItem::handle);
+        net.registerMessageServer(id(), PacketGetInfoFromServer.class, PacketGetInfoFromServer::toBytes, PacketGetInfoFromServer::new, PacketGetInfoFromServer::handle);
+        net.registerMessageServer(id(), PacketHitBlock.class, PacketHitBlock::toBytes, PacketHitBlock::new, PacketHitBlock::handle);
 
         // Client side
-        INSTANCE.registerMessage(PacketReturnInfoHandler.class, PacketReturnInfoToClient.class, PacketHandler.nextPacketID(), Side.CLIENT);
-        INSTANCE.registerMessage(PacketPageFlip.Handler.class, PacketPageFlip.class, PacketHandler.nextPacketID(), Side.CLIENT);
+        net.registerMessageClient(id(), PacketReturnInfoToClient.class, PacketReturnInfoToClient::toBytes, PacketReturnInfoToClient::new, PacketReturnInfoToClient::handle);
+        net.registerMessageClient(id(), PacketPageFlip.class, PacketPageFlip::toBytes, PacketPageFlip::new, PacketPageFlip::handle);
 
-        register(nextPacketID(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
-        register(nextPacketID(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);
+        register(infoId(), IngredientsInfoPacketServer.class, IngredientsInfoPacketClient.class);
+        register(infoId(), MultiblockInfoPacketServer.class, MultiblockInfoPacketClient.class);
+    }
+
+    private static int id() {
+        return PacketHandler.nextPacketID();
     }
 }

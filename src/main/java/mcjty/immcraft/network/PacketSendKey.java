@@ -5,6 +5,7 @@ import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.api.input.KeyType;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.network.NetworkTools;
+import mcjty.lib.thirteen.Context;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.EnumFacing;
@@ -12,10 +13,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.function.Supplier;
 
 public class PacketSendKey implements IMessage {
     private KeyType keyType;
@@ -44,6 +44,10 @@ public class PacketSendKey implements IMessage {
     public PacketSendKey() {
     }
 
+    public PacketSendKey(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketSendKey(KeyType keyType) {
         this.keyType = keyType;
         RayTraceResult mouseOver = Minecraft.getMinecraft().objectMouseOver;
@@ -62,24 +66,20 @@ public class PacketSendKey implements IMessage {
         return keyType;
     }
 
-    public static class Handler implements IMessageHandler<PacketSendKey, IMessage> {
-        @Override
-        public IMessage onMessage(PacketSendKey message, MessageContext ctx) {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
-            return null;
-        }
-
-        private void handle(PacketSendKey message, MessageContext ctx) {
-            EntityPlayerMP playerEntity = ctx.getServerHandler().player;
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            EntityPlayerMP playerEntity = ctx.getSender();
             World world = playerEntity.getEntityWorld();
-            BlockTools.getTE(null, world, message.blockPos)
-                    .ifPresent(p -> p.onKeyPress(message.keyType, playerEntity, message.side, getLocalSide(world, message), message.hitVec));
-        }
+            BlockTools.getTE(null, world, blockPos)
+                    .ifPresent(p -> p.onKeyPress(keyType, playerEntity, side, getLocalSide(world, this), hitVec));
+        });
+        ctx.setPacketHandled(true);
+    }
 
-        private static EnumFacing getLocalSide(World world, PacketSendKey message) {
-            return BlockTools.getBlock(world, message.blockPos)
-                    .map(p -> p.worldToBlockSpace(world, message.blockPos, message.side))
-                    .orElse(null);
-        }
+    private static EnumFacing getLocalSide(World world, PacketSendKey message) {
+        return BlockTools.getBlock(world, message.blockPos)
+                .map(p -> p.worldToBlockSpace(world, message.blockPos, message.side))
+                .orElse(null);
     }
 }

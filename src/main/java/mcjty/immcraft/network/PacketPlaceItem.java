@@ -7,6 +7,7 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.varia.BlockTools;
 import mcjty.lib.network.NetworkTools;
+import mcjty.lib.thirteen.Context;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -16,10 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.function.Supplier;
 
 public class PacketPlaceItem implements IMessage {
     private BlockPos blockPos;
@@ -45,21 +45,20 @@ public class PacketPlaceItem implements IMessage {
     public PacketPlaceItem() {
     }
 
+    public PacketPlaceItem(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketPlaceItem(RayTraceResult mouseOver) {
         blockPos = mouseOver.getBlockPos();
         side = mouseOver.sideHit;
         hitVec = new Vec3d(mouseOver.hitVec.x - blockPos.getX(), mouseOver.hitVec.y - blockPos.getY(), mouseOver.hitVec.z - blockPos.getZ());
     }
 
-    public static class Handler implements IMessageHandler<PacketPlaceItem, IMessage> {
-        @Override
-        public IMessage onMessage(PacketPlaceItem message, MessageContext ctx) {
-            FMLCommonHandler.instance().getWorldThread(ctx.netHandler).addScheduledTask(() -> handle(message, ctx));
-            return null;
-        }
-
-        private void handle(PacketPlaceItem message, MessageContext ctx) {
-            EntityPlayerMP player = ctx.getServerHandler().player;
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            EntityPlayerMP player = ctx.getSender();
 
             ItemStack heldItem = player.getHeldItem(EnumHand.MAIN_HAND);
             if (heldItem.isEmpty()) {
@@ -68,17 +67,18 @@ public class PacketPlaceItem implements IMessage {
 
             World world = player.getEntityWorld();
 
-            Block block = world.getBlockState(message.blockPos).getBlock();
-            if (world.isAirBlock(message.blockPos.up())
-                    && BlockTools.isTopValidAndSolid(world, message.blockPos)
-                    && message.side == EnumFacing.UP) {
-                BlockTools.placeBlock(world, message.blockPos.up(), ModBlocks.inWorldPlacerBlock, player);
-                BlockTools.getInventoryTE(world, message.blockPos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
-            } else if (world.isAirBlock(message.blockPos.offset(message.side))
-                    && BlockTools.isSideValidAndSolid(world, message.blockPos, message.side, block)) {
-                BlockTools.placeBlock(world, message.blockPos.offset(message.side), ModBlocks.inWorldVerticalPlacerBlock, player);
-                BlockTools.getInventoryTE(world, message.blockPos.offset(message.side)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
+            Block block = world.getBlockState(blockPos).getBlock();
+            if (world.isAirBlock(blockPos.up())
+                    && BlockTools.isTopValidAndSolid(world, blockPos)
+                    && side == EnumFacing.UP) {
+                BlockTools.placeBlock(world, blockPos.up(), ModBlocks.inWorldPlacerBlock, player);
+                BlockTools.getInventoryTE(world, blockPos.up()).ifPresent(p -> InWorldPlacerTE.addItems(p, player, heldItem));
+            } else if (world.isAirBlock(blockPos.offset(side))
+                    && BlockTools.isSideValidAndSolid(world, blockPos, side, block)) {
+                BlockTools.placeBlock(world, blockPos.offset(side), ModBlocks.inWorldVerticalPlacerBlock, player);
+                BlockTools.getInventoryTE(world, blockPos.offset(side)).ifPresent(p -> InWorldVerticalPlacerTE.addItems(p, player, heldItem));
             }
-        }
+        });
+        ctx.setPacketHandled(true);
     }
 }

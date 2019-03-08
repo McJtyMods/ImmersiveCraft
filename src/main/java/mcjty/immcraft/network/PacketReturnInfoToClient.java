@@ -2,7 +2,10 @@ package mcjty.immcraft.network;
 
 
 import io.netty.buffer.ByteBuf;
+import mcjty.lib.thirteen.Context;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+
+import java.util.function.Supplier;
 
 public class PacketReturnInfoToClient implements IMessage {
 
@@ -35,7 +38,20 @@ public class PacketReturnInfoToClient implements IMessage {
     public PacketReturnInfoToClient() {
     }
 
+    public PacketReturnInfoToClient(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketReturnInfoToClient(InfoPacketClient packet) {
         this.packet = packet;
     }
+
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            ReturnInfoHelper.onMessageFromServer(this);
+        });
+        ctx.setPacketHandled(true);
+    }
+
 }

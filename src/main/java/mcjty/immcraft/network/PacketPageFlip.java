@@ -4,11 +4,12 @@ package mcjty.immcraft.network;
 import io.netty.buffer.ByteBuf;
 import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.blocks.book.BookStandTE;
+import mcjty.lib.thirteen.Context;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+
+import java.util.function.Supplier;
 
 public class PacketPageFlip implements IMessage {
 
@@ -32,29 +33,28 @@ public class PacketPageFlip implements IMessage {
     public PacketPageFlip() {
     }
 
+    public PacketPageFlip(ByteBuf buf) {
+        fromBytes(buf);
+    }
+
     public PacketPageFlip(BlockPos pos, int dp) {
         this.pos = pos;
         this.dp = dp;
     }
 
-    public static class Handler implements IMessageHandler<PacketPageFlip, IMessage> {
-        @Override
-        public IMessage onMessage(PacketPageFlip message, MessageContext ctx) {
-            ImmersiveCraft.proxy.addScheduledTaskClient(() -> handle(message));
-            return null;
-        }
-
-        private void handle(PacketPageFlip message) {
-            TileEntity te = ImmersiveCraft.proxy.getClientWorld().getTileEntity(message.pos);
+    public void handle(Supplier<Context> supplier) {
+        Context ctx = supplier.get();
+        ctx.enqueueWork(() -> {
+            TileEntity te = ImmersiveCraft.proxy.getClientWorld().getTileEntity(pos);
             if (te instanceof BookStandTE) {
                 BookStandTE bookStandTE = (BookStandTE) te;
-                if (message.dp == 1) {
+                if (dp == 1) {
                     bookStandTE.pageIncClient();
                 } else {
                     bookStandTE.pageDecClient();
                 }
             }
-        }
-
+        });
+        ctx.setPacketHandled(true);
     }
 }
