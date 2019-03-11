@@ -4,7 +4,7 @@ import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.book.IBook;
 import mcjty.immcraft.blocks.book.BookStandTE;
 import mcjty.immcraft.books.renderers.RenderElementText;
-import mcjty.immcraft.proxy.ClientProxy;
+import mcjty.immcraft.setup.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;

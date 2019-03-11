@@ -1,6 +1,6 @@
 package mcjty.immcraft.books.renderers;
 
-import mcjty.immcraft.proxy.ClientProxy;
+import mcjty.immcraft.setup.ClientProxy;
 
 import static mcjty.immcraft.books.elements.BookElementIndent.INDENTSTRING;
 

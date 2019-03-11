@@ -1,4 +1,4 @@
-package mcjty.immcraft.proxy;
+package mcjty.immcraft.setup;
 
 import mcjty.lib.setup.DefaultServerProxy;
 

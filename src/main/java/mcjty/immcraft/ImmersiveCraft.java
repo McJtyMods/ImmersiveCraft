@@ -3,7 +3,7 @@ package mcjty.immcraft;
 
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
-import mcjty.immcraft.proxy.CommonSetup;
+import mcjty.immcraft.setup.CommonSetup;
 import mcjty.lib.base.ModBase;
 import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,6 +1,6 @@
 package mcjty.immcraft.books.renderers;
 
-import mcjty.immcraft.proxy.ClientProxy;
+import mcjty.immcraft.setup.ClientProxy;
 import org.apache.commons.lang3.StringUtils;
 
 public class RenderElementRuler implements RenderElement {

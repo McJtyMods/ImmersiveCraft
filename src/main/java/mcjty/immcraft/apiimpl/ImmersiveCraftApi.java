@@ -21,7 +21,7 @@ import mcjty.immcraft.network.IngredientsInfoPacketServer;
 import mcjty.immcraft.network.PacketGetInfoFromServer;
 import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.network.PacketHitBlock;
-import mcjty.immcraft.proxy.GuiProxy;
+import mcjty.immcraft.setup.GuiProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;

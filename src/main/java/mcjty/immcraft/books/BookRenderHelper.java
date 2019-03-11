@@ -1,7 +1,7 @@
 package mcjty.immcraft.books;
 
 import mcjty.immcraft.books.renderers.RenderElement;
-import mcjty.immcraft.proxy.ClientProxy;
+import mcjty.immcraft.setup.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;

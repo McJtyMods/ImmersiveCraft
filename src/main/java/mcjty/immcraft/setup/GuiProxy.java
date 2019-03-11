@@ -1,4 +1,4 @@
-package mcjty.immcraft.proxy;
+package mcjty.immcraft.setup;
 
 import mcjty.immcraft.books.GuiManual;
 import net.minecraft.entity.player.EntityPlayer;
