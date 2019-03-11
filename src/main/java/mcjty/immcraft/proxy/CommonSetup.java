@@ -26,7 +26,7 @@ public class CommonSetup extends DefaultCommonSetup {
 
         setupModCompat();
 
-        ConfigSetup.init(e);
+        ConfigSetup.init();
         ModBlocks.init();
         ModItems.init();
         WorldGen.init();
