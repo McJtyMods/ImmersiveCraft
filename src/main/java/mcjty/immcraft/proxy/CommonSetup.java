@@ -11,7 +11,6 @@ import mcjty.immcraft.worldgen.WorldGen;
 import mcjty.lib.setup.DefaultCommonSetup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -23,8 +22,7 @@ public class CommonSetup extends DefaultCommonSetup {
         super.preInit(e);
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-
-        setupModCompat();
+        NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
 
         ConfigSetup.init();
         ModBlocks.init();
@@ -32,7 +30,8 @@ public class CommonSetup extends DefaultCommonSetup {
         WorldGen.init();
     }
 
-    private void setupModCompat() {
+    @Override
+    protected void setupModCompat() {
         ImmCraftPacketHandler.registerMessages("immcraft");
         MainCompatHandler.registerWheel();
     }
@@ -40,12 +39,6 @@ public class CommonSetup extends DefaultCommonSetup {
     @Override
     public void createTabs() {
         createTab("immcraft", new ItemStack(ModBlocks.rockBlock));
-    }
-
-    @Override
-    public void init(FMLInitializationEvent e) {
-        super.init(e);
-        NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
     }
 
     @Override
