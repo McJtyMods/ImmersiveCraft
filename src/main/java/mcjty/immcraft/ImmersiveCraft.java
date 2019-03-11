@@ -30,7 +30,7 @@ public class ImmersiveCraft implements ModBase {
     public static final String VERSION = "1.5.1";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
-    @SidedProxy(clientSide = "mcjty.immcraft.proxy.ClientProxy", serverSide = "mcjty.immcraft.proxy.ServerProxy")
+    @SidedProxy(clientSide = "mcjty.immcraft.setup.ClientProxy", serverSide = "mcjty.immcraft.setup.ServerProxy")
     public static IProxy proxy;
     public static CommonSetup setup = new CommonSetup();
 

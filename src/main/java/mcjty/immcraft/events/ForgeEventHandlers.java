@@ -1,7 +1,6 @@
 package mcjty.immcraft.events;
 
 
-import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.api.helpers.InventoryHelper;
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
@@ -9,7 +8,6 @@ import mcjty.immcraft.blocks.inworldplacer.InWorldPlacerTE;
 import mcjty.immcraft.blocks.inworldplacer.InWorldVerticalPlacerTE;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
-import mcjty.lib.McJtyRegister;
 import mcjty.lib.varia.OrientationTools;
 import mcjty.lib.varia.SoundTools;
 import net.minecraft.block.Block;
@@ -25,7 +23,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -185,15 +182,5 @@ public class ForgeEventHandlers {
                 }
             }
         }
-    }
-
-    @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event) {
-        McJtyRegister.registerBlocks(ImmersiveCraft.instance, event.getRegistry());
-    }
-
-    @SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
-        McJtyRegister.registerItems(ImmersiveCraft.instance, event.getRegistry());
     }
 }
