@@ -3,7 +3,7 @@ package mcjty.immcraft;
 
 import mcjty.immcraft.api.IImmersiveCraft;
 import mcjty.immcraft.apiimpl.ImmersiveCraftApi;
-import mcjty.immcraft.setup.CommonSetup;
+import mcjty.immcraft.setup.ModSetup;
 import mcjty.lib.base.ModBase;
 import mcjty.lib.proxy.IProxy;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,7 +32,7 @@ public class ImmersiveCraft implements ModBase {
 
     @SidedProxy(clientSide = "mcjty.immcraft.setup.ClientProxy", serverSide = "mcjty.immcraft.setup.ServerProxy")
     public static IProxy proxy;
-    public static CommonSetup setup = new CommonSetup();
+    public static ModSetup setup = new ModSetup();
 
     @Mod.Instance
     public static ImmersiveCraft instance;

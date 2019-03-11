@@ -8,14 +8,14 @@ import mcjty.immcraft.events.ForgeEventHandlers;
 import mcjty.immcraft.items.ModItems;
 import mcjty.immcraft.network.ImmCraftPacketHandler;
 import mcjty.immcraft.worldgen.WorldGen;
-import mcjty.lib.setup.DefaultCommonSetup;
+import mcjty.lib.setup.DefaultModSetup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
-public class CommonSetup extends DefaultCommonSetup {
+public class ModSetup extends DefaultModSetup {
 
     @Override
     public void preInit(FMLPreInitializationEvent e) {
