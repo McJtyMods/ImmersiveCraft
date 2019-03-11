@@ -24,13 +24,16 @@ public class CommonSetup extends DefaultCommonSetup {
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
 
-        ImmCraftPacketHandler.registerMessages("immcraft");
+        setupModCompat();
 
-        ConfigSetup.preInit(e);
+        ConfigSetup.init(e);
         ModBlocks.init();
         ModItems.init();
         WorldGen.init();
+    }
 
+    private void setupModCompat() {
+        ImmCraftPacketHandler.registerMessages("immcraft");
         MainCompatHandler.registerWheel();
     }
 
