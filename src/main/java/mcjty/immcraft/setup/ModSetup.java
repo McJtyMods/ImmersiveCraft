@@ -24,7 +24,6 @@ public class ModSetup extends DefaultModSetup {
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
         NetworkRegistry.INSTANCE.registerGuiHandler(ImmersiveCraft.instance, new GuiProxy());
 
-        ConfigSetup.init();
         ModBlocks.init();
         ModItems.init();
         WorldGen.init();
@@ -34,6 +33,11 @@ public class ModSetup extends DefaultModSetup {
     protected void setupModCompat() {
         ImmCraftPacketHandler.registerMessages("immcraft");
         MainCompatHandler.registerWheel();
+    }
+
+    @Override
+    protected void setupConfig() {
+        ConfigSetup.init();
     }
 
     @Override
