@@ -22,6 +22,7 @@ public class ConfigSetup {
         try {
             cfg.load();
             cfg.addCustomCategoryComment(GeneralConfiguration.CATEGORY_GENERAL, "General settings");
+            cfg.addCustomCategoryComment(GeneralConfiguration.CATEGORY_BOOKS, "Book settings. Allowed values for book colors are 'dummybook_red', 'dummybook_green', 'dummybook_blue', 'dummybook_yellow' as well as the small versions of those ('dummybook_small_blue')");
 
             GeneralConfiguration.init(cfg);
         } catch (Exception e1) {
