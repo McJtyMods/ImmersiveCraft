@@ -1,3 +1,6 @@
+Upcoming:
+- Fixed a crash that could happen in rare cases
+
 1.5.1:
 - Needs McJtyLib 3.1.0
 - Small cleanups

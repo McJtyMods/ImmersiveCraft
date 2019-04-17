@@ -38,11 +38,15 @@ public class MultiblockInfoPacketServer implements InfoPacketServer {
     public Optional<InfoPacketClient> onMessageServer(EntityPlayerMP player) {
         MultiBlockData.get(player.getEntityWorld());
         MultiBlockNetwork network = MultiBlockData.getNetwork(networkName);
-        IMultiBlock mb = network.getOrCreateMultiBlock(blockId);
-        if (mb == null) {
-            return Optional.empty();
+        if (network != null) {
+            IMultiBlock mb = network.getOrCreateMultiBlock(blockId);
+            if (mb == null) {
+                return Optional.empty();
+            } else {
+                return Optional.of(new MultiblockInfoPacketClient(networkName, blockId, mb.getClientInfo()));
+            }
         } else {
-            return Optional.of(new MultiblockInfoPacketClient(networkName, blockId, mb.getClientInfo()));
+            return Optional.empty();
         }
     }
 }
