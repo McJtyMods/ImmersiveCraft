@@ -115,7 +115,7 @@ public class ForgeEventHandlers {
 
     private void placeSticksOrCreateFire(PlayerInteractEvent event, EntityPlayer player, Block block) {
         if (block == ModBlocks.rockBlock) {
-            SoundTools.playSound(event.getWorld(), SoundEvents.ITEM_FLINTANDSTEEL_USE, (double) event.getPos().getX(), (double) event.getPos().getY(), (double) event.getPos().getZ(), 1.0, (double) (random.nextFloat() * 0.4F + 0.8F));
+            SoundTools.playSound(event.getWorld(), SoundEvents.ITEM_FLINTANDSTEEL_USE, event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), 1.0, (random.nextFloat() * 0.4F + 0.8F));
             if (random.nextFloat() < GeneralConfiguration.rockStickFireChance) {
                 InventoryHelper.spawnItemStack(event.getWorld(), event.getPos(), new ItemStack(ModBlocks.rockBlock));
                 BlockTools.placeBlock(event.getWorld(), event.getPos(), ModBlocks.sticksBlock, player);
