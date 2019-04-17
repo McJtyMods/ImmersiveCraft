@@ -1,6 +1,9 @@
 Upcoming:
 - Fixed a crash that could happen in rare cases
 - Added more descriptive information to the books config (available colors)
+- New config option 'validBlocksForRocks' to specify the valid blocks for rocks to spawn on (you can also use @ for meta)
+- 'mycelium' is now also a valid block for rocks by default
+- New config option 'validBlocksForSticks' to specify the valid blocks for sticks to spawn on (you can also use @ for meta)
 
 1.5.1:
 - Needs McJtyLib 3.1.0

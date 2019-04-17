@@ -3,13 +3,12 @@ package mcjty.immcraft.worldgen;
 
 import mcjty.immcraft.blocks.ModBlocks;
 import mcjty.immcraft.blocks.foliage.SticksTE;
-import mcjty.immcraft.blocks.generic.GenericImmcraftBlock;
 import mcjty.immcraft.config.GeneralConfiguration;
 import mcjty.immcraft.varia.BlockTools;
+import mcjty.lib.blocks.BaseBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -42,10 +41,10 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 int x = chunkX * 16 + random.nextInt(16) + 8;
                 int z = chunkZ * 16 + random.nextInt(16) + 8;
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
-                Block block = world.getBlockState(pos).getBlock();
-                if (isRockSpawnable(block)) {
+                IBlockState state = world.getBlockState(pos);
+                if (isRockSpawnable(state)) {
                     if (world.isAirBlock(pos.up())) {
-                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(BaseBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     }
                 }
             }
@@ -55,8 +54,8 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 int x = chunkX * 16 + random.nextInt(16) + 8;
                 int z = chunkZ * 16 + random.nextInt(16) + 8;
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
-                Block block = world.getBlockState(pos).getBlock();
-                if (isStickSpawnable(block)) {
+                IBlockState state = world.getBlockState(pos);
+                if (isStickSpawnable(state)) {
                     trySpawnSticks(world, pos, random);
                 }
             }
@@ -70,10 +69,10 @@ public class ImmCraftGenerator implements IWorldGenerator {
                 BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z)).down();
                 int y = findCaveSpot(world, pos);
                 pos = new BlockPos(x, y, z);
-                Block block = world.getBlockState(pos).getBlock();
-                if (y != -1 && isRockSpawnable(block)) {
+                IBlockState state = world.getBlockState(pos);
+                if (y != -1 && isRockSpawnable(state)) {
                     if (world.isAirBlock(pos.up())) {
-                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                        world.setBlockState(pos.up(), ModBlocks.rockBlock.getDefaultState().withProperty(BaseBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     }
                 }
             }
@@ -96,7 +95,7 @@ public class ImmCraftGenerator implements IWorldGenerator {
             if (!world.isAirBlock(new BlockPos(x, y, z))) {
                 IBlockState state = world.getBlockState(new BlockPos(x, y, z));
                 if (isLeafBlock(state.getBlock(), state)) {
-                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(GenericImmcraftBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
+                    world.setBlockState(pos.up(), ModBlocks.sticksBlock.getDefaultState().withProperty(BaseBlock.FACING_HORIZ, EnumFacing.getHorizontal(random.nextInt(4))), 3);
                     TileEntity te = world.getTileEntity(pos.up());
                     if (te instanceof SticksTE) {
                         SticksTE sticksTE = (SticksTE) te;
@@ -135,16 +134,16 @@ public class ImmCraftGenerator implements IWorldGenerator {
         return -1;
     }
 
-    private boolean isStickSpawnable(Block block) {
-        return block == Blocks.DIRT || block == Blocks.GRASS;
+    private boolean isStickSpawnable(IBlockState state) {
+        return GeneralConfiguration.getValidBlocksForSticks().contains(state);
     }
 
     private boolean isLeafBlock(Block block, IBlockState state) {
         return block.getMaterial(state) == Material.LEAVES;
     }
 
-    private boolean isRockSpawnable(Block block) {
-        return block == Blocks.DIRT || block == Blocks.GRASS || block == Blocks.STONE;
+    private boolean isRockSpawnable(IBlockState state) {
+        return GeneralConfiguration.getValidBlocksForRocks().contains(state);
     }
 
 //    public void addOreSpawn(Block block, byte blockMeta, Block targetBlock,

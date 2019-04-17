@@ -1,14 +1,20 @@
 package mcjty.immcraft.config;
 
+import mcjty.immcraft.ImmersiveCraft;
 import mcjty.immcraft.items.BookType;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.Level;
 
 import java.util.*;
 
@@ -47,6 +53,17 @@ public class GeneralConfiguration {
     public static Set<Item> validIgnitionSources = Collections.newSetFromMap(new IdentityHashMap<>());
     public static Set<Item> ignitionSourcesConsume = Collections.newSetFromMap(new IdentityHashMap<>());
 
+    private static String[] validBlocksForRocksList = new String[] {
+            "minecraft:dirt", "minecraft:stone", "minecraft:grass",
+            "minecraft:mycelium"
+    };
+    private static Set<IBlockState> validBlocksForRocks = null;
+
+    private static String[] validBlocksForSticksList = new String[] {
+            "minecraft:dirt", "minecraft:grass"
+    };
+    private static Set<IBlockState> validBlocksForSticks = null;
+
     public static void init(Configuration cfg) {
         IForgeRegistry<Item> itemRegistry = GameRegistry.findRegistry(Item.class);
 
@@ -79,6 +96,9 @@ public class GeneralConfiguration {
         String[] ignitionSourcesStr = cfg.getStringList("validIgnitionSources", CATEGORY_GENERAL, new String[]{"minecraft:flint_and_steel", "minecraft:fire_charge", "minecraft:torch"}, "What ignition sources are valid");
         String[] ignitionSourcesConsumeStr = cfg.getStringList("ignitionSourcesConsumeList", CATEGORY_GENERAL, new String[]{"minecraft:fire_charge", "minecraft:torch"}, "What ignition sources should be consumed");
 
+        validBlocksForRocksList = cfg.getStringList("validBlocksForRocks", CATEGORY_GENERAL, validBlocksForRocksList, "All blocks where rocks can spawn on");
+        validBlocksForSticksList = cfg.getStringList("validBlocksForSticks", CATEGORY_GENERAL, validBlocksForSticksList, "All blocks where sticks can spawn on");
+
         Set<String> newIgnitionSources = new HashSet<>();
 
         for (String source : ignitionSourcesStr) {
@@ -94,7 +114,6 @@ public class GeneralConfiguration {
         }
 
         cfg.get(CATEGORY_GENERAL, "validIgnitionSources", ignitionSourcesStr).set(newIgnitionSources.toArray(new String[newIgnitionSources.size()]));
-
     }
 
     public static void setupBookConfig(Configuration cfg) {
@@ -119,6 +138,42 @@ public class GeneralConfiguration {
     private static void addBook(Configuration cfg, String name, String type) {
         cfg.get(CATEGORY_BOOKS, name, type);
         validBooks.put(name, type);
+    }
+
+    public static Set<IBlockState> getValidBlocksForRocks() {
+        if (validBlocksForRocks == null) {
+            validBlocksForRocks = parseBlockStates(GeneralConfiguration.validBlocksForRocksList);
+        }
+        return validBlocksForRocks;
+    }
+
+    public static Set<IBlockState> getValidBlocksForSticks() {
+        if (validBlocksForSticks == null) {
+            validBlocksForSticks = parseBlockStates(GeneralConfiguration.validBlocksForSticksList);
+        }
+        return validBlocksForSticks;
+    }
+
+    private static Set<IBlockState> parseBlockStates(String[] blocksList) {
+        Set<IBlockState> states = new HashSet<>();
+        for (String desc : blocksList) {
+            String s;
+            int meta = 0;
+            if (desc.contains("@")) {
+                String[] split = StringUtils.split(desc, '@');
+                s = split[0];
+                meta = Integer.parseInt(split[1]);
+            } else {
+                s = desc;
+            }
+            Block block = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
+            if (block == null) {
+                ImmersiveCraft.setup.getLogger().log(Level.WARN, "Block '" + s + "' is not a valid block!");
+            } else {
+                states.add(block.getStateFromMeta(meta));
+            }
+        }
+        return states;
     }
 
 }
