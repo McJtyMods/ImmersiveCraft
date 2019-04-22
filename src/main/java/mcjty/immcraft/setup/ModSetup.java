@@ -42,7 +42,7 @@ public class ModSetup extends DefaultModSetup {
 
     @Override
     public void createTabs() {
-        createTab("immcraft", new ItemStack(ModBlocks.rockBlock));
+        createTab("immcraft", () -> new ItemStack(ModBlocks.rockBlock));
     }
 
     @Override
