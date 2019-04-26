@@ -26,8 +26,8 @@ import java.util.function.Function;
 public class ImmersiveCraft implements ModBase {
     public static final String MODID = "immcraft";
     public static final String MODNAME = "ImmersiveCraft";
-    public static final String MIN_MCJTYLIB_VER = "3.1.0";
-    public static final String VERSION = "1.5.1";
+    public static final String MIN_MCJTYLIB_VER = "3.5.0";
+    public static final String VERSION = "1.6.0";
     public static final String MIN_FORGE11_VER = "13.19.0.2176";
 
     @SidedProxy(clientSide = "mcjty.immcraft.setup.ClientProxy", serverSide = "mcjty.immcraft.setup.ServerProxy")

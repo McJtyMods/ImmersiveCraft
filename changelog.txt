@@ -1,4 +1,5 @@
-Upcoming:
+1.6.0:
+- Depends on McJtyLib 3.5.0!
 - Fixed a crash that could happen in rare cases
 - Added more descriptive information to the books config (available colors)
 - New config option 'validBlocksForRocks' to specify the valid blocks for rocks to spawn on (you can also use @ for meta)
