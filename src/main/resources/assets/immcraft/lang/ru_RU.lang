@@ -1,0 +1,24 @@
+item.immcraft.chisel.name=Стамеска
+item.immcraft.saw.name=Пила
+item.immcraft.dummybook.name=Макет блока
+item.immcraft.manual.name=Руководство по Immersive Craft
+
+tile.immcraft.furnace.name=Печь
+tile.immcraft.bookstand.name=Подставка для книг
+tile.immcraft.chest.name=Сундук
+tile.immcraft.cupboard.name=Шкаф
+tile.immcraft.shelf.name=Полка
+tile.immcraft.bookshelf.name=Книжная полка
+tile.immcraft.workbench.name=Верстак (WIP)
+tile.immcraft.workbench_sec.name=Верстак (WIP)
+tile.immcraft.rock.name=Камень
+tile.immcraft.sticks.name=Палки
+tile.immcraft.in_world_placer.name=Установщик
+tile.immcraft.in_world_vertical_placer.name=Установщик
+
+itemGroup.immcraft=ImmersiveCraft
+key.categories.immcraft=ImmersiveCraft
+key.nextitem=Next item craftable item
+key.previtem=Previous item craftable item
+key.placeitem=Поставить предмет в мире
+key.debughandles=Debug Item Handles
